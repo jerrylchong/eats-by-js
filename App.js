@@ -1,17 +1,25 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, StatusBar} from 'react-native';
+import { StyleSheet, View, SafeAreaView, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
 import RestaurantButton from './component/RestaurantButton';
 import SearchButton from './container/SearchButton';
+
+
+const fakeRestaurantData = [
+    { title : "Jerryl's topoki paradise" , descr: "best tomyum"},
+    { title : "Jays's topoki paradise" , descr: "best tomyum"},
+    { title : "Aerin's topoki paradise" , descr: "subpar tomyum"},
+    { title : "Oli's topoki paradise" , descr: "worst tomyum"},
+]
 
 const App = () => {
   return (
       <SafeAreaView style = {styles.container}>
           <SearchButton />
-          <RestaurantButton
-              name="Jerryl's Korean Restaurant"
-              cost='$$'
-              description="Best ban mian ever"
-          />
+          <ScrollView>
+              { fakeRestaurantData.map((elem) => 
+              <RestaurantButton name={elem.title} description={elem.descr} 
+              />) }
+          </ ScrollView>
       </SafeAreaView>
   )
 }
