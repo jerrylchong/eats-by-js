@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, StatusBar, ScrollView } from 'react-native';
+import { StyleSheet, View, SafeAreaView, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
 import RestaurantButton from './component/RestaurantButton';
 
 
