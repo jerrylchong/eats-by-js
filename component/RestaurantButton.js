@@ -1,16 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 const RestaurantButton = () => {
     return (
-        <View style = {styles.container}>
+        <TouchableOpacity style = {styles.container}>
             <Image style={styles.picture} source={require('../assets/testrestaurant.png')}/>
             <View style={styles.text}>
-                <Text style={styles.name}>Placeholder Name</Text>
+                <Text style={styles.name}>Cool Name</Text>
                 <Text style={styles.name}>$$$</Text>
             </View>
-            <Text style = {styles.description}>This is a fake restaurant.</Text>
-        </View>
+            <Text style = {styles.description}>This is a cool restaurant.</Text>
+        </TouchableOpacity>
     )
 }
 

@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, StatusBar } from 'react-native';
+import { StyleSheet, View, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native';
 import RestaurantButton from './component/RestaurantButton';
 
 const App = () => {
   return (
       <SafeAreaView style = {styles.container}>
-        <RestaurantButton />
+          <RestaurantButton />
       </SafeAreaView>
   )
 }
