@@ -5,7 +5,14 @@ import RestaurantButton from './component/RestaurantButton';
 const App = () => {
   return (
       <SafeAreaView style = {styles.container}>
+<<<<<<< HEAD
           <RestaurantButton />
+=======
+        <RestaurantButton 
+            name="Jerryl's Korean Restaurant"
+            description="Best ban mian ever"
+          />
+>>>>>>> dca18c926f0b87ed9d6ffe1ce931a2abefea53fe
       </SafeAreaView>
   )
 }

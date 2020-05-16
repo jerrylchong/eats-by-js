@@ -1,15 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
-const RestaurantButton = () => {
+const RestaurantButton = (props) => {
+
+    const { name, cost, description } = props;
+
     return (
         <TouchableOpacity style = {styles.container}>
             <Image style={styles.picture} source={require('../assets/testrestaurant.png')}/>
             <View style={styles.text}>
-                <Text style={styles.name}>Cool Name</Text>
-                <Text style={styles.name}>$$$</Text>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.name}>{cost}</Text>
             </View>
-            <Text style = {styles.description}>This is a cool restaurant.</Text>
+            <Text style = {styles.description}>{description}</Text>
         </TouchableOpacity>
     )
 }
