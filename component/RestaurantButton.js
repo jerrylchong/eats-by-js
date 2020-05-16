@@ -1,15 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 
-const RestaurantButton = () => {
+const RestaurantButton = (props) => {
+
+    const { name, description } = props;
+
     return (
         <View style = {styles.container}>
             <Image style={styles.picture} source={require('../assets/testrestaurant.png')}/>
             <View style={styles.text}>
-                <Text style={styles.name}>Placeholder Name</Text>
+                <Text style={styles.name}>{name}</Text>
                 <Text style={styles.name}>$$$</Text>
             </View>
-            <Text style = {styles.description}>This is a fake restaurant.</Text>
+            <Text style = {styles.description}>{description}</Text>
         </View>
     )
 }
