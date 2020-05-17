@@ -5,10 +5,10 @@ import SearchButton from './container/SearchButton';
 
 
 const fakeRestaurantData = [
-    { title : "Jerryl's topoki paradise" , descr: "best tomyum"},
-    { title : "Jays's topoki paradise" , descr: "best tomyum"},
-    { title : "Aerin's topoki paradise" , descr: "subpar tomyum"},
-    { title : "Oli's topoki paradise" , descr: "worst tomyum"},
+    { title : "Jerryl's topoki paradise" , cost: '$$' ,descr: "best tomyum"},
+    { title : "Jays's topoki paradise" , cost: '$', descr: "best tomyum"},
+    { title : "Aerin's topoki paradise" , cost: '$$$', descr: "subpar tomyum"},
+    { title : "Oli's topoki paradise" , cost: '$$$', descr: "worst tomyum"},
 ]
 
 const App = () => {
@@ -17,7 +17,7 @@ const App = () => {
           <SearchButton />
           <ScrollView>
               { fakeRestaurantData.map((elem) => 
-              <RestaurantButton name={elem.title} description={elem.descr} 
+              <RestaurantButton name={elem.title} cost={elem.cost} description={elem.descr}
               />) }
           </ ScrollView>
       </SafeAreaView>
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       backgroundColor: '#fff',
       justifyContent: 'center',
+      alignItems: 'center',
       marginTop: StatusBar.currentHeight
   },
 });

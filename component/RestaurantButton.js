@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         borderColor: 'black',
-        borderWidth: 1
+        borderWidth: 1,
     },
     picture: {
         height: 187,
