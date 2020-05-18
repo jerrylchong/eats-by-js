@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import Tag from './Tag'
 
 const RestaurantButton = (props) => {
 
-    const { name, cost, description } = props;
+    const { name, cost, description, tags } = props;
 
     return (
         <TouchableOpacity style = {styles.container}>
@@ -13,6 +14,12 @@ const RestaurantButton = (props) => {
                 <Text style={styles.name}>{cost}</Text>
             </View>
             <Text style = {styles.description}>{description}</Text>
+            <View style = {styles.tags}>
+                { tags.map((elem) =>
+                    <Tag name={elem.name}
+                    />) }
+            </View>
+
         </TouchableOpacity>
     )
 }
@@ -21,13 +28,13 @@ export default RestaurantButton
 
 const styles = StyleSheet.create({
     container: {
-        height: 250,
+        height: 270,
         width: 368,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 10,
-        borderColor: 'black',
-        borderWidth: 1,
+        padding:5,
+        borderTopColor: '#b2b2b2',
+        borderTopWidth: 1
     },
     picture: {
         height: 187,
@@ -37,8 +44,7 @@ const styles = StyleSheet.create({
     text: {
         width: 358,
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 10
+        justifyContent: 'space-between'
     },
     name: {
         color: 'black',
@@ -47,6 +53,11 @@ const styles = StyleSheet.create({
     description: {
         color: '#7e7e7e',
         fontSize: 11,
+        alignSelf: 'flex-start'
+    },
+    tags: {
+        flexDirection: 'row',
+        marginTop: 5,
         alignSelf: 'flex-start'
     }
 })
