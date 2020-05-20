@@ -1,17 +1,25 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View} from "react-native";
 import MenuButton from "../component/MenuButton";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
+import {getRestaurantsFromApi} from "../helpers/apiHelpers";
 
-const fakeRestaurantData = [
-    { title : "Jerryl's topoki paradise" , cost: '$$' ,descr: "best tomyum", tags: [{name:'jerryl'}, {name:'tomyum'}]},
-    { title : "Jays's topoki paradise" , cost: '$', descr: "best tomyum", tags: [{name:'jay'}, {name:'tomyum'}]} ,
-    { title : "Aerin's topoki paradise" , cost: '$$$', descr: "subpar tomyum", tags: [{name:'aerin'}, {name:'tomyum'}]},
-    { title : "Oli's topoki paradise" , cost: '$$$', descr: "worst tomyum", tags: [{name:'oli'}, {name:'tomyum'}]},
-]
+// currently my db only got title, description, rating
+// TODO: cost, tags
+
 
 function RestaurantList({ navigation }) {
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        getRestaurantsFromApi()
+            .then(data => setData(data))
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    }, []);
+    console.log(data);
     return (
         <SafeAreaView style = {styles.container}>
             <View style = {styles.navBar}>
@@ -19,12 +27,13 @@ function RestaurantList({ navigation }) {
                 <SearchButton />
             </View>
             <ScrollView>
-                { fakeRestaurantData.map((elem) =>
+                { data.map((elem) =>
                     <RestaurantButton
+                        key={`${elem.title}-button`}
                         name={elem.title}
-                        cost={elem.cost}
-                        description={elem.descr}
-                        tags={elem.tags}
+                        cost={"$$$"}
+                        description={elem.description}
+                        tags={[{name:'jerryl'}, {name:'tomyum'}]}
                         onPress={() => navigation.navigate('Restaurant')}
                     />) }
             </ ScrollView>

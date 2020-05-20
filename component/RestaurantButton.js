@@ -16,7 +16,9 @@ const RestaurantButton = (props) => {
             <Text style = {styles.description}>{description}</Text>
             <View style = {styles.tags}>
                 { tags.map((elem) =>
-                    <Tag name={elem.name}
+                    <Tag 
+                        key={`${elem.name}-tag`}
+                        name={elem.name}
                     />) }
             </View>
 
