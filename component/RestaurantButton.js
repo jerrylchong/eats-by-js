@@ -4,13 +4,16 @@ import Tag from './Tag'
 
 const RestaurantButton = (props) => {
 
-    const { name, cost, description, tags, onPress } = props;
+    const { name, cost, description, rating, tags, onPress } = props;
 
     return (
         <TouchableOpacity style = {styles.container} onPress = {onPress}>
             <Image style={styles.picture} source={require('../assets/testrestaurant.png')}/>
             <View style={styles.text}>
-                <Text style={styles.name}>{name}</Text>
+                <View style={styles.nameReview}>
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={styles.rating}>{rating}/5</Text>
+                </View>
                 <Text style={styles.name}>{cost}</Text>
             </View>
             <Text style = {styles.description}>{description}</Text>
@@ -46,11 +49,21 @@ const styles = StyleSheet.create({
     text: {
         width: 358,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+    },
+    nameReview: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     name: {
         color: 'black',
         fontSize: 20
+    },
+    rating: {
+        color: '#646464',
+        fontSize: 12,
+        marginLeft: 5,
+        marginTop: 3
     },
     description: {
         color: '#7e7e7e',

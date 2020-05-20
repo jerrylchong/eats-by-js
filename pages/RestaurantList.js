@@ -33,6 +33,7 @@ function RestaurantList({ navigation }) {
                         name={elem.title}
                         cost={"$$$"}
                         description={elem.description}
+                        rating={elem.rating}
                         tags={[{name:'jerryl'}, {name:'tomyum'}]}
                         onPress={() => navigation.navigate('Restaurant')}
                     />) }
