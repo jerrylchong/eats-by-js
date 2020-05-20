@@ -1,7 +1,20 @@
 /* DOCUMENTATION
     *
     * Sample JSON returned from calling the fetch
-    * {"data":[{"id":"1","type":"restaurant","attributes":{"title":"Jay's toppokki Restaurant","description":"best toppoki in the world","rating":"5"}}]}
+    * {
+    *   "data":[
+    *       {
+    *           "id":"1",
+    *           "type":"restaurant",
+    *           "attributes":
+    *               {
+    *                   "title":"Jay's toppokki Restaurant",
+    *                   "description":"best toppoki in the world",
+    *                   "rating":"5"
+    *               }
+    *       }
+    *   ]
+    *}
     *
     * each restaurant has
     * - title
