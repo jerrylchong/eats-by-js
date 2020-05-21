@@ -3,7 +3,7 @@ import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View} from "react-nativ
 import MenuButton from "../component/MenuButton";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
-import {getRestaurantsFromApi} from "../helpers/apiHelpers";
+import {getRestaurantsFromApi, getTagsFromApi} from "../helpers/apiHelpers";
 
 // currently my db only got title, description, rating
 // TODO: cost, tags
@@ -12,14 +12,19 @@ import {getRestaurantsFromApi} from "../helpers/apiHelpers";
 function RestaurantList({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [tags, setTags] = useState([]);
 
     useEffect(() => {
         getRestaurantsFromApi()
             .then(data => setData(data))
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+        getTagsFromApi()
+            .then(data => setTags(data.map(x => x.attributes)))
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
     }, []);
-    console.log(data);
+
     return (
         <SafeAreaView style = {styles.container}>
             <View style = {styles.navBar}>
@@ -27,14 +32,14 @@ function RestaurantList({ navigation }) {
                 <SearchButton />
             </View>
             <ScrollView>
-                { data.map((elem) =>
+                { data.map((restaurant) =>
                     <RestaurantButton
-                        key={`${elem.title}-button`}
-                        name={elem.title}
+                        key={restaurant.id}
+                        restaurant_id={restaurant.id}
+                        name={restaurant.attributes.title}
                         cost={"$$$"}
-                        description={elem.description}
-                        rating={elem.rating}
-                        tags={[{name:'jerryl'}, {name:'tomyum'}]}
+                        description={restaurant.attributes.description}
+                        tags={!tags ? [] : restaurant.relationships.tags.data.map(x => tags[x.id - 1])}
                         onPress={() => navigation.navigate('Restaurant')}
                     />) }
             </ ScrollView>

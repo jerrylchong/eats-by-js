@@ -21,7 +21,7 @@ const RestaurantButton = (props) => {
                 <View style = {styles.tags}>
                     { tags.map((elem) =>
                         <Tag
-                            key={`${elem.name}-tag`}
+                            key={elem.id}
                             name={elem.name}
                         />) }
                 </View>
