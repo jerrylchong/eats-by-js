@@ -29,7 +29,7 @@ function RestaurantList({ navigation }) {
                 <MenuButton onPress = {() => navigation.toggleDrawer()}/>
                 <SearchButton />
             </View>
-            <ScrollView>
+            <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems: 'center'}}>
                 { data.map((restaurant) =>
                     <RestaurantButton
                         key={restaurant.id}
@@ -64,5 +64,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 5
+    },
+    scroll: {
+        width: '100%',
     }
 });

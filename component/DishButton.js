@@ -24,12 +24,12 @@ export default DishButton
 
 const styles = StyleSheet.create({
     container: {
-        height: '100%',
-        width: '78%',
+        alignSelf: 'center',
+        height: 60,
+        width: '90%',
         justifyContent: 'space-evenly',
         alignItems: 'center',
         padding: 5,
-        marginLeft: '4%'
     },
     text: {
         width: '97%',
