@@ -3,6 +3,7 @@ import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View, Text, Button, Ima
 import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
 import {getDishesFromApi, getRestaurantFromApi} from "../helpers/apiHelpers";
+import BackButton from "../component/BackButton";
 
 const fakeTags = [{name: "Good stuff"}];
 function RestaurantBanner(props) {
@@ -36,7 +37,7 @@ const stylesBanner = StyleSheet.create({
         fontSize: 30,
     },
     tags: {
-        paddingVertical: 15,
+        paddingVertical: '4%',
     },
     description: {
         color: "#7E7E7E"
@@ -60,7 +61,7 @@ function RestaurantPage({ navigation, route }) {
     return (
         <SafeAreaView style = {styles.container}>
             <ImageBackground style={styles.picture} source={require('../assets/testrestaurant.png')}>
-            <Button onPress = {() => navigation.goBack()} title = 'Back' />
+            <BackButton style = {{margin: '3%'}} onPress = {() => navigation.goBack()} />
                 </ImageBackground>
 
             <RestaurantBanner 
@@ -73,7 +74,7 @@ function RestaurantPage({ navigation, route }) {
             <View style={{height:"5%"}} />
             
 
-            <Text style={{width:"80%"}}>Dishes</Text>
+            <Text style={{width:"80%", fontSize: 16}}>Dishes</Text>
             <View style={{width:"90%", height:1, backgroundColor:"black", margin: 15, opacity:0.25}} />
             <ScrollView>
                 { dishes.map((dish) =>
@@ -105,6 +106,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'flex-start',
         alignItems: 'center',
+        marginTop: StatusBar.currentHeight
     },
     header: {
         width:'100%',

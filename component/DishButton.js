@@ -23,29 +23,13 @@ const DishButton = (props) => {
 export default DishButton
 
 const styles = StyleSheet.create({
-    /*
-    shadow: {
-        width: 375,
-        height: 60,
-        backgroundColor: 'white',
-        borderRadius: 2,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        margin: 15
-    },
-    */
     container: {
-        height: 60,
-        width: 375,
+        height: '100%',
+        width: '78%',
         justifyContent: 'space-evenly',
         alignItems: 'center',
         padding: 5,
+        marginLeft: '4%'
     },
     text: {
         width: '97%',

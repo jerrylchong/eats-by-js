@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, StatusBar, StyleSheet, Text, View, TextInput, Image} from "react-native";
+import {Button, StatusBar, StyleSheet, Text, View, TextInput, Image, SafeAreaView} from "react-native";
 import LoginButton from "../component/LoginButton";
 
 // ignore the LoginButton name
@@ -30,7 +30,7 @@ class WelcomePage extends React.Component {
             }
         }
         return (
-            <View style = {styles.container}>
+            <SafeAreaView style = {styles.container}>
                 <View style = {{alignItems: 'center'}}>
                     <Image style={styles.logo} source={require('../assets/templogonameless.png')}/>
                     <Image style={styles.name} source={require('../assets/templogoname.png')}/>
@@ -52,7 +52,7 @@ class WelcomePage extends React.Component {
                     <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
                 </View>
                 <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
-            </View>
+            </SafeAreaView>
         )
     }
 }

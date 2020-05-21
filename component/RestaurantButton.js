@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 0,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5,
-        margin: 5
+        elevation: 4,
+        margin: 10
     },
     container: {
         height: '100%',
