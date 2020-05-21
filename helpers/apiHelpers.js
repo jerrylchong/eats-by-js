@@ -22,13 +22,25 @@
     * - rating
     *
     * */
+
+const HOST = "https://eats-by-js-api.herokuapp.com/"
+
 export function getRestaurantsFromApi() {
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
-    return fetch("https://eats-by-js-api.herokuapp.com//restaurants", requestOptions)
+    return fetch(`${HOST}/restaurants`, requestOptions)
         .then(res => res.json())
         .then(json => json.data)
-        .then(data => data.map( x => x.attributes));
+}
+
+export function getTagsFromApi() {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    return fetch(`${HOST}/tags`, requestOptions)
+        .then(res => res.json())
+        .then(json => json.data)
 }
