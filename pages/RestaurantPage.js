@@ -45,12 +45,12 @@ const stylesBanner = StyleSheet.create({
 
 function RestaurantPage({ navigation, route }) {
     const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
+    const [dishes, setDishes] = useState([]);
     const [restaurantData, setRestaurantData] = useState([]);
 
     useEffect(() => {
         Promise.all([
-            getDishesFromApi(route.params.restaurant_id).then(data => setData(data)),
+            getDishesFromApi(route.params.restaurant_id).then(data => setDishes(data)),
             getRestaurantFromApi(route.params.restaurant_id).then(data => setRestaurantData(data)),
         ])
             .catch((error) => console.error(error))

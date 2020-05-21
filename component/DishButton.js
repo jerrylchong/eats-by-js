@@ -12,7 +12,7 @@ const DishButton = (props) => {
                     <View style={styles.nameReview}>
                         <Text style={styles.name}>{title}</Text>
                     </View>
-                    <Text style={styles.name}>{price}</Text>
+                    <Text style={styles.name}>${price}</Text>
                 </View>
                 <Text style = {styles.description}>{description}</Text>
             </TouchableOpacity>
@@ -23,6 +23,7 @@ const DishButton = (props) => {
 export default DishButton
 
 const styles = StyleSheet.create({
+    /*
     shadow: {
         width: 375,
         height: 60,
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         margin: 15
     },
+    */
     container: {
         height: 60,
         width: 375,
