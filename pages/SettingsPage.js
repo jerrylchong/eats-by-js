@@ -1,12 +1,12 @@
 import React from 'react';
-import {Button, StatusBar, Text, View, StyleSheet} from "react-native";
+import {StatusBar, StyleSheet, TouchableOpacity} from "react-native";
+import Loading from "../component/Loading";
 
 function SettingsPage({ navigation }) {
     return (
-        <View style = {styles.container}>
-            <Text>Placeholder Settings Page</Text>
-            <Button onPress = {() => navigation.goBack()} title = 'Back' />
-        </View>
+        <TouchableOpacity style = {styles.container} onPress = {() => {navigation.goBack()}}>
+            <Loading />
+        </TouchableOpacity>
     )
 }
 

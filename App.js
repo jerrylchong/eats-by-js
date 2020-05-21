@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import MyDrawer from "./pages/MyDrawer";
 import WelcomePage from "./pages/WelcomePage";
 import {createStackNavigator} from "@react-navigation/stack";
+import Loading from "./component/Loading";
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,10 @@ const App = () => {
               <Stack.Screen
                   name = 'App'
                   component = {MyDrawer}
+              />
+              <Stack.Screen
+                  name = 'Loading'
+                  component = {Loading}
               />
           </Stack.Navigator>
       </NavigationContainer>

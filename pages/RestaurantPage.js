@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View, Text, Button, ImageBackground} from "react-native";
+import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View, Text, ImageBackground} from "react-native";
 import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
 import BackButton from "../component/BackButton";
 import {getDishesFromApi, getRestaurantFromApi, getRestaurantTagsFromApi} from "../helpers/apiHelpers";
+import Loading from "../component/Loading";
 
 function RestaurantBanner(props) {
     const {title, tags, location, operatingHours, contact} = props
@@ -63,36 +64,38 @@ function RestaurantPage({ navigation, route }) {
     }, []);
 
     return (
-        <SafeAreaView style = {styles.container}>
-            <ImageBackground style={styles.picture} source={require('../assets/testrestaurant.png')}>
-            <BackButton style = {{margin: '3%'}} onPress = {() => navigation.goBack()} />
+        isLoading
+            ? <Loading/>
+            : <SafeAreaView style = {styles.container}>
+                <ImageBackground style={styles.picture} source={require('../assets/testrestaurant.png')}>
+                    <BackButton style = {{margin: '3%'}} onPress = {() => navigation.goBack()} />
                 </ImageBackground>
 
-            <RestaurantBanner 
-                title={isLoading? "Loading..." : restaurantData.attributes.title}
-                tags={isLoading ? [] : restaurantTags.map(x => x.attributes)}
-                location="UTown Pantry"
-                operatingHours="12am to 12.01am"
-                contact="+65 9123 1234"
-            />
+                <RestaurantBanner
+                    title={isLoading? "Loading..." : restaurantData.attributes.title}
+                    tags={isLoading ? [] : restaurantTags.map(x => x.attributes)}
+                    location="UTown Pantry"
+                    operatingHours="12am to 12.01am"
+                    contact="+65 9123 1234"
+                />
 
-            <View style={{height:"5%"}} />
-            
+                <View style={{height:"5%"}} />
 
-            <Text style={{width:"80%", fontSize: 16}}>Dishes</Text>
-            <View style={{width:"90%", height:1, backgroundColor:"black", margin: 15, opacity:0.25}} />
-            <ScrollView style = {styles.scroll}>
-                { dishes.map((dish) =>
-                    <DishButton
-                        key={dish.id}
-                        title={dish.attributes.title}
-                        description={dish.attributes.description}
-                        price={dish.attributes.price}
-                    />
 
-                ) }
-            </ ScrollView>
-        </SafeAreaView>);
+                <Text style={{width:"80%", fontSize: 16}}>Dishes</Text>
+                <View style={{width:"90%", height:1, backgroundColor:"black", margin: 15, opacity:0.25}} />
+                <ScrollView style = {styles.scroll}>
+                    { dishes.map((dish) =>
+                        <DishButton
+                            key={dish.id}
+                            title={dish.attributes.title}
+                            description={dish.attributes.description}
+                            price={dish.attributes.price}
+                        />
+
+                    ) }
+                </ ScrollView>
+            </SafeAreaView>);
 }
 
 export default RestaurantPage

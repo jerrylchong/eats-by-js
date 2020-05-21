@@ -4,6 +4,7 @@ import MenuButton from "../component/MenuButton";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
 import {getRestaurantsFromApi, getTagsFromApi} from "../helpers/apiHelpers";
+import Loading from "../component/Loading";
 
 // currently my db only got title, description, rating
 // TODO: cost, tags
@@ -24,25 +25,27 @@ function RestaurantList({ navigation }) {
     }, []);
 
     return (
-        <SafeAreaView style = {styles.container}>
-            <View style = {styles.navBar}>
-                <MenuButton onPress = {() => navigation.toggleDrawer()}/>
-                <SearchButton />
-            </View>
-            <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems: 'center'}}>
-                { data.map((restaurant) =>
-                    <RestaurantButton
-                        key={restaurant.id}
-                        restaurant_id={restaurant.id}
-                        name={restaurant.attributes.title}
-                        cost={"$$$"}
-                        description={restaurant.attributes.description}
-                        rating={restaurant.attributes.rating}
-                        tags={isLoading ? [] : restaurant.relationships.tags.data.map(x => tags[x.id - 1])}
-                        onPress={() => navigation.navigate('Restaurant', {restaurant_id: restaurant.id}) }
-                    />) }
-            </ ScrollView>
-        </SafeAreaView>
+        isLoading
+            ? <Loading />
+            : <SafeAreaView style = {styles.container}>
+                <View style = {styles.navBar}>
+                    <MenuButton onPress = {() => navigation.toggleDrawer()}/>
+                    <SearchButton />
+                </View>
+                <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems: 'center'}}>
+                    { data.map((restaurant) =>
+                        <RestaurantButton
+                            key={restaurant.id}
+                            restaurant_id={restaurant.id}
+                            name={restaurant.attributes.title}
+                            cost={"$$$"}
+                            description={restaurant.attributes.description}
+                            rating={restaurant.attributes.rating}
+                            tags={isLoading ? [] : restaurant.relationships.tags.data.map(x => tags[x.id - 1])}
+                            onPress={() => navigation.navigate('Restaurant', {restaurant_id: restaurant.id}) }
+                        />) }
+                </ ScrollView>
+            </SafeAreaView>
     )
 }
 
