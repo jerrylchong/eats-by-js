@@ -37,6 +37,7 @@ function RestaurantList({ navigation }) {
                         name={restaurant.attributes.title}
                         cost={"$$$"}
                         description={restaurant.attributes.description}
+                        rating={restaurant.attributes.rating}
                         tags={isLoading ? [] : restaurant.relationships.tags.data.map(x => tags[x.id - 1])}
                         onPress={() => navigation.navigate('Restaurant', {restaurant_id: restaurant.id}) }
                     />) }
