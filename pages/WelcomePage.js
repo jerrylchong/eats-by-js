@@ -1,6 +1,8 @@
 import React from 'react';
 import {Button, StatusBar, StyleSheet, Text, View, TextInput, Image} from "react-native";
-import LoginButton from "../container/LoginButton";
+import LoginButton from "../component/LoginButton";
+
+// ignore the LoginButton name
 
 class WelcomePage extends React.Component {
     state = {
