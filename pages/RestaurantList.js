@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
     },
     navBar: {
         flexDirection: 'row',
-        height: 95,
-        width: 375,
+        height: '10%',
+        width: '90%',
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 5

@@ -64,3 +64,13 @@ export function getDishesFromApi(restaurant_id) {
         .then(res => res.json())
         .then(json => json.data)
 }
+
+export function getRestaurantTagsFromApi(restaurant_id) {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    return fetch(`${HOST}/restaurants/${restaurant_id}/tags`, requestOptions)
+        .then(res => res.json())
+        .then(json => json.data)
+}

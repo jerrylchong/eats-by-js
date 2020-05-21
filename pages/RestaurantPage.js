@@ -76,7 +76,7 @@ function RestaurantPage({ navigation, route }) {
             <Text style={{width:"80%"}}>Dishes</Text>
             <View style={{width:"90%", height:1, backgroundColor:"black", margin: 15, opacity:0.25}} />
             <ScrollView>
-                { data.map((dish) =>
+                { dishes.map((dish) =>
                     <DishButton
                         key={dish.id}
                         title={dish.attributes.title}
@@ -106,4 +106,25 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
+    header: {
+        width:'100%',
+        alignItems:'flex-start',
+        padding: '2%'
+    },
+    title: {
+        fontSize: 22,
+        marginLeft: 5
+    },
+    desc: {
+        fontSize: 14,
+        color: 'grey',
+        marginLeft: 5
+    },
+    tags: {
+        flexDirection: 'row',
+        marginTop: 5,
+        alignSelf: 'flex-start',
+        marginLeft: 5,
+        marginBottom: 5
+    }
 })

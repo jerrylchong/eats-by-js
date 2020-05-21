@@ -6,7 +6,7 @@ const DishButton = (props) => {
     const { title, description, price, onPress } = props;
 
     return (
-        <View>
+        <View style = {styles.shadow}>
             <TouchableOpacity style = {styles.container} onPress = {onPress}>
                 <View style={styles.text}>
                     <View style={styles.nameReview}>
@@ -23,15 +23,30 @@ const DishButton = (props) => {
 export default DishButton
 
 const styles = StyleSheet.create({
+    shadow: {
+        width: 375,
+        height: 60,
+        backgroundColor: 'white',
+        borderRadius: 2,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        margin: 15
+    },
     container: {
-        height: '100%',
-        width: '100%',
+        height: 60,
+        width: 375,
         justifyContent: 'space-evenly',
         alignItems: 'center',
         padding: 5,
     },
     text: {
-        width: 335,
+        width: '97%',
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
