@@ -7,7 +7,12 @@ const Drawer = createDrawerNavigator();
 
 const MyDrawer = () => {
     return (
-        <Drawer.Navigator initialRouteName = 'Home'>
+        <Drawer.Navigator
+            initialRouteName = 'Home'
+            drawerContentOptions={{
+                activeTintColor: 'grey',
+                itemStyle: {color: 'black'},
+            }}>
             <Drawer.Screen name = 'Home' component = {MyStack} />
             <Drawer.Screen name = 'Settings' component = {SettingsPage} />
         </Drawer.Navigator>
