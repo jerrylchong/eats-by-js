@@ -44,3 +44,13 @@ export function getTagsFromApi() {
         .then(res => res.json())
         .then(json => json.data)
 }
+
+export function getDishesFromApi(restaurant_id) {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    return fetch(`${HOST}/restaurants/${restaurant_id}/dishes`, requestOptions)
+        .then(res => res.json())
+        .then(json => json.data)
+}

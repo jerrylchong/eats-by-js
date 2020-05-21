@@ -15,12 +15,10 @@ function RestaurantList({ navigation }) {
     const [tags, setTags] = useState([]);
 
     useEffect(() => {
-        getRestaurantsFromApi()
-            .then(data => setData(data))
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
-        getTagsFromApi()
-            .then(data => setTags(data.map(x => x.attributes)))
+        Promise.all([
+            getRestaurantsFromApi().then(data => setData(data)),
+            getTagsFromApi().then(data => setTags(data.map(x => x.attributes)))
+        ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
     }, []);
@@ -39,8 +37,8 @@ function RestaurantList({ navigation }) {
                         name={restaurant.attributes.title}
                         cost={"$$$"}
                         description={restaurant.attributes.description}
-                        tags={!tags ? [] : restaurant.relationships.tags.data.map(x => tags[x.id - 1])}
-                        onPress={() => navigation.navigate('Restaurant')}
+                        tags={isLoading ? [] : restaurant.relationships.tags.data.map(x => tags[x.id - 1])}
+                        onPress={() => navigation.navigate('Restaurant', {restaurant_id: restaurant.id}) }
                     />) }
             </ ScrollView>
         </SafeAreaView>

@@ -1,65 +1,34 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import Tag from './Tag'
 
-const RestaurantButton = (props) => {
+const DishButton = (props) => {
 
-    const { name, cost, description, rating, tags, onPress } = props;
+    const { title, description, price, onPress } = props;
 
     return (
-        <View style = {styles.shadow}>
+        <View>
             <TouchableOpacity style = {styles.container} onPress = {onPress}>
-                <Image style={styles.picture} source={require('../assets/testrestaurant.png')}/>
                 <View style={styles.text}>
                     <View style={styles.nameReview}>
-                        <Text style={styles.name}>{name}</Text>
-                        <Text style={styles.rating}>{rating}/5</Text>
+                        <Text style={styles.name}>{title}</Text>
                     </View>
-                    <Text style={styles.name}>{cost}</Text>
+                    <Text style={styles.name}>{price}</Text>
                 </View>
                 <Text style = {styles.description}>{description}</Text>
-                <View style = {styles.tags}>
-                    { tags.map((elem, index) =>
-                        <Tag
-                            key={`tag-${index}`}
-                            name={elem.name}
-                        />
-                    ) }
-                </View>
             </TouchableOpacity>
         </View>
     )
 }
 
-export default RestaurantButton
+export default DishButton
 
 const styles = StyleSheet.create({
-    shadow: {
-        width: 355,
-        height: 270,
-        backgroundColor: 'white',
-        borderRadius: 1,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        margin: 5
-    },
     container: {
         height: '100%',
         width: '100%',
         justifyContent: 'space-evenly',
         alignItems: 'center',
         padding: 5,
-    },
-    picture: {
-        height: 187,
-        width: 335,
-        padding: 5
     },
     text: {
         width: 335,
