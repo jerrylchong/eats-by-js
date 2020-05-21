@@ -2,16 +2,15 @@ import React, {useState, useEffect} from 'react';
 import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View, Text, Button, ImageBackground} from "react-native";
 import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
-import {getDishesFromApi, getRestaurantFromApi} from "../helpers/apiHelpers";
+import {getDishesFromApi, getRestaurantFromApi, getRestaurantTagsFromApi} from "../helpers/apiHelpers";
 
-const fakeTags = [{name: "Good stuff"}];
 function RestaurantBanner(props) {
     const {title, tags, location, operatingHours, contact} = props
     return (
         <View style={stylesBanner.container}>
             <Text style={stylesBanner.title}>{title}</Text>
             <View style={stylesBanner.tags}>
-                { fakeTags.map((tag,index) => <Tag key={index} name={tag.name}/>) }
+                { tags.map((tag,index) => <Tag key={index} name={tag.name}/>) }
             </View>
             <Text style={stylesBanner.description}>Location : {location}</Text>
             <Text style={stylesBanner.description}>Opening Hours : {operatingHours}</Text>
@@ -37,6 +36,7 @@ const stylesBanner = StyleSheet.create({
     },
     tags: {
         paddingVertical: 15,
+        flexDirection:"row"
     },
     description: {
         color: "#7E7E7E"
@@ -47,11 +47,15 @@ function RestaurantPage({ navigation, route }) {
     const [isLoading, setLoading] = useState(true);
     const [dishes, setDishes] = useState([]);
     const [restaurantData, setRestaurantData] = useState([]);
+    const [restaurantTags, setRestaurantTags] = useState([]);
+
+    const {restaurant_id} = route.params;
 
     useEffect(() => {
         Promise.all([
-            getDishesFromApi(route.params.restaurant_id).then(data => setDishes(data)),
-            getRestaurantFromApi(route.params.restaurant_id).then(data => setRestaurantData(data)),
+            getDishesFromApi(restaurant_id).then(data => setDishes(data)),
+            getRestaurantFromApi(restaurant_id).then(data => setRestaurantData(data)),
+            getRestaurantTagsFromApi(restaurant_id).then(data => setRestaurantTags(data)),
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -65,6 +69,7 @@ function RestaurantPage({ navigation, route }) {
 
             <RestaurantBanner 
                 title={isLoading? "Loading..." : restaurantData.attributes.title}
+                tags={isLoading ? [] : restaurantTags.map(x => x.attributes)}
                 location="UTown Pantry"
                 operatingHours="12am to 12.01am"
                 contact="+65 9123 1234"
