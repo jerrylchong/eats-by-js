@@ -48,29 +48,29 @@ const stylesBanner = StyleSheet.create({
 
 const Tab = createMaterialTopTabNavigator();
 
-function Dishes() {
+const Dishes = () => {
     return (
         <ScrollView style = {styles.scroll}>
             <DishButton
-                title={"dish"}
-                description={"it's a dish"}
-                price={"money"}
+                title={"Title"}
+                description={"Description"}
+                price={"Price"}
             />
             <DishButton
-                title={"dish"}
-                description={"it's a dish"}
-                price={"money"}
+                title={"Title"}
+                description={"Description"}
+                price={"Price"}
             />
             <DishButton
-                title={"dish"}
-                description={"it's a dish"}
-                price={"money"}
+                title={"Title"}
+                description={"Description"}
+                price={"Price"}
             />
-        </ScrollView>
+        </ ScrollView>
     )
 }
 
-function Reviews() {
+const Reviews = () => {
     return (
         <ScrollView style = {styles.scroll}>
             <Text>Review</Text>
@@ -80,11 +80,11 @@ function Reviews() {
     )
 }
 
-function Tabs() {
+const Tabs = () => {
     return (
         <View style = {{height: '50%', width: '100%'}}>
             <Tab.Navigator>
-                <Tab.Screen name="Dishes" component={Dishes} />
+                <Tab.Screen name="Dishes" component={Dishes}/>
                 <Tab.Screen name="Reviews" component={Reviews} />
             </Tab.Navigator>
         </View>
@@ -127,11 +127,11 @@ function RestaurantPage({ navigation, route }) {
 
                 <View style={{height:"5%"}} />
 
-
+                <Tabs screenProps = {{dishes: dishes}}/>
                 {/*<Text style={{width:"80%", fontSize: 16}}>Dishes</Text>
-                <View style={{width:"90%", height:1, backgroundColor:"black", margin: 15, opacity:0.25}} />*/}
-                <Tabs/>
-                {/*<ScrollView style = {styles.scroll}>
+                <View style={{width:"90%", height:1, backgroundColor:"black", margin: 15, opacity:0.25}} />
+
+                <ScrollView style = {styles.scroll}>
                     { dishes.map((dish) =>
                         <DishButton
                             key={dish.id}
@@ -141,7 +141,7 @@ function RestaurantPage({ navigation, route }) {
                         />
 
                     ) }
-                </ ScrollView>*/}
+                </ ScrollView> */}
             </SafeAreaView>);
 }
 
