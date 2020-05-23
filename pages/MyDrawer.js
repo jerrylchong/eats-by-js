@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, SafeAreaView, StatusBar, StyleSheet} from "react-native";
+import {Dimensions, SafeAreaView, StatusBar, View} from "react-native";
 import SettingsPage from "./SettingsPage";
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer";
 import MyStack from "./MyStack";
@@ -9,10 +9,11 @@ const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props) {
     return (
-        <DrawerContentScrollView {...props} contentContainerStyle = {{flex: 1, justifyContent: 'space-between'}}>
-            <SafeAreaView style = {styles.safe}>
+        <DrawerContentScrollView {...props}>
+            <SafeAreaView style = {{ marginTop: StatusBar.currentHeight, marginBottom: '5%' }}>
                 <DrawerItemList {...props} />
             </SafeAreaView>
+            <View style = {{ alignSelf: 'center', width:'90%', borderTopWidth: 1, borderColor: 'grey' }}/>
             <DrawerItem label="Sign Out" onPress={() => alert('Sign Out')} />
         </DrawerContentScrollView>
     );
@@ -37,8 +38,3 @@ const MyDrawer = () => {
 }
 
 export default MyDrawer
-
-const styles = StyleSheet.create({
-    safe: {
-    }
-})

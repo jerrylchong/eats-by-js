@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View} from "react-native";
+import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View, BackHandler, Alert} from "react-native";
 import MenuButton from "../component/MenuButton";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
@@ -8,7 +8,6 @@ import Loading from "../component/Loading";
 
 // currently my db only got title, description, rating
 // TODO: cost, tags
-
 
 function RestaurantList({ navigation }) {
     const [isLoading, setLoading] = useState(true);
@@ -22,6 +21,25 @@ function RestaurantList({ navigation }) {
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+
+        const backAction = () => {
+            Alert.alert("Exit App", "Are you sure you want to exit the App?", [
+                {
+                    text: "Cancel",
+                    onPress: () => null,
+                    style: "cancel"
+                },
+                { text: "YES", onPress: () => BackHandler.exitApp() }
+            ]);
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
     }, []);
 
     return (
