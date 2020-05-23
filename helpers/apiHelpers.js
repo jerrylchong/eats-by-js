@@ -74,3 +74,20 @@ export function getRestaurantTagsFromApi(restaurant_id) {
         .then(res => res.json())
         .then(json => json.data)
 }
+
+export function postSignUp(username, password) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({"user":{username,password}});
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/sign_up`, requestOptions)
+        .then(response => response.json());
+}
