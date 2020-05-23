@@ -4,9 +4,11 @@ import Loading from "../component/Loading";
 
 function SettingsPage({ navigation }) {
     return (
-        <TouchableOpacity style = {styles.container} onPress = {() => {navigation.goBack()}}>
-            <Loading />
-        </TouchableOpacity>
+        <SafeAreaView style = {styles.container}>
+            <TouchableOpacity onPress = {() => {navigation.goBack()}}>
+                <Loading />
+            </TouchableOpacity>
+        </SafeAreaView>
     )
 }
 
