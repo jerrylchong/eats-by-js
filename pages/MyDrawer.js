@@ -12,12 +12,15 @@ function CustomDrawerContent(props) {
             <SafeAreaView style = {styles.safe}>
                 <DrawerItemList {...props} />
             </SafeAreaView>
-            <DrawerItem label="Sign Out" onPress={() => alert('Sign Out')} />
+            <SafeAreaView style = {styles.safe}>
+                <DrawerItem label="Sign Out" onPress={props.signOutHandler} />
+            </SafeAreaView>
         </DrawerContentScrollView>
     );
 }
 
-const MyDrawer = () => {
+const MyDrawer = ({navigation}) => {
+    const signOutHandler = () => { navigation.navigate('Welcome')}
     return (
         <Drawer.Navigator
             initialRouteName = 'Home'
@@ -26,7 +29,7 @@ const MyDrawer = () => {
                 itemStyle: {color: 'black'},
             }}
             edgeWidth = {Dimensions.get('window').width * 0.13}
-            drawerContent={props => <CustomDrawerContent {...props} />}
+            drawerContent={props => <CustomDrawerContent {...props} signOutHandler={signOutHandler}/>}
              >
             <Drawer.Screen name = 'Home' component = {MyStack} />
             <Drawer.Screen name = 'Settings' component = {SettingsPage} />
