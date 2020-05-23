@@ -54,10 +54,17 @@ function AddRestaurantPage({ navigation }) {
                     onChangeText={(text) => {setTags(text)}}
                     value={tags}/>
             </KeyboardAvoidingView>
-            <View style = {styles.buttonShadow}>
-                <TouchableOpacity style = {styles.button} onPress = {submit}>
-                    <Text style = {styles.buttonText}>Submit</Text>
-                </TouchableOpacity>
+            <View style = {{width: '100%', height: '15%', justifyContent: 'space-between', alignItems: 'center'}}>
+                <View style = {styles.buttonShadow}>
+                    <TouchableOpacity style = {styles.button} onPress = {submit}>
+                        <Text style = {styles.buttonText}>Submit</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style = {styles.buttonShadow}>
+                    <TouchableOpacity style = {styles.button} onPress = {submit}>
+                        <Text style = {styles.buttonText}>Back</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </SafeAreaView>
     )
@@ -75,13 +82,13 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 20,
-        marginTop: '10%'
+        marginTop: '5%'
     },
     list: {
         width: '80%',
-        height: '80%',
+        height: '60%',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        marginTop: '5%'
     },
     inputHeader: {
         flexDirection: 'row',
@@ -92,22 +99,23 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         fontSize: 12,
         width: '100%',
-        height: '5%',
+        height: '8%',
         paddingHorizontal: 5,
+        marginBottom: '8%'
     },
     buttonShadow: {
         width: '25%',
-        height: '5%',
+        height: '30%',
         backgroundColor: 'white',
         borderRadius: 20,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 2,
+        elevation: 5,
     },
     button: {
         height: '100%',

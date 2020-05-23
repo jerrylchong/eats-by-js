@@ -1,5 +1,15 @@
 import React from 'react';
-import {Button, StatusBar, StyleSheet, Text, View, TextInput, Image, SafeAreaView} from "react-native";
+import {
+    StatusBar,
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    Image,
+    SafeAreaView,
+    Dimensions,
+    Platform, KeyboardAvoidingView
+} from "react-native";
 import LoginButton from "../component/LoginButton";
 
 // ignore the LoginButton name
@@ -35,21 +45,27 @@ class WelcomePage extends React.Component {
                     <Image style={styles.logo} source={require('../assets/templogonameless.png')}/>
                     <Image style={styles.name} source={require('../assets/templogoname.png')}/>
                 </View>
-                <View>
+                <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                     <TextInput
-                        style={styles.inputTop}
+                        style={styles.usernameInput}
                         placeholder="Username"
                         onChangeText={this.handleName}
-                        value={name}/>
+                        value={name}
+                        textContentType='username'
+                        autoCapitalize='none'/>
                     <TextInput
-                        style={styles.inputBottom}
+                        style={styles.passwordInput}
                         placeholder="Password"
                         onChangeText={this.handlePassword}
-                        value={password}/>
-                </View>
-                <View>
+                        value={password}
+                        secureTextEntry={true}
+                        textContentType='password'
+                        autoCapitalize='none'/>
+                </KeyboardAvoidingView>
+                <View style = {styles.buttons}>
                     <LoginButton text = 'Sign in' onPress = {login}/>
-                    <LoginButton text = 'Registration' onPress = {() => this.props.navigation.navigate('Registration')}/>
+                    <Text style = {{marginTop: '10%', color: 'navy'}}>Don't have an account?</Text>
+                    <LoginButton text = 'Create an Account' onPress = {() => this.props.navigation.navigate('Registration')}/>
                     <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
                 </View>
                 <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
@@ -70,29 +86,40 @@ const styles = StyleSheet.create({
         marginTop: StatusBar.currentHeight
     },
     logo: {
-        width: 200,
-        height: 200
+        width: Dimensions.get('window').width * 0.4,
+        height: Dimensions.get('window').width * 0.4,
+        marginTop: '10%'
+    },
+    list: {
+        width: '100%',
+        height: '20%',
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
     },
     name: {
-        width: 180,
-        height: 58
+        width: Dimensions.get('window').width * 0.4,
+        height: Dimensions.get('window').width * 0.4 * (58/180)
     },
-    inputTop: {
-        borderWidth: 1,
+    usernameInput: {
+        borderBottomWidth: 1,
         borderColor: 'black',
-        fontSize: 20,
-        width: 200,
-        height: 30,
+        fontSize: 12,
+        width: Dimensions.get('window').width * 0.6,
+        height: Dimensions.get('window').width * 0.08,
         paddingHorizontal: 5,
     },
-    inputBottom: {
-        borderWidth: 1,
+    passwordInput: {
+        borderBottomWidth: 1,
         borderColor: 'black',
-        fontSize: 20,
-        width: 200,
-        height: 30,
+        fontSize: 12,
+        width: Dimensions.get('window').width * 0.6,
+        height: Dimensions.get('window').width * 0.08,
         paddingHorizontal: 5,
-        marginTop: 20
+    },
+    buttons: {
+        height: '40%',
+        width: '100%',
+        alignItems: 'center'
     },
     error: {
         fontSize: 14,
