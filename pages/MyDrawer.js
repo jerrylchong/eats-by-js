@@ -1,9 +1,21 @@
 import React from 'react';
+import {Dimensions, SafeAreaView, StatusBar, StyleSheet} from "react-native";
 import SettingsPage from "./SettingsPage";
-import {createDrawerNavigator} from "@react-navigation/drawer";
+import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer";
 import MyStack from "./MyStack";
 
 const Drawer = createDrawerNavigator();
+
+function CustomDrawerContent(props) {
+    return (
+        <DrawerContentScrollView {...props} contentContainerStyle = {{flex: 1, justifyContent: 'space-between'}}>
+            <SafeAreaView style = {styles.safe}>
+                <DrawerItemList {...props} />
+            </SafeAreaView>
+            <DrawerItem label="Sign Out" onPress={() => alert('Sign Out')} />
+        </DrawerContentScrollView>
+    );
+}
 
 const MyDrawer = () => {
     return (
@@ -12,7 +24,10 @@ const MyDrawer = () => {
             drawerContentOptions={{
                 activeTintColor: 'grey',
                 itemStyle: {color: 'black'},
-            }}>
+            }}
+            edgeWidth = {Dimensions.get('window').width * 0.13}
+            drawerContent={props => <CustomDrawerContent {...props} />}
+             >
             <Drawer.Screen name = 'Home' component = {MyStack} />
             <Drawer.Screen name = 'Settings' component = {SettingsPage} />
         </Drawer.Navigator>
@@ -20,3 +35,8 @@ const MyDrawer = () => {
 }
 
 export default MyDrawer
+
+const styles = StyleSheet.create({
+    safe: {
+    }
+})
