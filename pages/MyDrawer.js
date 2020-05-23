@@ -1,4 +1,5 @@
 import React from 'react';
+import {Dimensions} from "react-native";
 import SettingsPage from "./SettingsPage";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import MyStack from "./MyStack";
@@ -13,7 +14,9 @@ const MyDrawer = () => {
             drawerContentOptions={{
                 activeTintColor: 'grey',
                 itemStyle: {color: 'black'},
-            }}>
+            }}
+            edgeWidth = {Dimensions.get('window').width * 0.13}
+             >
             <Drawer.Screen name = 'Home' component = {MyStack} />
             <Drawer.Screen name = 'Settings' component = {SettingsPage} />
             <Drawer.Screen name = 'Add Restaurant' component = {AddRestaurantPage} />
