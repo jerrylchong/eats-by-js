@@ -3,6 +3,7 @@ import SettingsPage from "./SettingsPage";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import MyStack from "./MyStack";
 import AddRestaurantPage from "./AddRestaurantPage";
+import ProfilePage from "./ProfilePage";
 
 const Drawer = createDrawerNavigator();
 
@@ -17,6 +18,7 @@ const MyDrawer = () => {
             <Drawer.Screen name = 'Home' component = {MyStack} />
             <Drawer.Screen name = 'Settings' component = {SettingsPage} />
             <Drawer.Screen name = 'Add Restaurant' component = {AddRestaurantPage} />
+            <Drawer.Screen name = 'Profile' component = {ProfilePage} />
         </Drawer.Navigator>
     )
 }
