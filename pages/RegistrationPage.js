@@ -2,21 +2,21 @@ import React, { useState } from 'react';
 import {StatusBar, StyleSheet, TouchableOpacity, SafeAreaView, TextInput, KeyboardAvoidingView, Text, View, Platform} from "react-native";
 
 function RegistrationPage({ navigation }) {
-    const [title, setTitle] = useState('');
-    const [desc, setDesc] = useState('');
-    const [location, setLocation] = useState('');
-    const [operatingHours, setOperatingHours] = useState('');
-    const [contact, setContact] = useState('');
-    const [rating, setRating] = useState('');
-    const [tags, setTags] = useState('');
-    const submit = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const backHandler = () => {
+        return (
+            navigation.goBack()
+        )
+    }
+    const submitHandler = () => {
         return (
             navigation.goBack()
         )
     }
     return (
         <SafeAreaView style = {styles.container}>
-            <Text style = {styles.header}>Add a Restaurant</Text>
+            <Text style = {styles.header}>Sign Up</Text>
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                 <TextInput
                     style={styles.input}
@@ -30,8 +30,13 @@ function RegistrationPage({ navigation }) {
                     value={desc}/>
             </KeyboardAvoidingView>
             <View style = {styles.buttonShadow}>
-                <TouchableOpacity style = {styles.button} onPress = {submit}>
+                <TouchableOpacity style = {styles.button} onPress = {submitHandler}>
                     <Text style = {styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+            </View>
+            <View style = {styles.buttonShadow}>
+                <TouchableOpacity style = {styles.button} onPress = {backHandler}>
+                    <Text style = {styles.buttonText}>Back</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

@@ -4,6 +4,7 @@ import MyDrawer from "./pages/MyDrawer";
 import WelcomePage from "./pages/WelcomePage";
 import {createStackNavigator} from "@react-navigation/stack";
 import Loading from "./component/Loading";
+import RegistrationPage from './pages/RegistrationPage';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,10 @@ const App = () => {
               <Stack.Screen
                   name = 'Welcome'
                   component = {WelcomePage}
+              />
+              <Stack.Screen
+                  name = 'Registration'
+                  component = {RegistrationPage}
               />
               <Stack.Screen
                   name = 'App'
