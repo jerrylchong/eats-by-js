@@ -1,14 +1,12 @@
 import React from 'react';
-import {StatusBar, StyleSheet, TouchableOpacity, SafeAreaView} from "react-native";
+import {StatusBar, StyleSheet, TouchableOpacity} from "react-native";
 import Loading from "../component/Loading";
 
 function SettingsPage({ navigation }) {
     return (
-        <SafeAreaView>
-            <TouchableOpacity style = {styles.container} onPress = {() => {navigation.goBack()}}>
-                <Loading />
-            </TouchableOpacity>
-        </SafeAreaView>
+        <TouchableOpacity style = {styles.container} onPress = {() => {navigation.goBack()}}>
+            <Loading />
+        </TouchableOpacity>
     )
 }
 
