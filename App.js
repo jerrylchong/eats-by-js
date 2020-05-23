@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import MyDrawer from "./pages/MyDrawer";
 import WelcomePage from "./pages/WelcomePage";
+import RegistrationPage from "./pages/RegistrationPage";
 import {createStackNavigator} from "@react-navigation/stack";
 import Loading from "./component/Loading";
 
@@ -19,6 +20,10 @@ const App = () => {
               <Stack.Screen
                   name = 'Welcome'
                   component = {WelcomePage}
+              />
+              <Stack.Screen
+                  name = 'Registration'
+                  component = {RegistrationPage}
               />
               <Stack.Screen
                   name = 'App'

@@ -49,6 +49,7 @@ class WelcomePage extends React.Component {
                 </View>
                 <View>
                     <LoginButton text = 'Sign in' onPress = {login}/>
+                    <LoginButton text = 'Register' onPress = {() => {this.props.navigation.navigate('Registration')}}/>
                     <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
                 </View>
                 <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
