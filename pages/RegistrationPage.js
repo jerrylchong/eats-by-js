@@ -1,39 +1,78 @@
 import React, { useState } from 'react';
 import {StatusBar, StyleSheet, TouchableOpacity, SafeAreaView, TextInput, KeyboardAvoidingView, Text, View, Platform} from "react-native";
+import {postSignUp} from '../helpers/apiHelpers'
 
 function RegistrationPage({ navigation }) {
-    const [title, setTitle] = useState('');
-    const [desc, setDesc] = useState('');
-    const [location, setLocation] = useState('');
-    const [operatingHours, setOperatingHours] = useState('');
-    const [contact, setContact] = useState('');
-    const [rating, setRating] = useState('');
-    const [tags, setTags] = useState('');
-    const submit = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [isLoading, setLoading] = useState(false);
+
+    const [errors, setErrors] = useState({})
+
+    const hasErrors = (errors) => {
+        return Object.keys(errors).length !== 0;
+    }
+
+    const backHandler = () => {
         return (
             navigation.goBack()
         )
     }
+    const submitHandler = () => {
+        setLoading(true);
+        postSignUp(username,password)
+            .then(res => {
+                console.log(res);
+                if ("errors" in res) { setErrors(res["errors"]); }
+                setLoading(false);
+            });
+
+    }
+
+    /*
+     * Sample error data from server
+    {
+      "errors": {
+        "password": [ "can't be blank", ],
+        "username": [ "can't be blank", ],
+      },
+    }
+    */
     return (
         <SafeAreaView style = {styles.container}>
-            <Text style = {styles.header}>Add a Restaurant</Text>
+            <Text style = {styles.header}>Sign Up</Text>
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                 <TextInput
                     style={styles.input}
-                    placeholder="Name"
-                    onChangeText={(text) => {setTitle(text)}}
-                    value={title}/>
+                    placeholder="Username"
+                    onChangeText={(text) => {setUsername(text)}}
+                    value={username}/>
                 <TextInput
                     style={styles.input}
-                    placeholder="Description"
-                    onChangeText={(text) => {setDesc(text)}}
-                    value={desc}/>
+                    placeholder="Password"
+                    onChangeText={(text) => {setPassword(text)}}
+                    value={password}/>
+                { isLoading && <Text>checking with db...</Text>}
+                {
+                    !isLoading && hasErrors(errors) && Object.entries(errors).map(x => x.join(' ')).map((error,index) => 
+                        <Text
+                            key={`${index}-error`}
+                            >{error}</Text>) 
+                }
             </KeyboardAvoidingView>
-            <View style = {styles.buttonShadow}>
-                <TouchableOpacity style = {styles.button} onPress = {submit}>
-                    <Text style = {styles.buttonText}>Submit</Text>
-                </TouchableOpacity>
-            </View>
+
+
+                <View style={styles.buttonShadow}>
+                    <TouchableOpacity style={styles.button} onPress={submitHandler}>
+                        <Text style={styles.buttonText}>Submit</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.buttonShadow}>
+                    <TouchableOpacity style={styles.button} onPress={backHandler}>
+                        <Text style={styles.buttonText}>Back</Text>
+                    </TouchableOpacity>
+                </View>
         </SafeAreaView>
     )
 }
@@ -56,7 +95,7 @@ const styles = StyleSheet.create({
         width: '80%',
         height: '80%',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'flex-start',
     },
     inputHeader: {
         flexDirection: 'row',

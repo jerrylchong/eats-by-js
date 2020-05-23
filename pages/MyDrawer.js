@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, SafeAreaView, StatusBar, View} from "react-native";
+import {Dimensions, SafeAreaView, StatusBar, View, StyleSheet} from "react-native";
 import SettingsPage from "./SettingsPage";
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer";
 import MyStack from "./MyStack";
@@ -38,3 +38,8 @@ const MyDrawer = () => {
 }
 
 export default MyDrawer
+
+const styles = StyleSheet.create({
+    safe: {
+    }
+})
