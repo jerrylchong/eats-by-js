@@ -164,13 +164,14 @@ function RestaurantPage({ navigation, route }) {
 
         return () => backHandler.remove();
     }, []);
-    console.log(reviews);
 
     return (
         isLoading
             ? <Loading/>
             : <SafeAreaView style = {styles.container}>
-                <ImageBackground style={styles.picture} source={require('../assets/testrestaurant.png')}>
+                <ImageBackground style={styles.picture} 
+                    source={{uri: restaurantData.attributes.image_link}}
+                >
                     <BackButton style = {{margin: '3%'}} onPress = {() => navigation.goBack()} />
                 </ImageBackground>
 

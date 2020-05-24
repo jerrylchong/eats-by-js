@@ -4,12 +4,12 @@ import Tag from './Tag'
 
 const RestaurantButton = (props) => {
 
-    const { name, cost, description, rating, tags, onPress } = props;
+    const { name, cost, description, rating, tags, onPress, image_url } = props;
 
     return (
         <View style = {styles.shadow}>
             <TouchableOpacity style = {styles.container} onPress = {onPress}>
-                <Image style={styles.picture} source={require('../assets/testrestaurant.png')}/>
+                <Image style={styles.picture} source={{uri: image_url}} />
                 <View style={styles.text}>
                     <View style={styles.nameReview}>
                         <Text style={styles.name}>{name}</Text>

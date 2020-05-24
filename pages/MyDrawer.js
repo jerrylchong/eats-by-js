@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, SafeAreaView, StatusBar, View, StyleSheet} from "react-native";
+import {Dimensions, SafeAreaView, StatusBar, View, StyleSheet, Text} from "react-native";
 import SettingsPage from "./SettingsPage";
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer";
 import MyStack from "./MyStack";
@@ -8,6 +8,7 @@ import AddRestaurantPage from "./AddRestaurantPage";
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props) {
+    const isLoggedin = true;
     return (
         <DrawerContentScrollView {...props}>
             <SafeAreaView style = {{ marginTop: StatusBar.currentHeight, marginBottom: '5%' }}>
@@ -19,6 +20,7 @@ function CustomDrawerContent(props) {
                 onPress={props.signOutHandler}
                 activeTintColor='black'
                 inactiveTintColor='black' />
+            {isLoggedin && <Text>Logged in as user</Text>}
         </DrawerContentScrollView>
     );
 }
