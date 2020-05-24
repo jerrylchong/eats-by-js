@@ -5,7 +5,7 @@ const LoginButton = (prop) => {
     return (
         <View style = {styles.shadow}>
             <TouchableOpacity style = {styles.button} onPress = {prop.onPress}>
-                <Text>{prop.text}</Text>
+                <Text style = {{color: 'white'}}>{prop.text}</Text>
             </TouchableOpacity>
         </View>
     )
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     shadow: {
         width: 200,
         height: 40,
-        backgroundColor: 'white',
+        backgroundColor: '#ff6961',
         borderRadius: 20,
         shadowColor: "#000",
         shadowOffset: {

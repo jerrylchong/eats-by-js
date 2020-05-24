@@ -8,7 +8,10 @@ import {
     Image,
     SafeAreaView,
     Dimensions,
-    Platform, KeyboardAvoidingView
+    Platform,
+    KeyboardAvoidingView,
+    ImageBackground,
+    TouchableOpacity
 } from "react-native";
 import LoginButton from "../component/LoginButton";
 
@@ -41,10 +44,11 @@ class WelcomePage extends React.Component {
         }
         return (
             <SafeAreaView style = {styles.container}>
-                <View style = {{alignItems: 'center'}}>
+                <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
+                <View style = {styles.logoShadow}>
                     <Image style={styles.logo} source={require('../assets/templogonameless.png')}/>
-                    <Image style={styles.name} source={require('../assets/templogoname.png')}/>
                 </View>
+                <Text style = {styles.header}>Sign In</Text>
                 <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                     <TextInput
                         style={styles.usernameInput}
@@ -62,13 +66,17 @@ class WelcomePage extends React.Component {
                         textContentType='password'
                         autoCapitalize='none'/>
                 </KeyboardAvoidingView>
-                <View style = {styles.buttons}>
+                <View>
                     <LoginButton text = 'Sign in' onPress = {login}/>
-                    <Text style = {{marginTop: '10%', color: 'navy'}}>Don't have an account?</Text>
-                    <LoginButton text = 'Create an Account' onPress = {() => this.props.navigation.navigate('Registration')}/>
                     <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
                 </View>
                 <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
+                <View style = {styles.buttons}>
+                    <Text style = {{color: '#404040'}}>Don't have an account?</Text>
+                    <TouchableOpacity onPress = {() => this.props.navigation.navigate('Registration')}>
+                        <Text style = {{color:'#fc8a1d', margin: '5%'}}>Create an Account</Text>
+                    </TouchableOpacity>
+                </View>
             </SafeAreaView>
         )
     }
@@ -81,30 +89,54 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#fff',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: StatusBar.currentHeight
     },
+    background: {
+        position:'absolute',
+        bottom: 0,
+        width: '100%',
+        height: Dimensions.get('window').width * 728/1668
+    },
+    logoShadow: {
+        top:'5%',
+        left: '10%',
+        alignSelf: 'flex-start',
+        width: Dimensions.get('window').width * 0.15,
+        height: Dimensions.get('window').width * 0.15,
+        borderRadius: Dimensions.get('window').width * 0.15 / 2,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 10,
+    },
     logo: {
-        width: Dimensions.get('window').width * 0.4,
-        height: Dimensions.get('window').width * 0.4,
-        marginTop: '10%'
+        width: '100%',
+        height: '100%'
+    },
+    header: {
+        fontSize: 24,
+        alignSelf: 'flex-start',
+        marginLeft: Dimensions.get('window').width * 0.15,
+        marginTop: '20%',
+        color: '#404040'
     },
     list: {
         width: '100%',
-        height: '20%',
+        height: '12%',
         alignItems: 'center',
-        justifyContent: 'space-evenly'
-    },
-    name: {
-        width: Dimensions.get('window').width * 0.4,
-        height: Dimensions.get('window').width * 0.4 * (58/180)
+        justifyContent: 'space-between'
     },
     usernameInput: {
         borderBottomWidth: 1,
-        borderColor: 'black',
+        borderColor: '#404040',
         fontSize: 12,
-        width: Dimensions.get('window').width * 0.6,
+        width: Dimensions.get('window').width * 0.7,
         height: Dimensions.get('window').width * 0.08,
         paddingHorizontal: 5,
     },
@@ -112,14 +144,15 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: 'black',
         fontSize: 12,
-        width: Dimensions.get('window').width * 0.6,
+        width: Dimensions.get('window').width * 0.7,
         height: Dimensions.get('window').width * 0.08,
         paddingHorizontal: 5,
     },
     buttons: {
-        height: '40%',
+        height: '15%',
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: '10%'
     },
     error: {
         fontSize: 14,
