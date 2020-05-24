@@ -91,3 +91,20 @@ export function postSignUp(username, password) {
     return fetch(`${HOST}/sign_up`, requestOptions)
         .then(response => response.json());
 }
+
+export function postLogin(username, password) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({username, password});
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/authenticate`, requestOptions)
+        .then(response => response.json());
+}
