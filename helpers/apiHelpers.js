@@ -123,3 +123,19 @@ export function getProfileData(token) {
     return fetch("localhost:3000/profile", requestOptions)
         .then(response => response.json())
 }
+
+export function getReviewsForRestaurant(restaurant_id) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/restaurants/${restaurant_id}/reviews`, requestOptions)
+        .then(response => response.json())
+        .then(response => response.data)
+}

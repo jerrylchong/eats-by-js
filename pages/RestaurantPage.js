@@ -19,6 +19,7 @@ import {
     getDishesFromApi,
     getRestaurantFromApi,
     getRestaurantTagsFromApi,
+    getReviewsForRestaurant
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -67,35 +68,6 @@ const stylesBanner = StyleSheet.create({
 const Tab = createMaterialTopTabNavigator();
 
 
-const Reviews = ({navigation}) => {
-    return (
-        <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems:'center', backgroundColor: 'white'}}>
-            <TouchableOpacity style = {reviewStyles.addReview} onPress = {() => navigation.navigate('Add Review')}>
-                <Image style = {reviewStyles.addButton} source={require('../assets/plusbutton.png')}/>
-                <Text style = {{color: '#ff6961'}}>Add a review</Text>
-            </TouchableOpacity>
-            <Review
-                user={'Bob'}
-                date={'24 May 2020'}
-                title={'Yumzo'}
-                rating={'4'}
-                content={"Omnomz aerin's suck Omnomz aerin's suck Omnomz aerin's suck Omnomz aerin's suck"}/>
-            <Review
-                user={'Bob'}
-                date={'24 May 2020'}
-                title={'Yumzo'}
-                rating={'4'}
-                content={"Omnomz"}/>
-            <Review
-                user={'Bob'}
-                date={'24 May 2020'}
-                title={'Yumzo'}
-                rating={'4'}
-                content={"Omnomz"}/>
-        </ScrollView>
-    )
-}
-
 const reviewStyles = StyleSheet.create({
     addReview: {
         flexDirection: 'row',
@@ -113,6 +85,7 @@ const reviewStyles = StyleSheet.create({
 })
 
 const Tabs = (props) => {
+    const {navigation, dishes, reviews} = props;
     return (
         <View style = {{height: '40%', width: '100%'}}>
             <Tab.Navigator
@@ -120,10 +93,11 @@ const Tabs = (props) => {
                     activeTintColor: '#404040',
                     indicatorStyle: { backgroundColor: '#ff6961'}
                 }}>
+
                 <Tab.Screen name="Dishes" >
                     { () => 
                     <ScrollView style = {styles.scroll} contentContainerStyle = {{ alignItems: 'center', backgroundColor: 'white'}}>
-                        { props.dishes.map((dish) =>
+                        { dishes.map((dish) =>
                         <DishButton
                             key={dish.id}
                             title={dish.attributes.title}
@@ -134,7 +108,27 @@ const Tabs = (props) => {
                     </ ScrollView>
                     }
                 </Tab.Screen>
-                <Tab.Screen name="Reviews" component={Reviews} />
+
+                <Tab.Screen name="Reviews"  >
+                    { () => 
+                    <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems:'center', backgroundColor: 'white'}}>
+                        <TouchableOpacity style = {reviewStyles.addReview} onPress = {() => navigation.navigate('Add Review')}>
+                            <Image style = {reviewStyles.addButton} source={require('../assets/plusbutton.png')}/>
+                            <Text style = {{color: '#ff6961'}}>Add a review</Text>
+                        </TouchableOpacity>
+                        { 
+                        reviews.map((review) =>
+                        <Review
+                            user={'Bob'}
+                            date={'24 May 2020'}
+                            title={'Yumzo'}
+                            rating={'4'}
+                            content={"Omnomz aerin's suck Omnomz aerin's suck Omnomz aerin's suck Omnomz aerin's suck"}/>
+                        ) 
+                        }
+                    </ScrollView>
+                    }
+                </Tab.Screen>
             </Tab.Navigator>
         </View>
     );
@@ -143,6 +137,7 @@ const Tabs = (props) => {
 function RestaurantPage({ navigation, route }) {
     const [isLoading, setLoading] = useState(true);
     const [dishes, setDishes] = useState([]);
+    const [reviews, setReviews] = useState([]);
     const [restaurantData, setRestaurantData] = useState([]);
     const [restaurantTags, setRestaurantTags] = useState([]);
 
@@ -153,6 +148,7 @@ function RestaurantPage({ navigation, route }) {
             getDishesFromApi(restaurant_id).then(data => setDishes(data)),
             getRestaurantFromApi(restaurant_id).then(data => setRestaurantData(data)),
             getRestaurantTagsFromApi(restaurant_id).then(data => setRestaurantTags(data)),
+            getReviewsForRestaurant(restaurant_id).then(data => setReviews(data)),
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -168,6 +164,7 @@ function RestaurantPage({ navigation, route }) {
 
         return () => backHandler.remove();
     }, []);
+    console.log(reviews);
 
     return (
         isLoading
@@ -189,6 +186,8 @@ function RestaurantPage({ navigation, route }) {
                 </View>
                 <Tabs
                     dishes={dishes}
+                    reviews={reviews}
+                    navigation={navigation}
                 />
             </SafeAreaView>);
 }
