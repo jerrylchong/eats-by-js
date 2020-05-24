@@ -1,6 +1,8 @@
 import React from 'react';
-import { StatusBar, StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions,
-    ImageBackground, TouchableOpacity, AsyncStorage } from "react-native";
+import {
+    StatusBar, StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions,
+    ImageBackground, TouchableOpacity, AsyncStorage, Platform, KeyboardAvoidingView
+} from "react-native";
 import {connect} from 'react-redux';
 import LoginButton from "../component/LoginButton";
 import {postLogin} from "../helpers/apiHelpers" 
@@ -59,7 +61,7 @@ class WelcomePage extends React.Component {
                     <Image style={styles.logo} source={require('../assets/templogonameless.png')}/>
                 </View>
                 <Text style = {styles.header}>Sign In</Text>
-                <View style = {styles.list}>
+                <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                     <TextInput
                         style={styles.usernameInput}
                         placeholder="Username"
@@ -74,7 +76,7 @@ class WelcomePage extends React.Component {
                         secureTextEntry={true}
                         autoCapitalize='none'/>
                         {isLoading && <Text>Loading..</Text>}
-                </View>
+                </KeyboardAvoidingView>
                 <View style = {{marginTop: '10%'}}>
                     <LoginButton text = 'Sign in' onPress = {login}/>
                     <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>

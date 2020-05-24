@@ -88,10 +88,10 @@ const Dishes = () => {
     )
 }
 
-const Reviews = () => {
+const Reviews = ({navigation}) => {
     return (
         <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems:'center', backgroundColor: 'white'}}>
-            <TouchableOpacity style = {reviewStyles.addReview}>
+            <TouchableOpacity style = {reviewStyles.addReview} onPress = {() => navigation.navigate('Add Review')}>
                 <Image style = {reviewStyles.addButton} source={require('../assets/plusbutton.png')}/>
                 <Text style = {{color: '#ff6961'}}>Add a review</Text>
             </TouchableOpacity>
