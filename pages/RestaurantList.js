@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View, BackHandler, Alert} from "react-native";
+import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View, BackHandler, Alert, ImageBackground, Dimensions} from "react-native";
 import MenuButton from "../component/MenuButton";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#fff',
+        backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: StatusBar.currentHeight
@@ -84,9 +84,10 @@ const styles = StyleSheet.create({
         width: '90%',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 5
+        paddingVertical: '2%',
     },
     scroll: {
         width: '100%',
+        backgroundColor: '#eeeeee'
     }
 });

@@ -33,10 +33,8 @@ export default SearchButton
 const styles = StyleSheet.create({
 
     container: {
-        backgroundColor: '#DBDBDB',
+        backgroundColor: '#d9d9d9',
         borderRadius: 20,
-        borderWidth: 1,
-        borderColor: '#DBDBDB',
         width: '90%',
         height: 40,
         paddingHorizontal: 15,

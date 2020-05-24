@@ -23,11 +23,8 @@ export default DishButton
 const styles = StyleSheet.create({
     container: {
         width: '90%',
-        height: Dimensions.get('window').height * 0.1,
+        height: Dimensions.get('window').height * 0.12,
         justifyContent: 'space-evenly',
-        borderColor: '#404040',
-        marginTop: '2%',
-        padding: '1%'
     },
     text: {
         width: '100%',

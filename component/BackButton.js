@@ -5,7 +5,7 @@ const BackButton = (props) => {
     return (
         <View style = {props.style}>
             <TouchableOpacity style = {styles.container} onPress = {props.onPress}>
-                <Image style = {styles.image} source ={require('../assets/backbutton.png')} />
+                <Image style = {styles.image} source ={require('../assets/whiteback.png')} />
             </TouchableOpacity>
         </View>
     )

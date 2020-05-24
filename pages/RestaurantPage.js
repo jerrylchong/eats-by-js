@@ -73,9 +73,8 @@ const reviewStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        height: Dimensions.get('window').height * 0.04,
+        height: Dimensions.get('window').height * 0.06,
         width: '90%',
-        paddingTop: '2%'
     },
     addButton: {
         height: 13,
