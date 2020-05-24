@@ -14,7 +14,11 @@ function CustomDrawerContent(props) {
                 <DrawerItemList {...props} />
             </SafeAreaView>
             <View style = {{ alignSelf: 'center', width:'90%', borderTopWidth: 1, borderColor: 'grey' }}/>
-            <DrawerItem label="Sign Out" onPress={props.signOutHandler} />
+            <DrawerItem
+                label="Sign Out"
+                onPress={props.signOutHandler}
+                activeTintColor='black'
+                inactiveTintColor='black' />
         </DrawerContentScrollView>
     );
 }
@@ -25,7 +29,8 @@ const MyDrawer = ({navigation}) => {
         <Drawer.Navigator
             initialRouteName = 'Home'
             drawerContentOptions={{
-                activeTintColor: 'grey',
+                activeTintColor: '#ff6961',
+                inactiveTintColor: '#404040',
                 itemStyle: {color: 'black'},
             }}
             edgeWidth = {Dimensions.get('window').width * 0.13}

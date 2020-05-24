@@ -13,14 +13,12 @@ import {
     Dimensions
 } from "react-native";
 
-function AddRestaurantPage({ navigation }) {
+function AddReviewPage({ navigation }) {
     const [title, setTitle] = useState('');
-    const [desc, setDesc] = useState('');
-    const [location, setLocation] = useState('');
-    const [operatingHours, setOperatingHours] = useState('');
-    const [contact, setContact] = useState('');
+    const [content, setContent] = useState('');
+    const [user, setUser] = useState('');
     const [rating, setRating] = useState('');
-    const [tags, setTags] = useState('');
+    const [date, setDate] = useState('');
     const submit = () => {
         return (
             navigation.goBack()
@@ -29,33 +27,13 @@ function AddRestaurantPage({ navigation }) {
     return (
         <SafeAreaView style = {styles.container}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
-            <Text style = {styles.header}>Add a Restaurant</Text>
+            <Text style = {styles.header}>Add a Review</Text>
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                 <TextInput
                     style={styles.input}
-                    placeholder="Name"
+                    placeholder="Title"
                     onChangeText={(text) => {setTitle(text)}}
                     value={title}/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Description"
-                    onChangeText={(text) => {setDesc(text)}}
-                    value={desc}/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Location"
-                    onChangeText={(text) => {setLocation(text)}}
-                    value={location}/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Operating Hours"
-                    onChangeText={(text) => {setOperatingHours(text)}}
-                    value={operatingHours}/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Contact No."
-                    onChangeText={(text) => {setContact(text)}}
-                    value={contact}/>
                 <TextInput
                     style={styles.input}
                     placeholder="Rating (out of 5)"
@@ -63,11 +41,11 @@ function AddRestaurantPage({ navigation }) {
                     value={rating}/>
                 <TextInput
                     style={styles.input}
-                    placeholder="Tags (each tag separated by a space)"
-                    onChangeText={(text) => {setTags(text)}}
-                    value={tags}/>
+                    placeholder="Content"
+                    onChangeText={(text) => {setContent(text)}}
+                    value={content}/>
             </KeyboardAvoidingView>
-            <View style = {styles.buttons}>
+            <View style = {{width: '100%', height: '15%', justifyContent: 'space-between', alignItems: 'center'}}>
                 <View style = {styles.buttonShadow}>
                     <TouchableOpacity style = {styles.button} onPress = {submit}>
                         <Text style = {styles.buttonText}>Submit</Text>
@@ -83,7 +61,7 @@ function AddRestaurantPage({ navigation }) {
     )
 }
 
-export default AddRestaurantPage
+export default AddReviewPage
 
 const styles = StyleSheet.create({
     background: {
@@ -101,13 +79,13 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 20,
-        marginTop: '5%'
+        marginTop: '10%'
     },
     list: {
         width: '80%',
         height: '60%',
         alignItems: 'center',
-        marginTop: '5%'
+        marginTop: '10%'
     },
     inputHeader: {
         flexDirection: 'row',
@@ -121,13 +99,6 @@ const styles = StyleSheet.create({
         height: '8%',
         paddingHorizontal: 5,
         marginBottom: '8%'
-    },
-    buttons: {
-        width: '100%',
-        height: '20%',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginTop: '10%'
     },
     buttonShadow: {
         width: '25%',

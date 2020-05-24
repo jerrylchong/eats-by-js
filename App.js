@@ -2,8 +2,7 @@ import React, {useEffect} from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import MyDrawer from "./pages/MyDrawer";
 import WelcomePage from "./pages/WelcomePage";
-import {createStackNavigator} from "@react-navigation/stack";
-import Loading from "./component/Loading";
+import {CardStyleInterpolators, createStackNavigator} from "@react-navigation/stack";
 import RegistrationPage from './pages/RegistrationPage';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
@@ -34,18 +33,23 @@ const App = () => {
                   <Stack.Screen
                       name = 'Welcome'
                       component = {WelcomePage}
+                      options={{
+                          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                      }}
                   />
                   <Stack.Screen
                       name = 'Registration'
                       component = {RegistrationPage}
+                      options={{
+                          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                      }}
                   />
                   <Stack.Screen
                       name = 'App'
                       component = {MyDrawer}
-                  />
-                  <Stack.Screen
-                      name = 'Loading'
-                      component = {Loading}
+                      options={{
+                          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                      }}
                   />
               </Stack.Navigator>
           </NavigationContainer>

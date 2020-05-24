@@ -17,7 +17,7 @@ export default Tag
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#4a4444',
+        backgroundColor: '#ff6961',
         borderRadius: 10,
         marginRight: 5
     },

@@ -1,14 +1,32 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View, Text, ImageBackground} from "react-native";
+import {
+    SafeAreaView,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    View,
+    Text,
+    ImageBackground,
+    BackHandler,
+    Image,
+    TouchableOpacity,
+    Dimensions
+} from "react-native";
 import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
 import BackButton from "../component/BackButton";
-import {getDishesFromApi, getRestaurantFromApi, getRestaurantTagsFromApi} from "../helpers/apiHelpers";
+import {
+    getDishesFromApi,
+    getRestaurantFromApi,
+    getRestaurantTagsFromApi,
+} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Review from "../component/Review";
 
 function RestaurantBanner(props) {
     const {title, tags, location, operatingHours, contact} = props
+
     return (
         <View style={stylesBanner.container}>
             <Text style={stylesBanner.title}>{title}</Text>
@@ -50,7 +68,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const Dishes = () => {
     return (
-        <ScrollView style = {styles.scroll}>
+        <ScrollView style = {styles.scroll} contentContainerStyle = {{ alignItems: 'center', backgroundColor: 'white'}}>
             <DishButton
                 title={"Title"}
                 description={"Description"}
@@ -70,20 +88,59 @@ const Dishes = () => {
     )
 }
 
-const Reviews = () => {
+const Reviews = ({navigation}) => {
     return (
-        <ScrollView style = {styles.scroll}>
-            <Text>Review</Text>
-            <Text>Review</Text>
-            <Text>Review</Text>
-        </ ScrollView>
+        <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems:'center', backgroundColor: 'white'}}>
+            <TouchableOpacity style = {reviewStyles.addReview} onPress = {() => navigation.navigate('Add Review')}>
+                <Image style = {reviewStyles.addButton} source={require('../assets/plusbutton.png')}/>
+                <Text style = {{color: '#ff6961'}}>Add a review</Text>
+            </TouchableOpacity>
+            <Review
+                user={'Bob'}
+                date={'24 May 2020'}
+                title={'Yumzo'}
+                rating={'4'}
+                content={"Omnomz aerin's suck Omnomz aerin's suck Omnomz aerin's suck Omnomz aerin's suck"}/>
+            <Review
+                user={'Bob'}
+                date={'24 May 2020'}
+                title={'Yumzo'}
+                rating={'4'}
+                content={"Omnomz"}/>
+            <Review
+                user={'Bob'}
+                date={'24 May 2020'}
+                title={'Yumzo'}
+                rating={'4'}
+                content={"Omnomz"}/>
+        </ScrollView>
     )
 }
+
+const reviewStyles = StyleSheet.create({
+    addReview: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        height: Dimensions.get('window').height * 0.04,
+        width: '90%',
+        paddingTop: '2%'
+    },
+    addButton: {
+        height: 13,
+        width: 13,
+        marginRight: '2%'
+    },
+})
 
 const Tabs = () => {
     return (
-        <View style = {{height: '50%', width: '100%'}}>
-            <Tab.Navigator>
+        <View style = {{height: '40%', width: '100%'}}>
+            <Tab.Navigator
+                tabBarOptions = {{
+                    activeTintColor: '#404040',
+                    indicatorStyle: { backgroundColor: '#ff6961'}
+                }}>
                 <Tab.Screen name="Dishes" component={Dishes}/>
                 <Tab.Screen name="Reviews" component={Reviews} />
             </Tab.Navigator>
@@ -107,6 +164,17 @@ function RestaurantPage({ navigation, route }) {
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+
+        const backAction = () => { navigation.goBack();
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
     }, []);
 
     return (
@@ -124,10 +192,10 @@ function RestaurantPage({ navigation, route }) {
                     operatingHours="12am to 12.01am"
                     contact="+65 9123 1234"
                 />
-
-                <View style={{height:"5%"}} />
-
-                <Tabs screenProps = {{dishes: dishes}}/>
+                <View style = {styles.deals}>
+                    <Text style = {{height: 20}}>Deals</Text>
+                </View>
+                <Tabs/>
                 {/*<Text style={{width:"80%", fontSize: 16}}>Dishes</Text>
                 <View style={{width:"90%", height:1, backgroundColor:"black", margin: 15, opacity:0.25}} />
 
@@ -185,6 +253,21 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     scroll: {
-        width: '100%'
+        width: '100%',
+    },
+    deals: {
+        width: '90%',
+        padding: 20,
+        borderRadius: 20,
+        backgroundColor: '#ffaf87',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 4,
+        marginBottom: '5%'
     }
 })

@@ -1,5 +1,8 @@
 import React from 'react';
-import {Button, StatusBar, StyleSheet, Text, View, TextInput, Image, SafeAreaView, AsyncStorage} from "react-native";
+import {
+    StatusBar, StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions,
+    ImageBackground, TouchableOpacity, AsyncStorage, Platform, KeyboardAvoidingView
+} from "react-native";
 import {connect} from 'react-redux';
 import LoginButton from "../component/LoginButton";
 import {postLogin} from "../helpers/apiHelpers" 
@@ -53,29 +56,38 @@ class WelcomePage extends React.Component {
         }
         return (
             <SafeAreaView style = {styles.container}>
-                <View style = {{alignItems: 'center'}}>
+                <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
+                <View style = {styles.logoShadow}>
                     <Image style={styles.logo} source={require('../assets/templogonameless.png')}/>
-                    <Image style={styles.name} source={require('../assets/templogoname.png')}/>
                 </View>
-                <View>
+                <Text style = {styles.header}>Sign In</Text>
+                <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                     <TextInput
-                        style={styles.inputTop}
+                        style={styles.usernameInput}
                         placeholder="Username"
                         onChangeText={this.handleName}
-                        value={name}/>
+                        value={name}
+                        autoCapitalize='none'/>
                     <TextInput
-                        style={styles.inputBottom}
+                        style={styles.passwordInput}
                         placeholder="Password"
                         onChangeText={this.handlePassword}
-                        value={password}/>
-                    {isLoading && <Text>Loading..</Text>}
-                </View>
-                <View>
+                        value={password}
+                        secureTextEntry={true}
+                        autoCapitalize='none'/>
+                        {isLoading && <Text>Loading..</Text>}
+                </KeyboardAvoidingView>
+                <View style = {{marginTop: '10%'}}>
                     <LoginButton text = 'Sign in' onPress = {login}/>
-                    <LoginButton text = 'Registration' onPress = {() => this.props.navigation.navigate('Registration')}/>
                     <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
                 </View>
                 <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
+                <View style = {styles.buttons}>
+                    <Text style = {{color: '#404040'}}>Don't have an account?</Text>
+                    <TouchableOpacity onPress = {() => this.props.navigation.navigate('Registration')}>
+                        <Text style = {{color:'#66b58c', margin: '5%'}}>Create an Account</Text>
+                    </TouchableOpacity>
+                </View>
             </SafeAreaView>
         )
     }
@@ -88,42 +100,82 @@ const mapReduxDispatchToProps = dispatch => ({
 
 export default connect(mapReduxStateToProps,mapReduxDispatchToProps)(WelcomePage)
 
+const windowWidth = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#fff',
-        justifyContent: 'space-evenly',
         alignItems: 'center',
         marginTop: StatusBar.currentHeight
     },
+    background: {
+        position:'absolute',
+        bottom: 0,
+        width: '100%',
+        height: windowWidth * 728/1668
+    },
+    logoShadow: {
+        marginTop:'5%',
+        marginLeft: '10%',
+        alignSelf: 'flex-start',
+        width: windowWidth * 0.15,
+        height: windowWidth * 0.15,
+        borderRadius: windowWidth * 0.15 / 2,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 10,
+    },
     logo: {
-        width: 200,
-        height: 200
+        width: windowWidth * 0.15,
+        height: windowWidth * 0.15,
     },
-    name: {
-        width: 180,
-        height: 58
+    header: {
+        fontSize: 24,
+        alignSelf: 'flex-start',
+        marginLeft: windowWidth * 0.15,
+        marginTop: '20%',
+        color: '#404040'
     },
-    inputTop: {
-        borderWidth: 1,
-        borderColor: 'black',
-        fontSize: 20,
-        width: 200,
-        height: 30,
+    list: {
+        width: '100%',
+        height: '12%',
+        alignItems: 'center',
+        marginTop: '10%'
+    },
+    usernameInput: {
+        borderBottomWidth: 1,
+        borderColor: '#404040',
+        fontSize: 12,
+        width: windowWidth * 0.7,
+        height: windowWidth * 0.08,
         paddingHorizontal: 5,
     },
-    inputBottom: {
-        borderWidth: 1,
-        borderColor: 'black',
-        fontSize: 20,
-        width: 200,
-        height: 30,
+    passwordInput: {
+        borderBottomWidth: 1,
+        borderColor: '#404040',
+        fontSize: 12,
+        width: windowWidth * 0.7,
+        height: windowWidth * 0.08,
         paddingHorizontal: 5,
-        marginTop: 20
+        marginTop: '5%'
+    },
+    buttons: {
+        height: '20%',
+        width: '100%',
+        alignItems: 'center',
+        marginTop: '10%'
     },
     error: {
         fontSize: 14,
-        color: '#646464'
+        color: '#fc8a1d',
+        marginTop: '5%',
+        marginBottom: '5%'
     }
 })
