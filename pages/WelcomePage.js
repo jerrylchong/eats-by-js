@@ -85,7 +85,7 @@ class WelcomePage extends React.Component {
                 <View style = {styles.buttons}>
                     <Text style = {{color: '#404040'}}>Don't have an account?</Text>
                     <TouchableOpacity onPress = {() => this.props.navigation.navigate('Registration')}>
-                        <Text style = {{color:'#fc8a1d', margin: '5%'}}>Create an Account</Text>
+                        <Text style = {{color:'#66b58c', margin: '5%'}}>Create an Account</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
@@ -170,11 +170,11 @@ const styles = StyleSheet.create({
         height: '20%',
         width: '100%',
         alignItems: 'center',
-        marginTop: '20%'
+        marginTop: '10%'
     },
     error: {
         fontSize: 14,
-        color: '#646464',
+        color: '#fc8a1d',
         marginTop: '5%',
         marginBottom: '5%'
     }
