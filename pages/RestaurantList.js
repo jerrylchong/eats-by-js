@@ -56,6 +56,7 @@ function RestaurantList({ navigation }) {
                             key={restaurant.id}
                             restaurant_id={restaurant.id}
                             name={restaurant.attributes.title}
+                            image_url={restaurant.attributes.image_link}
                             cost={"$$$"}
                             description={restaurant.attributes.description}
                             rating={restaurant.attributes.rating}
@@ -83,8 +84,7 @@ const styles = StyleSheet.create({
         height: '10%',
         width: '90%',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingVertical: '2%',
+        justifyContent: 'center',
     },
     scroll: {
         width: '100%',

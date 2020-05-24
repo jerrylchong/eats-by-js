@@ -34,7 +34,6 @@ function RegistrationPage({ navigation }) {
         setLoading(true);
         postSignUp(username,password)
             .then(res => {
-                console.log(res);
                 if ("errors" in res) { setErrors(res["errors"]); }
                 setLoading(false);
             });

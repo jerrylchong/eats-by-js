@@ -4,12 +4,12 @@ import Tag from './Tag'
 
 const RestaurantButton = (props) => {
 
-    const { name, cost, description, rating, tags, onPress } = props;
+    const { name, cost, description, rating, tags, onPress, image_url } = props;
 
     return (
         <View style = {styles.shadow}>
             <TouchableOpacity style = {styles.container} onPress = {onPress}>
-                <Image style={styles.picture} source={require('../assets/testrestaurant.png')}/>
+                <Image style={styles.picture} source={{uri: image_url}} />
                 <View style={styles.text}>
                     <View style={styles.nameReview}>
                         <Text style={styles.name}>{name}</Text>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         width: 355,
         height: 270,
         backgroundColor: 'white',
-        borderRadius: 1,
+        borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -52,14 +52,13 @@ const styles = StyleSheet.create({
     container: {
         height: '100%',
         width: '100%',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         alignItems: 'center',
-        padding: 5,
     },
     picture: {
         height: 187,
         width: 335,
-        padding: 5
+        borderRadius: 8
     },
     text: {
         width: 335,
@@ -84,12 +83,12 @@ const styles = StyleSheet.create({
         color: '#b3b3b3',
         fontSize: 11,
         alignSelf: 'flex-start',
-        marginLeft: 5
+        marginLeft: 10
     },
     tags: {
         flexDirection: 'row',
         marginTop: 5,
         alignSelf: 'flex-start',
-        marginLeft: 5
+        marginLeft: 10
     }
 })
