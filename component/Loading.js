@@ -28,7 +28,7 @@ class Loading extends React.Component {
         return (
             <View style = {styles.container}>
                 <Animated.Image
-                    style={{transform: [{rotate: spin}], height: 100, width: 100}}
+                    style={{transform: [{rotate: spin}], height: 50, width: 50}}
                     source={require('../assets/loading.png')} />
             </View>
         )
