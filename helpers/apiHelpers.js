@@ -108,3 +108,18 @@ export function postLogin(username, password) {
     return fetch(`${HOST}/authenticate`, requestOptions)
         .then(response => response.json());
 }
+
+export function getProfileData(token) {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch("localhost:3000/profile", requestOptions)
+        .then(response => response.json())
+}
