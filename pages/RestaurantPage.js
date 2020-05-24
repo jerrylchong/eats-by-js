@@ -66,27 +66,6 @@ const stylesBanner = StyleSheet.create({
 
 const Tab = createMaterialTopTabNavigator();
 
-const Dishes = () => {
-    return (
-        <ScrollView style = {styles.scroll} contentContainerStyle = {{ alignItems: 'center', backgroundColor: 'white'}}>
-            <DishButton
-                title={"Title"}
-                description={"Description"}
-                price={"Price"}
-            />
-            <DishButton
-                title={"Title"}
-                description={"Description"}
-                price={"Price"}
-            />
-            <DishButton
-                title={"Title"}
-                description={"Description"}
-                price={"Price"}
-            />
-        </ ScrollView>
-    )
-}
 
 const Reviews = ({navigation}) => {
     return (
@@ -133,7 +112,7 @@ const reviewStyles = StyleSheet.create({
     },
 })
 
-const Tabs = () => {
+const Tabs = (props) => {
     return (
         <View style = {{height: '40%', width: '100%'}}>
             <Tab.Navigator
@@ -141,7 +120,20 @@ const Tabs = () => {
                     activeTintColor: '#404040',
                     indicatorStyle: { backgroundColor: '#ff6961'}
                 }}>
-                <Tab.Screen name="Dishes" component={Dishes}/>
+                <Tab.Screen name="Dishes" >
+                    { () => 
+                    <ScrollView style = {styles.scroll} contentContainerStyle = {{ alignItems: 'center', backgroundColor: 'white'}}>
+                        { props.dishes.map((dish) =>
+                        <DishButton
+                            key={dish.id}
+                            title={dish.attributes.title}
+                            description={dish.attributes.description}
+                            price={dish.attributes.price}
+                        />
+                        ) }
+                    </ ScrollView>
+                    }
+                </Tab.Screen>
                 <Tab.Screen name="Reviews" component={Reviews} />
             </Tab.Navigator>
         </View>
@@ -195,21 +187,9 @@ function RestaurantPage({ navigation, route }) {
                 <View style = {styles.deals}>
                     <Text style = {{height: 20}}>Deals</Text>
                 </View>
-                <Tabs/>
-                {/*<Text style={{width:"80%", fontSize: 16}}>Dishes</Text>
-                <View style={{width:"90%", height:1, backgroundColor:"black", margin: 15, opacity:0.25}} />
-
-                <ScrollView style = {styles.scroll}>
-                    { dishes.map((dish) =>
-                        <DishButton
-                            key={dish.id}
-                            title={dish.attributes.title}
-                            description={dish.attributes.description}
-                            price={dish.attributes.price}
-                        />
-
-                    ) }
-                </ ScrollView> */}
+                <Tabs
+                    dishes={dishes}
+                />
             </SafeAreaView>);
 }
 
