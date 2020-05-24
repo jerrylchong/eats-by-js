@@ -8,10 +8,8 @@ const DishButton = (props) => {
     return (
         <TouchableOpacity style = {styles.container} onPress = {onPress}>
             <View style={styles.text}>
-                <View style={styles.nameReview}>
-                    <Text style={styles.name}>{title}</Text>
-                </View>
-                <Text style={styles.name}>${price}</Text>
+                <Text style={styles.name}>{title}</Text>
+                <Text style={styles.cost}>${price}</Text>
             </View>
             <Text style = {styles.description}>{description}</Text>
         </TouchableOpacity>
@@ -38,7 +36,12 @@ const styles = StyleSheet.create({
     },
     name: {
         color: 'black',
-        fontSize: 20
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    cost: {
+        color: 'black',
+        fontSize: 20,
     },
     rating: {
         color: '#646464',

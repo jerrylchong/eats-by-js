@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import Tag from './Tag'
 
 const RestaurantButton = (props) => {
@@ -11,11 +11,18 @@ const RestaurantButton = (props) => {
             <TouchableOpacity style = {styles.container} onPress = {onPress}>
                 <Image style={styles.picture} source={{uri: image_url}} />
                 <View style={styles.text}>
-                    <View style={styles.nameReview}>
-                        <Text style={styles.name}>{name}</Text>
-                        <Text style={styles.rating}>{rating}/5</Text>
-                    </View>
-                    <Text style={styles.name}>{cost}</Text>
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={{
+                        color: parseFloat(rating) < 2.5
+                            ? '#d68c6c'
+                            : parseFloat(rating) < 4
+                                ? '#ffbf00'
+                                : '#66b58c',
+                        fontSize: 14,
+                    }}>
+                        {rating}/5
+                    </Text>
+                    <Text style={styles.cost}>{cost}</Text>
                 </View>
                 <Text style = {styles.description}>{description}</Text>
                 <View style = {styles.tags}>
@@ -35,10 +42,10 @@ export default RestaurantButton
 
 const styles = StyleSheet.create({
     shadow: {
-        width: 355,
-        height: 270,
+        width: '90%',
+        height: Dimensions.get('window').height * 0.37,
         backgroundColor: 'white',
-        borderRadius: 10,
+        borderRadius: 3,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -52,43 +59,44 @@ const styles = StyleSheet.create({
     container: {
         height: '100%',
         width: '100%',
-        justifyContent: 'center',
         alignItems: 'center',
     },
     picture: {
-        height: 187,
-        width: 335,
-        borderRadius: 8
+        height: '65%',
+        width: '94%',
+        borderRadius: 2,
+        marginTop: '3%'
     },
     text: {
-        width: 335,
+        width: '94%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-    },
-    nameReview: {
-        flexDirection: 'row',
         alignItems: 'center',
+        marginTop: '2%'
     },
     name: {
         color: '#404040',
-        fontSize: 20
+        fontSize: 20,
+        fontWeight: 'bold',
+        width: '75%',
+        height: 25,
+        flexWrap: 'nowrap'
     },
-    rating: {
-        color: '#646464',
-        fontSize: 12,
-        marginLeft: 5,
-        marginTop: 3
+    cost: {
+        color: '#404040',
+        fontSize: 20,
     },
     description: {
-        color: '#b3b3b3',
+        color: '#a0a0a0',
         fontSize: 11,
         alignSelf: 'flex-start',
-        marginLeft: 10
+        marginLeft: '3%',
+        marginTop: '1%'
     },
     tags: {
         flexDirection: 'row',
-        marginTop: 5,
+        marginTop: '2%',
         alignSelf: 'flex-start',
-        marginLeft: 10
+        marginLeft: '3%'
     }
 })

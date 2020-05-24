@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     StatusBar, StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions,
-    ImageBackground, TouchableOpacity, AsyncStorage, Platform, KeyboardAvoidingView
+    ImageBackground, TouchableOpacity, AsyncStorage, Platform, KeyboardAvoidingView, Alert
 } from "react-native";
 import {connect} from 'react-redux';
 import LoginButton from "../component/LoginButton";
@@ -77,15 +77,19 @@ class WelcomePage extends React.Component {
                         autoCapitalize='none'/>
                         {isLoading && <Text>Loading..</Text>}
                 </KeyboardAvoidingView>
-                <View style = {{marginTop: '10%'}}>
+                <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
+                <View style = {{marginTop: '5%'}}>
                     <LoginButton text = 'Sign in' onPress = {login}/>
                     <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
+                    <TouchableOpacity style = {{alignSelf: 'center'}}
+                        onPress = {() => Alert.alert("Error 404: Brain Not Found", "You dumb")}>
+                        <Text style = {{color:'#c74a44', marginTop: '5%', fontWeight: 'bold'}}>Forgot Password?</Text>
+                    </TouchableOpacity>
                 </View>
-                <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
                 <View style = {styles.buttons}>
-                    <Text style = {{color: '#404040'}}>Don't have an account?</Text>
+                    <Text style = {{color: '#404040', marginRight: '2%'}}>Don't have an account?</Text>
                     <TouchableOpacity onPress = {() => this.props.navigation.navigate('Registration')}>
-                        <Text style = {{color:'#66b58c', margin: '5%'}}>Create an Account</Text>
+                        <Text style = {{color:'#ffaf87', fontWeight: 'bold'}}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
@@ -141,13 +145,14 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         marginLeft: windowWidth * 0.15,
         marginTop: '20%',
-        color: '#404040'
+        color: '#404040',
+        fontWeight: 'bold'
     },
     list: {
         width: '100%',
         height: '12%',
         alignItems: 'center',
-        marginTop: '10%'
+        marginTop: '20%'
     },
     usernameInput: {
         borderBottomWidth: 1,
@@ -168,14 +173,13 @@ const styles = StyleSheet.create({
     },
     buttons: {
         height: '20%',
-        width: '100%',
+        width: '50%',
+        flexDirection: 'row',
         alignItems: 'center',
-        marginTop: '10%'
     },
     error: {
         fontSize: 14,
         color: '#fc8a1d',
-        marginTop: '5%',
-        marginBottom: '5%'
+        marginTop: '5%'
     }
 })

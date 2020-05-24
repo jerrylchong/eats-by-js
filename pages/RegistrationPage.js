@@ -87,7 +87,7 @@ function RegistrationPage({ navigation }) {
             <View style = {styles.buttons}>
                 <Text style = {{color: '#404040'}}>Already have an account?</Text>
                 <TouchableOpacity onPress = {() => navigation.goBack()}>
-                    <Text style = {{color:'#66b58c', margin: '5%'}}>Back</Text>
+                    <Text style = {{color:'#ffaf87', margin: '5%', fontWeight: 'bold'}}>Back</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -117,13 +117,14 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         marginLeft: windowWidth * 0.15,
         marginTop: '30%',
-        color: '#404040'
+        color: '#404040',
+        fontWeight: 'bold'
     },
     list: {
         width: '100%',
         height: '12%',
         alignItems: 'center',
-        marginTop: '10%'
+        marginTop: '25%'
     },
     usernameInput: {
         borderBottomWidth: 1,

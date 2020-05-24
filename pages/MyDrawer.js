@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, SafeAreaView, StatusBar, View, StyleSheet, Text} from "react-native";
+import {Dimensions, SafeAreaView, StatusBar, View, Image, Text, Alert} from "react-native";
 import SettingsPage from "./SettingsPage";
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer";
 import MyStack from "./MyStack";
@@ -12,6 +12,12 @@ function CustomDrawerContent(props) {
     return (
         <DrawerContentScrollView {...props}>
             <SafeAreaView style = {{ marginTop: StatusBar.currentHeight, marginBottom: '5%' }}>
+                <DrawerItem
+                    label={({ focused, color }) =>
+                        <Image style={{width: 50, height: 50, marginBottom: '10%'}} source={require('../assets/templogonameless.png')}/>}
+                    onPress={() => Alert.alert('About','Jay Chua and Jerryl Chong 2020')}
+                    activeTintColor='#ff6961'
+                    inactiveTintColor='black' />
                 <DrawerItemList {...props} />
             </SafeAreaView>
             <View style = {{ alignSelf: 'center', width:'90%', borderTopWidth: 1, borderColor: '#404040' }}/>

@@ -53,7 +53,7 @@ const stylesBanner = StyleSheet.create({
         paddingHorizontal: 5,
     },
     title: {
-        fontWeight: '600',
+        fontWeight: 'bold',
         fontSize: 30,
     },
     tags: {

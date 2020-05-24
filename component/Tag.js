@@ -22,9 +22,10 @@ const styles = StyleSheet.create({
         marginRight: 5
     },
     text: {
-        fontSize: 9,
+        fontSize: 10,
         color: 'white',
         paddingHorizontal: 9,
         paddingVertical: 3,
+        fontWeight: 'bold'
     }
 })
