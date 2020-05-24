@@ -7,8 +7,10 @@ import {
     View,
     Text,
     ImageBackground,
-    Alert,
-    BackHandler
+    BackHandler,
+    Image,
+    TouchableOpacity,
+    Dimensions
 } from "react-native";
 import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
@@ -16,11 +18,11 @@ import BackButton from "../component/BackButton";
 import {
     getDishesFromApi,
     getRestaurantFromApi,
-    getRestaurantsFromApi,
-    getRestaurantTagsFromApi, getTagsFromApi
+    getRestaurantTagsFromApi,
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Review from "../component/Review";
 
 function RestaurantBanner(props) {
     const {title, tags, location, operatingHours, contact} = props
@@ -66,7 +68,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const Dishes = () => {
     return (
-        <ScrollView style = {styles.scroll}>
+        <ScrollView style = {styles.scroll} contentContainerStyle = {{ alignItems: 'center', backgroundColor: 'white'}}>
             <DishButton
                 title={"Title"}
                 description={"Description"}
@@ -88,18 +90,57 @@ const Dishes = () => {
 
 const Reviews = () => {
     return (
-        <ScrollView style = {styles.scroll}>
-            <Text>Review</Text>
-            <Text>Review</Text>
-            <Text>Review</Text>
-        </ ScrollView>
+        <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems:'center', backgroundColor: 'white'}}>
+            <TouchableOpacity style = {reviewStyles.addReview}>
+                <Image style = {reviewStyles.addButton} source={require('../assets/plusbutton.png')}/>
+                <Text style = {{color: '#ff6961'}}>Add a review</Text>
+            </TouchableOpacity>
+            <Review
+                user={'Bob'}
+                date={'24 May 2020'}
+                title={'Yumzo'}
+                rating={'4'}
+                content={"Omnomz aerin's suck Omnomz aerin's suck Omnomz aerin's suck Omnomz aerin's suck"}/>
+            <Review
+                user={'Bob'}
+                date={'24 May 2020'}
+                title={'Yumzo'}
+                rating={'4'}
+                content={"Omnomz"}/>
+            <Review
+                user={'Bob'}
+                date={'24 May 2020'}
+                title={'Yumzo'}
+                rating={'4'}
+                content={"Omnomz"}/>
+        </ScrollView>
     )
 }
+
+const reviewStyles = StyleSheet.create({
+    addReview: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        height: Dimensions.get('window').height * 0.04,
+        width: '90%',
+        paddingTop: '2%'
+    },
+    addButton: {
+        height: 13,
+        width: 13,
+        marginRight: '2%'
+    },
+})
 
 const Tabs = () => {
     return (
         <View style = {{height: '40%', width: '100%'}}>
-            <Tab.Navigator>
+            <Tab.Navigator
+                tabBarOptions = {{
+                    activeTintColor: '#404040',
+                    indicatorStyle: { backgroundColor: '#ff6961'}
+                }}>
                 <Tab.Screen name="Dishes" component={Dishes}/>
                 <Tab.Screen name="Reviews" component={Reviews} />
             </Tab.Navigator>
@@ -151,8 +192,8 @@ function RestaurantPage({ navigation, route }) {
                     operatingHours="12am to 12.01am"
                     contact="+65 9123 1234"
                 />
-                <View style = {{height:'10%', justifyContent: 'center'}}>
-                    <Text>Deals</Text>
+                <View style = {styles.deals}>
+                    <Text style = {{height: 20}}>Deals</Text>
                 </View>
                 <Tabs/>
                 {/*<Text style={{width:"80%", fontSize: 16}}>Dishes</Text>
@@ -212,6 +253,21 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     scroll: {
-        width: '100%'
+        width: '100%',
+    },
+    deals: {
+        width: '90%',
+        padding: 20,
+        borderRadius: 20,
+        backgroundColor: '#ffaf87',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 4,
+        marginBottom: '5%'
     }
 })

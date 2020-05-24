@@ -1,22 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, Dimensions} from 'react-native';
 
 const DishButton = (props) => {
 
     const { title, description, price, onPress } = props;
 
     return (
-        <View style = {styles.shadow}>
-            <TouchableOpacity style = {styles.container} onPress = {onPress}>
-                <View style={styles.text}>
-                    <View style={styles.nameReview}>
-                        <Text style={styles.name}>{title}</Text>
-                    </View>
-                    <Text style={styles.name}>${price}</Text>
+        <TouchableOpacity style = {styles.container} onPress = {onPress}>
+            <View style={styles.text}>
+                <View style={styles.nameReview}>
+                    <Text style={styles.name}>{title}</Text>
                 </View>
-                <Text style = {styles.description}>{description}</Text>
-            </TouchableOpacity>
-        </View>
+                <Text style={styles.name}>${price}</Text>
+            </View>
+            <Text style = {styles.description}>{description}</Text>
+        </TouchableOpacity>
     )
 }
 
@@ -24,17 +22,18 @@ export default DishButton
 
 const styles = StyleSheet.create({
     container: {
-        alignSelf: 'center',
-        height: 60,
         width: '90%',
+        height: Dimensions.get('window').height * 0.1,
         justifyContent: 'space-evenly',
-        alignItems: 'center',
-        padding: 5,
+        borderColor: '#404040',
+        marginTop: '2%',
+        padding: '1%'
     },
     text: {
-        width: '97%',
+        width: '100%',
+        height: '30%',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
     },
     nameReview: {
         flexDirection: 'row',

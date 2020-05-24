@@ -29,8 +29,8 @@ const MyDrawer = ({navigation}) => {
         <Drawer.Navigator
             initialRouteName = 'Home'
             drawerContentOptions={{
-                activeTintColor: 'black',
-                inactiveTintColor: 'black',
+                activeTintColor: '#ff6961',
+                inactiveTintColor: '#404040',
                 itemStyle: {color: 'black'},
             }}
             edgeWidth = {Dimensions.get('window').width * 0.13}

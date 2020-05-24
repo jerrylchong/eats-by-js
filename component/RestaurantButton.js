@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     name: {
-        color: 'black',
+        color: '#404040',
         fontSize: 20
     },
     rating: {
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         marginTop: 3
     },
     description: {
-        color: '#7e7e7e',
+        color: '#b3b3b3',
         fontSize: 11,
         alignSelf: 'flex-start',
         marginLeft: 5

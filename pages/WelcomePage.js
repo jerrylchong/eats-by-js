@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions, Platform, KeyboardAvoidingView,
+import { StatusBar, StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions,
     ImageBackground, TouchableOpacity, AsyncStorage } from "react-native";
 import {connect} from 'react-redux';
 import LoginButton from "../component/LoginButton";
