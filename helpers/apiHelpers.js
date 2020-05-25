@@ -140,3 +140,54 @@ export function getReviewsForRestaurant(restaurant_id) {
         .then(response => response.json())
         .then(response => response.data)
 }
+
+export function postReview(review,restaurant_id,token) {
+    // {"error": not authorized}
+    // {"data" : {"status":"success"}}
+    /*
+      {"review":{"title":"hello world","content":"tesintg 1234","rating":5}} 
+
+
+    {
+        "errors": {
+            "content": [
+                "can't be blank"
+            ],
+            "rating": [
+                "can't be blank"
+            ]
+        }
+    }
+    */
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({review});
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/restaurants/${restaurant_id}/reviews/`, requestOptions)
+        .then(response => response.json())
+}
+
+export function getUsername(user_id) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/user/${user_id}`, requestOptions)
+        .then(response => response.json())
+}
+

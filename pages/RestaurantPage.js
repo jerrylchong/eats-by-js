@@ -19,11 +19,13 @@ import {
     getDishesFromApi,
     getRestaurantFromApi,
     getRestaurantTagsFromApi,
-    getReviewsForRestaurant
+    getReviewsForRestaurant,
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Review from "../component/Review";
+import {connect} from 'react-redux';
+import {mapReduxStateToProps} from "../helpers/reduxHelpers";
 
 function RestaurantBanner(props) {
     const {title, tags, location, operatingHours, contact} = props
@@ -83,8 +85,9 @@ const reviewStyles = StyleSheet.create({
     },
 })
 
-const Tabs = (props) => {
-    const {navigation, dishes, reviews} = props;
+const TabsWithoutRedux = (props) => {
+    const {navigation, dishes, reviews, restaurant_id, user} = props;
+    const {isLoggedIn} = user;
     return (
         <View style = {{height: '40%', width: '100%'}}>
             <Tab.Navigator
@@ -111,18 +114,22 @@ const Tabs = (props) => {
                 <Tab.Screen name="Reviews"  >
                     { () => 
                     <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems:'center', backgroundColor: 'white'}}>
-                        <TouchableOpacity style = {reviewStyles.addReview} onPress = {() => navigation.navigate('Add Review')}>
+                        { isLoggedIn &&
+                        <TouchableOpacity style = {reviewStyles.addReview} onPress = {() => navigation.navigate('Add Review', {restaurant_id})}>
                             <Image style = {reviewStyles.addButton} source={require('../assets/plusbutton.png')}/>
                             <Text style = {{color: '#ff6961'}}>Add a review</Text>
                         </TouchableOpacity>
+                        }
                         { 
-                        reviews.map((review) =>
+                        reviews.map((review,i) =>
                         <Review
+                            key={`${i}-review`}
                             user={'Bob'}
-                            date={'24 May 2020'}
-                            title={'Yumzo'}
-                            rating={'4'}
-                            content={"Omnomz aerin's suck Omnomz aerin's suck Omnomz aerin's suck Omnomz aerin's suck"}/>
+                            user_id={review.relationships.user.data.id}
+                            date={review.attributes.created_at}
+                            title={review.attributes.title}
+                            rating={review.attributes.rating}
+                            content={review.attributes.content}/>
                         ) 
                         }
                     </ScrollView>
@@ -132,6 +139,7 @@ const Tabs = (props) => {
         </View>
     );
 }
+const Tabs = connect(mapReduxStateToProps)(TabsWithoutRedux);
 
 function RestaurantPage({ navigation, route }) {
     const [isLoading, setLoading] = useState(true);
@@ -188,6 +196,7 @@ function RestaurantPage({ navigation, route }) {
                     dishes={dishes}
                     reviews={reviews}
                     navigation={navigation}
+                    restaurant_id={restaurantData.id}
                 />
             </SafeAreaView>);
 }
