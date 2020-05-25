@@ -22,7 +22,7 @@ function AddReviewPage(props) {
     const [content, setContent] = useState('');
     const [rating, setRating] = useState('');
     const [date, setDate] = useState('');
-    const [error, setErrors] = useState({});
+    const [errors, setErrors] = useState({});
     const submit = () => {
         const review = { title,content,rating }
         const restaurant_id = route.params.restaurant_id;
@@ -36,6 +36,7 @@ function AddReviewPage(props) {
             }
         });
     }
+    const backHandler = () => navigation.goBack();
     return (
         <SafeAreaView style = {styles.container}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
@@ -56,6 +57,11 @@ function AddReviewPage(props) {
                     placeholder="Content"
                     onChangeText={(text) => {setContent(text)}}
                     value={content}/>
+                { Object.entries(errors).map(x => x[0] + " " + x[1][0]).map((x,i) => 
+                <Text 
+                    key={`${i}-error`}
+                    style={styles.error}>{x}</Text>
+                )}
             </KeyboardAvoidingView>
             <View style = {{width: '100%', height: '15%', justifyContent: 'space-between', alignItems: 'center'}}>
                 <View style = {styles.buttonShadow}>
@@ -64,7 +70,7 @@ function AddReviewPage(props) {
                     </TouchableOpacity>
                 </View>
                 <View style = {styles.buttonShadow}>
-                    <TouchableOpacity style = {styles.button} onPress = {submit}>
+                    <TouchableOpacity style = {styles.button} onPress = {backHandler}>
                         <Text style = {styles.buttonText}>Back</Text>
                     </TouchableOpacity>
                 </View>
@@ -137,5 +143,10 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 12,
         color: 'white',
+    },
+    error: {
+        fontSize: 14,
+        color: '#fc8a1d',
+        marginTop: '5%'
     }
 })
