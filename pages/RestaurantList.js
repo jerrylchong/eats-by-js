@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View, BackHandler, Alert, ImageBackground, Dimensions} from "react-native";
-import MenuButton from "../component/MenuButton";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
 import {getRestaurantsFromApi, getTagsFromApi} from "../helpers/apiHelpers";
@@ -47,7 +46,7 @@ function RestaurantList({ navigation }) {
             ? <Loading />
             : <SafeAreaView style = {styles.container}>
                 <View style = {styles.navBar}>
-                    <SearchButton onPress = {() => navigation.toggleDrawer()}/>
+                    <SearchButton navigation = {navigation}/>
                 </View>
                 <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems: 'center'}}>
                     { data.map((restaurant) =>
