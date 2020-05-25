@@ -47,8 +47,7 @@ function RestaurantList({ navigation }) {
             ? <Loading />
             : <SafeAreaView style = {styles.container}>
                 <View style = {styles.navBar}>
-                    <MenuButton onPress = {() => navigation.toggleDrawer()}/>
-                    <SearchButton />
+                    <SearchButton onPress = {() => navigation.toggleDrawer()}/>
                 </View>
                 <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems: 'center'}}>
                     { data.map((restaurant) =>
@@ -74,7 +73,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#eeeeee',
+        backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: StatusBar.currentHeight
@@ -88,6 +87,5 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
-        backgroundColor: '#eeeeee'
     }
 });
