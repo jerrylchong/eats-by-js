@@ -18,11 +18,11 @@ class SearchButton extends React.Component {
         })
         Animated.timing(this.state.animatedWidth, {
             toValue: 50,
-            duration: 300
+            duration: 100
         }).start()
         Animated.timing(this.state.animatedHeight, {
             toValue: 50,
-            duration: 300
+            duration: 100
         }).start()
     }
 
@@ -34,11 +34,11 @@ class SearchButton extends React.Component {
     pressBigSearch = () => {
         Animated.timing(this.state.animatedWidth, {
             toValue: Dimensions.get('window').width * 0.8,
-            duration: 300
+            duration: 200
         }).start()
         Animated.timing(this.state.animatedHeight, {
             toValue: 40,
-            duration: 300
+            duration: 200
         }).start()
         this.setState({pressed: true})
     }
@@ -63,7 +63,9 @@ class SearchButton extends React.Component {
                                 placeholderTextColor = '#646464'
                                 onChangeText = {this.handleSearchTerm}
                                 value = {searchTerm} />
-                            <TouchableOpacity style = {styles.image} onPress = {this.pressSmallSearch}>
+                            <TouchableOpacity
+                                style = {{height: 40, width: 40, justifyContent: 'center', alignItems: 'center'}}
+                                onPress = {this.pressSmallSearch}>
                                 <Image style = {styles.image} source ={require('../assets/magnifying_glass.png')} />
                             </TouchableOpacity>
                         </View>
@@ -80,7 +82,6 @@ class SearchButton extends React.Component {
 export default SearchButton
 
 const windowWidth = Dimensions.get('window').width
-const boxWidth = windowWidth * 0.95 - 30 - 24
 
 const styles = StyleSheet.create({
     container: {
