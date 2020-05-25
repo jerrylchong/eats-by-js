@@ -120,8 +120,9 @@ export function getProfileData(token) {
         redirect: 'follow'
     };
 
-    return fetch("localhost:3000/profile", requestOptions)
+    return fetch(`${HOST}/profile`, requestOptions)
         .then(response => response.json())
+        .then(response => response.data)
 }
 
 export function getReviewsForRestaurant(restaurant_id) {

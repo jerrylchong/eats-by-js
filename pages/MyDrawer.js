@@ -1,14 +1,16 @@
 import React from 'react';
-import {Dimensions, SafeAreaView, StatusBar, View, Image, Text, Alert} from "react-native";
+import {Dimensions, SafeAreaView, StatusBar, View, Image, Text, Alert, AsyncStorage} from "react-native";
 import SettingsPage from "./SettingsPage";
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer";
 import MyStack from "./MyStack";
 import AddRestaurantPage from "./AddRestaurantPage";
+import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHelpers";
+import {connect} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props) {
-    const isLoggedin = true;
+    const {isLoggedIn, user} = props
     return (
         <DrawerContentScrollView {...props}>
             <SafeAreaView style = {{ marginTop: StatusBar.currentHeight, marginBottom: '5%' }}>
@@ -21,18 +23,37 @@ function CustomDrawerContent(props) {
                 <DrawerItemList {...props} />
             </SafeAreaView>
             <View style = {{ alignSelf: 'center', width:'90%', borderTopWidth: 1, borderColor: '#404040' }}/>
-            <DrawerItem
-                label="Sign Out"
-                onPress={props.signOutHandler}
-                activeTintColor='#ff6961'
-                inactiveTintColor='black' />
-            {isLoggedin && <Text style = {{color: '#b3b3b3',marginLeft: '6%'}}>Logged in as user</Text>}
+            {
+                isLoggedIn ?
+                    <>
+                    <DrawerItem
+                        label="Sign Out"
+                        onPress={props.signOutHandler}
+                        activeTintColor='#ff6961'
+                        inactiveTintColor='black' />
+                    <Text style = {{color: '#b3b3b3',marginLeft: '6%'}}>Logged in as {user.attributes.username}</Text>
+                    </>
+                    :
+                    <DrawerItem
+                        label="Log In"
+                        onPress={props.loginHandler}
+                        activeTintColor='#ff6961'
+                        inactiveTintColor='black' />
+            }
         </DrawerContentScrollView>
     );
 }
 
-const MyDrawer = ({navigation}) => {
-    const signOutHandler = () => navigation.navigate('Welcome')
+const MyDrawer = (props) => {
+    const { navigation, user, removeUser, removeToken } = props;
+    const {isLoggedIn, user_data} = user;
+    const signOutHandler = () => {
+        removeUser();
+        removeToken();
+        AsyncStorage.removeItem('token').then( _ => navigation.navigate('Welcome'));
+    }
+
+    const loginHandler = () => navigation.navigate('Welcome')
     return (
         <Drawer.Navigator
             initialRouteName = 'Home'
@@ -42,7 +63,12 @@ const MyDrawer = ({navigation}) => {
                 itemStyle: {color: 'black'},
             }}
             edgeWidth = {Dimensions.get('window').width * 0.13}
-            drawerContent={props => <CustomDrawerContent {...props} signOutHandler={signOutHandler}/>}
+            drawerContent={props => <CustomDrawerContent {...props} 
+                signOutHandler={signOutHandler}
+                loginHandler={loginHandler}
+                isLoggedIn={isLoggedIn}
+                user={user_data}
+            />}
              >
             <Drawer.Screen name = 'Home' component = {MyStack} />
             <Drawer.Screen name = 'Settings' component = {SettingsPage} />
@@ -51,4 +77,4 @@ const MyDrawer = ({navigation}) => {
     )
 }
 
-export default MyDrawer
+export default connect(mapReduxStateToProps,mapReduxDispatchToProps)(MyDrawer)

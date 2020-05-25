@@ -6,21 +6,28 @@ import {
 import {connect} from 'react-redux';
 import LoginButton from "../component/LoginButton";
 import {postLogin} from "../helpers/apiHelpers" 
+import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHelpers";
+import {getProfileData} from "../helpers/apiHelpers";
+import Loading from "../component/Loading";
 
 // ignore the LoginButton name
 
 class WelcomePage extends React.Component {
-    state = {
-        name: '',
-        password: '',
-        error: false,
-        isLoading: false
+    constructor (props) {
+        super(props);
+        this.state = {
+            name: '',
+            password: '',
+            error: false,
+            isLoading: false,
+            isFetching: false,
+        };
+        this.props = props;
     }
 
     handleName = (text) => {
         this.setState({name: text})
     }
-
     handlePassword = (text) => {
         this.setState({password: text})
     }
@@ -29,8 +36,22 @@ class WelcomePage extends React.Component {
         AsyncStorage.setItem("token", token);
     }
 
+    componentDidMount() {
+        this.setState({isFetching : true});
+        AsyncStorage.getItem("token").then(token => {
+            if (token != null) {
+                getProfileData(token)
+                    .then( user_data => this.props.updateUser(user_data))
+                    .then(_ => this.setState({isFetching : false}))
+                    .then(_ => this.props.navigation.navigate('App'))
+            } else {
+                this.setState({isFetching : false});
+            }
+        })
+    }
+
     render() {
-        const {name, password, error, isLoading} = this.state;
+        const {name, password, error, isLoading, isFetching} = this.state;
         const login = () => {
             if (name.length && password.length) {
                 this.setState({isLoading: true});
@@ -47,7 +68,10 @@ class WelcomePage extends React.Component {
                                 name:"",
                                 password:"",
                             })
-                            this.props.navigation.navigate('App')
+                            // get user information
+                            getProfileData(auth_token)
+                                .then( user_data => this.props.updateUser(user_data))
+                                .then(_ => this.props.navigation.navigate('App'))
                         }
                     })
             } else {
@@ -55,6 +79,9 @@ class WelcomePage extends React.Component {
             }
         }
         return (
+        isFetching
+            ? <Loading />
+            :
             <SafeAreaView style = {styles.container}>
                 <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
                 <View style = {styles.logoShadow}>
@@ -96,11 +123,6 @@ class WelcomePage extends React.Component {
         )
     }
 }
-
-const mapReduxStateToProps = state => ({token : state.token});
-const mapReduxDispatchToProps = dispatch => ({ 
-    updateToken: (token) => dispatch({type: "SET_TOKEN", payload:token})
-});
 
 export default connect(mapReduxStateToProps,mapReduxDispatchToProps)(WelcomePage)
 
