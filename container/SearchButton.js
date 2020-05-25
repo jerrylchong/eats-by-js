@@ -67,12 +67,10 @@ class SearchButton extends React.Component {
                                 <Image style = {styles.image} source ={require('../assets/magnifying_glass.png')} />
                             </TouchableOpacity>
                         </View>
-                        : null}
+                        : <Image style={{width: 50, height: 50}} source={require('../assets/templogonameless.png')}/>}
                 </Animated.View>
                 <TouchableOpacity style = {styles.bigImage} onPress = {this.pressBigSearch}>
-                    {!pressed
-                        ? <Image style = {styles.bigImage} source ={require('../assets/magnifying_glass.png')} />
-                        : null}
+                    {!pressed && <Image style = {styles.bigImage} source ={require('../assets/magnifying_glass.png')} />}
                 </TouchableOpacity>
             </View>
         )
