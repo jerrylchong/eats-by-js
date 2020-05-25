@@ -1,8 +1,13 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Dimensions} from 'react-native';
+import {getUsername} from '../helpers/apiHelpers'
 
 const Review = (props) => {
-    const {user, date, title, rating, content} = props
+    const {user_id, date, title, rating, content} = props
+    const [user, setUser] = useState("");
+    useEffect(() => {
+        getUsername(user_id).then(data => setUser(data.username))
+    },[]);
     return (
         <View style = {styles.container}>
             <View style = {styles.titleRating}>

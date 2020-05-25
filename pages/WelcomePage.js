@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     StatusBar, StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions,
-    ImageBackground, TouchableOpacity, AsyncStorage, Platform, KeyboardAvoidingView, Alert
+    ImageBackground, TouchableOpacity, AsyncStorage, Platform, KeyboardAvoidingView, Alert, TouchableWithoutFeedback, Keyboard
 } from "react-native";
 import {connect} from 'react-redux';
 import LoginButton from "../component/LoginButton";
@@ -53,6 +53,7 @@ class WelcomePage extends React.Component {
     render() {
         const {name, password, error, isLoading, isFetching} = this.state;
         const login = () => {
+            Keyboard.dismiss();
             if (name.length && password.length) {
                 this.setState({isLoading: true});
                 postLogin(name, password)
@@ -63,15 +64,16 @@ class WelcomePage extends React.Component {
                         } else {
                             const auth_token = data["auth_token"]
                             this.setToken(auth_token);
-                            // clear states
-                            this.setState({
-                                name:"",
-                                password:"",
-                            })
                             // get user information
                             getProfileData(auth_token)
                                 .then( user_data => this.props.updateUser(user_data))
-                                .then(_ => this.props.navigation.navigate('App'))
+                                .then(_ => {
+                                    // clear states
+                                    this.setState({
+                                        name:"",
+                                        password:"",
+                                    })
+                                    this.props.navigation.navigate('App')})
                         }
                     })
             } else {
@@ -82,6 +84,7 @@ class WelcomePage extends React.Component {
         isFetching
             ? <Loading />
             :
+            <TouchableWithoutFeedback style = {styles.container} onPress={() => Keyboard.dismiss()}>
             <SafeAreaView style = {styles.container}>
                 <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
                 <View style = {styles.logoShadow}>
@@ -120,6 +123,7 @@ class WelcomePage extends React.Component {
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
+            </TouchableWithoutFeedback>
         )
     }
 }

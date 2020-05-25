@@ -12,17 +12,29 @@ import {
     ImageBackground,
     Dimensions
 } from "react-native";
+import {postReview} from '../helpers/apiHelpers';
+import { connect } from 'react-redux';
+import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHelpers";
 
-function AddReviewPage({ navigation }) {
+function AddReviewPage(props) {
+    const {route, navigation, token, user} = props;
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [user, setUser] = useState('');
     const [rating, setRating] = useState('');
     const [date, setDate] = useState('');
+    const [error, setErrors] = useState({});
     const submit = () => {
-        return (
-            navigation.goBack()
-        )
+        const review = { title,content,rating }
+        const restaurant_id = route.params.restaurant_id;
+        postReview(review, restaurant_id, token).then(response =>{
+            if (!("error" in response) && !("errors" in response)){
+                navigation.goBack();
+            } else {
+                "error" in response 
+                    ? setErrors({authorized:"Not Authorized"})
+                    : setErrors(response.errors);
+            }
+        });
     }
     return (
         <SafeAreaView style = {styles.container}>
@@ -61,7 +73,7 @@ function AddReviewPage({ navigation }) {
     )
 }
 
-export default AddReviewPage
+export default connect(mapReduxStateToProps,mapReduxDispatchToProps)(AddReviewPage)
 
 const styles = StyleSheet.create({
     background: {
