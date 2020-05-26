@@ -34,11 +34,11 @@ class SearchButton extends React.Component {
     pressBigSearch = () => {
         Animated.timing(this.state.animatedWidth, {
             toValue: Dimensions.get('window').width * 0.8,
-            duration: 200
+            duration: 300
         }).start()
         Animated.timing(this.state.animatedHeight, {
             toValue: 40,
-            duration: 200
+            duration: 300
         }).start()
         this.setState({pressed: true})
     }
@@ -60,7 +60,7 @@ class SearchButton extends React.Component {
                             <TextInput
                                 style = {styles.input}
                                 placeholder = "Search"
-                                placeholderTextColor = '#646464'
+                                placeholderTextColor = '#404040'
                                 onChangeText = {this.handleSearchTerm}
                                 value = {searchTerm} />
                             <TouchableOpacity
@@ -81,8 +81,6 @@ class SearchButton extends React.Component {
 
 export default SearchButton
 
-const windowWidth = Dimensions.get('window').width
-
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
@@ -97,14 +95,14 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     box: {
-        backgroundColor: '#d9d9d9',
+        backgroundColor: '#ececec',
         width: 50,
         height: 50,
         borderRadius: 25,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     input: {
-        color: '#646464',
+        color: 'white',
         fontSize: 16,
         marginLeft: '5%'
     },

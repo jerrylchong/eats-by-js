@@ -9,14 +9,28 @@ import {connect} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
+const windowWidth = Dimensions.get('window').width
+const drawerWidth = windowWidth * 0.67
+const windowHeight = Dimensions.get('window').height
+const profileStyle = {
+    backgroundColor:'#ff6961',
+    width: drawerWidth * 0.2,
+    height: drawerWidth * 0.2,
+    borderRadius: drawerWidth * 0.1,
+    marginBottom: windowHeight * 0.01,
+    borderWidth: 1,
+    borderColor: '#b3b3b3'
+}
+
 function CustomDrawerContent(props) {
     const {isLoggedIn, user} = props
     return (
         <DrawerContentScrollView {...props}>
-            <SafeAreaView style = {{ marginTop: StatusBar.currentHeight, marginBottom: '5%' }}>
+            <SafeAreaView style = {{marginTop: StatusBar.currentHeight}}>
                 <DrawerItem
-                    label={({ focused, color }) =>
-                        <Image style={{width: 50, height: 50, marginBottom: '10%'}} source={require('../assets/templogonameless.png')}/>}
+                    label={({focused, color}) =>
+                        <Image style={profileStyle} source={require('../assets/facemeh.png')}/>
+                    }
                     onPress={() => Alert.alert('About','Jay Chua and Jerryl Chong 2020')}
                     activeTintColor='#ff6961'
                     inactiveTintColor='black' />
@@ -63,6 +77,7 @@ const MyDrawer = (props) => {
                 itemStyle: {color: 'black'},
             }}
             edgeWidth = {Dimensions.get('window').width * 0.13}
+            drawerStyle = {{width: drawerWidth}}
             drawerContent={props => <CustomDrawerContent {...props} 
                 signOutHandler={signOutHandler}
                 loginHandler={loginHandler}
