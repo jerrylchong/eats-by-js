@@ -11,6 +11,7 @@ import {
     Dimensions, ImageBackground, Image, Keyboard, TouchableWithoutFeedback
 } from "react-native";
 import {postSignUp} from '../helpers/apiHelpers'
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 function RegistrationPage({ navigation }) {
     const [username, setUsername] = useState('');
@@ -33,9 +34,20 @@ function RegistrationPage({ navigation }) {
         setLoading(true);
         postSignUp(username,password)
             .then(res => {
-                if ("errors" in res) { setErrors(res["errors"]); }
                 setLoading(false);
-            });
+                if ("errors" in res) { 
+                    // format error
+                    const error = Object.entries(res["errors"]).map(entry => {
+                        const label = entry[0]
+                        return entry[1].map(err => label + " " + err).join("\n");
+                    })
+                    alert(error);
+                    setErrors(res["errors"]); 
+                } else {
+                    navigation.goBack();
+                    alert("Account Created");
+                }
+            })
 
     }
 
@@ -74,7 +86,7 @@ function RegistrationPage({ navigation }) {
                     !isLoading && hasErrors(errors) && Object.entries(errors).map(x => x.join(' ')).map((error,index) => 
                         <Text
                             key={`${index}-error`}
-                            >{error}</Text>) 
+                        >{error}</Text>) 
                 }
             </KeyboardAvoidingView>
             <View style = {{width: '100%', height: '15%', alignItems: 'center', marginTop: '10%'}}>
