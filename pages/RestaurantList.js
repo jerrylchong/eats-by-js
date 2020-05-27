@@ -55,7 +55,7 @@ function RestaurantList({ navigation }) {
                             restaurant_id={restaurant.id}
                             name={restaurant.attributes.title}
                             image_url={restaurant.attributes.image_link}
-                            cost={"$$$"}
+                            cost={'10'}
                             description={restaurant.attributes.description}
                             rating={restaurant.attributes.rating}
                             tags={isLoading ? [] : restaurant.relationships.tags.data.map(x => tags[x.id - 1])}

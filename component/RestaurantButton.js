@@ -21,13 +21,18 @@ const RestaurantButton = (props) => {
         alignItems: 'center'
     }
 
+
     return (
         <View style = {styles.shadow}>
             <ImageBackground style = {styles.background} imageStyle = {{borderRadius: 5}} source={require('../assets/cardbackground.png')}/>
             <TouchableOpacity style = {styles.container} onPress = {onPress}>
                 <View style={styles.text}>
                     <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.cost}>{cost}</Text>
+                    <View style = {styles.cost}>
+                        <Image style = {styles.coin} source={require('../assets/coin.png')}/>
+                        {parseFloat(cost) > 5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
+                        {parseFloat(cost) > 7.5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
+                    </View>
                 </View>
                 <View style = {styles.info}>
                     <Image style={styles.picture} source={{uri: image_url}} />
@@ -98,12 +103,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         width: '75%',
-        height: 25,
+        height: Dimensions.get('window').width * 0.06,
         flexWrap: 'nowrap'
     },
     cost: {
-        color: '#404040',
-        fontSize: 20,
+        width: '20%',
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
     },
     info: {
         width: '94%',
@@ -143,5 +149,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         marginTop: '2%'
+    },
+    coin: {
+        height: Dimensions.get('window').width * 0.06,
+        width: Dimensions.get('window').width * 0.06,
+        marginRight: '2%'
     }
 })
