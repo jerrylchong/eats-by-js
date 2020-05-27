@@ -27,13 +27,27 @@ function CustomDrawerContent(props) {
     return (
         <DrawerContentScrollView {...props}>
             <SafeAreaView style = {{marginTop: StatusBar.currentHeight}}>
-                <DrawerItem
-                    label={({focused, color}) =>
-                        <Image style={profileStyle} source={require('../assets/facemeh.png')}/>
-                    }
-                    onPress={() => Alert.alert('About','Jay Chua and Jerryl Chong 2020')}
-                    activeTintColor='#ff6961'
-                    inactiveTintColor='black' />
+                {isLoggedIn
+                    ? <DrawerItem
+                        label={({focused, color}) =>
+                            <View>
+                                <Image style={profileStyle} source={require('../assets/facemeh.png')}/>
+                                <Text style = {{color: '#b3b3b3',marginLeft: '6%'}}>Logged in as {user.attributes.username}</Text>
+                            </View>
+                        }
+                        onPress={() => Alert.alert('You','This your face.')}
+                        activeTintColor='#ff6961'
+                        inactiveTintColor='black' />
+                    : <DrawerItem
+                        label={({focused, color}) =>
+                            <View>
+                                <Image style={profileStyle} source={require('../assets/facemeh.png')}/>
+                                <Text style = {{color: '#b3b3b3',marginLeft: '6%'}}>Guest</Text>
+                            </View>
+                        }
+                        onPress={() => Alert.alert('You','This your face.')}
+                        activeTintColor='#ff6961'
+                        inactiveTintColor='black' />}
                 <DrawerItemList {...props} />
             </SafeAreaView>
             <View style = {{ alignSelf: 'center', width:'90%', borderTopWidth: 1, borderColor: '#404040' }}/>
@@ -45,7 +59,7 @@ function CustomDrawerContent(props) {
                         onPress={props.signOutHandler}
                         activeTintColor='#ff6961'
                         inactiveTintColor='black' />
-                    <Text style = {{color: '#b3b3b3',marginLeft: '6%'}}>Logged in as {user.attributes.username}</Text>
+
                     </>
                     :
                     <DrawerItem

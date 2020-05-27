@@ -92,9 +92,9 @@ class WelcomePage extends React.Component {
             <TouchableWithoutFeedback style = {styles.container} onPress={() => Keyboard.dismiss()}>
             <SafeAreaView style = {styles.container}>
                 <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
-                <View style = {styles.logoShadow}>
+                <TouchableOpacity style = {styles.logoShadow} onPress = {() => Alert.alert('About','Jay Chua and Jerryl Chong 2020')}>
                     <Image style={styles.logo} source={require('../assets/templogonameless.png')}/>
-                </View>
+                </TouchableOpacity>
                 <Text style = {styles.header}>Sign In</Text>
                 <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                     <TextInput
@@ -110,7 +110,7 @@ class WelcomePage extends React.Component {
                         value={password}
                         secureTextEntry={true}
                         autoCapitalize='none'/>
-                        {isLoading && <Text>Loading..</Text>}
+                    {isLoading && <Loading/>}
                 </KeyboardAvoidingView>
                 <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
                 <View style = {{marginTop: '5%'}}>

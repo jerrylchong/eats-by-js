@@ -7,11 +7,13 @@ const RestaurantButton = (props) => {
     const { name, cost, description, rating, tags, onPress, image_url } = props;
 
     const ratingContainerStyle = {
-        backgroundColor: parseFloat(rating) < 2.5
-            ? '#d68c6c'
-            : parseFloat(rating) < 4
-                ? '#ffbf00'
-                : '#66b58c',
+        backgroundColor: parseFloat(rating) < 0
+            ? '#b3b3b3'
+            : parseFloat(rating) < 2.5
+                ? '#d68c6c'
+                : parseFloat(rating) < 4
+                    ? '#ffbf00'
+                    : '#66b58c',
         flexDirection: 'row',
         width: '28%',
         height: '20%',
@@ -47,12 +49,14 @@ const RestaurantButton = (props) => {
                         </View>
                         <Text style = {styles.description}>{description}</Text>
                         <View style = {ratingContainerStyle}>
-                            {parseFloat(rating) < 2.5
-                                ? <Image style = {styles.face} source={require('../assets/facebad.png')}/>
-                                : parseFloat(rating) < 4
-                                    ? <Image style = {styles.face} source={require('../assets/facemeh.png')}/>
-                                    : <Image style = {styles.face} source={require('../assets/facegood.png')}/>}
-                            <Text style = {styles.rating}>{parseFloat(rating)}</Text>
+                            {parseFloat(rating) < 0
+                                ? <Text style = {styles.rating}>NA</Text>
+                                : parseFloat(rating) < 2.5
+                                    ? <Image style = {styles.face} source={require('../assets/facebad.png')}/>
+                                    : parseFloat(rating) < 4
+                                        ? <Image style = {styles.face} source={require('../assets/facemeh.png')}/>
+                                        : <Image style = {styles.face} source={require('../assets/facegood.png')}/>}
+                            {parseFloat(rating) > 0 && <Text style = {styles.rating}>{parseFloat(rating)}</Text>}
                         </View>
                     </View>
                 </View>

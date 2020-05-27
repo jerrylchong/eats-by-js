@@ -8,7 +8,7 @@ import {
     Text,
     View,
     Platform,
-    Dimensions, ImageBackground, Image
+    Dimensions, ImageBackground, Image, Keyboard, TouchableWithoutFeedback
 } from "react-native";
 import {postSignUp} from '../helpers/apiHelpers'
 
@@ -49,6 +49,7 @@ function RegistrationPage({ navigation }) {
     }
     */
     return (
+        <TouchableWithoutFeedback style = {styles.container} onPress={() => Keyboard.dismiss()}>
         <SafeAreaView style = {styles.container}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
             <Text style = {styles.header}>Create an Account</Text>
@@ -90,6 +91,7 @@ function RegistrationPage({ navigation }) {
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
+        </TouchableWithoutFeedback>
     )
 }
 
