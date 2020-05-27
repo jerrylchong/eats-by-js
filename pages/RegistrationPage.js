@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-    StatusBar,
     StyleSheet,
     TouchableOpacity,
     SafeAreaView,
@@ -104,7 +103,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center',
-        marginTop: StatusBar.currentHeight
     },
     background: {
         position:'absolute',

@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {
     SafeAreaView,
     ScrollView,
-    StatusBar,
     StyleSheet,
     View,
     Text,
@@ -217,7 +216,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        marginTop: StatusBar.currentHeight
     },
     header: {
         width:'100%',

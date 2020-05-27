@@ -7,7 +7,7 @@ import RegistrationPage from './pages/RegistrationPage';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import reducer from './reducer'
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, StatusBar} from 'react-native'
 
 const Stack = createStackNavigator();
 const store = createStore(reducer);
@@ -24,6 +24,10 @@ const App = () => {
   return (
       <Provider store={store}>
           <NavigationContainer>
+              <StatusBar
+                  backgroundColor='white'
+                  barStyle="dark-content"
+              />
               <Stack.Navigator
                   initialRouteName = 'Welcome'
                   screenOptions = {{

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View, BackHandler, Alert, ImageBackground, Dimensions} from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet, View, BackHandler, Alert, ImageBackground, Dimensions} from "react-native";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
 import {getRestaurantsFromApi, getTagsFromApi} from "../helpers/apiHelpers";
@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: StatusBar.currentHeight
     },
     navBar: {
         flexDirection: 'row',

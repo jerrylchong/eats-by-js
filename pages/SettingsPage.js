@@ -1,5 +1,5 @@
 import React from 'react';
-import {StatusBar, StyleSheet, TouchableOpacity, SafeAreaView} from "react-native";
+import {StyleSheet, TouchableOpacity, SafeAreaView} from "react-native";
 import Loading from "../component/Loading";
 
 function SettingsPage({ navigation }) {
@@ -21,6 +21,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: StatusBar.currentHeight
     },
 })

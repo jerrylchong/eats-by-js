@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View, Text, ImageBackground} from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet, View, Text, ImageBackground} from "react-native";
 import Loading from "../component/Loading";
 
 function ProfilePage({ navigation, route }) {
@@ -24,6 +24,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: StatusBar.currentHeight
     },
 })

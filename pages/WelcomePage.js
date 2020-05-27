@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-    StatusBar, StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions,
-    ImageBackground, TouchableOpacity, AsyncStorage, Platform, KeyboardAvoidingView, Alert, TouchableWithoutFeedback, Keyboard
+    StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions, ImageBackground,
+    TouchableOpacity, AsyncStorage, Platform, KeyboardAvoidingView, Alert, TouchableWithoutFeedback, Keyboard
 } from "react-native";
 import {connect} from 'react-redux';
 import LoginButton from "../component/LoginButton";
@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center',
-        marginTop: StatusBar.currentHeight
     },
     background: {
         position:'absolute',
