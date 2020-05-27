@@ -44,6 +44,11 @@ class WelcomePage extends React.Component {
                     .then( user_data => this.props.updateUser(user_data))
                     .then(_ => this.setState({isFetching : false}))
                     .then(_ => this.props.navigation.navigate('App'))
+                    .catch(err => {
+                        console.error("Authentication Token is invalid, removing from storage...")
+                        AsyncStorage.removeItem("token");
+                        this.setState({isFetching: false})
+                    })
             } else {
                 this.setState({isFetching : false});
             }
