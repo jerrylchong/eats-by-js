@@ -11,7 +11,6 @@ import {
     Dimensions, ImageBackground, Image, Keyboard, TouchableWithoutFeedback
 } from "react-native";
 import {postSignUp} from '../helpers/apiHelpers'
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 function RegistrationPage({ navigation }) {
     const [username, setUsername] = useState('');
