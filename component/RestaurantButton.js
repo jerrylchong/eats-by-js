@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     background: {
         position: 'absolute',
         bottom: 0,
-        width: '100%',
+        width: Dimensions.get('window').width * 0.898,
         height: Dimensions.get('window').width * 0.9 * 533.5/1668,
         borderRadius: 10
     },
@@ -100,7 +100,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: '2%'
+        marginTop: '2%',
+        marginLeft: '1.2%',
+        paddingHorizontal: '1%'
     },
     name: {
         color: '#404040',
@@ -123,9 +125,10 @@ const styles = StyleSheet.create({
         marginTop: '4%'
     },
     picture: {
-        height: '90%',
-        width: '36%',
+        height: Dimensions.get('window').height * 0.15,
+        width: Dimensions.get('window').height * 0.15,
         borderRadius: 4,
+        marginLeft: '2%'
     },
     rightInfo: {
         width: '61%',

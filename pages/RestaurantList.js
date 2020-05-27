@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View, BackHandler, Alert, ImageBackground, Dimensions, FlatList} from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet, View, BackHandler, Alert, ImageBackground, Dimensions, FlatList, Text} from "react-native";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
 import {getRestaurantsFromApi, getTagsFromApi} from "../helpers/apiHelpers";
@@ -41,6 +41,10 @@ function RestaurantList({ navigation }) {
         return () => backHandler.remove();
     }, []);
 
+    const renderFooter = () => {
+        return <Text style = {styles.footer}>No more already lah!</Text>
+    };
+
     return (
         isLoading
             ? <Loading />
@@ -48,20 +52,25 @@ function RestaurantList({ navigation }) {
                 <View style = {styles.navBar}>
                     <SearchButton navigation = {navigation}/>
                 </View>
-                <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems: 'center'}}>
-                    { data.map((restaurant) =>
+                <FlatList
+                    style = {styles.scroll}
+                    contentContainerStyle = {{alignItems: 'center'}}
+                    data={data}
+                    renderItem={({ item }) =>
                         <RestaurantButton
-                            key={restaurant.id}
-                            restaurant_id={restaurant.id}
-                            name={restaurant.attributes.title}
-                            image_url={restaurant.attributes.image_link}
+                            restaurant_id={item.id}
+                            name={item.attributes.title}
+                            image_url={item.attributes.image_link}
                             cost={'10'}
-                            description={restaurant.attributes.description}
-                            rating={restaurant.attributes.rating}
-                            tags={isLoading ? [] : restaurant.relationships.tags.data.map(x => tags[x.id - 1])}
-                            onPress={() => navigation.navigate('Restaurant', {restaurant_id: restaurant.id}) }
-                        />) }
-                </ ScrollView>
+                            description={item.attributes.description}
+                            rating={item.attributes.rating}
+                            tags={isLoading ? [] : item.relationships.tags.data.map(x => tags[x.id - 1])}
+                            onPress={() => navigation.navigate('Restaurant', {restaurant_id: item.id}) }
+                        />}
+                    keyExtractor={restaurant => restaurant.id}
+                    ListFooterComponent={renderFooter}
+                    ListEmptyComponent={() => <Text>No Restaurants Found</Text>}
+                />
             </SafeAreaView>
     )
 }
@@ -85,5 +94,11 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
+    },
+    footer: {
+        color: '#ff6961',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginTop: '2%'
     }
 });
