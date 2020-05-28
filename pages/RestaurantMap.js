@@ -1,6 +1,6 @@
 import React from "react";
 
-import MapView from "react-native-maps";
+import MapView, {PROVIDER_GOOGLE} from "react-native-maps";
 import {SafeAreaView, StyleSheet, View} from "react-native";
 import SearchButton from "../container/SearchButton";
 
@@ -18,6 +18,8 @@ const RestaurantMap = ({ navigation }) => {
                     latitudeDelta: 0.002212,
                     longitudeDelta: 0.00395,
                 }}
+                provider={MapView.PROVIDER_GOOGLE}
+                showsUserLocation={true}
             />
         </SafeAreaView>
     );
