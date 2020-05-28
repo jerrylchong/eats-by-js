@@ -1,7 +1,7 @@
 import React from 'react';
 import {CardStyleInterpolators, createStackNavigator, TransitionSpecs} from "@react-navigation/stack";
 import RestaurantPage from './RestaurantPage';
-import RestaurantList from './RestaurantList';
+import HomeTab from "./HomeTab";
 import AddReviewPage from "./AddReviewPage";
 
 const Stack = createStackNavigator();
@@ -16,7 +16,7 @@ const MyStack = () => {
             }}>
             <Stack.Screen
                 name = 'Home'
-                component = {RestaurantList}
+                component = {HomeTab}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                 }}
