@@ -107,10 +107,10 @@ const styles = StyleSheet.create({
     name: {
         color: '#404040',
         fontSize: 20,
-        fontWeight: 'bold',
         width: '75%',
         height: Dimensions.get('window').width * 0.06,
-        flexWrap: 'nowrap'
+        flexWrap: 'nowrap',
+        fontFamily: 'Ubuntu-Bold'
     },
     cost: {
         width: '20%',
@@ -143,9 +143,10 @@ const styles = StyleSheet.create({
     },
     description: {
         color: '#a0a0a0',
-        fontSize: 11,
+        fontSize: 10,
         alignSelf: 'flex-start',
-        marginBottom: '10%'
+        marginBottom: '10%',
+        fontFamily: 'Ubuntu'
     },
     face: {
         height: 16,
@@ -153,9 +154,9 @@ const styles = StyleSheet.create({
     },
     rating: {
         fontSize: 14,
-        fontWeight: 'bold',
         color: 'white',
-        marginTop: '2%'
+        marginTop: '2%',
+        fontFamily: 'Ubuntu-Bold'
     },
     coin: {
         height: Dimensions.get('window').width * 0.06,

@@ -80,10 +80,11 @@ function RegistrationPage({ navigation }) {
                     secureTextEntry={true}
                     textContentType='newPassword'
                     autoCapitalize='none'/>
-                { isLoading && <Text>checking with db...</Text>}
+                { isLoading && <Text style = {{color: '#fc8a1d', fontFamily: 'Ubuntu'}}>checking with db...</Text>}
                 {
                     !isLoading && hasErrors(errors) && Object.entries(errors).map(x => x.join(' ')).map((error,index) => 
                         <Text
+                            style = {{color: '#fc8a1d', fontFamily: 'Ubuntu'}}
                             key={`${index}-error`}
                         >{error}</Text>) 
                 }
@@ -91,14 +92,14 @@ function RegistrationPage({ navigation }) {
             <View style = {{width: '100%', height: '15%', alignItems: 'center', marginTop: '10%'}}>
                 <View style={styles.buttonShadow}>
                     <TouchableOpacity style={styles.button} onPress={submitHandler}>
-                        <Text style={{color: 'white'}}>Create Account</Text>
+                        <Text style={{color: 'white', fontFamily: 'Ubuntu'}}>Create Account</Text>
                     </TouchableOpacity>
                 </View>
             </View>
             <View style = {styles.buttons}>
-                <Text style = {{color: '#404040'}}>Already have an account?</Text>
+                <Text style = {{color: '#404040', fontFamily: 'Ubuntu'}}>Already have an account?</Text>
                 <TouchableOpacity onPress = {() => navigation.goBack()}>
-                    <Text style = {{color:'#ffaf87', margin: '5%', fontWeight: 'bold'}}>Back</Text>
+                    <Text style = {{color:'#ffaf87', margin: '5%', fontFamily: 'Ubuntu-Medium'}}>Back</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -124,12 +125,12 @@ const styles = StyleSheet.create({
         height: windowWidth * 728/1668
     },
     header: {
-        fontSize: 24,
+        fontSize: 26,
         alignSelf: 'flex-start',
         marginLeft: windowWidth * 0.15,
         marginTop: '30%',
         color: '#404040',
-        fontWeight: 'bold'
+        fontFamily: 'Ubuntu-Bold',
     },
     list: {
         width: '100%',
@@ -144,6 +145,7 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.7,
         height: windowWidth * 0.08,
         paddingHorizontal: 5,
+        fontFamily: 'Ubuntu'
     },
     passwordInput: {
         borderBottomWidth: 1,
@@ -152,7 +154,8 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.7,
         height: windowWidth * 0.08,
         paddingHorizontal: 5,
-        marginTop: '5%'
+        marginTop: '5%',
+        fontFamily: 'Ubuntu'
     },
     buttons: {
         height: '20%',
@@ -185,6 +188,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#646464',
         marginTop: '5%',
-        marginBottom: '5%'
+        marginBottom: '5%',
+        fontFamily: 'Ubuntu'
     }
 })

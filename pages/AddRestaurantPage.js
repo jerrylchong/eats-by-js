@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 20,
-        marginTop: '5%'
+        marginTop: '5%',
+        fontFamily: 'Ubuntu-Medium'
     },
     list: {
         width: '80%',
@@ -118,7 +119,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '8%',
         paddingHorizontal: 5,
-        marginBottom: '8%'
+        marginBottom: '8%',
+        fontFamily: 'Ubuntu'
     },
     buttons: {
         width: '100%',
@@ -152,5 +154,6 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 12,
         color: 'white',
+        fontFamily: 'Ubuntu'
     }
 })

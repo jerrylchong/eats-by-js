@@ -26,6 +26,6 @@ const styles = StyleSheet.create({
         color: 'white',
         paddingHorizontal: 9,
         paddingVertical: 3,
-        fontWeight: 'bold'
+        fontFamily: 'Ubuntu-Bold'
     }
 })

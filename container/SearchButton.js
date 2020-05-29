@@ -102,9 +102,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
-        color: 'white',
+        color: '#404040',
         fontSize: 16,
-        marginLeft: '5%'
+        marginLeft: '5%',
+        fontFamily: 'Ubuntu-Light'
     },
     image: {
         marginRight: '5%',

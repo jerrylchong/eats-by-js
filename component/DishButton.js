@@ -37,28 +37,17 @@ const styles = StyleSheet.create({
     name: {
         color: 'black',
         fontSize: 20,
-        fontWeight: 'bold'
+        fontFamily: 'Ubuntu-Bold'
     },
     cost: {
         color: 'black',
         fontSize: 20,
-    },
-    rating: {
-        color: '#646464',
-        fontSize: 12,
-        marginLeft: 5,
-        marginTop: 3
+        fontFamily: 'Ubuntu'
     },
     description: {
         color: '#7e7e7e',
         fontSize: 11,
         alignSelf: 'flex-start',
-        marginLeft: 5
+        fontFamily: 'Ubuntu'
     },
-    tags: {
-        flexDirection: 'row',
-        marginTop: 5,
-        alignSelf: 'flex-start',
-        marginLeft: 5
-    }
 })

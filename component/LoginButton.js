@@ -5,7 +5,7 @@ const LoginButton = (prop) => {
     return (
         <View style = {styles.shadow}>
             <TouchableOpacity style = {styles.button} onPress = {prop.onPress}>
-                <Text style = {{color: 'white'}}>{prop.text}</Text>
+                <Text style = {{color: 'white', fontFamily: 'Ubuntu'}}>{prop.text}</Text>
             </TouchableOpacity>
         </View>
     )

@@ -20,7 +20,7 @@ class WelcomePage extends React.Component {
             password: '',
             error: false,
             isLoading: false,
-            isFetching: false,
+            isFetching: false
         };
         this.props = props;
     }
@@ -56,7 +56,7 @@ class WelcomePage extends React.Component {
     }
 
     render() {
-        const {name, password, error, isLoading, isFetching} = this.state;
+        const {name, password, error, isLoading, isFetching, fontsLoading} = this.state;
         const login = () => {
             Keyboard.dismiss();
             if (name.length && password.length) {
@@ -86,7 +86,7 @@ class WelcomePage extends React.Component {
             }
         }
         return (
-        isFetching
+            isFetching
             ? <Loading />
             :
             <TouchableWithoutFeedback style = {styles.container} onPress={() => Keyboard.dismiss()}>
@@ -118,13 +118,13 @@ class WelcomePage extends React.Component {
                     <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
                     <TouchableOpacity style = {{alignSelf: 'center'}}
                         onPress = {() => Alert.alert("Error 404: Brain Not Found", "You dumb")}>
-                        <Text style = {{color:'#c74a44', marginTop: '5%', fontWeight: 'bold'}}>Forgot Password?</Text>
+                        <Text style = {{color:'#c74a44', marginTop: '5%', fontFamily: 'Ubuntu-Medium'}}>Forgot Password?</Text>
                     </TouchableOpacity>
                 </View>
                 <View style = {styles.buttons}>
-                    <Text style = {{color: '#404040', marginRight: '2%'}}>Don't have an account?</Text>
+                    <Text style = {{color: '#404040', marginRight: '2%', fontFamily: 'Ubuntu'}}>Don't have an account?</Text>
                     <TouchableOpacity onPress = {() => this.props.navigation.navigate('Registration')}>
-                        <Text style = {{color:'#ffaf87', fontWeight: 'bold'}}>Sign Up</Text>
+                        <Text style = {{color:'#ffaf87', fontFamily: 'Ubuntu-Medium'}}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
@@ -171,12 +171,12 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.15,
     },
     header: {
-        fontSize: 24,
+        fontSize: 26,
         alignSelf: 'flex-start',
         marginLeft: windowWidth * 0.15,
         marginTop: '20%',
         color: '#404040',
-        fontWeight: 'bold'
+        fontFamily: 'Ubuntu-Bold',
     },
     list: {
         width: '100%',
@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.7,
         height: windowWidth * 0.08,
         paddingHorizontal: 5,
+        fontFamily: 'Ubuntu'
     },
     passwordInput: {
         borderBottomWidth: 1,
@@ -199,7 +200,8 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.7,
         height: windowWidth * 0.08,
         paddingHorizontal: 5,
-        marginTop: '5%'
+        marginTop: '5%',
+        fontFamily: 'Ubuntu'
     },
     buttons: {
         height: '20%',
@@ -210,6 +212,7 @@ const styles = StyleSheet.create({
     error: {
         fontSize: 14,
         color: '#fc8a1d',
-        marginTop: '5%'
+        marginTop: '5%',
+        fontFamily: 'Ubuntu'
     }
 })

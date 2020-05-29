@@ -32,7 +32,7 @@ function CustomDrawerContent(props) {
                         label={({focused, color}) =>
                             <View>
                                 <Image style={profileStyle} source={require('../assets/facemeh.png')}/>
-                                <Text style = {{color: '#b3b3b3',marginLeft: '6%'}}>Logged in as {user.attributes.username}</Text>
+                                <Text style = {{color: '#b3b3b3',marginLeft: '6%', fontFamily: 'Ubuntu'}}>Logged in as {user.attributes.username}</Text>
                             </View>
                         }
                         onPress={() => Alert.alert('You','This your face.')}
@@ -42,13 +42,13 @@ function CustomDrawerContent(props) {
                         label={({focused, color}) =>
                             <View>
                                 <Image style={profileStyle} source={require('../assets/facemeh.png')}/>
-                                <Text style = {{color: '#b3b3b3',marginLeft: '6%'}}>Guest</Text>
+                                <Text style = {{color: '#b3b3b3',marginLeft: '6%', fontFamily: 'Ubuntu'}}>Guest</Text>
                             </View>
                         }
                         onPress={() => Alert.alert('You','This your face.')}
                         activeTintColor='#ff6961'
                         inactiveTintColor='black' />}
-                <DrawerItemList {...props} />
+                <DrawerItemList {...props} labelStyle = {{fontFamily: 'Ubuntu'}} />
             </SafeAreaView>
             <View style = {{ alignSelf: 'center', width:'90%', borderTopWidth: 1, borderColor: '#404040' }}/>
             {
@@ -58,15 +58,18 @@ function CustomDrawerContent(props) {
                         label="Sign Out"
                         onPress={props.signOutHandler}
                         activeTintColor='#ff6961'
-                        inactiveTintColor='black' />
-
+                        inactiveTintColor='black'
+                        labelStyle = {{fontFamily: 'Ubuntu'}}
+                    />
                     </>
                     :
                     <DrawerItem
                         label="Log In"
                         onPress={props.loginHandler}
                         activeTintColor='#ff6961'
-                        inactiveTintColor='black' />
+                        inactiveTintColor='black'
+                        labelStyle = {{fontFamily: 'Ubuntu'}}
+                    />
             }
         </DrawerContentScrollView>
     );

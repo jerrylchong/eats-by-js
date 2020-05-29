@@ -54,7 +54,7 @@ const stylesBanner = StyleSheet.create({
         paddingHorizontal: 5,
     },
     title: {
-        fontWeight: 'bold',
+        fontFamily: 'Ubuntu-Bold',
         fontSize: 30,
     },
     tags: {
@@ -62,7 +62,8 @@ const stylesBanner = StyleSheet.create({
         flexDirection:"row"
     },
     description: {
-        color: "#7E7E7E"
+        color: "#7E7E7E",
+        fontFamily: 'Ubuntu'
     }
 })
 
@@ -92,7 +93,8 @@ const TabsWithoutRedux = (props) => {
             <Tab.Navigator
                 tabBarOptions = {{
                     activeTintColor: '#404040',
-                    indicatorStyle: { backgroundColor: '#ff6961'}
+                    indicatorStyle: { backgroundColor: '#ff6961'},
+                    labelStyle: {fontFamily: 'Ubuntu'}
                 }}>
 
                 <Tab.Screen name="Dishes" >
@@ -116,7 +118,7 @@ const TabsWithoutRedux = (props) => {
                         { isLoggedIn &&
                         <TouchableOpacity style = {reviewStyles.addReview} onPress = {() => navigation.navigate('Add Review', {restaurant_id})}>
                             <Image style = {reviewStyles.addButton} source={require('../assets/plusbutton.png')}/>
-                            <Text style = {{color: '#ff6961'}}>Add a review</Text>
+                            <Text style = {{color: '#ff6961', fontFamily: 'Ubuntu'}}>Add a review</Text>
                         </TouchableOpacity>
                         }
                         { 
@@ -189,7 +191,7 @@ function RestaurantPage({ navigation, route }) {
                     contact="+65 9123 1234"
                 />
                 <View style = {styles.deals}>
-                    <Text style = {{height: 20}}>Deals</Text>
+                    <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
                 </View>
                 <Tabs
                     dishes={dishes}

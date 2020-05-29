@@ -13,6 +13,7 @@ function RestaurantList({ navigation }) {
     const [data, setData] = useState([]);
     const [tags, setTags] = useState([]);
 
+
     useEffect(() => {
         Promise.all([
             getRestaurantsFromApi().then(data => setData(data)),
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     footer: {
         color: '#ff6961',
         fontSize: 16,
-        fontWeight: 'bold',
-        marginTop: '2%'
+        marginTop: '2%',
+        fontFamily: 'Ubuntu-Bold'
     }
 });
