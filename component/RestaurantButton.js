@@ -4,7 +4,7 @@ import Tag from './Tag'
 
 const RestaurantButton = (props) => {
 
-    const { name, cost, description, rating, tags, onPress, image_url } = props;
+    const { name, cost, description, rating, tags, onPress, image_url, halal, location, opening_hours } = props;
 
     const ratingContainerStyle = {
         backgroundColor: parseFloat(rating) < 0
@@ -46,8 +46,13 @@ const RestaurantButton = (props) => {
                                     name={elem.name}
                                 />
                             ) }
+                            {halal && <Tag name = {'halal'}/>}
                         </View>
-                        <Text style = {styles.description}>{description}</Text>
+                        <Text style = {styles.description}>
+                            {description}{'\n'}
+                            Location: {location}{'\n'}
+                            {opening_hours}
+                        </Text>
                         <View style = {ratingContainerStyle}>
                             {parseFloat(rating) < 0
                                 ? <Text style = {styles.rating}>NA</Text>
@@ -115,7 +120,7 @@ const styles = StyleSheet.create({
     cost: {
         width: '20%',
         flexDirection: 'row',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-end'
     },
     info: {
         width: '94%',
@@ -144,9 +149,11 @@ const styles = StyleSheet.create({
     description: {
         color: '#a0a0a0',
         fontSize: 10,
+        height: '45%',
         alignSelf: 'flex-start',
         marginBottom: '10%',
-        fontFamily: 'Ubuntu'
+        fontFamily: 'Ubuntu',
+        paddingVertical: '2%'
     },
     face: {
         height: 16,

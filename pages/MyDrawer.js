@@ -104,7 +104,7 @@ const MyDrawer = (props) => {
              >
             <Drawer.Screen name = 'Home' component = {MyStack} />
             <Drawer.Screen name = 'Settings' component = {SettingsPage} />
-            <Drawer.Screen name = 'Add Restaurant' component = {AddRestaurantPage} />
+            {isLoggedIn && <Drawer.Screen name = 'Add Restaurant' component = {AddRestaurantPage} />}
         </Drawer.Navigator>
     )
 }

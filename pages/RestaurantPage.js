@@ -27,17 +27,26 @@ import {connect} from 'react-redux';
 import {mapReduxStateToProps} from "../helpers/reduxHelpers";
 
 function RestaurantBanner(props) {
-    const {title, tags, location, operatingHours, contact} = props
+    const {title, tags, location, operatingHours, contact, cost, halal, no_of_stalls} = props
 
     return (
         <View style={stylesBanner.container}>
             <Text style={stylesBanner.title}>{title}</Text>
-            <View style={stylesBanner.tags}>
-                { tags.map((tag,index) => <Tag key={index} name={tag.name}/>) }
+            <View style={{width:'100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                <View style={stylesBanner.tags}>
+                    { tags.map((tag,index) => <Tag key={index} name={tag.name}/>) }
+                    {halal && <Tag name={'halal'}/>}
+                </View>
+                <View style = {stylesBanner.cost}>
+                    <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>
+                    {parseFloat(cost) > 5 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
+                    {parseFloat(cost) > 7.5 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
+                </View>
             </View>
             <Text style={stylesBanner.description}>Location : {location}</Text>
             <Text style={stylesBanner.description}>Opening Hours : {operatingHours}</Text>
             <Text style={stylesBanner.description}>Contact No : {contact}</Text>
+            {no_of_stalls > 0 && <Text style={stylesBanner.description}>No. of Stalls : {no_of_stalls}</Text>}
         </View>
 
     );
@@ -59,12 +68,23 @@ const stylesBanner = StyleSheet.create({
     },
     tags: {
         paddingVertical: '4%',
-        flexDirection:"row"
+        flexDirection:"row",
+        width:'70%'
+    },
+    cost: {
+        width: '20%',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+    },
+    coin: {
+        height: Dimensions.get('window').width * 0.06,
+        width: Dimensions.get('window').width * 0.06,
+        marginRight: '2%'
     },
     description: {
         color: "#7E7E7E",
         fontFamily: 'Ubuntu'
-    }
+    },
 })
 
 const Tab = createMaterialTopTabNavigator();
@@ -184,11 +204,14 @@ function RestaurantPage({ navigation, route }) {
                 </ImageBackground>
 
                 <RestaurantBanner
-                    title={isLoading? "Loading..." : restaurantData.attributes.title}
-                    tags={isLoading ? [] : restaurantTags.map(x => x.attributes)}
-                    location="UTown Pantry"
-                    operatingHours="12am to 12.01am"
-                    contact="+65 9123 1234"
+                    title={restaurantData.attributes.title}
+                    tags={restaurantTags.map(x => x.attributes)}
+                    location={restaurantData.attributes.location}
+                    operatingHours={restaurantData.attributes.operating_hours}
+                    contact={restaurantData.attributes.contact}
+                    halal={restaurantData.attributes.halal_certified}
+                    cost={restaurantData.attributes.price}
+                    no_of_stalls={restaurantData.attributes.no_of_stalls}
                 />
                 <View style = {styles.deals}>
                     <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
