@@ -14,10 +14,10 @@ import { AppLoading } from 'expo';
 const Stack = createStackNavigator();
 const store = createStore(reducer);
 const customFonts = {
-    'Ubuntu': require('../eats_by_js/assets/fonts/Ubuntu-R.ttf'),
-    'Ubuntu-Bold': require('../eats_by_js/assets/fonts/Ubuntu-B.ttf'),
-    'Ubuntu-Medium': require('../eats_by_js/assets/fonts/Ubuntu-M.ttf'),
-    'Ubuntu-Light': require('../eats_by_js/assets/fonts/Ubuntu-L.ttf')
+    'Ubuntu': require('./assets/fonts/Ubuntu-R.ttf'),
+    'Ubuntu-Bold': require('./assets/fonts/Ubuntu-B.ttf'),
+    'Ubuntu-Medium': require('./assets/fonts/Ubuntu-M.ttf'),
+    'Ubuntu-Light': require('./assets/fonts/Ubuntu-L.ttf')
 }
 
 const App = () => {

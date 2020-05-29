@@ -31,7 +31,7 @@ const RestaurantButton = (props) => {
                 <View style={styles.text}>
                     <Text style={styles.name}>{name}</Text>
                     <View style = {styles.cost}>
-                        <Image style = {styles.coin} source={require('../assets/coin.png')}/>
+                        {parseFloat(cost) > 0 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
                         {parseFloat(cost) > 5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
                         {parseFloat(cost) > 7.5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
                     </View>

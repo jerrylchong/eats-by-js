@@ -73,7 +73,7 @@ function RestaurantList({ navigation }) {
                         />}
                     keyExtractor={restaurant => restaurant.id}
                     ListFooterComponent={renderFooter}
-                    ListEmptyComponent={() => <Text>No Restaurants Found</Text>}
+                    ListEmptyComponent={() => <Text style = {styles.footer}>No Restaurants Found</Text>}
                 />
             </SafeAreaView>
     )
