@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, View, BackHandler, Alert, ImageBackground, Dimensions, FlatList, Text} from "react-native";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
-import {getRestaurantsFromApi, getTagsFromApi} from "../helpers/apiHelpers";
+import {getRestaurantsFromApi, getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 
 // currently my db only got title, description, rating
@@ -11,12 +11,15 @@ import Loading from "../component/Loading";
 function RestaurantList({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [page, setPage] = useState(1);
     const [tags, setTags] = useState([]);
-
 
     useEffect(() => {
         Promise.all([
-            getRestaurantsFromApi().then(data => setData(data)),
+            getPaginatedRestaurantsFromApi(1).then(data => {
+                setData(data);
+                updatePage();
+            }),
             getTagsFromApi().then(data => setTags(data.map(x => x.attributes)))
         ])
             .catch((error) => console.error(error))
@@ -41,6 +44,16 @@ function RestaurantList({ navigation }) {
 
         return () => backHandler.remove();
     }, []);
+    const fetchMoreRestaurantData = () => {
+        getPaginatedRestaurantsFromApi(page).then(moredata => {
+            setData([...data, ...moredata]);
+            updatePage();
+        })
+    }
+
+    const updatePage = () => {
+        setPage(page + 1);
+    }
 
     const renderFooter = () => {
         return <Text style = {styles.footer}>No more already lah!</Text>
@@ -73,7 +86,9 @@ function RestaurantList({ navigation }) {
                         />}
                     keyExtractor={restaurant => restaurant.id}
                     ListFooterComponent={renderFooter}
-                    ListEmptyComponent={() => <Text style = {styles.footer}>No Restaurants Found</Text>}
+                    ListEmptyComponent={() => <Text>No Restaurants Found</Text>}
+                    onEndReached={fetchMoreRestaurantData}
+                    onEndReachedThreshold={0}
                 />
             </SafeAreaView>
     )
