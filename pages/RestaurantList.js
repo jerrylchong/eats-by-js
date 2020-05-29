@@ -61,7 +61,7 @@ function RestaurantList({ navigation }) {
                         <RestaurantButton
                             restaurant_id={item.id}
                             name={item.attributes.title}
-                            image_url={item.attributes.image_link}
+                            image_url={item.attributes.image_link == null ? "" : item.attributes.image_link}
                             cost={'10'}
                             description={item.attributes.description}
                             rating={item.attributes.rating}
