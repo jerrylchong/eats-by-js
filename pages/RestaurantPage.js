@@ -38,7 +38,7 @@ function RestaurantBanner(props) {
                     {halal && <Tag name={'halal'}/>}
                 </View>
                 <View style = {stylesBanner.cost}>
-                    {parseFloat(cost) > 0 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
+                    {parseFloat(cost) > 0 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
                     {parseFloat(cost) > 5 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
                     {parseFloat(cost) > 7.5 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
                 </View>

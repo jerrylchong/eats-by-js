@@ -13,6 +13,7 @@ function RestaurantList({ navigation }) {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
     const [tags, setTags] = useState([]);
+    const [isFetching, setFetching] = useState(false);
 
     useEffect(() => {
         Promise.all([
@@ -44,11 +45,13 @@ function RestaurantList({ navigation }) {
 
         return () => backHandler.remove();
     }, []);
+
     const fetchMoreRestaurantData = () => {
+        setFetching(true);
         getPaginatedRestaurantsFromApi(page).then(moredata => {
             setData([...data, ...moredata]);
             updatePage();
-        })
+        }).then(() => setFetching(false))
     }
 
     const updatePage = () => {
@@ -56,8 +59,9 @@ function RestaurantList({ navigation }) {
     }
 
     const renderFooter = () => {
-        return <Text style = {styles.footer}>No more already lah!</Text>
-    };
+        return (
+            isFetching && <Text style={styles.footer}>Loading...</Text>
+        )}
 
     return (
         isLoading
@@ -88,7 +92,7 @@ function RestaurantList({ navigation }) {
                     ListFooterComponent={renderFooter}
                     ListEmptyComponent={() => <Text>No Restaurants Found</Text>}
                     onEndReached={fetchMoreRestaurantData}
-                    onEndReachedThreshold={0}
+                    onEndReachedThreshold={0.1}
                 />
             </SafeAreaView>
     )
