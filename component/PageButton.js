@@ -1,7 +1,7 @@
 import React from "react";
 import {Text, TouchableOpacity, StyleSheet, View, Dimensions} from "react-native";
 
-const LoginButton = (prop) => {
+const PageButton = (prop) => {
     return (
         <View style = {styles.shadow}>
             <TouchableOpacity style = {styles.button} onPress = {prop.onPress}>
@@ -11,14 +11,14 @@ const LoginButton = (prop) => {
     )
 }
 
-export default LoginButton
+export default PageButton
 
 const styles = StyleSheet.create({
     shadow: {
-        width: Dimensions.get('window').height * 0.25,
-        height: Dimensions.get('window').height * 0.05,
+        width: Dimensions.get('window').width * 0.8,
+        height: Dimensions.get('window').width * 0.15,
         backgroundColor: '#ff6961',
-        borderRadius: 25,
+        borderRadius: Dimensions.get('window').width * 0.4,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

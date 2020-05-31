@@ -164,8 +164,8 @@ const styles = StyleSheet.create({
         marginTop: '25%'
     },
     buttonShadow: {
-        width: '40%',
-        height: '50%',
+        width: Dimensions.get('window').height * 0.25,
+        height: Dimensions.get('window').height * 0.05,
         backgroundColor: '#ff6961',
         borderRadius: 20,
         shadowColor: "#000",

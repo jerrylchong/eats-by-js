@@ -56,7 +56,7 @@ class WelcomePage extends React.Component {
     }
 
     render() {
-        const {name, password, error, isLoading, isFetching, fontsLoading} = this.state;
+        const {name, password, error, isLoading, isFetching} = this.state;
         const login = () => {
             Keyboard.dismiss();
             if (name.length && password.length) {
