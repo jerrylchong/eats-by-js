@@ -88,7 +88,7 @@ function RestaurantList({ navigation }) {
 
     const renderFooter = () => {
         return (
-        isFetching && <Text style={styles.footer}>Loading...{page}</Text>
+        isFetching && <Text style={styles.footer}>Loading...</Text>
         )}
     
 
