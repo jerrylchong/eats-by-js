@@ -3,11 +3,23 @@ import { StyleSheet, TextInput, View, Image, TouchableOpacity, Animated, Dimensi
 import MenuButton from "../component/MenuButton";
 
 class SearchButton extends React.Component {
+
     state = {
-        animatedWidth: new Animated.Value(50),
-        animatedHeight: new Animated.Value(50),
-        pressed: false,
+        animatedWidth: new Animated.Value(windowWidth * 0.12),
+        animatedHeight: new Animated.Value(windowWidth * 0.12),
+        pressed: false
     }
+
+    componentDidMount() {
+        this.leave = this.props.navigation.addListener("blur", () => {
+                this.resetBar();
+            });
+    }
+
+    componentWillUnmount() {
+        this.leave();
+    }
+
     handleSearchTerm = this.props.handleSearchTerm;
 
     resetBar = () => {
@@ -15,11 +27,11 @@ class SearchButton extends React.Component {
             pressed: false,
         })
         Animated.timing(this.state.animatedWidth, {
-            toValue: 50,
+            toValue: windowWidth * 0.12,
             duration: 100
         }).start()
         Animated.timing(this.state.animatedHeight, {
-            toValue: 50,
+            toValue: windowWidth * 0.12,
             duration: 100
         }).start()
     }
@@ -29,24 +41,20 @@ class SearchButton extends React.Component {
         this.resetBar();
     }
 
-    pressBigSearch = () => {
+    pressSearch = () => {
         Animated.timing(this.state.animatedWidth, {
-            toValue: Dimensions.get('window').width * 0.8,
+            toValue: windowWidth * 0.8,
             duration: 300
         }).start()
         Animated.timing(this.state.animatedHeight, {
-            toValue: 40,
+            toValue: windowWidth * 0.1,
             duration: 300
         }).start()
         this.setState({pressed: true})
     }
 
-    pressSmallSearch = () => {
-        this.resetBar();
-    }
-
     render() {
-        const {searchTerm} = this.props
+        const {searchTerm, clearSearch} = this.props
         const {animatedWidth, animatedHeight, pressed} = this.state;
         const animatedStyle = { width: animatedWidth, height: animatedHeight }
         return (
@@ -63,13 +71,13 @@ class SearchButton extends React.Component {
                                 value = {searchTerm} />
                             <TouchableOpacity
                                 style = {{height: 40, width: 40, justifyContent: 'center', alignItems: 'center'}}
-                                onPress = {this.pressSmallSearch}>
-                                <Image style = {styles.image} source ={require('../assets/magnifying_glass.png')} />
+                                onPress = {clearSearch}>
+                                <Image style = {styles.image} source ={require('../assets/X.png')} />
                             </TouchableOpacity>
                         </View>
-                        : <Image style={{width: 50, height: 50}} source={require('../assets/templogonameless.png')}/>}
+                        : <Image style={{width: windowWidth * 0.12, height: windowWidth * 0.12}} source={require('../assets/templogonameless.png')}/>}
                 </Animated.View>
-                <TouchableOpacity style = {styles.bigImage} onPress = {this.pressBigSearch}>
+                <TouchableOpacity style = {styles.bigImage} onPress = {this.pressSearch}>
                     {!pressed && <Image style = {styles.bigImage} source ={require('../assets/magnifying_glass.png')} />}
                 </TouchableOpacity>
             </View>
@@ -78,6 +86,8 @@ class SearchButton extends React.Component {
 }
 
 export default SearchButton
+
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
     container: {
@@ -88,14 +98,14 @@ const styles = StyleSheet.create({
     },
     searchBar: {
         flexDirection: 'row',
-        width: Dimensions.get('window').width * 0.8,
+        width: windowWidth * 0.8,
         justifyContent: 'space-between',
         alignItems: 'center'
     },
     box: {
         backgroundColor: '#ececec',
-        width: 50,
-        height: 50,
+        width: windowWidth * 0.12,
+        height: windowWidth * 0.12,
         borderRadius: 25,
         justifyContent: 'center',
     },
@@ -103,12 +113,13 @@ const styles = StyleSheet.create({
         color: '#404040',
         fontSize: 16,
         marginLeft: '5%',
-        fontFamily: 'Ubuntu-Light'
+        fontFamily: 'Ubuntu-Light',
+        width: '80%'
     },
     image: {
         marginRight: '5%',
         height: 13,
-        width: 15
+        width: 13
     },
     bigImage: {
         height: 20,

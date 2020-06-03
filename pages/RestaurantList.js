@@ -89,8 +89,12 @@ function RestaurantList({ navigation }) {
     const renderFooter = () => {
         return (
         isFetching && <Text style={styles.footer}>Loading...</Text>
-        )}
-    
+        )
+    }
+
+    const clearSearch = () => {
+        setSearchTerm("");
+    }
 
     return (
         isLoading
@@ -104,6 +108,7 @@ function RestaurantList({ navigation }) {
                         setSearchTerm(searchTerm);
                         debouncedSearchFetchRequest(searchTerm);
                     }}
+                    clearSearch = {clearSearch}
                     />
                 </View>
                 <FlatList
