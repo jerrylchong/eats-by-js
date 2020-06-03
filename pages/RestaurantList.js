@@ -19,7 +19,6 @@ function RestaurantList({ navigation }) {
     const [searchTerm, setSearchTerm] = useState("");
     const [isLastPage, setIsLastPage] = useState(false);
 
-
     useEffect(() => {
         Promise.all([
             getPaginatedRestaurantsFromApi(searchTerm, 1).then(data => {
@@ -77,7 +76,7 @@ function RestaurantList({ navigation }) {
     const handleRefresh = () => {
         setRefreshing(true);
         setPage(1);
-        getPaginatedRestaurantsFromApi(1).then(data => {
+        getPaginatedRestaurantsFromApi(searchTerm,1).then(data => {
             setData(data);
             updatePage();
         }).then(() => setRefreshing(false))
