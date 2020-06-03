@@ -4,6 +4,7 @@ import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
 import {getRestaurantsFromApi, getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
+import _ from "lodash"
 
 // currently my db only got title, description, rating
 // TODO: cost, tags
@@ -15,10 +16,13 @@ function RestaurantList({ navigation }) {
     const [tags, setTags] = useState([]);
     const [isFetching, setFetching] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [isLastPage, setIsLastPage] = useState(false);
+
 
     useEffect(() => {
         Promise.all([
-            getPaginatedRestaurantsFromApi(1).then(data => {
+            getPaginatedRestaurantsFromApi(searchTerm, 1).then(data => {
                 setData(data);
                 updatePage();
             }),
@@ -48,12 +52,27 @@ function RestaurantList({ navigation }) {
     }, []);
 
     const fetchMoreRestaurantData = () => {
-        setFetching(true);
-        getPaginatedRestaurantsFromApi(page).then(moredata => {
-            setData([...data, ...moredata]);
-            updatePage();
-        }).then(() => setFetching(false))
+        if(!isLastPage) {
+            setFetching(true);
+            getPaginatedRestaurantsFromApi(searchTerm, page).then(moredata => {
+                if(moredata.length == 0) {setIsLastPage(true);}
+                setData([...data, ...moredata]);
+                updatePage();
+            }).then(() => setFetching(false))
+        }
     }
+    const searchRequest = (searchTerm) => {
+        setIsLastPage(false);
+        setPage(1);
+        getPaginatedRestaurantsFromApi(searchTerm, 1).then(
+            data => {
+                setData(data);
+                updatePage();
+            }
+
+        ).catch(console.error)
+    }
+    const debouncedSearchFetchRequest = _.debounce(searchRequest,200)
 
     const handleRefresh = () => {
         setRefreshing(true);
@@ -70,20 +89,29 @@ function RestaurantList({ navigation }) {
 
     const renderFooter = () => {
         return (
-            isFetching && <Text style={styles.footer}>Loading...</Text>
+        isFetching && <Text style={styles.footer}>Loading...{page}</Text>
         )}
+    
 
     return (
         isLoading
             ? <Loading />
             : <SafeAreaView style = {styles.container}>
                 <View style = {styles.navBar}>
-                    <SearchButton navigation = {navigation}/>
+                    <SearchButton 
+                    navigation = {navigation}
+                    searchTerm = {searchTerm}
+                    handleSearchTerm = {searchTerm => {
+                        setSearchTerm(searchTerm);
+                        debouncedSearchFetchRequest(searchTerm);
+                    }}
+                    />
                 </View>
                 <FlatList
                     style = {styles.scroll}
                     contentContainerStyle = {{alignItems: 'center'}}
                     data={data}
+                    extraData={data}
                     renderItem={({ item }) =>
                         <RestaurantButton
                             restaurant_id={item.id}
