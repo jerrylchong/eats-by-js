@@ -10,7 +10,7 @@ function ProfilePage({ navigation, route }) {
             ? <Loading/>
             : <SafeAreaView style = {styles.container}>
                 <Text>Profile Page</Text>
-                <Text>Lastest Reviews</Text>
+                <Text>Latest Reviews</Text>
                 <Text>Pending Requests</Text>
                 <Button title = "Back" onPress = {() => navigation.goBack()}/>
             </SafeAreaView>);
