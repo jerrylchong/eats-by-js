@@ -7,14 +7,12 @@ class SearchButton extends React.Component {
         animatedWidth: new Animated.Value(50),
         animatedHeight: new Animated.Value(50),
         pressed: false,
-        searchTerm: ''
     }
-    handleSearchTerm = searchTerm => this.setState({searchTerm})
+    handleSearchTerm = this.props.handleSearchTerm;
 
     resetBar = () => {
         this.setState({
             pressed: false,
-            searchTerm: '',
         })
         Animated.timing(this.state.animatedWidth, {
             toValue: 50,
@@ -44,12 +42,12 @@ class SearchButton extends React.Component {
     }
 
     pressSmallSearch = () => {
-        this.setState({searchTerm: ''});
         this.resetBar();
     }
 
     render() {
-        const {animatedWidth, animatedHeight, pressed, searchTerm} = this.state;
+        const {searchTerm} = this.props
+        const {animatedWidth, animatedHeight, pressed} = this.state;
         const animatedStyle = { width: animatedWidth, height: animatedHeight }
         return (
             <View style = {styles.container}>

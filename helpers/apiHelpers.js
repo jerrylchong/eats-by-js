@@ -35,7 +35,7 @@ export function getRestaurantsFromApi() {
         .then(json => json.data)
 }
 
-export function getPaginatedRestaurantsFromApi(page, per_page=4, searchTerm="") {
+export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=4) {
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
