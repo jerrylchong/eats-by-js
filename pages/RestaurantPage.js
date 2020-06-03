@@ -56,16 +56,16 @@ function RestaurantBanner(props) {
 const stylesBanner = StyleSheet.create({
     container: {
         width: "95%",
+        height: Dimensions.get('window').height * 0.2,
         flexDirection: 'column',
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        margin: 20,
         paddingHorizontal: 5,
     },
     title: {
         fontFamily: 'Ubuntu-Bold',
-        fontSize: 30,
+        fontSize: 28,
     },
     tags: {
         paddingVertical: '4%',
@@ -132,7 +132,7 @@ const TabsWithoutRedux = (props) => {
     }
 
     return (
-        <View style = {{height: '40%', width: '100%'}}>
+        <View style = {{height: '60%', width: '100%'}}>
             <Tab.Navigator
                 tabBarOptions = {{
                     activeTintColor: '#404040',
@@ -155,7 +155,9 @@ const TabsWithoutRedux = (props) => {
                     }
                 </Tab.Screen>
 
-                <Tab.Screen name="Reviews"  >
+                <Tab.Screen name="Reviews"
+                            options={{title: "Reviews (" + reviews.length.toString() + ")"}}
+                >
                     { () => isLoading ? <Loading/> :
                         <View style = {{width: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
                             { isLoggedIn &&
@@ -165,7 +167,7 @@ const TabsWithoutRedux = (props) => {
                             </TouchableOpacity>
                             }
                             <FlatList
-                                style={{width: '100%'}}
+                                style={{height: '85%', width: '100%'}}
                                 data={reviews}
                                 renderItem={({item}) =>
                                     <Review
@@ -219,47 +221,60 @@ function RestaurantPage({ navigation, route }) {
         isLoading
             ? <Loading/>
             : <SafeAreaView style = {styles.container}>
-                <ImageBackground style={styles.picture} 
-                    source={{uri: restaurantData.attributes.image_link}}
-                >
-                    <BackButton style = {{margin: '3%'}} onPress = {() => navigation.goBack()} />
-                </ImageBackground>
-
-                <RestaurantBanner
-                    title={restaurantData.attributes.title}
-                    tags={restaurantTags.map(x => x.attributes)}
-                    location={restaurantData.attributes.location}
-                    operatingHours={restaurantData.attributes.operating_hours}
-                    contact={restaurantData.attributes.contact}
-                    halal={restaurantData.attributes.halal_certified}
-                    cost={restaurantData.attributes.price}
-                    no_of_stalls={restaurantData.attributes.no_of_stalls}
-                />
-                <View style = {styles.deals}>
-                    <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
-                </View>
+                <ScrollView
+                    style = {{width: '100%', height: 0}}
+                    contentContainerStyle = {{justifyContent: 'flex-start', alignItems: 'center'}}>
+                    <Image style={styles.picture}
+                                     source={{uri: restaurantData.attributes.image_link}}
+                    />
+                    <RestaurantBanner
+                        title={restaurantData.attributes.title}
+                        tags={restaurantTags.map(x => x.attributes)}
+                        location={restaurantData.attributes.location}
+                        operatingHours={restaurantData.attributes.operating_hours}
+                        contact={restaurantData.attributes.contact}
+                        halal={restaurantData.attributes.halal_certified}
+                        cost={restaurantData.attributes.price}
+                        no_of_stalls={restaurantData.attributes.no_of_stalls}
+                    />
+                    <View style = {styles.deals}>
+                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
+                    </View>
+                    <View style = {styles.deals}>
+                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
+                    </View>
+                    <View style = {styles.deals}>
+                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
+                    </View>
+                    <View style = {styles.deals}>
+                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
+                    </View>
+                    <View style = {styles.deals}>
+                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
+                    </View>
+                </ScrollView>
+                <BackButton style = {{alignSelf: 'flex-start', position: 'absolute', top: '5%', left: '3%'}}
+                            onPress = {() => navigation.goBack()} />
                 <Tabs
                     navigation={navigation}
                     restaurant_id={restaurantData.id}
                 />
-            </SafeAreaView>);
+            </SafeAreaView>
+    );
 }
 
 export default RestaurantPage
 
 const styles = StyleSheet.create({
     picture: {
-        flex:1.3,
-        height:"100%",
+        height: Dimensions.get('window').height * 0.25,
         width:"100%",
         justifyContent:"flex-start",
         alignItems:"flex-start",
     },
     container: {
         flex: 1,
-        flexDirection: 'column',
         backgroundColor: '#fff',
-        justifyContent: 'flex-start',
         alignItems: 'center',
     },
     header: {

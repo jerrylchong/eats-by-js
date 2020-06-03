@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, TouchableOpacity, StyleSheet, View} from "react-native";
+import {Image, TouchableOpacity, StyleSheet, View, Dimensions} from "react-native";
 
 const BackButton = (props) => {
     return (
@@ -16,9 +16,9 @@ export default BackButton
 const styles = StyleSheet.create({
     container: {
         height: 50,
-        width: 30,
+        width: 50,
         alignItems: 'flex-start',
-        justifyContent: 'center'
+        justifyContent: 'flex-start'
     },
     image: {
         height: 13,

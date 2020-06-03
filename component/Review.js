@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         borderTopWidth: 1,
         borderColor: '#b3b3b3',
-        marginBottom: '7%',
+        marginBottom: '3%',
         paddingHorizontal: '3%',
         alignSelf: 'center'
 
