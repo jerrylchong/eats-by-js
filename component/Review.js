@@ -29,9 +29,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         borderTopWidth: 1,
         borderColor: '#b3b3b3',
-        marginBottom: '5%',
+        marginBottom: '7%',
         paddingHorizontal: '3%',
-        paddingTop: '2%'
+        alignSelf: 'center'
+
     },
     titleRating: {
         width: '100%',

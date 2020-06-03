@@ -14,6 +14,7 @@ function RestaurantList({ navigation }) {
     const [page, setPage] = useState(1);
     const [tags, setTags] = useState([]);
     const [isFetching, setFetching] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         Promise.all([
@@ -52,6 +53,15 @@ function RestaurantList({ navigation }) {
             setData([...data, ...moredata]);
             updatePage();
         }).then(() => setFetching(false))
+    }
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        setPage(1);
+        getPaginatedRestaurantsFromApi(1).then(data => {
+            setData(data);
+            updatePage();
+        }).then(() => setRefreshing(false))
     }
 
     const updatePage = () => {
@@ -93,6 +103,8 @@ function RestaurantList({ navigation }) {
                     ListEmptyComponent={() => <Text>No Restaurants Found</Text>}
                     onEndReached={fetchMoreRestaurantData}
                     onEndReachedThreshold={0.1}
+                    onRefresh={handleRefresh}
+                    refreshing={refreshing}
                 />
             </SafeAreaView>
     )

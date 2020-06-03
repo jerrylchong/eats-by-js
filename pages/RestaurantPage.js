@@ -9,7 +9,8 @@ import {
     BackHandler,
     Image,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    FlatList
 } from "react-native";
 import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
@@ -106,8 +107,30 @@ const reviewStyles = StyleSheet.create({
 })
 
 const TabsWithoutRedux = (props) => {
-    const {navigation, dishes, reviews, restaurant_id, user} = props;
+    const {navigation, restaurant_id, user} = props;
     const {isLoggedIn} = user;
+    const [isLoading, setLoading] = useState(true);
+    const [dishes, setDishes] = useState([]);
+    const [reviews, setReviews] = useState([]);
+    const [refreshingReviews, setRefreshingReviews] = useState(false);
+
+    useEffect(() => {
+        Promise.all([
+            getDishesFromApi(restaurant_id).then(data => setDishes(data)),
+            getReviewsForRestaurant(restaurant_id).then(data => setReviews(data)),
+        ])
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+    }, []);
+
+
+    const handleReviewRefresh = () => {
+        setRefreshingReviews(true);
+        getReviewsForRestaurant(restaurant_id)
+            .then(data => setReviews(data))
+            .then(() => setRefreshingReviews(false));
+    }
+
     return (
         <View style = {{height: '40%', width: '100%'}}>
             <Tab.Navigator
@@ -118,7 +141,7 @@ const TabsWithoutRedux = (props) => {
                 }}>
 
                 <Tab.Screen name="Dishes" >
-                    { () => 
+                    { () => isLoading ? <Loading/> :
                     <ScrollView style = {styles.scroll} contentContainerStyle = {{ alignItems: 'center', backgroundColor: 'white'}}>
                         { dishes.map((dish) =>
                         <DishButton
@@ -133,27 +156,30 @@ const TabsWithoutRedux = (props) => {
                 </Tab.Screen>
 
                 <Tab.Screen name="Reviews"  >
-                    { () => 
-                    <ScrollView style = {styles.scroll} contentContainerStyle = {{alignItems:'center', backgroundColor: 'white'}}>
-                        { isLoggedIn &&
-                        <TouchableOpacity style = {reviewStyles.addReview} onPress = {() => navigation.navigate('Add Review', {restaurant_id})}>
-                            <Image style = {reviewStyles.addButton} source={require('../assets/plusbutton.png')}/>
-                            <Text style = {{color: '#ff6961', fontFamily: 'Ubuntu'}}>Add a review</Text>
-                        </TouchableOpacity>
-                        }
-                        { 
-                        reviews.map((review,i) =>
-                        <Review
-                            key={`${i}-review`}
-                            user={'Bob'}
-                            user_id={review.relationships.user.data.id}
-                            date={review.attributes.created_at}
-                            title={review.attributes.title}
-                            rating={review.attributes.rating}
-                            content={review.attributes.content}/>
-                        ) 
-                        }
-                    </ScrollView>
+                    { () => isLoading ? <Loading/> :
+                        <View style = {{width: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
+                            { isLoggedIn &&
+                            <TouchableOpacity style = {reviewStyles.addReview} onPress = {() => navigation.navigate('Add Review', {restaurant_id})}>
+                                <Image style = {reviewStyles.addButton} source={require('../assets/plusbutton.png')}/>
+                                <Text style = {{color: '#ff6961', fontFamily: 'Ubuntu'}}>Add a review</Text>
+                            </TouchableOpacity>
+                            }
+                            <FlatList
+                                style={{width: '100%'}}
+                                data={reviews}
+                                renderItem={({item}) =>
+                                    <Review
+                                    user_id={item.relationships.user.data.id}
+                                    date={item.attributes.created_at}
+                                    title={item.attributes.title}
+                                    rating={item.attributes.rating}
+                                    content={item.attributes.content}
+                                    />}
+                                ListEmptyComponent={<Text>No Reviews Yet!</Text>}
+                                onRefresh={handleReviewRefresh}
+                                refreshing={refreshingReviews}
+                            />
+                        </View>
                     }
                 </Tab.Screen>
             </Tab.Navigator>
@@ -164,8 +190,6 @@ const Tabs = connect(mapReduxStateToProps)(TabsWithoutRedux);
 
 function RestaurantPage({ navigation, route }) {
     const [isLoading, setLoading] = useState(true);
-    const [dishes, setDishes] = useState([]);
-    const [reviews, setReviews] = useState([]);
     const [restaurantData, setRestaurantData] = useState([]);
     const [restaurantTags, setRestaurantTags] = useState([]);
 
@@ -173,10 +197,8 @@ function RestaurantPage({ navigation, route }) {
 
     useEffect(() => {
         Promise.all([
-            getDishesFromApi(restaurant_id).then(data => setDishes(data)),
             getRestaurantFromApi(restaurant_id).then(data => setRestaurantData(data)),
             getRestaurantTagsFromApi(restaurant_id).then(data => setRestaurantTags(data)),
-            getReviewsForRestaurant(restaurant_id).then(data => setReviews(data)),
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -217,8 +239,6 @@ function RestaurantPage({ navigation, route }) {
                     <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
                 </View>
                 <Tabs
-                    dishes={dishes}
-                    reviews={reviews}
                     navigation={navigation}
                     restaurant_id={restaurantData.id}
                 />
