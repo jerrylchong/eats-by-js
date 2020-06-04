@@ -71,7 +71,7 @@ class SearchButton extends React.Component {
                                 value = {searchTerm} />
                             <TouchableOpacity
                                 style = {{height: 40, width: 40, justifyContent: 'center', alignItems: 'center'}}
-                                onPress = {clearSearch}>
+                                onPress = {searchTerm.length == 0 ? this.resetBar : clearSearch}>
                                 <Image style = {styles.image} source ={require('../assets/X.png')} />
                             </TouchableOpacity>
                         </View>
