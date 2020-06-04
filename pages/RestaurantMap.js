@@ -1,13 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import MapView, {PROVIDER_GOOGLE} from "react-native-maps";
-import {SafeAreaView, StyleSheet, View} from "react-native";
+import MapView, {PROVIDER_GOOGLE, Marker} from "react-native-maps";
+import {SafeAreaView, StyleSheet, View, Image, Alert, BackHandler} from "react-native";
 import SearchButton from "../container/SearchButton";
+import {getRestaurantsFromApi} from "../helpers/apiHelpers";
+import Loading from "../component/Loading";
 
 const RestaurantMap = ({ navigation }) => {
     const [searchTerm, setSearchTerm] = useState("");
+    const [data, setData] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+    const [camera, setCamera] = useState()
+
+    useEffect(() => {
+        Promise.all([
+            getRestaurantsFromApi().then(data => {
+                setData(data);
+            }),
+        ])
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+
+        const backAction = () => {
+            Alert.alert("Exit App", "Are you sure you want to exit the App?", [
+                {
+                    text: "Cancel",
+                    onPress: () => null,
+                    style: "cancel"
+                },
+                { text: "YES", onPress: () => BackHandler.exitApp() }
+            ]);
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, []);
+
+    const getCoordinates = (add) => {
+        return (
+            fetch('http://maps.google.com/maps/api/geocode/json?address=' + "Singapore")
+                .then(res => res.result.geometry.location)
+                .then(loc => ({
+                    latitude: loc.lat,
+                    longitude: loc.lng
+                }))
+        )
+    }
 
     return (
+        isLoading ? <Loading/>
+        :
         <SafeAreaView style = {styles.container}>
             <View style = {styles.navBar}>
                 <SearchButton
@@ -19,15 +66,31 @@ const RestaurantMap = ({ navigation }) => {
             </View>
             <MapView
                 style={{ flex: 1, height: '90%', width: '100%' }}
-                region={{
-                    latitude: 1.296643,
-                    longitude: 103.776398,
-                    latitudeDelta: 0.002212,
-                    longitudeDelta: 0.00395,
+                camera={{
+                    center: {
+                        latitude: 1.296643,
+                        longitude: 103.776398
+                    },
+                    pitch: 0,
+                    heading: 1,
+                    altitude: 200,
+                    zoom: 16
                 }}
-                provider={MapView.PROVIDER_GOOGLE}
+                provider={PROVIDER_GOOGLE}
                 showsUserLocation={true}
-            />
+            >
+                <Marker
+                    coordinate={{
+                        latitude: 1.296643,
+                        longitude: 103.776398
+                    }}
+                    onPress={() => navigation.navigate('Restaurant', {restaurant_id: 1})}
+                >
+                    <View style = {styles.marker}>
+                        <Image style = {styles.image} source={require('../assets/testrestaurant.png')}/>
+                    </View>
+                </Marker>
+            </MapView>
         </SafeAreaView>
     );
 };
@@ -49,4 +112,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    marker: {
+        height: 30,
+        width: 30,
+        borderRadius: 15,
+        backgroundColor: '#ff6961',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    image: {
+        height: 26,
+        width: 26,
+        borderRadius: 13
+    }
 });
