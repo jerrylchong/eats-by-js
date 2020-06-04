@@ -21,14 +21,18 @@ export default DishButton
 const styles = StyleSheet.create({
     container: {
         width: '90%',
-        height: Dimensions.get('window').height * 0.12,
-        justifyContent: 'space-evenly',
+        height: Dimensions.get('window').height * 0.08,
+        alignSelf: 'center',
+        borderTopWidth: 1,
+        borderColor: '#404040',
     },
     text: {
         width: '100%',
         height: '30%',
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom: '5%',
+        marginTop: '2%'
     },
     nameReview: {
         flexDirection: 'row',
@@ -37,28 +41,17 @@ const styles = StyleSheet.create({
     name: {
         color: 'black',
         fontSize: 20,
-        fontWeight: 'bold'
+        fontFamily: 'Ubuntu-Bold'
     },
     cost: {
         color: 'black',
         fontSize: 20,
-    },
-    rating: {
-        color: '#646464',
-        fontSize: 12,
-        marginLeft: 5,
-        marginTop: 3
+        fontFamily: 'Ubuntu'
     },
     description: {
         color: '#7e7e7e',
         fontSize: 11,
         alignSelf: 'flex-start',
-        marginLeft: 5
+        fontFamily: 'Ubuntu'
     },
-    tags: {
-        flexDirection: 'row',
-        marginTop: 5,
-        alignSelf: 'flex-start',
-        marginLeft: 5
-    }
 })

@@ -4,7 +4,7 @@ import Tag from './Tag'
 
 const RestaurantButton = (props) => {
 
-    const { name, cost, description, rating, tags, onPress, image_url } = props;
+    const { name, cost, description, rating, tags, onPress, image_url, halal, location, opening_hours } = props;
 
     const ratingContainerStyle = {
         backgroundColor: parseFloat(rating) < 0
@@ -31,7 +31,7 @@ const RestaurantButton = (props) => {
                 <View style={styles.text}>
                     <Text style={styles.name}>{name}</Text>
                     <View style = {styles.cost}>
-                        <Image style = {styles.coin} source={require('../assets/coin.png')}/>
+                        {parseFloat(cost) > 0 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
                         {parseFloat(cost) > 5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
                         {parseFloat(cost) > 7.5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
                     </View>
@@ -46,8 +46,13 @@ const RestaurantButton = (props) => {
                                     name={elem.name}
                                 />
                             ) }
+                            {halal && <Tag name = {'halal'}/>}
                         </View>
-                        <Text style = {styles.description}>{description}</Text>
+                        <Text style = {styles.description}>
+                            {description}{'\n'}
+                            Location: {location}{'\n'}
+                            {opening_hours}
+                        </Text>
                         <View style = {ratingContainerStyle}>
                             {parseFloat(rating) < 0
                                 ? <Text style = {styles.rating}>NA</Text>
@@ -107,15 +112,15 @@ const styles = StyleSheet.create({
     name: {
         color: '#404040',
         fontSize: 20,
-        fontWeight: 'bold',
         width: '75%',
         height: Dimensions.get('window').width * 0.06,
-        flexWrap: 'nowrap'
+        flexWrap: 'nowrap',
+        fontFamily: 'Ubuntu-Bold'
     },
     cost: {
         width: '20%',
         flexDirection: 'row',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-end'
     },
     info: {
         width: '94%',
@@ -143,9 +148,12 @@ const styles = StyleSheet.create({
     },
     description: {
         color: '#a0a0a0',
-        fontSize: 11,
+        fontSize: 10,
+        height: '45%',
         alignSelf: 'flex-start',
-        marginBottom: '10%'
+        marginBottom: '10%',
+        fontFamily: 'Ubuntu',
+        paddingVertical: '2%'
     },
     face: {
         height: 16,
@@ -153,9 +161,9 @@ const styles = StyleSheet.create({
     },
     rating: {
         fontSize: 14,
-        fontWeight: 'bold',
         color: 'white',
-        marginTop: '2%'
+        marginTop: '2%',
+        fontFamily: 'Ubuntu-Bold'
     },
     coin: {
         height: Dimensions.get('window').width * 0.06,

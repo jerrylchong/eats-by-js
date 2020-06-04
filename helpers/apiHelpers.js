@@ -35,6 +35,16 @@ export function getRestaurantsFromApi() {
         .then(json => json.data)
 }
 
+export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=4) {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}`, requestOptions)
+        .then(res => res.json())
+        .then(json => json.data)
+}
+
 export function getRestaurantFromApi(restaurant_id) {
     var requestOptions = {
         method: 'GET',
@@ -191,3 +201,18 @@ export function getUsername(user_id) {
         .then(response => response.json())
 }
 
+export function deleteRestaurant(restaurant_id, token) {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    var raw = JSON.stringify({review});
+
+    var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/restaurants/${restaurant_id}`, requestOptions)
+        .then(response => response.json())
+}

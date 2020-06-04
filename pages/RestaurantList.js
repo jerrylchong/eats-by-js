@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, View, BackHandler, Alert, ImageBackground, Dimensions, FlatList, Text} from "react-native";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
-import {getRestaurantsFromApi, getTagsFromApi} from "../helpers/apiHelpers";
+import {getRestaurantsFromApi, getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
+import _ from "lodash"
 
 // currently my db only got title, description, rating
 // TODO: cost, tags
@@ -11,11 +12,19 @@ import Loading from "../component/Loading";
 function RestaurantList({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [page, setPage] = useState(1);
     const [tags, setTags] = useState([]);
+    const [isFetching, setFetching] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [isLastPage, setIsLastPage] = useState(false);
 
     useEffect(() => {
         Promise.all([
-            getRestaurantsFromApi().then(data => setData(data)),
+            getPaginatedRestaurantsFromApi(searchTerm, 1).then(data => {
+                setData(data);
+                updatePage();
+            }),
             getTagsFromApi().then(data => setTags(data.map(x => x.attributes)))
         ])
             .catch((error) => console.error(error))
@@ -41,35 +50,93 @@ function RestaurantList({ navigation }) {
         return () => backHandler.remove();
     }, []);
 
+    const fetchMoreRestaurantData = () => {
+        if(!isLastPage) {
+            setFetching(true);
+            getPaginatedRestaurantsFromApi(searchTerm, page).then(moredata => {
+                if(moredata.length == 0) {setIsLastPage(true);}
+                setData([...data, ...moredata]);
+                updatePage();
+            }).then(() => setFetching(false))
+        }
+    }
+    const searchRequest = (searchTerm) => {
+        setIsLastPage(false);
+        setPage(1);
+        getPaginatedRestaurantsFromApi(searchTerm, 1).then(
+            data => {
+                setData(data);
+                updatePage();
+            }
+
+        ).catch(console.error)
+    }
+    const debouncedSearchFetchRequest = _.debounce(searchRequest,200)
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        setPage(1);
+        getPaginatedRestaurantsFromApi(searchTerm,1).then(data => {
+            setData(data);
+            updatePage();
+        }).then(() => setRefreshing(false))
+    }
+
+    const updatePage = () => {
+        setPage(page + 1);
+    }
+
     const renderFooter = () => {
-        return <Text style = {styles.footer}>No more already lah!</Text>
-    };
+        return (
+        isFetching && <Text style={styles.footer}>Loading...</Text>
+        )
+    }
+
+    const clearSearch = () => {
+        setSearchTerm("");
+    }
 
     return (
         isLoading
             ? <Loading />
             : <SafeAreaView style = {styles.container}>
                 <View style = {styles.navBar}>
-                    <SearchButton navigation = {navigation}/>
+                    <SearchButton 
+                    navigation = {navigation}
+                    searchTerm = {searchTerm}
+                    handleSearchTerm = {searchTerm => {
+                        setSearchTerm(searchTerm);
+                        debouncedSearchFetchRequest(searchTerm);
+                    }}
+                    clearSearch = {clearSearch}
+                    />
                 </View>
                 <FlatList
                     style = {styles.scroll}
                     contentContainerStyle = {{alignItems: 'center'}}
                     data={data}
+                    extraData={data}
                     renderItem={({ item }) =>
                         <RestaurantButton
                             restaurant_id={item.id}
                             name={item.attributes.title}
-                            image_url={item.attributes.image_link}
-                            cost={'10'}
+                            image_url={item.attributes.image_link == null ? "" : item.attributes.image_link}
+                            cost={item.attributes.price}
                             description={item.attributes.description}
                             rating={item.attributes.rating}
+                            halal={item.attributes.halal_certified}
+                            location={item.attributes.location}
+                            opening_hours={item.attributes.operating_hours}
                             tags={isLoading ? [] : item.relationships.tags.data.map(x => tags[x.id - 1])}
                             onPress={() => navigation.navigate('Restaurant', {restaurant_id: item.id}) }
                         />}
                     keyExtractor={restaurant => restaurant.id}
                     ListFooterComponent={renderFooter}
                     ListEmptyComponent={() => <Text>No Restaurants Found</Text>}
+                    onEndReached={fetchMoreRestaurantData}
+                    onEndReachedThreshold={0.1}
+                    onRefresh={handleRefresh}
+                    refreshing={refreshing}
                 />
             </SafeAreaView>
     )
@@ -98,7 +165,7 @@ const styles = StyleSheet.create({
     footer: {
         color: '#ff6961',
         fontSize: 16,
-        fontWeight: 'bold',
-        marginTop: '2%'
+        marginTop: '2%',
+        fontFamily: 'Ubuntu-Bold'
     }
 });

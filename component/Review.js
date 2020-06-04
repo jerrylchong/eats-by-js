@@ -29,9 +29,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         borderTopWidth: 1,
         borderColor: '#b3b3b3',
-        marginTop: '5%',
+        marginBottom: '3%',
         paddingHorizontal: '3%',
-        paddingTop: '2%'
+        alignSelf: 'center'
+
     },
     titleRating: {
         width: '100%',
@@ -42,18 +43,22 @@ const styles = StyleSheet.create({
     title: {
         color: '#404040',
         fontSize: 16,
+        fontFamily: 'Ubuntu-Bold'
     },
     rating: {
         color: '#404040',
-        fontSize: 14
+        fontSize: 14,
+        fontFamily: 'Ubuntu-Bold'
     },
     user: {
         color: '#b3b3b3',
-        fontSize: 12
+        fontSize: 12,
+        fontFamily: 'Ubuntu-Medium'
     },
     content: {
         color: '#b3b3b3',
         fontSize: 12,
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        fontFamily: 'Ubuntu'
     }
 })

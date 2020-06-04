@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View, Text, ImageBackground} from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet, View, Text, ImageBackground, Button} from "react-native";
 import Loading from "../component/Loading";
 
 function ProfilePage({ navigation, route }) {
@@ -10,8 +10,9 @@ function ProfilePage({ navigation, route }) {
             ? <Loading/>
             : <SafeAreaView style = {styles.container}>
                 <Text>Profile Page</Text>
-                <Text>Lastest Reviews</Text>
+                <Text>Latest Reviews</Text>
                 <Text>Pending Requests</Text>
+                <Button title = "Back" onPress = {() => navigation.goBack()}/>
             </SafeAreaView>);
 }
 
