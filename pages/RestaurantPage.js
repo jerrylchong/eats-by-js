@@ -22,9 +22,9 @@ import {
     getReviewsForRestaurant,
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Review from "../component/Review";
-import {connect} from 'react-redux';
+import Accordion from "react-native-collapsible/Accordion";
+import {connect} from "react-redux";
 import {mapReduxStateToProps} from "../helpers/reduxHelpers";
 
 function RestaurantBanner(props) {
@@ -88,119 +88,25 @@ const stylesBanner = StyleSheet.create({
     },
 })
 
-const Tab = createMaterialTopTabNavigator();
-
-
-const reviewStyles = StyleSheet.create({
-    addReview: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        height: Dimensions.get('window').height * 0.06,
-        width: '90%',
-    },
-    addButton: {
-        height: 13,
-        width: 13,
-        marginRight: '2%'
-    },
-})
-
-const TabsWithoutRedux = (props) => {
-    const {navigation, restaurant_id, user} = props;
-    const {isLoggedIn} = user;
-    const [isLoading, setLoading] = useState(true);
-    const [dishes, setDishes] = useState([]);
-    const [reviews, setReviews] = useState([]);
-    const [refreshingReviews, setRefreshingReviews] = useState(false);
-
-    useEffect(() => {
-        Promise.all([
-            getDishesFromApi(restaurant_id).then(data => setDishes(data)),
-            getReviewsForRestaurant(restaurant_id).then(data => setReviews(data)),
-        ])
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
-    }, []);
-
-
-    const handleReviewRefresh = () => {
-        setRefreshingReviews(true);
-        getReviewsForRestaurant(restaurant_id)
-            .then(data => setReviews(data))
-            .then(() => setRefreshingReviews(false));
-    }
-
-    return (
-        <View style = {{height: '60%', width: '100%'}}>
-            <Tab.Navigator
-                tabBarOptions = {{
-                    activeTintColor: '#404040',
-                    indicatorStyle: { backgroundColor: '#ff6961'},
-                    labelStyle: {fontFamily: 'Ubuntu'}
-                }}>
-
-                <Tab.Screen name="Dishes" >
-                    { () => isLoading ? <Loading/> :
-                    <ScrollView style = {styles.scroll} contentContainerStyle = {{ alignItems: 'center', backgroundColor: 'white'}}>
-                        { dishes.map((dish) =>
-                        <DishButton
-                            key={dish.id}
-                            title={dish.attributes.title}
-                            description={dish.attributes.description}
-                            price={dish.attributes.price}
-                        />
-                        ) }
-                    </ ScrollView>
-                    }
-                </Tab.Screen>
-
-                <Tab.Screen name="Reviews"
-                            options={{title: "Reviews (" + reviews.length.toString() + ")"}}
-                >
-                    { () => isLoading ? <Loading/> :
-                        <View style = {{width: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
-                            { isLoggedIn &&
-                            <TouchableOpacity style = {reviewStyles.addReview} onPress = {() => navigation.navigate('Add Review', {restaurant_id})}>
-                                <Image style = {reviewStyles.addButton} source={require('../assets/plusbutton.png')}/>
-                                <Text style = {{color: '#ff6961', fontFamily: 'Ubuntu'}}>Add a review</Text>
-                            </TouchableOpacity>
-                            }
-                            <FlatList
-                                style={{height: '85%', width: '100%'}}
-                                data={reviews}
-                                renderItem={({item}) =>
-                                    <Review
-                                    user_id={item.relationships.user.data.id}
-                                    date={item.attributes.created_at}
-                                    title={item.attributes.title}
-                                    rating={item.attributes.rating}
-                                    content={item.attributes.content}
-                                    />}
-                                ListEmptyComponent={<Text>No Reviews Yet!</Text>}
-                                onRefresh={handleReviewRefresh}
-                                refreshing={refreshingReviews}
-                            />
-                        </View>
-                    }
-                </Tab.Screen>
-            </Tab.Navigator>
-        </View>
-    );
-}
-const Tabs = connect(mapReduxStateToProps)(TabsWithoutRedux);
-
-function RestaurantPage({ navigation, route }) {
+function RestaurantPage(props) {
+    const { navigation, route, user } = props;
     const [isLoading, setLoading] = useState(true);
     const [restaurantData, setRestaurantData] = useState([]);
     const [restaurantTags, setRestaurantTags] = useState([]);
-
+    const [dishes, setDishes] = useState([]);
+    const [reviews, setReviews] = useState([]);
+    const [refreshingReviews, setRefreshingReviews] = useState(false);
+    const [refreshingDishes, setRefreshingDishes] = useState(false);
+    const [activeSections, setSections] = useState([]);
     const {restaurant_id} = route.params;
+    const {isLoggedIn} = user;
 
     useEffect(() => {
         Promise.all([
             getRestaurantFromApi(restaurant_id).then(data => setRestaurantData(data)),
             getRestaurantTagsFromApi(restaurant_id).then(data => setRestaurantTags(data)),
+            getDishesFromApi(restaurant_id).then(data => setDishes(data)),
+            getReviewsForRestaurant(restaurant_id).then(data => setReviews(data)),
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -217,26 +123,90 @@ function RestaurantPage({ navigation, route }) {
         return () => backHandler.remove();
     }, []);
 
-    return (
-        isLoading
-            ? <Loading/>
-            : <SafeAreaView style = {styles.container}>
-                <ScrollView
-                    style = {{width: '100%', height: 0}}
-                    contentContainerStyle = {{justifyContent: 'flex-start', alignItems: 'center'}}>
-                    <Image style={styles.picture}
-                                     source={{uri: restaurantData.attributes.image_link}}
+    const onReviewRefresh = () => {
+        setRefreshingReviews(true);
+        getReviewsForRestaurant(restaurant_id)
+            .then(data => setReviews(data))
+            .then(() => setRefreshingReviews(false));
+    }
+
+    const onDishRefresh = () => {
+        setRefreshingDishes(true);
+        getDishesFromApi(restaurant_id)
+            .then(data => setDishes(data))
+            .then(() => setRefreshingDishes(false));
+    }
+
+    const SECTIONS = [
+        {
+            title: "Reviews (" + reviews.length.toString() + ")",
+            id: 1
+        },
+        {
+            title: "Dishes (" + dishes.length.toString() + ")",
+            id: 2
+        },
+        {
+            title: "Deals",
+            id: 3
+        },
+    ]
+
+    const _renderHeader = section => {
+        return (
+            <View style = {styles.header}>
+                <Text style = {styles.title}>{section.title}</Text>
+            </View>
+        )
+    }
+
+    const _renderContent = section => {
+        return (
+            section.id == 1 ?
+                <View style = {{height: '90%', width: Dimensions.get('window').width,
+                    alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
+                    { isLoggedIn &&
+                    <TouchableOpacity style = {styles.addReview} onPress = {() => navigation.navigate('Add Review', {restaurant_id})}>
+                        <Image style = {styles.addButton} source={require('../assets/plusbutton.png')}/>
+                        <Text style = {{color: '#ff6961', fontFamily: 'Ubuntu'}}>Add a review</Text>
+                    </TouchableOpacity>
+                    }
+                    <FlatList
+                        style={{width: '100%'}}
+                        data={reviews}
+                        renderItem={({item}) =>
+                            <Review
+                                user_id={item.relationships.user.data.id}
+                                date={item.attributes.created_at}
+                                title={item.attributes.title}
+                                rating={item.attributes.rating}
+                                content={item.attributes.content}
+                            />}
+                        ListEmptyComponent={<Text>No Reviews Yet!</Text>}
+                        onRefresh={onReviewRefresh}
+                        refreshing={refreshingReviews}
                     />
-                    <RestaurantBanner
-                        title={restaurantData.attributes.title}
-                        tags={restaurantTags.map(x => x.attributes)}
-                        location={restaurantData.attributes.location}
-                        operatingHours={restaurantData.attributes.operating_hours}
-                        contact={restaurantData.attributes.contact}
-                        halal={restaurantData.attributes.halal_certified}
-                        cost={restaurantData.attributes.price}
-                        no_of_stalls={restaurantData.attributes.no_of_stalls}
+                </View>
+                : section.id == 2 ?
+                <View style = {{height: '100%', width: Dimensions.get('window').width,
+                    alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
+                    <FlatList
+                        style={{width: '100%'}}
+                        data={dishes}
+                        renderItem={({item}) =>
+                            <DishButton
+                                title={item.attributes.title}
+                                description={item.attributes.description}
+                                price={item.attributes.price}
+                            />}
+                        keyExtractor={item => item.id}
+                        ListEmptyComponent={<Text>No Dishes Yet!</Text>}
+                        onRefresh={onDishRefresh}
+                        refreshing={refreshingDishes}
                     />
+                </View>
+                :
+                <ScrollView style = {{height: '50%', width: Dimensions.get('window').width}}>
                     <View style = {styles.deals}>
                         <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
                     </View>
@@ -253,17 +223,45 @@ function RestaurantPage({ navigation, route }) {
                         <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
                     </View>
                 </ScrollView>
-                <BackButton style = {{alignSelf: 'flex-start', position: 'absolute', top: '5%', left: '3%'}}
-                            onPress = {() => navigation.goBack()} />
-                <Tabs
-                    navigation={navigation}
-                    restaurant_id={restaurantData.id}
+        )
+    }
+
+    const _updateSections = activeSections => {
+        setSections(activeSections);
+    }
+
+    return (
+        isLoading
+            ? <Loading/>
+            : <SafeAreaView style = {styles.container}>
+                <ImageBackground style={styles.picture}
+                                 source={{uri: restaurantData.attributes.image_link}}>
+                    <BackButton style = {{margin: '5%'}} onPress = {() => navigation.goBack()} />
+                </ImageBackground>
+                <RestaurantBanner
+                    title={restaurantData.attributes.title}
+                    tags={restaurantTags.map(x => x.attributes)}
+                    location={restaurantData.attributes.location}
+                    operatingHours={restaurantData.attributes.operating_hours}
+                    contact={restaurantData.attributes.contact}
+                    halal={restaurantData.attributes.halal_certified}
+                    cost={restaurantData.attributes.price}
+                    no_of_stalls={restaurantData.attributes.no_of_stalls}
                 />
+                <Accordion
+                    sections={SECTIONS}
+                    activeSections={activeSections}
+                    renderHeader={_renderHeader}
+                    renderContent={_renderContent}
+                    onChange={_updateSections}
+                    underlayColor={"#f5f5f5"}
+                />
+
             </SafeAreaView>
     );
 }
 
-export default RestaurantPage
+export default connect(mapReduxStateToProps)(RestaurantPage)
 
 const styles = StyleSheet.create({
     picture: {
@@ -278,13 +276,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     header: {
-        width:'100%',
-        alignItems:'flex-start',
-        padding: '2%'
+        alignSelf: 'center',
+        width: Dimensions.get('window').width * 0.95,
+        height: Dimensions.get('window').height * 0.08,
+        backgroundColor: '#b3b3b3',
+        paddingLeft: '2%',
+        marginBottom: '2%',
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     title: {
         fontSize: 22,
-        marginLeft: 5
+        marginLeft: 5,
+        fontFamily: 'Ubuntu-Bold',
+        marginTop: '5%'
     },
     desc: {
         fontSize: 14,
@@ -298,11 +310,8 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginBottom: 5
     },
-    scroll: {
-        width: '100%',
-    },
     deals: {
-        width: '90%',
+        width: Dimensions.get('window').width * 0.9,
         padding: 20,
         borderRadius: 20,
         backgroundColor: '#ffaf87',
@@ -314,6 +323,19 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 4,
-        marginBottom: '5%'
-    }
+        marginBottom: '5%',
+        alignSelf: 'center'
+    },
+    addReview: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        height: Dimensions.get('window').height * 0.06,
+        width: '90%',
+    },
+    addButton: {
+        height: 13,
+        width: 13,
+        marginRight: '2%'
+    },
 })

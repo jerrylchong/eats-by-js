@@ -21,14 +21,18 @@ export default DishButton
 const styles = StyleSheet.create({
     container: {
         width: '90%',
-        height: Dimensions.get('window').height * 0.12,
-        justifyContent: 'space-evenly',
+        height: Dimensions.get('window').height * 0.08,
+        alignSelf: 'center',
+        borderTopWidth: 1,
+        borderColor: '#404040',
     },
     text: {
         width: '100%',
         height: '30%',
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom: '5%',
+        marginTop: '2%'
     },
     nameReview: {
         flexDirection: 'row',
