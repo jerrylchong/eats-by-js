@@ -62,6 +62,7 @@ const stylesBanner = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
         paddingHorizontal: 5,
+        marginBottom: '1%'
     },
     title: {
         fontFamily: 'Ubuntu-Bold',
@@ -152,10 +153,15 @@ function RestaurantPage(props) {
         },
     ]
 
-    const _renderHeader = section => {
+    const _renderHeader = (section, index, isActive, sections) => {
         return (
             <View style = {styles.header}>
                 <Text style = {styles.title}>{section.title}</Text>
+                {
+                    isActive
+                        ? <Image style = {styles.plusMinus} source={require('../assets/minusbutton.png')}/>
+                        : <Image style = {styles.plusMinus} source={require('../assets/plusbutton.png')}/>
+                }
             </View>
         )
     }
@@ -163,7 +169,7 @@ function RestaurantPage(props) {
     const _renderContent = section => {
         return (
             section.id == 1 ?
-                <View style = {{height: '90%', width: Dimensions.get('window').width,
+                <View style = {{height: Dimensions.get('window').height * 0.43, width: Dimensions.get('window').width,
                     alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
                     { isLoggedIn &&
                     <TouchableOpacity style = {styles.addReview} onPress = {() => navigation.navigate('Add Review', {restaurant_id})}>
@@ -188,7 +194,7 @@ function RestaurantPage(props) {
                     />
                 </View>
                 : section.id == 2 ?
-                <View style = {{height: '100%', width: Dimensions.get('window').width,
+                <View style = {{height: Dimensions.get('window').height * 0.34, width: Dimensions.get('window').width,
                     alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
                     <FlatList
                         style={{width: '100%'}}
@@ -206,7 +212,7 @@ function RestaurantPage(props) {
                     />
                 </View>
                 :
-                <ScrollView style = {{height: '50%', width: Dimensions.get('window').width}}>
+                <ScrollView style = {{height: Dimensions.get('window').height * 0.25, width: Dimensions.get('window').width}}>
                     <View style = {styles.deals}>
                         <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
                     </View>
@@ -277,16 +283,18 @@ const styles = StyleSheet.create({
     },
     header: {
         alignSelf: 'center',
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent: 'space-between',
         width: Dimensions.get('window').width * 0.95,
         height: Dimensions.get('window').height * 0.08,
-        backgroundColor: '#b3b3b3',
-        paddingLeft: '2%',
+        backgroundColor: 'white',
         marginBottom: '2%',
-        borderRadius: 10,
+        borderRadius: 1,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 1,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
@@ -294,9 +302,16 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 22,
-        marginLeft: 5,
+        marginLeft: '2%',
         fontFamily: 'Ubuntu-Bold',
-        marginTop: '5%'
+        marginBottom: '2%',
+        color: '#404040'
+    },
+    plusMinus: {
+        height: Dimensions.get('window').height * 0.02,
+        width: Dimensions.get('window').height * 0.02,
+        marginRight: '3%',
+        marginBottom: '1%'
     },
     desc: {
         fontSize: 14,

@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height * 0.08,
         alignSelf: 'center',
         borderTopWidth: 1,
-        borderColor: '#404040',
+        borderColor: '#b3b3b3',
     },
     text: {
         width: '100%',
