@@ -41,17 +41,6 @@ const RestaurantMap = ({ navigation }) => {
         return () => backHandler.remove();
     }, []);
 
-    const getCoordinates = (add) => {
-        return (
-            fetch('http://maps.google.com/maps/api/geocode/json?address=' + "Singapore")
-                .then(res => res.result.geometry.location)
-                .then(loc => ({
-                    latitude: loc.lat,
-                    longitude: loc.lng
-                }))
-        )
-    }
-
     return (
         isLoading ? <Loading/>
         :
