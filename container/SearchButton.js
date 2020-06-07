@@ -59,7 +59,7 @@ class SearchButton extends React.Component {
         const animatedStyle = { width: animatedWidth, height: animatedHeight }
         return (
             <View style = {styles.container}>
-                <MenuButton style = {styles.menu} onPress = {this.pressMenu}/>
+                <MenuButton onPress = {this.pressMenu}/>
                 <Animated.View style = {[styles.box, animatedStyle]}>
                     {pressed
                         ? <View style = {styles.searchBar}>

@@ -8,7 +8,8 @@ function AdminToolsPage({ navigation, route }) {
         <SafeAreaView style = {styles.container}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
             <PageButton text = "Add a Restaurant" onPress = {() => navigation.navigate('Add Restaurant')}/>
-            <PageButton text = "Edit/Delete a Restaurant"/>
+            <PageButton text = "Edit a Restaurant" onPress = {() => navigation.navigate('Edit')}/>
+            <PageButton text = "Delete a Restaurant" onPress = {() => navigation.navigate('Delete')}/>
             <TouchableOpacity style = {{marginTop: '10%'}} onPress = {() => navigation.goBack()}>
                 <Text style = {{color:'#ffaf87', fontFamily: 'Ubuntu-Medium'}}>Back</Text>
             </TouchableOpacity>

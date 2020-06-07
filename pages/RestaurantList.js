@@ -54,7 +54,7 @@ function RestaurantList({ navigation }) {
         if(!isLastPage) {
             setFetching(true);
             getPaginatedRestaurantsFromApi(searchTerm, page).then(moredata => {
-                if(moredata.length == 0) {setIsLastPage(true);}
+                if(moredata.length === 0) {setIsLastPage(true);}
                 setData([...data, ...moredata]);
                 updatePage();
             }).then(() => setFetching(false))
@@ -75,9 +75,10 @@ function RestaurantList({ navigation }) {
 
     const handleRefresh = () => {
         setRefreshing(true);
-        setPage(1);
+        setIsLastPage(false);
         getPaginatedRestaurantsFromApi(searchTerm,1).then(data => {
             setData(data);
+            setPage(1);
             updatePage();
         }).then(() => setRefreshing(false))
     }
@@ -88,7 +89,9 @@ function RestaurantList({ navigation }) {
 
     const renderFooter = () => {
         return (
-        isFetching && <Text style={styles.footer}>Loading...</Text>
+            isLastPage
+                ? <Text style={styles.footer}>No More Restaurants {page}</Text>
+                : isFetching && <Text style={styles.footer}>Loading...</Text>
         )
     }
 

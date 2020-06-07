@@ -3,6 +3,8 @@ import {CardStyleInterpolators, createStackNavigator, TransitionSpecs} from "@re
 import RestaurantPage from './RestaurantPage';
 import RestaurantList from './RestaurantList';
 import AddReviewPage from "./AddReviewPage";
+import DeleteRestaurantPage from "./DeleteRestaurantPage";
+import EditRestaurantPage from "./EditRestaurantPage"
 
 const Stack = createStackNavigator();
 
@@ -31,6 +33,20 @@ const MyStack = () => {
             <Stack.Screen
                 name = 'Add Review'
                 component = {AddReviewPage}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+            />
+            <Stack.Screen
+                name = 'Delete'
+                component = {DeleteRestaurantPage}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+            />
+            <Stack.Screen
+                name = 'Edit'
+                component = {EditRestaurantPage}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
                 }}
