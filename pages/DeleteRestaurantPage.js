@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {
     SafeAreaView, StyleSheet, View, Alert, Dimensions, FlatList, Text, TouchableOpacity,
-    ImageBackground, Image
+    ImageBackground, AsyncStorage
 } from "react-native";
-import {getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
+import {getPaginatedRestaurantsFromApi, deleteRestaurant} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import _ from "lodash"
 import SearchBarForMenu from "../container/SearchBarForMenu";
@@ -72,9 +72,10 @@ function DeleteRestaurantPage({ navigation }) {
 
     const renderFooter = () => {
         return (
-            isLastPage
+            data.length > 0 &&
+            (isLastPage
                 ? <Text style={styles.footer}>No More Restaurants</Text>
-                : isFetching && <Text style={styles.footer}>Loading...</Text>
+                : isFetching && <Text style={styles.footer}>Loading...</Text>)
         )
     }
 
@@ -111,7 +112,12 @@ function DeleteRestaurantPage({ navigation }) {
                                         { text: "Cancel",
                                         onPress: () => null,
                                         style: "cancel" },
-                                        { text: "YES", onPress: () => Alert.alert("Placeholder","Deleted") }
+                                        { text: "YES", onPress: () => {
+                                            AsyncStorage.getItem("token")
+                                                .then(token => deleteRestaurant(item.id, token))
+                                                .then(() => Alert.alert("Success",
+                                                    "Restaurant " + item.attributes.title + " deleted."))
+                                            } }
                                     ]
                                 )
                             }>

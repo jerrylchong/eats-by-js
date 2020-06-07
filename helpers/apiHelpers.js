@@ -205,8 +205,6 @@ export function deleteRestaurant(restaurant_id, token) {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
 
-    var raw = JSON.stringify({review});
-
     var requestOptions = {
         method: 'DELETE',
         headers: myHeaders,

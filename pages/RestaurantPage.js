@@ -188,7 +188,7 @@ function RestaurantPage(props) {
                                 rating={item.attributes.rating}
                                 content={item.attributes.content}
                             />}
-                        ListEmptyComponent={<Text>No Reviews Yet!</Text>}
+                        ListEmptyComponent={<Text style = {styles.footer}>No Reviews Yet!</Text>}
                         onRefresh={onReviewRefresh}
                         refreshing={refreshingReviews}
                     />
@@ -206,7 +206,7 @@ function RestaurantPage(props) {
                                 price={item.attributes.price}
                             />}
                         keyExtractor={item => item.id}
-                        ListEmptyComponent={<Text>No Dishes Yet!</Text>}
+                        ListEmptyComponent={<Text style = {styles.footer}>No Dishes Yet!</Text>}
                         onRefresh={onDishRefresh}
                         refreshing={refreshingDishes}
                     />
@@ -352,5 +352,12 @@ const styles = StyleSheet.create({
         height: 13,
         width: 13,
         marginRight: '2%'
+    },
+    footer: {
+        color: '#ff6961',
+        fontSize: 16,
+        marginTop: '2%',
+        fontFamily: 'Ubuntu-Bold',
+        alignSelf: 'center'
     },
 })

@@ -91,9 +91,10 @@ function RestaurantList({ navigation }) {
 
     const renderFooter = () => {
         return (
-            isLastPage
+            data.length > 0 &&
+            (isLastPage
                 ? <Text style={styles.footer}>No More Restaurants</Text>
-                : isFetching && <Text style={styles.footer}>Loading...</Text>
+                : isFetching && <Text style={styles.footer}>Loading...</Text>)
         )
     }
 
