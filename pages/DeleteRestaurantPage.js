@@ -35,19 +35,22 @@ function DeleteRestaurantPage({ navigation }) {
         if(!isLastPage) {
             setFetching(true);
             getPaginatedRestaurantsFromApi(searchTerm, page).then(moredata => {
-                if(moredata.length == 0) {setIsLastPage(true);}
-                setData([...data, ...moredata]);
-                updatePage();
+                if (moredata.length === 0) {
+                    setIsLastPage(true);
+                } else {
+                    setData([...data, ...moredata]);
+                    updatePage();
+                }
             }).then(() => setFetching(false))
         }
     }
+
     const searchRequest = (searchTerm) => {
         setIsLastPage(false);
-        setPage(1);
         getPaginatedRestaurantsFromApi(searchTerm, 1).then(
             data => {
                 setData(data);
-                updatePage();
+                setPage(2);
             }
 
         ).catch(console.error)
@@ -56,10 +59,10 @@ function DeleteRestaurantPage({ navigation }) {
 
     const handleRefresh = () => {
         setRefreshing(true);
-        setPage(1);
+        setIsLastPage(false);
         getPaginatedRestaurantsFromApi(searchTerm,1).then(data => {
             setData(data);
-            updatePage();
+            setPage(2);
         }).then(() => setRefreshing(false))
     }
 
@@ -86,7 +89,6 @@ function DeleteRestaurantPage({ navigation }) {
                 <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
                 <Text style = {styles.header}>Delete a Restaurant</Text>
                 <SearchBarForMenu
-                    navigation = {navigation}
                     searchTerm = {searchTerm}
                     handleSearchTerm = {searchTerm => {
                         setSearchTerm(searchTerm);

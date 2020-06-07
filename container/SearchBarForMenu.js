@@ -3,7 +3,7 @@ import { StyleSheet, TextInput, View, Image, TouchableOpacity, Dimensions } from
 
 class SearchBarForMenu extends React.Component {
     render() {
-        const {searchTerm, clearSearch, navigation} = this.props
+        const {searchTerm, clearSearch, handleSearchTerm} = this.props
         return (
             <View style = {styles.container}>
                 <View style = {styles.searchBar}>
@@ -11,7 +11,7 @@ class SearchBarForMenu extends React.Component {
                         style = {styles.input}
                         placeholder = "Search"
                         placeholderTextColor = '#404040'
-                        onChangeText = {this.handleSearchTerm}
+                        onChangeText = {handleSearchTerm}
                         value = {searchTerm} />
                     <TouchableOpacity
                         style = {{height: 40, width: 40, justifyContent: 'center', alignItems: 'center'}}
