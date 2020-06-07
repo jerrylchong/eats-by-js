@@ -1,13 +1,14 @@
 import React from 'react';
 import {CardStyleInterpolators, createStackNavigator, TransitionSpecs} from "@react-navigation/stack";
-import RestaurantPage from './RestaurantPage';
-import RestaurantList from './RestaurantList';
-import AddReviewPage from "./AddReviewPage";
+import AdminToolsPage from "./AdminToolsPage";
+import DeleteRestaurantPage from "./DeleteRestaurantPage";
+import EditRestaurantPage from "./EditRestaurantPage"
+import AddRestaurantPage from "./AddRestaurantPage";
 
 const Stack = createStackNavigator();
 
 
-const MyStack = () => {
+const AdminToolsStack = () => {
     return (
         <Stack.Navigator
             initialRouteName = 'Home'
@@ -16,21 +17,28 @@ const MyStack = () => {
             }}>
             <Stack.Screen
                 name = 'Home'
-                component = {RestaurantList}
+                component = {AdminToolsPage}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                 }}
             />
             <Stack.Screen
-                name = 'Restaurant'
-                component = {RestaurantPage}
+                name = 'Delete'
+                component = {DeleteRestaurantPage}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
                 }}
             />
             <Stack.Screen
-                name = 'Add Review'
-                component = {AddReviewPage}
+                name = 'Edit'
+                component = {EditRestaurantPage}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+            />
+            <Stack.Screen
+                name = 'Add'
+                component = {AddRestaurantPage}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
                 }}
@@ -39,4 +47,4 @@ const MyStack = () => {
     )
 }
 
-export default MyStack
+export default AdminToolsStack

@@ -12,7 +12,7 @@ import {
     Dimensions
 } from "react-native";
 
-function AddRestaurantPage({ navigation }) {
+function RequestRestaurantPage({ navigation }) {
     const [title, setTitle] = useState('');
     const [desc, setDesc] = useState('');
     const [location, setLocation] = useState('');
@@ -28,7 +28,7 @@ function AddRestaurantPage({ navigation }) {
     return (
         <SafeAreaView style = {styles.container}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
-            <Text style = {styles.header}>Add a Restaurant</Text>
+            <Text style = {styles.header}>Request a Restaurant</Text>
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                 <TextInput
                     style={styles.input}
@@ -69,7 +69,7 @@ function AddRestaurantPage({ navigation }) {
             <View style = {styles.buttons}>
                 <View style = {styles.buttonShadow}>
                     <TouchableOpacity style = {styles.button} onPress = {submit}>
-                        <Text style = {styles.buttonText}>Submit</Text>
+                        <Text style = {styles.buttonText}>Request</Text>
                     </TouchableOpacity>
                 </View>
                 <View style = {styles.buttonShadow}>
@@ -82,7 +82,7 @@ function AddRestaurantPage({ navigation }) {
     )
 }
 
-export default AddRestaurantPage
+export default RequestRestaurantPage
 
 const styles = StyleSheet.create({
     background: {

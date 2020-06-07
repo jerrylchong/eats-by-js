@@ -3,11 +3,11 @@ import {Dimensions, SafeAreaView, StatusBar, View, Image, Text, Alert, AsyncStor
 import SettingsPage from "./SettingsPage";
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer";
 import MyStack from "./MyStack";
-import AddRestaurantPage from "./AddRestaurantPage";
+import RequestRestaurantPage from "./RequestRestaurantPage";
 import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHelpers";
 import {connect} from 'react-redux';
 import ProfilePage from "./ProfilePage";
-import AdminToolsPage from "./AdminToolsPage";
+import AdminToolsStack from "./AdminToolsStack";
 
 const Drawer = createDrawerNavigator();
 
@@ -109,8 +109,8 @@ const MyDrawer = (props) => {
             />}
             <Drawer.Screen name = 'Home' component = {MyStack} />
             <Drawer.Screen name = 'Settings' component = {SettingsPage} />
-            {isLoggedIn && <Drawer.Screen name = 'Add Restaurant' component = {AddRestaurantPage} />}
-            {isLoggedIn && <Drawer.Screen name = 'Admin Tools' component = {AdminToolsPage} />}
+            {isLoggedIn && <Drawer.Screen name = 'Request a Restaurant' component = {RequestRestaurantPage} />}
+            {isLoggedIn && <Drawer.Screen name = 'Admin Tools' component = {AdminToolsStack} />}
         </Drawer.Navigator>
     )
 }
