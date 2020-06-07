@@ -10,7 +10,7 @@ function AdminToolsPage({ navigation, route }) {
             <PageButton text = "Add a Restaurant" onPress = {() => navigation.navigate('Add Restaurant')}/>
             <PageButton text = "Edit a Restaurant" onPress = {() => navigation.navigate('Edit')}/>
             <PageButton text = "Delete a Restaurant" onPress = {() => navigation.navigate('Delete')}/>
-            <TouchableOpacity style = {{marginTop: '10%'}} onPress = {() => navigation.goBack()}>
+            <TouchableOpacity style = {{marginTop: '3%', height: '5%', width: '10%'}} onPress = {() => navigation.goBack()}>
                 <Text style = {{color:'#ffaf87', fontFamily: 'Ubuntu-Medium'}}>Back</Text>
             </TouchableOpacity>
         </SafeAreaView>
