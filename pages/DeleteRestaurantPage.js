@@ -121,7 +121,7 @@ function DeleteRestaurantPage({ navigation }) {
                                     ]
                                 )
                             }>
-                            <Text style = {styles.text}>{item.attributes.title}</Text>
+                            <Text numberOfLines={1} style = {styles.text}>{item.attributes.title}</Text>
                         </TouchableOpacity>}
                     keyExtractor={restaurant => restaurant.id}
                     ListFooterComponent={renderFooter}

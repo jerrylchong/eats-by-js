@@ -32,8 +32,13 @@ function RestaurantBanner(props) {
 
     return (
         <View style={stylesBanner.container}>
-            <Text style={stylesBanner.title}>{title}</Text>
-            <View style={{width:'100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <Text numberOfLines={1} style={stylesBanner.title}>{title}</Text>
+            <View
+                style={{
+                    height: '15%', width:'100%',
+                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+                    marginBottom: '1%'
+                }}>
                 <View style={stylesBanner.tags}>
                     { tags.map((tag,index) => <Tag key={index} name={tag.name}/>) }
                     {halal && <Tag name={'halal'}/>}
@@ -44,10 +49,12 @@ function RestaurantBanner(props) {
                     {parseFloat(cost) > 7.5 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
                 </View>
             </View>
-            <Text style={stylesBanner.description}>Location : {location}</Text>
-            <Text style={stylesBanner.description}>Opening Hours : {operatingHours}</Text>
-            <Text style={stylesBanner.description}>Contact No : {contact}</Text>
-            {no_of_stalls > 0 && <Text style={stylesBanner.description}>No. of Stalls : {no_of_stalls}</Text>}
+            <ScrollView style={{width:'100%'}}>
+                <Text style={stylesBanner.description}>Location: {location}</Text>
+                <Text style={stylesBanner.description}>Opening Hours:{'\n'}{operatingHours}</Text>
+                <Text style={stylesBanner.description}>Contact No: {contact}</Text>
+                {no_of_stalls > 0 && <Text style={stylesBanner.description}>No. of Stalls : {no_of_stalls}</Text>}
+            </ScrollView>
         </View>
 
     );
@@ -61,7 +68,8 @@ const stylesBanner = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        paddingHorizontal: 5,
+        paddingTop: '1%',
+        paddingHorizontal: '1%',
         marginBottom: '1%'
     },
     title: {
@@ -69,7 +77,6 @@ const stylesBanner = StyleSheet.create({
         fontSize: 28,
     },
     tags: {
-        paddingVertical: '4%',
         flexDirection:"row",
         width:'70%'
     },
@@ -240,6 +247,7 @@ function RestaurantPage(props) {
         isLoading
             ? <Loading/>
             : <SafeAreaView style = {styles.container}>
+                <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
                 <ImageBackground style={styles.picture}
                                  source={{uri: restaurantData.attributes.image_link}}>
                     <BackButton style = {{margin: '5%'}} onPress = {() => navigation.goBack()} />
@@ -275,6 +283,12 @@ const styles = StyleSheet.create({
         width:"100%",
         justifyContent:"flex-start",
         alignItems:"flex-start",
+    },
+    background: {
+        position:'absolute',
+        bottom: 0,
+        width: '100%',
+        height: Dimensions.get('window').width * 728/1668
     },
     container: {
         flex: 1,

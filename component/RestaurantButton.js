@@ -29,7 +29,7 @@ const RestaurantButton = (props) => {
             <ImageBackground style = {styles.background} imageStyle = {{borderRadius: 5}} source={require('../assets/cardbackground.png')}/>
             <TouchableOpacity style = {styles.container} onPress = {onPress}>
                 <View style={styles.text}>
-                    <Text style={styles.name}>{name}</Text>
+                    <Text numberOfLines={1} style={styles.name}>{name}</Text>
                     <View style = {styles.cost}>
                         {parseFloat(cost) > 0 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
                         {parseFloat(cost) > 5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
@@ -48,9 +48,13 @@ const RestaurantButton = (props) => {
                             ) }
                             {halal && <Tag name = {'halal'}/>}
                         </View>
-                        <Text style = {styles.description}>
-                            {description}{'\n'}
-                            Location: {location}{'\n'}
+                        <Text numberOfLines={2} style = {styles.description}>
+                            {description}
+                        </Text>
+                        <Text numberOfLines={1} style = {styles.description}>
+                            Location: {location}
+                        </Text>
+                        <Text numberOfLines={1} style = {styles.description}>
                             {opening_hours}
                         </Text>
                         <View style = {ratingContainerStyle}>
@@ -61,7 +65,7 @@ const RestaurantButton = (props) => {
                                     : parseFloat(rating) < 4
                                         ? <Image style = {styles.face} source={require('../assets/facemeh.png')}/>
                                         : <Image style = {styles.face} source={require('../assets/facegood.png')}/>}
-                            {parseFloat(rating) > 0 && <Text style = {styles.rating}>{parseFloat(rating)}</Text>}
+                            {parseFloat(rating) > 0 && <Text style = {styles.rating}>{parseFloat(rating).toFixed(1)}</Text>}
                         </View>
                     </View>
                 </View>
@@ -149,9 +153,7 @@ const styles = StyleSheet.create({
     description: {
         color: '#a0a0a0',
         fontSize: 10,
-        height: '45%',
         alignSelf: 'flex-start',
-        marginBottom: '10%',
         fontFamily: 'Ubuntu',
         paddingVertical: '2%'
     },
