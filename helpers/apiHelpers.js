@@ -152,12 +152,7 @@ export function getReviewsForRestaurant(restaurant_id) {
 }
 
 export function postReview(review,restaurant_id,token) {
-    // {"error": not authorized}
-    // {"data" : {"status":"success"}}
     /*
-      {"review":{"title":"hello world","content":"tesintg 1234","rating":5}} 
-
-
     {
         "errors": {
             "content": [
@@ -173,7 +168,11 @@ export function postReview(review,restaurant_id,token) {
     myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({review});
+    var raw = JSON.stringify({
+        data: {
+            attributes: review
+        }
+    });
 
     var requestOptions = {
         method: 'POST',
