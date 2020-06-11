@@ -89,7 +89,16 @@ export function postSignUp(username, password) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({"user":{username,password}});
+    var raw = JSON.stringify(
+        {
+            "data":
+            {
+                attributes: {
+                    username,
+                    password
+                }
+            }
+        });
 
     var requestOptions = {
         method: 'POST',
@@ -99,7 +108,6 @@ export function postSignUp(username, password) {
     };
 
     return fetch(`${HOST}/sign_up`, requestOptions)
-        .then(response => response.json());
 }
 
 export function postLogin(username, password) {

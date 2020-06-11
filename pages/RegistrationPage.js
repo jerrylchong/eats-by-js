@@ -34,6 +34,14 @@ function RegistrationPage({ navigation }) {
         postSignUp(username,password)
             .then(res => {
                 setLoading(false);
+                if (res.ok) {
+                    navigation.goBack();
+                    alert("Account Created");
+                } else {
+                    throw res;
+                }
+            }).catch(async err => {
+                res = await err.json()
                 if ("errors" in res) { 
                     // format error
                     const error = Object.entries(res["errors"]).map(entry => {
@@ -42,12 +50,8 @@ function RegistrationPage({ navigation }) {
                     })
                     alert(error);
                     setErrors(res["errors"]); 
-                } else {
-                    navigation.goBack();
-                    alert("Account Created");
-                }
+                } 
             })
-
     }
 
     /*
