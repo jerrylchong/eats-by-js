@@ -32,7 +32,6 @@ class WelcomePage extends React.Component {
         this.setState({password: text})
     }
     setToken = (token) => {
-        console.log(token)
         this.props.updateToken(token);
         AsyncStorage.setItem("token", token);
     }
@@ -66,6 +65,7 @@ class WelcomePage extends React.Component {
                     .then(data => {
                         this.setState({ isLoading: false });
                         if ("errors" in data) {
+                            console.log(data["errors"])
                             this.setState({error: true});
                         } else {
                             const auth_token = data["auth_token"]
