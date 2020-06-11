@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, TouchableOpacity, StyleSheet, View, Dimensions} from "react-native";
+import {Image, TouchableOpacity, StyleSheet, View} from "react-native";
 
 const BackButton = (props) => {
     return (

@@ -1,11 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
+    "test": "jest"
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.6",
@@ -34,7 +30,12 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
-    "babel-preset-expo": "~8.1.0"
+    "babel-preset-expo": "~8.1.0",
+    "jest-expo": "^37.0.0",
+    "react-test-renderer": "^16.13.1"
+  },
+  "jest": {
+    "preset": "jest-expo"
   },
   "private": true
 }
