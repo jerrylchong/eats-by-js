@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`renders correctly (1 coin, 1 rating) 1`] = `
 <View
   style={
     Object {
@@ -99,7 +99,9 @@ exports[`renders correctly 1`] = `
             "width": "75%",
           }
         }
-      />
+      >
+        name
+      </Text>
       <View
         style={
           Object {
@@ -108,7 +110,18 @@ exports[`renders correctly 1`] = `
             "width": "20%",
           }
         }
-      />
+      >
+        <Image
+          source={1}
+          style={
+            Object {
+              "height": 45,
+              "marginRight": "2%",
+              "width": 45,
+            }
+          }
+        />
+      </View>
     </View>
     <View
       style={
@@ -166,7 +179,9 @@ exports[`renders correctly 1`] = `
               "paddingVertical": "2%",
             }
           }
-        />
+        >
+          description
+        </Text>
         <Text
           numberOfLines={1}
           style={
@@ -180,6 +195,7 @@ exports[`renders correctly 1`] = `
           }
         >
           Location: 
+          location
         </Text>
         <Text
           numberOfLines={1}
@@ -192,7 +208,545 @@ exports[`renders correctly 1`] = `
               "paddingVertical": "2%",
             }
           }
+        >
+          time
+        </Text>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "alignSelf": "flex-end",
+              "backgroundColor": "#d68c6c",
+              "borderRadius": 20,
+              "flexDirection": "row",
+              "height": "20%",
+              "justifyContent": "space-evenly",
+              "width": "28%",
+            }
+          }
+        >
+          <Image
+            source={1}
+            style={
+              Object {
+                "height": 16,
+                "width": 16,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "color": "white",
+                "fontFamily": "Ubuntu-Bold",
+                "fontSize": 14,
+                "marginTop": "2%",
+              }
+            }
+          >
+            1.0
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly 2 (2 coins, 3 rating) 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "white",
+      "borderRadius": 5,
+      "elevation": 4,
+      "height": 306.82,
+      "margin": 10,
+      "shadowColor": "#000",
+      "shadowOffset": Object {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0.25,
+      "shadowRadius": 3.84,
+      "width": "90%",
+    }
+  }
+>
+  <View
+    accessibilityIgnoresInvertColors={true}
+    style={
+      Object {
+        "borderRadius": 10,
+        "bottom": 0,
+        "height": 215.89478417266187,
+        "position": "absolute",
+        "width": 673.5,
+      }
+    }
+  >
+    <Image
+      source={1}
+      style={
+        Array [
+          Object {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+          Object {
+            "height": 215.89478417266187,
+            "width": 673.5,
+          },
+          Object {
+            "borderRadius": 5,
+          },
+        ]
+      }
+    />
+  </View>
+  <View
+    accessible={true}
+    focusable={false}
+    isTVSelectable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "height": "100%",
+        "opacity": 1,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginLeft": "1.2%",
+          "marginTop": "2%",
+          "paddingHorizontal": "1%",
+          "width": "94%",
+        }
+      }
+    >
+      <Text
+        numberOfLines={1}
+        style={
+          Object {
+            "color": "#404040",
+            "flexWrap": "nowrap",
+            "fontFamily": "Ubuntu-Bold",
+            "fontSize": 20,
+            "height": 45,
+            "width": "75%",
+          }
+        }
+      >
+        name
+      </Text>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "flex-end",
+            "width": "20%",
+          }
+        }
+      >
+        <Image
+          source={1}
+          style={
+            Object {
+              "height": 45,
+              "marginRight": "2%",
+              "width": 45,
+            }
+          }
         />
+        <Image
+          source={1}
+          style={
+            Object {
+              "height": 45,
+              "marginRight": "2%",
+              "width": 45,
+            }
+          }
+        />
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "height": "65%",
+          "justifyContent": "space-between",
+          "marginTop": "4%",
+          "width": "94%",
+        }
+      }
+    >
+      <Image
+        source={
+          Object {
+            "uri": undefined,
+          }
+        }
+        style={
+          Object {
+            "borderRadius": 4,
+            "height": 200.1,
+            "marginLeft": "2%",
+            "width": 200.1,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "height": "96%",
+            "justifyContent": "space-between",
+            "marginLeft": "2%",
+            "width": "61%",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignSelf": "flex-start",
+              "flexDirection": "row",
+            }
+          }
+        />
+        <Text
+          numberOfLines={2}
+          style={
+            Object {
+              "alignSelf": "flex-start",
+              "color": "#a0a0a0",
+              "fontFamily": "Ubuntu",
+              "fontSize": 10,
+              "paddingVertical": "2%",
+            }
+          }
+        >
+          description
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={
+            Object {
+              "alignSelf": "flex-start",
+              "color": "#a0a0a0",
+              "fontFamily": "Ubuntu",
+              "fontSize": 10,
+              "paddingVertical": "2%",
+            }
+          }
+        >
+          Location: 
+          location
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={
+            Object {
+              "alignSelf": "flex-start",
+              "color": "#a0a0a0",
+              "fontFamily": "Ubuntu",
+              "fontSize": 10,
+              "paddingVertical": "2%",
+            }
+          }
+        >
+          time
+        </Text>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "alignSelf": "flex-end",
+              "backgroundColor": "#ffbf00",
+              "borderRadius": 20,
+              "flexDirection": "row",
+              "height": "20%",
+              "justifyContent": "space-evenly",
+              "width": "28%",
+            }
+          }
+        >
+          <Image
+            source={1}
+            style={
+              Object {
+                "height": 16,
+                "width": 16,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "color": "white",
+                "fontFamily": "Ubuntu-Bold",
+                "fontSize": 14,
+                "marginTop": "2%",
+              }
+            }
+          >
+            3.0
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders correctly 3 (3 coins, 5 rating) 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "white",
+      "borderRadius": 5,
+      "elevation": 4,
+      "height": 306.82,
+      "margin": 10,
+      "shadowColor": "#000",
+      "shadowOffset": Object {
+        "height": 0,
+        "width": 0,
+      },
+      "shadowOpacity": 0.25,
+      "shadowRadius": 3.84,
+      "width": "90%",
+    }
+  }
+>
+  <View
+    accessibilityIgnoresInvertColors={true}
+    style={
+      Object {
+        "borderRadius": 10,
+        "bottom": 0,
+        "height": 215.89478417266187,
+        "position": "absolute",
+        "width": 673.5,
+      }
+    }
+  >
+    <Image
+      source={1}
+      style={
+        Array [
+          Object {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+          Object {
+            "height": 215.89478417266187,
+            "width": 673.5,
+          },
+          Object {
+            "borderRadius": 5,
+          },
+        ]
+      }
+    />
+  </View>
+  <View
+    accessible={true}
+    focusable={false}
+    isTVSelectable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "height": "100%",
+        "opacity": 1,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginLeft": "1.2%",
+          "marginTop": "2%",
+          "paddingHorizontal": "1%",
+          "width": "94%",
+        }
+      }
+    >
+      <Text
+        numberOfLines={1}
+        style={
+          Object {
+            "color": "#404040",
+            "flexWrap": "nowrap",
+            "fontFamily": "Ubuntu-Bold",
+            "fontSize": 20,
+            "height": 45,
+            "width": "75%",
+          }
+        }
+      >
+        name
+      </Text>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "flex-end",
+            "width": "20%",
+          }
+        }
+      >
+        <Image
+          source={1}
+          style={
+            Object {
+              "height": 45,
+              "marginRight": "2%",
+              "width": 45,
+            }
+          }
+        />
+        <Image
+          source={1}
+          style={
+            Object {
+              "height": 45,
+              "marginRight": "2%",
+              "width": 45,
+            }
+          }
+        />
+        <Image
+          source={1}
+          style={
+            Object {
+              "height": 45,
+              "marginRight": "2%",
+              "width": 45,
+            }
+          }
+        />
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "height": "65%",
+          "justifyContent": "space-between",
+          "marginTop": "4%",
+          "width": "94%",
+        }
+      }
+    >
+      <Image
+        source={
+          Object {
+            "uri": undefined,
+          }
+        }
+        style={
+          Object {
+            "borderRadius": 4,
+            "height": 200.1,
+            "marginLeft": "2%",
+            "width": 200.1,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "height": "96%",
+            "justifyContent": "space-between",
+            "marginLeft": "2%",
+            "width": "61%",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignSelf": "flex-start",
+              "flexDirection": "row",
+            }
+          }
+        />
+        <Text
+          numberOfLines={2}
+          style={
+            Object {
+              "alignSelf": "flex-start",
+              "color": "#a0a0a0",
+              "fontFamily": "Ubuntu",
+              "fontSize": 10,
+              "paddingVertical": "2%",
+            }
+          }
+        >
+          description
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={
+            Object {
+              "alignSelf": "flex-start",
+              "color": "#a0a0a0",
+              "fontFamily": "Ubuntu",
+              "fontSize": 10,
+              "paddingVertical": "2%",
+            }
+          }
+        >
+          Location: 
+          location
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={
+            Object {
+              "alignSelf": "flex-start",
+              "color": "#a0a0a0",
+              "fontFamily": "Ubuntu",
+              "fontSize": 10,
+              "paddingVertical": "2%",
+            }
+          }
+        >
+          time
+        </Text>
         <View
           style={
             Object {
@@ -216,6 +770,18 @@ exports[`renders correctly 1`] = `
               }
             }
           />
+          <Text
+            style={
+              Object {
+                "color": "white",
+                "fontFamily": "Ubuntu-Bold",
+                "fontSize": 14,
+                "marginTop": "2%",
+              }
+            }
+          >
+            5.0
+          </Text>
         </View>
       </View>
     </View>
