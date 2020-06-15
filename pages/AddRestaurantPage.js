@@ -20,6 +20,7 @@ function AddRestaurantPage({ navigation }) {
     const [contact, setContact] = useState('');
     const [rating, setRating] = useState('');
     const [tags, setTags] = useState('');
+
     const submit = () => {
         return (
             navigation.goBack()
