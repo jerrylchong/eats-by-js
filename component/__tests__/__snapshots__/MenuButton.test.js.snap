@@ -15,10 +15,10 @@ exports[`renders correctly 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "height": 50,
+        "height": 75,
         "justifyContent": "center",
         "opacity": 1,
-        "width": 24,
+        "width": 75,
       }
     }
   >

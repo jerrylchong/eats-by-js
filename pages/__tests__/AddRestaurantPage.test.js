@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import Enzyme, {shallow} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import AddRestaurantPage from "../AddRestaurantPage";
-import {TouchableOpacity} from "react-native";
+import BackButton from "../../component/BackButton";
 
 // snapshot test
 test('renders correctly', () => {
@@ -22,6 +22,6 @@ test('test back functionality', () => {
     const wrapper = shallow(<AddRestaurantPage
         navigation={{navigate: jest.fn(), goBack: onPressEvent}} // pass mock function as goBack navigation prop
     />)
-    wrapper.childAt(3).find(TouchableOpacity).at(1).props().onPress(); // press back button
+    wrapper.find(BackButton).props().onPress(); // press back button
     expect(onPressEvent.mock.calls.length).toBe(1); // expect 1 mock function call
 })

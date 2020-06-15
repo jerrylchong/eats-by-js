@@ -16,10 +16,10 @@ exports[`renders correctly 1`] = `
     style={
       Object {
         "alignItems": "flex-start",
-        "height": 50,
+        "height": 75,
         "justifyContent": "flex-start",
         "opacity": 1,
-        "width": 50,
+        "width": 75,
       }
     }
   >
