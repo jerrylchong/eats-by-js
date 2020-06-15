@@ -75,7 +75,8 @@ function RegistrationPage({ navigation }) {
                     onChangeText={(text) => {setUsername(text)}}
                     value={username}
                     textContentType='username'
-                    autoCapitalize='none'/>
+                    autoCapitalize='none'
+                    placeholderTextColor='#404040'/>
                 <TextInput
                     style={styles.passwordInput}
                     placeholder="Password"
@@ -83,27 +84,26 @@ function RegistrationPage({ navigation }) {
                     value={password}
                     secureTextEntry={true}
                     textContentType='newPassword'
-                    autoCapitalize='none'/>
-                { isLoading && <Text style = {{color: '#fc8a1d', fontFamily: 'Ubuntu'}}>checking with db...</Text>}
+                    autoCapitalize='none'
+                    placeholderTextColor='#404040'/>
+                { isLoading && <Text style = {{position: 'relative', top: '30%', color: '#ff8041', fontFamily: 'Ubuntu'}}>checking with db...</Text>}
                 {
                     !isLoading && hasErrors(errors) && Object.entries(errors).map(x => x.join(' ')).map((error,index) => 
                         <Text
-                            style = {{color: '#fc8a1d', fontFamily: 'Ubuntu'}}
+                            style = {{position: 'relative', top: '30%', color: '#c74a44', fontFamily: 'Ubuntu'}}
                             key={`${index}-error`}
                         >{error}</Text>) 
                 }
             </KeyboardAvoidingView>
-            <View style = {{width: '100%', height: '15%', alignItems: 'center', marginTop: '10%'}}>
-                <View style={styles.buttonShadow}>
-                    <TouchableOpacity style={styles.button} onPress={submitHandler}>
-                        <Text style={{color: 'white', fontFamily: 'Ubuntu'}}>Create Account</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={styles.buttonShadow}>
+                <TouchableOpacity style={styles.button} onPress={submitHandler}>
+                    <Text style={{color: 'white', fontFamily: 'Ubuntu'}}>Create Account</Text>
+                </TouchableOpacity>
             </View>
             <View style = {styles.buttons}>
                 <Text style = {{color: '#404040', fontFamily: 'Ubuntu'}}>Already have an account?</Text>
                 <TouchableOpacity onPress = {() => navigation.goBack()}>
-                    <Text style = {{color:'#ffaf87', margin: '5%', fontFamily: 'Ubuntu-Medium'}}>Back</Text>
+                    <Text style = {{color:'#ff8041', margin: '5%', fontFamily: 'Ubuntu-Medium'}}>Sign In</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -129,45 +129,54 @@ const styles = StyleSheet.create({
         height: windowWidth * 728/1668
     },
     header: {
+        position: 'relative',
+        top: '20%',
         fontSize: 26,
         alignSelf: 'flex-start',
         marginLeft: windowWidth * 0.15,
-        marginTop: '30%',
         color: '#404040',
         fontFamily: 'Ubuntu-Bold',
     },
     list: {
+        position: 'relative',
+        top: '30%',
         width: '100%',
-        height: '12%',
+        height: '15%',
         alignItems: 'center',
-        marginTop: '25%'
     },
     usernameInput: {
-        borderBottomWidth: 1,
-        borderColor: '#404040',
+        position: 'relative',
+        borderRadius: windowWidth * 0.35,
+        backgroundColor: '#d9d9d9',
         fontSize: 12,
-        width: windowWidth * 0.7,
-        height: windowWidth * 0.08,
-        paddingHorizontal: 5,
-        fontFamily: 'Ubuntu'
+        width: windowWidth * 0.75,
+        height: windowWidth * 0.11,
+        paddingHorizontal: '5%',
+        fontFamily: 'Ubuntu',
+        color: '#404040'
     },
     passwordInput: {
-        borderBottomWidth: 1,
-        borderColor: '#404040',
+        position: 'relative',
+        top: '15%',
+        borderRadius: windowWidth * 0.35,
+        backgroundColor: '#d9d9d9',
         fontSize: 12,
-        width: windowWidth * 0.7,
-        height: windowWidth * 0.08,
-        paddingHorizontal: 5,
-        marginTop: '5%',
-        fontFamily: 'Ubuntu'
+        width: windowWidth * 0.75,
+        height: windowWidth * 0.11,
+        paddingHorizontal: '5%',
+        fontFamily: 'Ubuntu',
+        color: '#404040'
     },
     buttons: {
+        position: 'relative',
+        top: '50%',
         height: '20%',
         width: '100%',
         alignItems: 'center',
-        marginTop: '25%'
     },
     buttonShadow: {
+        position: 'relative',
+        top: '40%',
         width: Dimensions.get('window').height * 0.25,
         height: Dimensions.get('window').height * 0.05,
         backgroundColor: '#ff6961',

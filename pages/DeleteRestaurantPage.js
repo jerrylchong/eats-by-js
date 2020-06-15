@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {
     SafeAreaView, StyleSheet, View, Alert, Dimensions, FlatList, Text, TouchableOpacity,
-    ImageBackground, AsyncStorage
+    ImageBackground, AsyncStorage, Platform, BackHandler
 } from "react-native";
 import {getPaginatedRestaurantsFromApi, deleteRestaurant} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import _ from "lodash"
 import SearchBarForMenu from "../container/SearchBarForMenu";
+import BackButton from "../component/BackButton";
 
 // currently my db only got title, description, rating
 // TODO: cost, tags
@@ -29,6 +30,18 @@ function DeleteRestaurantPage({ navigation }) {
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+
+        const backAction = () => {
+            navigation.goBack();
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
     }, []);
 
     const fetchMoreRestaurantData = () => {
@@ -88,8 +101,10 @@ function DeleteRestaurantPage({ navigation }) {
             ? <Loading />
             : <SafeAreaView style = {styles.container}>
                 <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
+                <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
                 <Text style = {styles.header}>Delete a Restaurant</Text>
                 <SearchBarForMenu
+                    style={styles.navBar}
                     searchTerm = {searchTerm}
                     handleSearchTerm = {searchTerm => {
                         setSearchTerm(searchTerm);
@@ -99,7 +114,7 @@ function DeleteRestaurantPage({ navigation }) {
                 />
                 <FlatList
                     style = {styles.scroll}
-                    contentContainerStyle = {{alignItems: 'center'}}
+                    contentContainerStyle = {{alignItems: 'center', paddingBottom: '25%'}}
                     data={data}
                     extraData={data}
                     renderItem={({ item }) =>
@@ -131,11 +146,6 @@ function DeleteRestaurantPage({ navigation }) {
                     onRefresh={handleRefresh}
                     refreshing={refreshing}
                 />
-                <View style = {styles.buttonShadow}>
-                    <TouchableOpacity style = {styles.button} onPress = {navigation.goBack}>
-                        <Text style = {styles.buttonText}>Back</Text>
-                    </TouchableOpacity>
-                </View>
             </SafeAreaView>
     )
 }
@@ -151,15 +161,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     navBar: {
-        flexDirection: 'row',
-        height: '10%',
-        width: '90%',
-        alignItems: 'center',
-        justifyContent: 'center',
+        position: 'relative',
+        top: '15%',
     },
     scroll: {
+        position: 'relative',
+        top: '10%',
         width: '100%',
-        height: Dimensions.get('window').height * 0.5,
+        height: Dimensions.get('window').height * 0.1,
     },
     restaurant: {
         alignSelf: 'center',
@@ -192,42 +201,22 @@ const styles = StyleSheet.create({
         marginBottom: '2%',
         color: '#ff6961'
     },
+    back: {
+        position: 'absolute',
+        top: Platform.OS == "ios" ? '8%' :'5%',
+        left: '7%'
+    },
     header: {
-        color: '#404040',
+        position: 'relative',
+        top: '5%',
         fontSize: 20,
-        marginVertical: '5%',
-        fontFamily: 'Ubuntu-Medium',
+        marginTop: '5%',
+        fontFamily: 'Ubuntu-Medium'
     },
     footer: {
-        color: '#ff6961',
+        color: '#c74a44',
         fontSize: 16,
         marginTop: '2%',
         fontFamily: 'Ubuntu-Bold'
-    },
-    buttonShadow: {
-        width: Dimensions.get('window').width * 0.25,
-        height: Dimensions.get('window').width * 0.08,
-        backgroundColor: '#ff6961',
-        borderRadius: 20,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        marginVertical: Dimensions.get('window').height * 0.05
-    },
-    button: {
-        height: '100%',
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    buttonText: {
-        fontSize: 12,
-        color: 'white',
-        fontFamily: 'Ubuntu',
     }
 });

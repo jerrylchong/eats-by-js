@@ -3,9 +3,9 @@ import { StyleSheet, TextInput, View, Image, TouchableOpacity, Dimensions } from
 
 class SearchBarForMenu extends React.Component {
     render() {
-        const {searchTerm, clearSearch, handleSearchTerm} = this.props
+        const {searchTerm, clearSearch, handleSearchTerm, style} = this.props
         return (
-            <View style = {styles.container}>
+            <View style = {[styles.container, style]}>
                 <View style = {styles.searchBar}>
                     <TextInput
                         style = {styles.input}

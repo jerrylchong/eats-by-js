@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions, ImageBackground,
+    StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions, ImageBackground, StatusBar,
     TouchableOpacity, AsyncStorage, Platform, KeyboardAvoidingView, Alert, TouchableWithoutFeedback, Keyboard
 } from "react-native";
 import {connect} from 'react-redux';
@@ -91,44 +91,46 @@ class WelcomePage extends React.Component {
             ? <Loading />
             :
             <TouchableWithoutFeedback style = {styles.container} onPress={() => Keyboard.dismiss()}>
-            <SafeAreaView style = {styles.container}>
-                <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
-                <TouchableOpacity style = {styles.logoShadow} onPress = {() => Alert.alert('About','Jay Chua and Jerryl Chong 2020')}>
-                    <Image style={styles.logo} source={require('../assets/templogonameless.png')}/>
-                </TouchableOpacity>
-                <Text style = {styles.header}>Sign In</Text>
-                <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
-                    <TextInput
-                        style={styles.usernameInput}
-                        placeholder="Username"
-                        onChangeText={this.handleName}
-                        value={name}
-                        autoCapitalize='none'/>
-                    <TextInput
-                        style={styles.passwordInput}
-                        placeholder="Password"
-                        onChangeText={this.handlePassword}
-                        value={password}
-                        secureTextEntry={true}
-                        autoCapitalize='none'/>
-                    {isLoading && <Loading/>}
-                </KeyboardAvoidingView>
-                <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
-                <View style = {{marginTop: '5%'}}>
-                    <LoginButton text = 'Sign in' onPress = {login}/>
-                    <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
-                    <TouchableOpacity style = {{alignSelf: 'center'}}
-                        onPress = {() => Alert.alert("Error 404: Brain Not Found", "You dumb")}>
-                        <Text style = {{color:'#c74a44', marginTop: '5%', fontFamily: 'Ubuntu-Medium'}}>Forgot Password?</Text>
+                <SafeAreaView style = {styles.container}>
+                    <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
+                    <TouchableOpacity style = {styles.logoShadow} onPress = {() => Alert.alert('About','Jay Chua and Jerryl Chong 2020')}>
+                        <Image style={styles.logo} source={require('../assets/templogonameless.png')}/>
                     </TouchableOpacity>
-                </View>
-                <View style = {styles.buttons}>
-                    <Text style = {{color: '#404040', marginRight: '2%', fontFamily: 'Ubuntu'}}>Don't have an account?</Text>
-                    <TouchableOpacity onPress = {() => this.props.navigation.navigate('Registration')}>
-                        <Text style = {{color:'#ffaf87', fontFamily: 'Ubuntu-Medium'}}>Sign Up</Text>
-                    </TouchableOpacity>
-                </View>
-            </SafeAreaView>
+                    <Text style = {styles.header}>Sign In</Text>
+                    <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : 'height'} style = {styles.list}>
+                        <TextInput
+                            style={styles.usernameInput}
+                            placeholder="Username"
+                            onChangeText={this.handleName}
+                            value={name}
+                            autoCapitalize='none'
+                            placeholderTextColor='#404040'/>
+                        <TextInput
+                            style={styles.passwordInput}
+                            placeholder="Password"
+                            onChangeText={this.handlePassword}
+                            value={password}
+                            secureTextEntry={true}
+                            autoCapitalize='none'
+                            placeholderTextColor='#404040'/>
+                        {isLoading && <Loading/>}
+                    </KeyboardAvoidingView>
+                    <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
+                    <View style = {{position: 'relative', top: '25%', height: '20%', justifyContent: 'space-evenly'}}>
+                        <LoginButton text = 'Sign in' onPress = {login}/>
+                        <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
+                        <TouchableOpacity style = {{alignSelf: 'center'}}
+                                          onPress = {() => Alert.alert("Error 404: Brain Not Found", "You dumb")}>
+                            <Text style = {{color:'#c74a44', fontFamily: 'Ubuntu-Medium'}}>Forgot Password?</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style = {styles.buttons}>
+                        <Text style = {{color: '#404040', fontFamily: 'Ubuntu'}}>Don't have an account?</Text>
+                        <TouchableOpacity onPress = {() => this.props.navigation.navigate('Registration')}>
+                            <Text style = {{color:'#ff8041', fontFamily: 'Ubuntu-Medium'}}>Sign Up</Text>
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
             </TouchableWithoutFeedback>
         )
     }
@@ -144,6 +146,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center',
+        minHeight: Math.round(Dimensions.get('window').height)
     },
     background: {
         position:'absolute',
@@ -152,7 +155,8 @@ const styles = StyleSheet.create({
         height: windowWidth * 728/1668
     },
     logoShadow: {
-        marginTop:'5%',
+        position: 'relative',
+        top: '5%',
         marginLeft: '10%',
         alignSelf: 'flex-start',
         width: windowWidth * 0.15,
@@ -172,48 +176,57 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.15,
     },
     header: {
+        position: 'relative',
+        top: '15%',
         fontSize: 26,
         alignSelf: 'flex-start',
         marginLeft: windowWidth * 0.15,
-        marginTop: '20%',
         color: '#404040',
         fontFamily: 'Ubuntu-Bold',
     },
     list: {
+        position: 'relative',
+        top: '25%',
         width: '100%',
-        height: '12%',
+        height: '15%',
         alignItems: 'center',
-        marginTop: '20%'
     },
     usernameInput: {
-        borderBottomWidth: 1,
-        borderColor: '#404040',
+        position: 'relative',
+        borderRadius: windowWidth * 0.35,
+        backgroundColor: '#d9d9d9',
         fontSize: 12,
-        width: windowWidth * 0.7,
-        height: windowWidth * 0.08,
-        paddingHorizontal: 5,
-        fontFamily: 'Ubuntu'
+        width: windowWidth * 0.75,
+        height: windowWidth * 0.11,
+        paddingHorizontal: '5%',
+        fontFamily: 'Ubuntu',
+        color: '#404040'
     },
     passwordInput: {
-        borderBottomWidth: 1,
-        borderColor: '#404040',
+        position: 'relative',
+        top: '15%',
+        borderRadius: windowWidth * 0.35,
+        backgroundColor: '#d9d9d9',
         fontSize: 12,
-        width: windowWidth * 0.7,
-        height: windowWidth * 0.08,
-        paddingHorizontal: 5,
-        marginTop: '5%',
-        fontFamily: 'Ubuntu'
+        width: windowWidth * 0.75,
+        height: windowWidth * 0.11,
+        paddingHorizontal: '5%',
+        fontFamily: 'Ubuntu',
+        color: '#404040'
     },
     buttons: {
-        height: '20%',
-        width: '50%',
-        flexDirection: 'row',
+        position: 'relative',
+        top: '35%',
+        height: '6%',
+        width: '100%',
         alignItems: 'center',
+        justifyContent: 'space-between'
     },
     error: {
+        position: 'relative',
+        top: '27%',
         fontSize: 14,
-        color: '#fc8a1d',
-        marginTop: '5%',
+        color: '#c74a44',
         fontFamily: 'Ubuntu'
     }
 })

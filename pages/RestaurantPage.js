@@ -119,7 +119,8 @@ function RestaurantPage(props) {
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
 
-        const backAction = () => { navigation.goBack();
+        const backAction = () => {
+            navigation.goBack();
             return true;
         };
 
@@ -250,7 +251,7 @@ function RestaurantPage(props) {
                 <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
                 <ImageBackground style={styles.picture}
                                  source={{uri: restaurantData.attributes.image_link}}>
-                    <BackButton style = {{margin: '5%'}} onPress = {() => navigation.goBack()} />
+                    <BackButton white={true} style = {{margin: '5%'}} onPress = {() => navigation.goBack()} />
                 </ImageBackground>
                 <RestaurantBanner
                     title={restaurantData.attributes.title}
