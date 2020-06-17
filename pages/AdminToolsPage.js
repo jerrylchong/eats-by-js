@@ -1,17 +1,43 @@
-import React from 'react';
-import {SafeAreaView, TouchableOpacity, StyleSheet, Text, ImageBackground, Dimensions} from "react-native";
+import React, {useEffect} from 'react';
+import {
+    SafeAreaView,
+    View,
+    StyleSheet,
+    Text,
+    ImageBackground,
+    Dimensions,
+    BackHandler,
+    Platform
+} from "react-native";
 import PageButton from "../component/PageButton";
+import BackButton from "../component/BackButton";
 
 function AdminToolsPage({ navigation, route }) {
+
+    useEffect(() => {
+        const backAction = () => {
+            navigation.goBack();
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, []);
 
     return (
         <SafeAreaView style = {styles.container}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
-            <PageButton text = "Add a Restaurant" onPress = {() => navigation.navigate('Add Restaurant')}/>
-            <PageButton text = "Edit/Delete a Restaurant"/>
-            <TouchableOpacity style = {{marginTop: '10%'}} onPress = {() => navigation.goBack()}>
-                <Text style = {{color:'#ffaf87', fontFamily: 'Ubuntu-Medium'}}>Back</Text>
-            </TouchableOpacity>
+            <Text style = {styles.header}>Admin Tools</Text>
+            <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
+            <View style = {styles.buttons}>
+                <PageButton text = "Add a Restaurant" onPress = {() => navigation.navigate('Add')}/>
+                <PageButton text = "Edit a Restaurant" onPress = {() => navigation.navigate('Edit')}/>
+                <PageButton text = "Delete a Restaurant" onPress = {() => navigation.navigate('Delete')}/>
+            </View>
         </SafeAreaView>
     );
 }
@@ -23,7 +49,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#fff',
-        justifyContent: 'center',
         alignItems: 'center',
     },
     background: {
@@ -32,4 +57,21 @@ const styles = StyleSheet.create({
         width: '100%',
         height: Dimensions.get('window').width * 728/1668
     },
+    back: {
+        position: 'absolute',
+        top: Platform.OS == "ios" ? '8%' :'5%',
+        left: '7%'
+    },
+    header: {
+        position: 'relative',
+        top: '5%',
+        fontSize: 20,
+        marginTop: '5%',
+        fontFamily: 'Ubuntu-Medium',
+        color: '#404040'
+    },
+    buttons: {
+        position: 'relative',
+        top: '27%',
+    }
 })

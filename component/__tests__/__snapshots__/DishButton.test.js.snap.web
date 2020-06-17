@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  data-focusable={true}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "MozTransitionProperty": "opacity",
+      "MozUserSelect": "none",
+      "WebkitAlignSelf": "center",
+      "WebkitTransitionDuration": "0.15s",
+      "WebkitTransitionProperty": "opacity",
+      "WebkitUserSelect": "none",
+      "alignSelf": "center",
+      "borderBottomColor": "rgba(179,179,179,1.00)",
+      "borderLeftColor": "rgba(179,179,179,1.00)",
+      "borderRightColor": "rgba(179,179,179,1.00)",
+      "borderTopColor": "rgba(179,179,179,1.00)",
+      "borderTopWidth": "1px",
+      "cursor": "pointer",
+      "height": "61.44px",
+      "msFlexItemAlign": "center",
+      "msTouchAction": "manipulation",
+      "msUserSelect": "none",
+      "touchAction": "manipulation",
+      "transitionDuration": "0.15s",
+      "transitionProperty": "opacity",
+      "userSelect": "none",
+      "width": "90%",
+    }
+  }
+  tabIndex="0"
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "justify",
+        "WebkitFlexDirection": "row",
+        "WebkitJustifyContent": "space-between",
+        "flexDirection": "row",
+        "height": "30%",
+        "justifyContent": "space-between",
+        "marginBottom": "5%",
+        "marginTop": "2%",
+        "msFlexDirection": "row",
+        "msFlexPack": "justify",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(0,0,0,1.00)",
+          "fontFamily": "Ubuntu-Bold",
+          "fontSize": "20px",
+        }
+      }
+    />
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(0,0,0,1.00)",
+          "fontFamily": "Ubuntu",
+          "fontSize": "20px",
+        }
+      }
+    >
+      $
+    </div>
+  </div>
+  <div
+    className="css-text-901oao"
+    dir="auto"
+    style={
+      Object {
+        "WebkitAlignSelf": "flex-start",
+        "alignSelf": "flex-start",
+        "color": "rgba(126,126,126,1.00)",
+        "fontFamily": "Ubuntu",
+        "fontSize": "11px",
+        "msFlexItemAlign": "start",
+      }
+    }
+  />
+</div>
+`;

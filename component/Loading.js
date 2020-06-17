@@ -14,8 +14,7 @@ class Loading extends React.Component {
             Animated.timing(this.state.spinValue, {
                 toValue: 1,
                 duration: 700,
-                easing: Easing.linear,
-                useNativeDriver: true
+                easing: Easing.linear
             })
         ).start();
     }

@@ -59,7 +59,7 @@ class SearchButton extends React.Component {
         const animatedStyle = { width: animatedWidth, height: animatedHeight }
         return (
             <View style = {styles.container}>
-                <MenuButton style = {styles.menu} onPress = {this.pressMenu}/>
+                <MenuButton onPress = {this.pressMenu}/>
                 <Animated.View style = {[styles.box, animatedStyle]}>
                     {pressed
                         ? <View style = {styles.searchBar}>
@@ -77,9 +77,11 @@ class SearchButton extends React.Component {
                         </View>
                         : <Image style={{width: windowWidth * 0.12, height: windowWidth * 0.12}} source={require('../assets/templogonameless.png')}/>}
                 </Animated.View>
-                <TouchableOpacity style = {styles.bigImage} onPress = {this.pressSearch}>
-                    {!pressed && <Image style = {styles.bigImage} source ={require('../assets/magnifying_glass.png')} />}
+                {!pressed &&
+                <TouchableOpacity style={styles.bigImage} onPress={this.pressSearch}>
+                    <Image style={styles.bigImage} source={require('../assets/magnifying_glass.png')}/>
                 </TouchableOpacity>
+                }
             </View>
         )
     }

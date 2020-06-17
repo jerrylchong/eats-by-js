@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "width": "95%",
+    }
+  }
+>
+  <View>
+    <View
+      accessible={true}
+      focusable={true}
+      isTVSelectable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "height": 75,
+          "justifyContent": "center",
+          "opacity": 1,
+          "width": 75,
+        }
+      }
+    >
+      <Image
+        source={1}
+        style={
+          Object {
+            "height": 13,
+            "width": 13,
+          }
+        }
+      />
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#ececec",
+        "borderRadius": 25,
+        "height": 90,
+        "justifyContent": "center",
+        "width": 90,
+      }
+    }
+  >
+    <Image
+      source={1}
+      style={
+        Object {
+          "height": 90,
+          "width": 90,
+        }
+      }
+    />
+  </View>
+  <View
+    accessible={true}
+    focusable={true}
+    isTVSelectable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "height": 20,
+        "opacity": 1,
+        "width": 24,
+      }
+    }
+  >
+    <Image
+      source={1}
+      style={
+        Object {
+          "height": 20,
+          "width": 24,
+        }
+      }
+    />
+  </View>
+</View>
+`;

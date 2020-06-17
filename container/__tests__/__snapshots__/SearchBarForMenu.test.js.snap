@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginBottom": "3%",
+        "width": "90%",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#ececec",
+        "borderRadius": 25,
+        "flexDirection": "row",
+        "height": 75,
+        "justifyContent": "space-between",
+        "width": 675,
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      placeholder="Search"
+      placeholderTextColor="#404040"
+      rejectResponderTermination={true}
+      style={
+        Object {
+          "color": "#404040",
+          "fontFamily": "Ubuntu-Light",
+          "fontSize": 16,
+          "marginLeft": "5%",
+          "width": "80%",
+        }
+      }
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <View
+      accessible={true}
+      focusable={false}
+      isTVSelectable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "height": 40,
+          "justifyContent": "center",
+          "opacity": 1,
+          "width": 40,
+        }
+      }
+    >
+      <Image
+        source={1}
+        style={
+          Object {
+            "height": 13,
+            "marginRight": "5%",
+            "width": 13,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

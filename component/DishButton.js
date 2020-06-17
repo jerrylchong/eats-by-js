@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native';
 
 const DishButton = (props) => {
 
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height * 0.08,
         alignSelf: 'center',
         borderTopWidth: 1,
-        borderColor: '#404040',
+        borderColor: '#b3b3b3',
     },
     text: {
         width: '100%',

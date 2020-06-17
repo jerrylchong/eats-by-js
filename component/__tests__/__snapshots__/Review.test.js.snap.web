@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "WebkitAlignSelf": "center",
+      "WebkitBoxPack": "space-evenly",
+      "WebkitJustifyContent": "space-evenly",
+      "alignSelf": "center",
+      "borderBottomColor": "rgba(179,179,179,1.00)",
+      "borderLeftColor": "rgba(179,179,179,1.00)",
+      "borderRightColor": "rgba(179,179,179,1.00)",
+      "borderTopColor": "rgba(179,179,179,1.00)",
+      "borderTopWidth": "1px",
+      "height": "76.80000000000001px",
+      "justifyContent": "space-evenly",
+      "marginBottom": "3%",
+      "msFlexItemAlign": "center",
+      "msFlexPack": "space-evenly",
+      "paddingLeft": "3%",
+      "paddingRight": "3%",
+      "width": "90%",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "justify",
+        "WebkitFlexDirection": "row",
+        "WebkitJustifyContent": "space-between",
+        "flexDirection": "row",
+        "height": "30%",
+        "justifyContent": "space-between",
+        "msFlexDirection": "row",
+        "msFlexPack": "justify",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(64,64,64,1.00)",
+          "fontFamily": "Ubuntu-Bold",
+          "fontSize": "16px",
+        }
+      }
+    />
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(64,64,64,1.00)",
+          "fontFamily": "Ubuntu-Bold",
+          "fontSize": "14px",
+        }
+      }
+    >
+      /5
+    </div>
+  </div>
+  <div
+    className="css-text-901oao"
+    dir="auto"
+    style={
+      Object {
+        "color": "rgba(179,179,179,1.00)",
+        "fontFamily": "Ubuntu-Medium",
+        "fontSize": "12px",
+      }
+    }
+  >
+    
+     . 
+  </div>
+  <div
+    className="css-text-901oao"
+    dir="auto"
+    style={
+      Object {
+        "WebkitBoxLines": "multiple",
+        "WebkitFlexWrap": "wrap",
+        "color": "rgba(179,179,179,1.00)",
+        "flexWrap": "wrap",
+        "fontFamily": "Ubuntu",
+        "fontSize": "12px",
+        "msFlexWrap": "wrap",
+      }
+    }
+  />
+</div>
+`;
