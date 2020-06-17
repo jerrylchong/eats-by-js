@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import MapView, {PROVIDER_GOOGLE, Marker} from "react-native-maps";
+import MapView, {PROVIDER_GOOGLE, Marker, UrlTile} from "react-native-maps";
 import {SafeAreaView, StyleSheet, View, Image, Alert, BackHandler} from "react-native";
 import SearchButton from "../container/SearchButton";
 import {getRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
+
 
 const RestaurantMap = ({ navigation }) => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -70,7 +71,9 @@ const RestaurantMap = ({ navigation }) => {
                 showsUserLocation={true}
                 maxZoomLevel={19.3}
             >
-                <MapView.UrlTile urlTemplate="https://c.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <UrlTile 
+                    urlTemplate={"https://c.tile.openstreetmap.org/{z}/{x}/{y}.png"}
+                />
                 <Marker
                     coordinate={{
                         latitude: 1.296643,

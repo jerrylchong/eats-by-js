@@ -54,19 +54,22 @@ function RestaurantList({ navigation }) {
         if(!isLastPage) {
             setFetching(true);
             getPaginatedRestaurantsFromApi(searchTerm, page).then(moredata => {
-                if(moredata.length == 0) {setIsLastPage(true);}
-                setData([...data, ...moredata]);
-                updatePage();
+                if (moredata.length === 0) {
+                    setIsLastPage(true);
+                } else {
+                    setData([...data, ...moredata]);
+                    updatePage();
+                }
             }).then(() => setFetching(false))
         }
     }
+
     const searchRequest = (searchTerm) => {
         setIsLastPage(false);
-        setPage(1);
         getPaginatedRestaurantsFromApi(searchTerm, 1).then(
             data => {
                 setData(data);
-                updatePage();
+                setPage(2);
             }
 
         ).catch(console.error)
@@ -75,10 +78,10 @@ function RestaurantList({ navigation }) {
 
     const handleRefresh = () => {
         setRefreshing(true);
-        setPage(1);
+        setIsLastPage(false);
         getPaginatedRestaurantsFromApi(searchTerm,1).then(data => {
             setData(data);
-            updatePage();
+            setPage(2);
         }).then(() => setRefreshing(false))
     }
 
@@ -88,7 +91,10 @@ function RestaurantList({ navigation }) {
 
     const renderFooter = () => {
         return (
-        isFetching && <Text style={styles.footer}>Loading...</Text>
+            data.length > 0 &&
+            (isLastPage
+                ? <Text style={styles.footer}>No More Restaurants</Text>
+                : isFetching && <Text style={styles.footer}>Loading...</Text>)
         )
     }
 

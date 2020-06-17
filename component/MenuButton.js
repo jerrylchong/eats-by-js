@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, View, Dimensions } from 'react-native';
 
 
 const MenuButton = (props) => {
@@ -14,10 +14,12 @@ const MenuButton = (props) => {
 
 export default MenuButton
 
+const windowWidth = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
     container: {
-        height: 50,
-        width: 24,
+        height: windowWidth * 0.1,
+        width: windowWidth * 0.1,
         justifyContent: 'center'
     },
     image: {

@@ -15,7 +15,7 @@ import {postReview} from '../helpers/apiHelpers';
 import { connect } from 'react-redux';
 import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHelpers";
 
-function AddReviewPage(props) {
+export function AddReviewPage(props) {
     const {route, navigation, token, user} = props;
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');

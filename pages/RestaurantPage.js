@@ -32,8 +32,13 @@ function RestaurantBanner(props) {
 
     return (
         <View style={stylesBanner.container}>
-            <Text style={stylesBanner.title}>{title}</Text>
-            <View style={{width:'100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <Text numberOfLines={1} style={stylesBanner.title}>{title}</Text>
+            <View
+                style={{
+                    height: '15%', width:'100%',
+                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+                    marginBottom: '1%'
+                }}>
                 <View style={stylesBanner.tags}>
                     { tags.map((tag,index) => <Tag key={index} name={tag.name}/>) }
                     {halal && <Tag name={'halal'}/>}
@@ -44,10 +49,12 @@ function RestaurantBanner(props) {
                     {parseFloat(cost) > 7.5 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
                 </View>
             </View>
-            <Text style={stylesBanner.description}>Location : {location}</Text>
-            <Text style={stylesBanner.description}>Opening Hours : {operatingHours}</Text>
-            <Text style={stylesBanner.description}>Contact No : {contact}</Text>
-            {no_of_stalls > 0 && <Text style={stylesBanner.description}>No. of Stalls : {no_of_stalls}</Text>}
+            <ScrollView style={{width:'100%'}}>
+                <Text style={stylesBanner.description}>Location: {location}</Text>
+                <Text style={stylesBanner.description}>Opening Hours:{'\n'}{operatingHours}</Text>
+                <Text style={stylesBanner.description}>Contact No: {contact}</Text>
+                {no_of_stalls > 0 && <Text style={stylesBanner.description}>No. of Stalls : {no_of_stalls}</Text>}
+            </ScrollView>
         </View>
 
     );
@@ -61,14 +68,15 @@ const stylesBanner = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        paddingHorizontal: 5,
+        paddingTop: '1%',
+        paddingHorizontal: '1%',
+        marginBottom: '1%'
     },
     title: {
         fontFamily: 'Ubuntu-Bold',
         fontSize: 28,
     },
     tags: {
-        paddingVertical: '4%',
         flexDirection:"row",
         width:'70%'
     },
@@ -111,7 +119,8 @@ function RestaurantPage(props) {
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
 
-        const backAction = () => { navigation.goBack();
+        const backAction = () => {
+            navigation.goBack();
             return true;
         };
 
@@ -152,10 +161,15 @@ function RestaurantPage(props) {
         },
     ]
 
-    const _renderHeader = section => {
+    const _renderHeader = (section, index, isActive, sections) => {
         return (
             <View style = {styles.header}>
                 <Text style = {styles.title}>{section.title}</Text>
+                {
+                    isActive
+                        ? <Image style = {styles.plusMinus} source={require('../assets/minusbutton.png')}/>
+                        : <Image style = {styles.plusMinus} source={require('../assets/plusbutton.png')}/>
+                }
             </View>
         )
     }
@@ -163,7 +177,7 @@ function RestaurantPage(props) {
     const _renderContent = section => {
         return (
             section.id == 1 ?
-                <View style = {{height: '90%', width: Dimensions.get('window').width,
+                <View style = {{height: Dimensions.get('window').height * 0.43, width: Dimensions.get('window').width,
                     alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
                     { isLoggedIn &&
                     <TouchableOpacity style = {styles.addReview} onPress = {() => navigation.navigate('Add Review', {restaurant_id})}>
@@ -182,13 +196,13 @@ function RestaurantPage(props) {
                                 rating={item.attributes.rating}
                                 content={item.attributes.content}
                             />}
-                        ListEmptyComponent={<Text>No Reviews Yet!</Text>}
+                        ListEmptyComponent={<Text style = {styles.footer}>No Reviews Yet!</Text>}
                         onRefresh={onReviewRefresh}
                         refreshing={refreshingReviews}
                     />
                 </View>
                 : section.id == 2 ?
-                <View style = {{height: '100%', width: Dimensions.get('window').width,
+                <View style = {{height: Dimensions.get('window').height * 0.34, width: Dimensions.get('window').width,
                     alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
                     <FlatList
                         style={{width: '100%'}}
@@ -200,13 +214,13 @@ function RestaurantPage(props) {
                                 price={item.attributes.price}
                             />}
                         keyExtractor={item => item.id}
-                        ListEmptyComponent={<Text>No Dishes Yet!</Text>}
+                        ListEmptyComponent={<Text style = {styles.footer}>No Dishes Yet!</Text>}
                         onRefresh={onDishRefresh}
                         refreshing={refreshingDishes}
                     />
                 </View>
                 :
-                <ScrollView style = {{height: '50%', width: Dimensions.get('window').width}}>
+                <ScrollView style = {{height: Dimensions.get('window').height * 0.25, width: Dimensions.get('window').width}}>
                     <View style = {styles.deals}>
                         <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
                     </View>
@@ -234,9 +248,10 @@ function RestaurantPage(props) {
         isLoading
             ? <Loading/>
             : <SafeAreaView style = {styles.container}>
+                <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
                 <ImageBackground style={styles.picture}
                                  source={{uri: restaurantData.attributes.image_link}}>
-                    <BackButton style = {{margin: '5%'}} onPress = {() => navigation.goBack()} />
+                    <BackButton white={true} style = {{margin: '5%'}} onPress = {() => navigation.goBack()} />
                 </ImageBackground>
                 <RestaurantBanner
                     title={restaurantData.attributes.title}
@@ -270,6 +285,12 @@ const styles = StyleSheet.create({
         justifyContent:"flex-start",
         alignItems:"flex-start",
     },
+    background: {
+        position:'absolute',
+        bottom: 0,
+        width: '100%',
+        height: Dimensions.get('window').width * 728/1668
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',
@@ -277,16 +298,18 @@ const styles = StyleSheet.create({
     },
     header: {
         alignSelf: 'center',
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent: 'space-between',
         width: Dimensions.get('window').width * 0.95,
         height: Dimensions.get('window').height * 0.08,
-        backgroundColor: '#b3b3b3',
-        paddingLeft: '2%',
+        backgroundColor: 'white',
         marginBottom: '2%',
-        borderRadius: 10,
+        borderRadius: 1,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 1,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
@@ -294,9 +317,16 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 22,
-        marginLeft: 5,
+        marginLeft: '2%',
         fontFamily: 'Ubuntu-Bold',
-        marginTop: '5%'
+        marginBottom: '2%',
+        color: '#404040'
+    },
+    plusMinus: {
+        height: Dimensions.get('window').height * 0.02,
+        width: Dimensions.get('window').height * 0.02,
+        marginRight: '3%',
+        marginBottom: '1%'
     },
     desc: {
         fontSize: 14,
@@ -337,5 +367,12 @@ const styles = StyleSheet.create({
         height: 13,
         width: 13,
         marginRight: '2%'
+    },
+    footer: {
+        color: '#ff6961',
+        fontSize: 16,
+        marginTop: '2%',
+        fontFamily: 'Ubuntu-Bold',
+        alignSelf: 'center'
     },
 })

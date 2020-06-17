@@ -35,7 +35,7 @@ export function getRestaurantsFromApi() {
         .then(json => json.data)
 }
 
-export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=4) {
+export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=8) {
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
@@ -89,7 +89,16 @@ export function postSignUp(username, password) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({"user":{username,password}});
+    var raw = JSON.stringify(
+        {
+            "data":
+            {
+                attributes: {
+                    username,
+                    password
+                }
+            }
+        });
 
     var requestOptions = {
         method: 'POST',
@@ -99,7 +108,6 @@ export function postSignUp(username, password) {
     };
 
     return fetch(`${HOST}/sign_up`, requestOptions)
-        .then(response => response.json());
 }
 
 export function postLogin(username, password) {
@@ -152,12 +160,7 @@ export function getReviewsForRestaurant(restaurant_id) {
 }
 
 export function postReview(review,restaurant_id,token) {
-    // {"error": not authorized}
-    // {"data" : {"status":"success"}}
     /*
-      {"review":{"title":"hello world","content":"tesintg 1234","rating":5}} 
-
-
     {
         "errors": {
             "content": [
@@ -173,7 +176,11 @@ export function postReview(review,restaurant_id,token) {
     myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({review});
+    var raw = JSON.stringify({
+        data: {
+            attributes: review
+        }
+    });
 
     var requestOptions = {
         method: 'POST',
@@ -204,8 +211,6 @@ export function getUsername(user_id) {
 export function deleteRestaurant(restaurant_id, token) {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
-
-    var raw = JSON.stringify({review});
 
     var requestOptions = {
         method: 'DELETE',
