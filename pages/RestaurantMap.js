@@ -6,6 +6,129 @@ import SearchButton from "../container/SearchButton";
 import {getRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 
+const fakeRestaurantData = [
+    {
+        "id": "4",
+        "type": "restaurant",
+        "attributes": {
+            "title": "Arise & Shine",
+            "description": "Our mission has been to help people achieve their health and wellness goals. though weve changed over the years, our values have remained the same.",
+            "rating": -1,
+            "price": "5",
+            "image_link": "https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/E4-Arise-n-Shine-2-1024x768.jpg",
+            "location": "Engineering Block E4",
+            "operating_hours": "Mon-Fri, 7.00am-8.00pm\nSat/Sun/PH, 7.00am-3.00pm",
+            "no_of_stalls": 0,
+            "halal_certified": false,
+            "closed_on": "N/A",
+            "contact": "N/A",
+            "latitude": 1.29919361,
+            "longitude": 103.7715903,
+        },
+        "relationships": {
+            "dishes": {
+                "data": []
+            },
+            "tags": {
+                "data": []
+            },
+            "reviews": {
+                "data": []
+            }
+        }
+    },
+    {
+        "id": "8",
+        "type": "restaurant",
+        "attributes": {
+            "title": "Cafe Delight",
+            "description": "Delhaize Group will achieve leading positions in food retailing in key mature and emerging markets. We accomplish our goal by developing strong regional companies benefiting from and contributing to the Groups strength, expertise and successful practices. Delhaize Group goes to market with a variety of food store formats. The Group is committed to offer a locally differentiated shopping experience to its customers in each of its markets, to deliver superior value and to maintain high social, environmental and ethical standards.",
+            "rating": -1,
+            "price": "5",
+            "image_link": "https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/DSC_0462-1024x576.jpg",
+            "location": "Ventus",
+            "operating_hours": "Mon-Fri, 8.00am-6.00pm",
+            "no_of_stalls": 0,
+            "halal_certified": false,
+            "closed_on": "0001",
+            "contact": "N/A",
+            "latitude": 1.2952625,
+            "longitude": 103.7701902,
+        },
+        "relationships": {
+            "dishes": {
+                "data": []
+            },
+            "tags": {
+                "data": []
+            },
+            "reviews": {
+                "data": []
+            }
+        }
+    },
+    {
+        "id": "9",
+        "type": "restaurant",
+        "attributes": {
+            "title": "Central Square",
+            "description": "To deliver an exceptional shopping experience by offering the best service, value, quality, and freshest products while being good stewards of our environment and giving back to the communities we serve.",
+            "rating": -1,
+            "price": "5",
+            "image_link": "https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2018/05/Central-Square-Edited-1024x684.jpg",
+            "location": "Yusof Ishak House Level 2",
+            "operating_hours": "Mon-Fri, 8.00am-8.00pm\nSat, 8.00am-3.00pm",
+            "no_of_stalls": null,
+            "halal_certified": false,
+            "closed_on": "1001",
+            "contact": "N/A",
+            "latitude": 1.2986134,
+            "longitude": 103.7749627,
+
+        },
+        "relationships": {
+            "dishes": {
+                "data": []
+            },
+            "tags": {
+                "data": []
+            },
+            "reviews": {
+                "data": []
+            }
+        }
+    },
+    {
+        "id": "10",
+        "type": "restaurant",
+        "attributes": {
+            "title": "Crave",
+            "description": "We earn the loyalty of the people we serve by first anticipating, then fulfilling their needs with our superior-quality products, a unique shopping experience, customer-focused service and continuous innovation, while generating long-term profitable growth for our shareholders.",
+            "rating": -1,
+            "price": "5",
+            "image_link": "https://uci.nus.edu.sg/oca/wp-content/uploads/sites/9/2019/07/Crave-1024x768.jpg",
+            "location": "Yusof Ishak House",
+            "operating_hours": "Mon-Fri, 9.00am-8.00pm\nSat, 9.00am-6.00pm\nVacation Operating Hours:\nMon-Sat, 9.00am-6.00pm",
+            "no_of_stalls": 0,
+            "halal_certified": false,
+            "closed_on": "1001",
+            "contact": "N/A",
+            "latitude": 1.2987242,
+            "longitude": 103.7749499,
+        },
+        "relationships": {
+            "dishes": {
+                "data": []
+            },
+            "tags": {
+                "data": []
+            },
+            "reviews": {
+                "data": []
+            }
+        }
+    },
+];
 
 const RestaurantMap = ({ navigation }) => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -64,7 +187,7 @@ const RestaurantMap = ({ navigation }) => {
                     pitch: 0,
                     heading: 1,
                     altitude: 200,
-                    zoom: 16
+                    zoom: 18
                 }}
                 provider={PROVIDER_GOOGLE}
                 mapType={'none'}
@@ -73,18 +196,26 @@ const RestaurantMap = ({ navigation }) => {
             >
                 <UrlTile 
                     urlTemplate={"https://c.tile.openstreetmap.org/{z}/{x}/{y}.png"}
+                    maximumZ={19}
                 />
-                <Marker
-                    coordinate={{
-                        latitude: 1.296643,
-                        longitude: 103.776398
-                    }}
-                    onPress={() => navigation.navigate('Restaurant', {restaurant_id: 1})}
-                >
-                    <View style = {styles.marker}>
-                        <Image style = {styles.image} source={require('../assets/testrestaurant.png')}/>
-                    </View>
-                </Marker>
+                {
+                    fakeRestaurantData.map(restaurant => {
+                        return (
+                            <Marker
+                                key={restaurant.id}
+                                coordinate={{
+                                    latitude: restaurant.attributes.latitude,
+                                    longitude: restaurant.attributes.longitude
+                                }}
+                                onPress={() => navigation.navigate('Restaurant', {restaurant_id: restaurant.id})}
+                            >
+                                <View style = {styles.marker}>
+                                    <Image style = {styles.image} source={{uri: restaurant.attributes.image_link}}/>
+                                </View>
+                            </Marker>
+                        )
+                    })
+                }
             </MapView>
         </SafeAreaView>
     );
