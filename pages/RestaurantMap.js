@@ -68,11 +68,11 @@ const RestaurantMap = ({ navigation }) => {
                 }}
                 provider={PROVIDER_GOOGLE}
                 showsUserLocation={true}
-                customMapStyle={mapStyle}
+                mapType={'none'}
+                maxZoomLevel={19.3}
             >
                 <UrlTile 
                     urlTemplate={"https://c.tile.openstreetmap.org/{z}/{x}/{y}.png"}
-                    maximumZ={15}
                 />
                 <Marker
                     coordinate={{
@@ -121,63 +121,3 @@ const styles = StyleSheet.create({
         borderRadius: 13
     }
 });
-const mapStyle = [
-    {
-        "elementType": "labels",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.land_parcel",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.neighborhood",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "poi",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "labels.icon",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "transit",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    }
-]
