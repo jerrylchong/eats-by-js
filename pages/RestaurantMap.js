@@ -54,7 +54,7 @@ const RestaurantMap = ({ navigation }) => {
                 />
             </View>
             <MapView
-                style={{ flex: 1, height: '90%', width: '100%' }}
+                style={{height: '94.5%', width: '100%' }}
                 camera={{
                     center: {
                         latitude: 1.296643,
@@ -66,8 +66,11 @@ const RestaurantMap = ({ navigation }) => {
                     zoom: 16
                 }}
                 provider={PROVIDER_GOOGLE}
+                mapType={'none'}
                 showsUserLocation={true}
+                maxZoomLevel={19.3}
             >
+                <MapView.UrlTile urlTemplate="https://c.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 <Marker
                     coordinate={{
                         latitude: 1.296643,
@@ -91,7 +94,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         backgroundColor: 'white',
-        justifyContent: 'center',
         alignItems: 'center',
     },
     navBar: {
