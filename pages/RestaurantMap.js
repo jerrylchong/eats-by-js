@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import MapView, {PROVIDER_GOOGLE, Marker} from "react-native-maps";
+import MapView, {PROVIDER_GOOGLE, Marker, UrlTile} from "react-native-maps";
 import {SafeAreaView, StyleSheet, View, Image, Alert, BackHandler} from "react-native";
 import SearchButton from "../container/SearchButton";
 import {getRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
+
 
 const RestaurantMap = ({ navigation }) => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -67,7 +68,12 @@ const RestaurantMap = ({ navigation }) => {
                 }}
                 provider={PROVIDER_GOOGLE}
                 showsUserLocation={true}
+                customMapStyle={mapStyle}
             >
+                <UrlTile 
+                    urlTemplate={"https://c.tile.openstreetmap.org/{z}/{x}/{y}.png"}
+                    maximumZ={15}
+                />
                 <Marker
                     coordinate={{
                         latitude: 1.296643,
@@ -115,3 +121,63 @@ const styles = StyleSheet.create({
         borderRadius: 13
     }
 });
+const mapStyle = [
+    {
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.land_parcel",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.neighborhood",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    }
+]
