@@ -7,6 +7,9 @@ const RestaurantButton = (props) => {
     const { name, cost, description, rating, tags, onPress, image_url, halal, location, opening_hours } = props;
 
     const ratingContainerStyle = {
+        position:'absolute',
+        bottom: 10,
+        right: 10,
         backgroundColor: parseFloat(rating) < 0
             ? '#b3b3b3'
             : parseFloat(rating) < 2.5
@@ -46,24 +49,22 @@ const RestaurantButton = (props) => {
                             {opening_hours}
                         </Text>
 
-                        <View style={styles.bottomRow}>
-                            <View style = {styles.cost}>
-                                {parseFloat(cost) > 0 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
-                                {parseFloat(cost) > 5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
-                                {parseFloat(cost) > 7.5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
-                            </View>
-                            <View style = {ratingContainerStyle}>
-                                {parseFloat(rating) < 0
-                                    ? <Text style = {styles.rating}>NA</Text>
-                                    : parseFloat(rating) < 2.5
-                                        ? <Image style = {styles.face} source={require('../assets/facebad.png')}/>
-                                        : parseFloat(rating) < 4
-                                            ? <Image style = {styles.face} source={require('../assets/facemeh.png')}/>
-                                            : <Image style = {styles.face} source={require('../assets/facegood.png')}/>}
-                                {parseFloat(rating) > 0 && <Text style = {styles.rating}>{parseFloat(rating).toFixed(1)}</Text>}
-                            </View>
-                        </View>
                     </View>
+                </View>
+                <View style = {ratingContainerStyle}>
+                    {parseFloat(rating) < 0
+                        ? <Text style = {styles.rating}>NA</Text>
+                        : parseFloat(rating) < 2.5
+                            ? <Image style = {styles.face} source={require('../assets/facebad.png')}/>
+                            : parseFloat(rating) < 4
+                                ? <Image style = {styles.face} source={require('../assets/facemeh.png')}/>
+                                : <Image style = {styles.face} source={require('../assets/facegood.png')}/>}
+                    {parseFloat(rating) > 0 && <Text style = {styles.rating}>{parseFloat(rating).toFixed(1)}</Text>}
+                </View>
+                <View style = {styles.cost}>
+                    {parseFloat(cost) > 0 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
+                    {parseFloat(cost) > 5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
+                    {parseFloat(cost) > 7.5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
                 </View>
             </TouchableOpacity>
         </View>
@@ -75,7 +76,7 @@ export default RestaurantButton
 const styles = StyleSheet.create({
     shadow: {
         width: '100%',
-        height: Dimensions.get('window').height * 0.20,
+        height: Dimensions.get('window').height * 0.22,
         shadowOffset: {
             width: 0,
             height: 0,
@@ -84,9 +85,12 @@ const styles = StyleSheet.create({
     container: {
         height: '100%',
         width: '100%',
+        paddingHorizontal: '2%',
         justifyContent:'center',
-        borderBottomWidth: 0.25,
-        borderBottomColor: '#B3B3B3'
+        borderBottomWidth: 0.05,
+        borderBottomColor: '#B3B3B3',
+        borderTopWidth: 0.25,
+        borderTopColor: '#B3B3B3'
         
     },
     background: {
@@ -114,6 +118,9 @@ const styles = StyleSheet.create({
         alignSelf:'flex-start'
     },
     cost: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems:'flex-end'
@@ -136,9 +143,10 @@ const styles = StyleSheet.create({
         height: '96%',
         alignItems: 'center',
         marginLeft: '2%',
-        justifyContent: 'space-between'
+        justifyContent: 'flex-start'
     },
     tags: {
+        paddingVertical:7,
         flexDirection: 'row',
         alignSelf: 'flex-start',
     },
@@ -162,10 +170,5 @@ const styles = StyleSheet.create({
     coin: {
         height: Dimensions.get('window').width * 0.06,
         width: Dimensions.get('window').width * 0.06,
-    },
-    bottomRow: {
-        flexDirection: "row",
-        width: "100%",
-        justifyContent:"space-between",
     },
 })

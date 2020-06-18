@@ -73,6 +73,7 @@ const stylesBanner = StyleSheet.create({
         marginBottom: '1%'
     },
     title: {
+        paddingTop: 10,
         fontFamily: 'Ubuntu-Bold',
         fontSize: 28,
     },
@@ -248,6 +249,7 @@ function RestaurantPage(props) {
         isLoading
             ? <Loading/>
             : <SafeAreaView style = {styles.container}>
+                <ScrollView style={{ width: "100%", height:"100%"}} contentContainerStyle={{flexGrow:1}}>
                 <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
                 <ImageBackground style={styles.picture}
                                  source={{uri: restaurantData.attributes.image_link}}>
@@ -263,15 +265,10 @@ function RestaurantPage(props) {
                     cost={restaurantData.attributes.price}
                     no_of_stalls={restaurantData.attributes.no_of_stalls}
                 />
-                <Accordion
-                    sections={SECTIONS}
-                    activeSections={activeSections}
-                    renderHeader={_renderHeader}
-                    renderContent={_renderContent}
-                    onChange={_updateSections}
-                    underlayColor={"#f5f5f5"}
-                />
-
+                    <View>
+                        <Text>Reviews</Text>
+                    </View>
+                </ScrollView>
             </SafeAreaView>
     );
 }
