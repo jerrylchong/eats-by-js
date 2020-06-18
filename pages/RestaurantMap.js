@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 import MapView, {PROVIDER_GOOGLE, Marker, UrlTile} from "react-native-maps";
-import {SafeAreaView, StyleSheet, View, Image, Alert, BackHandler} from "react-native";
+import {SafeAreaView, StyleSheet, View, Image, Alert, BackHandler, Dimensions, Animated, Text, TouchableOpacity,
+    Platform
+
+} from "react-native";
 import SearchButton from "../container/SearchButton";
 import {getRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
@@ -129,97 +132,216 @@ const fakeRestaurantData = [
         }
     },
 ];
+const {width, height} = Dimensions.get('window');
+const CARD_HEIGHT = height / 4;
+const CARD_WIDTH = CARD_HEIGHT - 50;
 
-const RestaurantMap = ({ navigation }) => {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [data, setData] = useState([]);
-    const [isLoading, setLoading] = useState(true);
-    const [camera, setCamera] = useState()
+class RestaurantMap extends React.Component {
+    state = {
+        searchTerm: '',
+        data: [],
+        isLoading: true,
+        camera: {
+            center: {
+                latitude: 1.296643,
+                longitude: 103.776398
+            },
+            pitch: 0,
+            heading: 1,
+            altitude: 200,
+            zoom: 18
+        },
+    }
+    animation = new Animated.Value(0);
+    index = 0;
 
-    useEffect(() => {
+    toggleCards = () => {
+        let curr = this.state.toggled;
+        this.setState({toggled: !curr});
+        {/* supposed to move camera to first store and put it back in focus (but doesn't work)
+        this.index = 0; // focus on first store -> make it opaque and the rest translucent
+        // if cards are being switched on, move camera to first store
+            (!curr &&
+                this.map.animateCamera(
+                    {
+                        center: {
+                            latitude: fakeRestaurantData[0].attributes.latitude,
+                            longitude: fakeRestaurantData[0].attributes.longitude,
+                        },
+                        pitch: this.state.camera.pitch,
+                        altitude: this.state.camera.altitude,
+                        heading: this.state.camera.heading,
+                        zoom: 18
+                    },
+                )
+            )
+        */
+        }
+    }
+
+    componentDidMount() {
         Promise.all([
             getRestaurantsFromApi().then(data => {
-                setData(data);
+                this.setState({data: data});
             }),
         ])
             .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
+            .finally(() => this.setState({isLoading: false}));
 
-        const backAction = () => {
-            Alert.alert("Exit App", "Are you sure you want to exit the App?", [
-                {
-                    text: "Cancel",
-                    onPress: () => null,
-                    style: "cancel"
-                },
-                { text: "YES", onPress: () => BackHandler.exitApp() }
-            ]);
-            return true;
-        };
+        this.animation.addListener(({value}) => {
+            let index = Math.floor(value / CARD_WIDTH + 0.3);
+            if (index >= fakeRestaurantData.length) {
+                index = fakeRestaurantData.length - 1;
+            }
+            if (index <= 0) {
+                index = 0;
+            }
 
-        const backHandler = BackHandler.addEventListener(
-            "hardwareBackPress",
-            backAction
-        );
-
-        return () => backHandler.remove();
-    }, []);
-
-    return (
-        isLoading ? <Loading/>
-        :
-        <SafeAreaView style = {styles.container}>
-            <View style = {styles.navBar}>
-                <SearchButton
-                    navigation = {navigation}
-                    searchTerm = {searchTerm}
-                    handleSearchTerm = {searchTerm => {
-                    }}
-                />
-            </View>
-            <MapView
-                style={{height: '94.5%', width: '100%' }}
-                camera={{
-                    center: {
-                        latitude: 1.296643,
-                        longitude: 103.776398
-                    },
-                    pitch: 0,
-                    heading: 1,
-                    altitude: 200,
-                    zoom: 18
-                }}
-                provider={PROVIDER_GOOGLE}
-                mapType={'none'}
-                showsUserLocation={true}
-                maxZoomLevel={19.3}
-            >
-                <UrlTile 
-                    urlTemplate={"https://c.tile.openstreetmap.org/{z}/{x}/{y}.png"}
-                    maximumZ={19}
-                />
-                {
-                    fakeRestaurantData.map(restaurant => {
-                        return (
-                            <Marker
-                                key={restaurant.id}
-                                coordinate={{
-                                    latitude: restaurant.attributes.latitude,
-                                    longitude: restaurant.attributes.longitude
-                                }}
-                                onPress={() => navigation.navigate('Restaurant', {restaurant_id: restaurant.id})}
-                            >
-                                <View style = {styles.marker}>
-                                    <Image style = {styles.image} source={{uri: restaurant.attributes.image_link}}/>
-                                </View>
-                            </Marker>
-                        )
-                    })
+            clearTimeout(this.regionTimeout);
+            this.regionTimeout = setTimeout(() => {
+                if (this.index !== index) {
+                    this.index = index;
+                    this.map.animateCamera(
+                        {
+                            center: {
+                                latitude: fakeRestaurantData[index].attributes.latitude,
+                                longitude: fakeRestaurantData[index].attributes.longitude,
+                            },
+                            pitch: this.state.camera.pitch,
+                            altitude: this.state.camera.altitude,
+                            heading: this.state.camera.heading,
+                            zoom: 19
+                        },
+                        350
+                    );
                 }
-            </MapView>
-        </SafeAreaView>
-    );
-};
+            })
+        }, 10);
+    }
+
+    render() {
+        const interpolations = fakeRestaurantData.map((marker, index) => {
+            const inputRange = [
+                (index - 1) * CARD_WIDTH,
+                index * CARD_WIDTH,
+                (index + 1) * CARD_WIDTH
+            ];
+            const opacity = this.animation.interpolate({
+                inputRange,
+                outputRange: [0.35, 1, 0.35],
+                extrapolate: 'clamp'
+            });
+            return { opacity };
+        });
+
+        const {isLoading, searchTerm, data, toggled} = this.state;
+        const {navigation} = this.props;
+
+        return (
+            isLoading ? <Loading/>
+                :
+                <SafeAreaView style = {styles.container}>
+                    <View style = {styles.navBar}>
+                        <SearchButton
+                            navigation = {navigation}
+                            searchTerm = {searchTerm}
+                            handleSearchTerm = {searchTerm => {
+                            }}
+                        />
+                    </View>
+                    <MapView
+                        ref={map => this.map = map}
+                        style={{height: '94.5%', width: '100%' }}
+                        camera={this.state.camera}
+                        provider={PROVIDER_GOOGLE}
+                        mapType={'none'}
+                        showsUserLocation={true}
+                        maxZoomLevel={19.3}
+                        showsCompass={false}
+                        showsMyLocationButton={false}
+                    >
+                        <UrlTile
+                            urlTemplate={"https://c.tile.openstreetmap.org/{z}/{x}/{y}.png"}
+                            maximumZ={19}
+                        />
+                        {
+                            fakeRestaurantData.map((restaurant, index) => {
+                                const opacityStyle = {
+                                    opacity: interpolations[index].opacity
+                                };
+                                return (
+                                    <Marker
+                                        key={restaurant.id}
+                                        coordinate={{
+                                            latitude: restaurant.attributes.latitude,
+                                            longitude: restaurant.attributes.longitude
+                                        }}
+                                        onPress={() => {navigation.navigate('Restaurant',
+                                            {restaurant_id: restaurant.id})
+                                        }}
+                                    >
+                                        <Animated.View style={[styles.markerWrap, (toggled && opacityStyle)]}>
+                                            <View style={styles.markerNew}/>
+                                        </Animated.View>
+                                    </Marker>
+                                )
+                            })
+                        }
+                    </MapView>
+                    {toggled &&
+                    <Animated.ScrollView
+                        horizontal
+                        scrollEventThrottle={1}
+                        showsHorizontalScrollIndicator={false}
+                        snapToInterval={CARD_WIDTH}
+                        bounces={false}
+                        onScroll={Animated.event(
+                            [
+                                {
+                                    nativeEvent: {
+                                        contentOffset: {
+                                            x: this.animation
+                                        }
+                                    }
+                                }
+                            ],
+                            { useNativeDriver: true }
+                        )}
+                        style={styles.scrollView}
+                        contentContainerStyle={styles.endPadding}
+                    >
+                        {fakeRestaurantData.map((marker, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    onPress={() => {
+                                        navigation.navigate('Restaurant', {restaurant_id: marker.id})
+                                    }}
+                                >
+                                    <View style={styles.card}>
+                                        <Image
+                                            source={{uri: marker.attributes.image_link}}
+                                            style={styles.cardImage}
+                                            resizeMode='cover'
+                                        />
+                                        <View style={styles.textContent}>
+                                            <Text numberOfLines={1} style={styles.cardTitle}>{marker.attributes.title}</Text>
+                                            <Text numberOfLines={1} style={styles.cardDescription}>
+                                                {marker.attributes.description}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        )}
+                    </Animated.ScrollView>
+                    }
+                    <TouchableOpacity style={styles.toggle} onPress={this.toggleCards}>
+                        {/* image goes here */}
+                    </TouchableOpacity>
+                </SafeAreaView>
+        )
+    }
+}
 
 export default RestaurantMap
 
@@ -249,5 +371,65 @@ const styles = StyleSheet.create({
         height: 26,
         width: 26,
         borderRadius: 13
+    },
+    scrollView: {
+        position: "absolute",
+        bottom: 30,
+        left: 0,
+        right: 0,
+        paddingVertical: 10,
+    },
+    endPadding: {
+        paddingRight: width - (CARD_WIDTH * 1.6),
+    },
+    card: {
+        padding: 10,
+        elevation: 2,
+        backgroundColor: "#FFF",
+        marginHorizontal: 10,
+        shadowColor: "#000",
+        shadowRadius: 5,
+        shadowOpacity: 0.3,
+        shadowOffset: { x: 2, y: -2 },
+        height: CARD_HEIGHT,
+        width: CARD_WIDTH,
+        overflow: "hidden",
+    },
+    cardImage: {
+        flex: 3,
+        width: "100%",
+        height: "100%",
+        alignSelf: "center",
+    },
+    textContent: {
+        flex: 1,
+    },
+    cardTitle: {
+        fontSize: 12,
+        marginTop: 5,
+        fontWeight: "bold",
+    },
+    cardDescription: {
+        fontSize: 12,
+        color: "#444",
+    },
+    markerWrap: {
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    markerNew: {
+        width: 15,
+        height: 15,
+        borderRadius: 7.5,
+        backgroundColor: "#ff6961",
+    },
+    toggle: {
+        position: 'absolute',
+        bottom: '5%',
+        right: '5%',
+        width: width * 0.13,
+        height: width * 0.13,
+        borderRadius: width * 0.1,
+        backgroundColor: '#ff6961',
     }
 });
