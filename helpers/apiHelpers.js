@@ -204,7 +204,7 @@ export function getUsername(user_id) {
         redirect: 'follow'
     };
 
-    return fetch(`${HOST}/user/${user_id}`, requestOptions)
+    return fetch(`${HOST}/users/${user_id}`, requestOptions)
         .then(response => response.json())
 }
 

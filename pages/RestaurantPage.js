@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {
-    SafeAreaView,
     ScrollView,
     StyleSheet,
     View,
@@ -26,6 +25,7 @@ import Review from "../component/Review";
 import Accordion from "react-native-collapsible/Accordion";
 import {connect} from "react-redux";
 import {mapReduxStateToProps} from "../helpers/reduxHelpers";
+import { SafeAreaView } from "react-navigation"
 
 function RestaurantBanner(props) {
     const {title, tags, location, operatingHours, contact, cost, halal, no_of_stalls} = props
@@ -33,12 +33,7 @@ function RestaurantBanner(props) {
     return (
         <View style={stylesBanner.container}>
             <Text numberOfLines={1} style={stylesBanner.title}>{title}</Text>
-            <View
-                style={{
-                    height: '15%', width:'100%',
-                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-                    marginBottom: '1%'
-                }}>
+            <View style={stylesBanner.tagRow}> 
                 <View style={stylesBanner.tags}>
                     { tags.map((tag,index) => <Tag key={index} name={tag.name}/>) }
                     {halal && <Tag name={'halal'}/>}
@@ -49,31 +44,38 @@ function RestaurantBanner(props) {
                     {parseFloat(cost) > 7.5 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
                 </View>
             </View>
-            <ScrollView style={{width:'100%'}}>
+            <View style={{width:'100%'}}>
                 <Text style={stylesBanner.description}>Location: {location}</Text>
                 <Text style={stylesBanner.description}>Opening Hours:{'\n'}{operatingHours}</Text>
                 <Text style={stylesBanner.description}>Contact No: {contact}</Text>
                 {no_of_stalls > 0 && <Text style={stylesBanner.description}>No. of Stalls : {no_of_stalls}</Text>}
-            </ScrollView>
+            </View>
         </View>
 
     );
 }
 
 const stylesBanner = StyleSheet.create({
+    tagRow: {
+        height: '15%',
+        width:'100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '1%'
+    },
     container: {
-        width: "95%",
+        width: "100%",
         height: Dimensions.get('window').height * 0.2,
         flexDirection: 'column',
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        paddingTop: '1%',
-        paddingHorizontal: '1%',
+        paddingTop: '3%',
+        paddingHorizontal: '3%',
         marginBottom: '1%'
     },
     title: {
-        paddingTop: 10,
         fontFamily: 'Ubuntu-Bold',
         fontSize: 28,
     },
@@ -248,25 +250,57 @@ function RestaurantPage(props) {
     return (
         isLoading
             ? <Loading/>
-            : <SafeAreaView style = {styles.container}>
-                <ScrollView style={{ width: "100%", height:"100%"}} contentContainerStyle={{flexGrow:1}}>
+            : <SafeAreaView style = {styles.container} forceInset={{ bottom: 'never'}}>
                 <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
-                <ImageBackground style={styles.picture}
-                                 source={{uri: restaurantData.attributes.image_link}}>
-                    <BackButton white={true} style = {{margin: '5%'}} onPress = {() => navigation.goBack()} />
-                </ImageBackground>
-                <RestaurantBanner
-                    title={restaurantData.attributes.title}
-                    tags={restaurantTags.map(x => x.attributes)}
-                    location={restaurantData.attributes.location}
-                    operatingHours={restaurantData.attributes.operating_hours}
-                    contact={restaurantData.attributes.contact}
-                    halal={restaurantData.attributes.halal_certified}
-                    cost={restaurantData.attributes.price}
-                    no_of_stalls={restaurantData.attributes.no_of_stalls}
-                />
+                <ScrollView style={{ width: "100%", height:"100%"}} contentContainerStyle={{flexGrow:1}}>
+                    <ImageBackground style={styles.picture}
+                        source={{uri: restaurantData.attributes.image_link}}>
+                        <BackButton white={true} style = {{margin: '5%'}} onPress = {() => navigation.goBack()} />
+                    </ImageBackground>
+                    <RestaurantBanner
+                        title={restaurantData.attributes.title}
+                        tags={restaurantTags.map(x => x.attributes)}
+                        location={restaurantData.attributes.location}
+                        operatingHours={restaurantData.attributes.operating_hours}
+                        contact={restaurantData.attributes.contact}
+                        halal={restaurantData.attributes.halal_certified}
+                        cost={restaurantData.attributes.price}
+                        no_of_stalls={restaurantData.attributes.no_of_stalls}
+                    />
+
                     <View>
-                        <Text>Reviews</Text>
+                        {/*
+                            DISHES Section
+                        */}
+                        <View styles={styles.section}>
+                            <View style={styles.sectionTitle}>
+                                <Text style={styles.sectionText}>Dishes</Text>
+                                <Tag name="View all" />
+                            </View>
+                            <DishButton 
+                                title="Chicken Rice de Brulé"
+                                description="Souffle Chicken w/ Stuffed Egg"
+                                price="4.50"
+                            />
+                        </View>
+                        <View style={{height:"10%"}} />
+                        {/*
+                            Reviews Section
+                        */}
+                        <View styles={styles.section}>
+                            <View style={styles.sectionTitle}>
+                                <Text style={styles.sectionText}>Reviews</Text>
+                                <Tag name="+" />
+                                <Tag name="View all" />
+                            </View>
+                            <Review 
+                                user_id={1}
+                                date={"27 April 2019"}
+                                title={"Best Restaurant to Dine"}
+                                rating={5}
+                                content={"This is not too good"}
+                            />
+                        </View>
                     </View>
                 </ScrollView>
             </SafeAreaView>
@@ -318,6 +352,20 @@ const styles = StyleSheet.create({
         fontFamily: 'Ubuntu-Bold',
         marginBottom: '2%',
         color: '#404040'
+    },
+    sectionTitle: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        paddingBottom: "4%",
+        paddingHorizontal: "3%",
+        borderBottomWidth: 0.5,
+        borderBottomColor: "#B3B3B3",
+    },
+    sectionText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        marginRight: 'auto'
     },
     plusMinus: {
         height: Dimensions.get('window').height * 0.02,
