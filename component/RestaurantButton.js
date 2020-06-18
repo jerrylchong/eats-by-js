@@ -41,6 +41,11 @@ const RestaurantButton = (props) => {
                                 />
                             ) }
                             {halal && <Tag name = {'halal'}/>}
+                            <View style = {styles.cost}>
+                                {parseFloat(cost) > 0 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
+                                {parseFloat(cost) > 5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
+                                {parseFloat(cost) > 7.5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
+                            </View>
                         </View>
                         <Text numberOfLines={1} style = {styles.description}>
                             Location: {location}
@@ -60,11 +65,6 @@ const RestaurantButton = (props) => {
                                 ? <Image style = {styles.face} source={require('../assets/facemeh.png')}/>
                                 : <Image style = {styles.face} source={require('../assets/facegood.png')}/>}
                     {parseFloat(rating) > 0 && <Text style = {styles.rating}>{parseFloat(rating).toFixed(1)}</Text>}
-                </View>
-                <View style = {styles.cost}>
-                    {parseFloat(cost) > 0 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
-                    {parseFloat(cost) > 5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
-                    {parseFloat(cost) > 7.5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
                 </View>
             </TouchableOpacity>
         </View>
@@ -118,12 +118,10 @@ const styles = StyleSheet.create({
         alignSelf:'flex-start'
     },
     cost: {
-        position: 'absolute',
-        top: 10,
-        right: 10,
+        flex:1,
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        alignItems:'flex-end'
+        alignSelf:'flex-end'
     },
     info: {
         width: '100%',
@@ -148,7 +146,7 @@ const styles = StyleSheet.create({
     tags: {
         paddingVertical:7,
         flexDirection: 'row',
-        alignSelf: 'flex-start',
+        alignItems:'center'
     },
     description: {
         color: '#a0a0a0',
