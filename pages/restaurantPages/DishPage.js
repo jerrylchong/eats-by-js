@@ -8,29 +8,26 @@ import {
     Dimensions,
     FlatList
 } from "react-native";
+import DishButton from "../../component/DishButton";
 import BackButton from "../../component/BackButton";
 import {
-    getReviewsForRestaurant,
+    getDishesFromApi,
 } from "../../helpers/apiHelpers";
 import Loading from "../../component/Loading";
 import {connect} from "react-redux";
 import {mapReduxStateToProps} from "../../helpers/reduxHelpers";
 import { SafeAreaView } from "react-navigation"
-import Review from "../../component/Review";
-import Tag from "../../component/Tag"
 
-function ReviewPage(props) {
-    const { navigation, route, user } = props;
+function DishPage(props) {
+    const { navigation, route, } = props;
     const [isLoading, setLoading] = useState(true);
-    const [dishes, setDishes] = useState([]);
-    const [data, setReviews] = useState([]);
-    const [refreshingReviews, setRefreshingReviews] = useState(false);
+    const [data, setDishes] = useState([]);
+    const [refreshingDishes, setRefreshingDishes] = useState(false);
     const {restaurant_id} = route.params;
-    const {isLoggedIn} = user;
 
     useEffect(() => {
         Promise.all([
-            getReviewsForRestaurant(restaurant_id).then(data => setReviews(data)),
+            getDishesFromApi(restaurant_id).then(data => setDishes(data)),
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -48,11 +45,11 @@ function ReviewPage(props) {
         return () => backHandler.remove();
     }, []);
 
-    const onReviewRefresh = () => {
-        setRefreshingReviews(true);
-        getReviewsForRestaurant(restaurant_id)
-            .then(data => setReviews(data))
-            .then(() => setRefreshingReviews(false));
+    const onDishRefresh = () => {
+        setRefreshingDishes(true);
+        getDishesFromApi(restaurant_id)
+            .then(data => setDishes(data))
+            .then(() => setRefreshingDishes(false));
     }
 
     const renderFooter = () => {
@@ -60,7 +57,7 @@ function ReviewPage(props) {
             data.length > 0 &&
             //(isLastPage
              //   ? 
-                    <Text style={styles.footer}>No More Reviews</Text>
+                    <Text style={styles.footer}>No More Dishes</Text>
                 //: isFetching && <Text style={styles.footer}>Loading...</Text>)
         )
     }
@@ -72,8 +69,7 @@ function ReviewPage(props) {
                 <View style={{ width: "100%", flex: 1}} >
                     <View style={styles.header}>
                         <BackButton white={false} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
-                        <Text style={styles.headerText}>Reviews</Text>
-                        {isLoggedIn && <Tag style={{margin: '3%'}} name="+" onPress={() => navigation.navigate('Add Review', {restaurant_id})}/>}
+                        <Text style={styles.headerText}>Dishes</Text>
                     </View>
 
                     <FlatList
@@ -81,25 +77,23 @@ function ReviewPage(props) {
                         data={data}
                         extraData={data}
                         renderItem={({ item }) =>
-                            <Review 
-                                user_id={1}
-                                date={"27 April 2019"}
-                                title={"Best Restaurant to Dine"}
-                                rating={5}
-                                content={"This is not too good"}
+                            <DishButton 
+                                title="Chicken Rice de Brulé"
+                                description="Souffle Chicken w/ Stuffed Egg"
+                                price="4.50"
                             />}
-                        keyExtractor={review => review.id}
+                        keyExtractor={dish => dish.id}
                         ListFooterComponent={renderFooter}
-                        ListEmptyComponent={() => <Text style={styles.footer}>No Reviews Found</Text>}
-                        onRefresh={onReviewRefresh}
-                        refreshing={refreshingReviews}
+                        ListEmptyComponent={() => <Text>No Dishes Found</Text>}
+                        onRefresh={onDishRefresh}
+                        refreshing={refreshingDishes}
                     />
                 </View>
             </SafeAreaView>
     );
 }
 
-export default connect(mapReduxStateToProps)(ReviewPage)
+export default connect(mapReduxStateToProps)(DishPage)
 
 const styles = StyleSheet.create({
     container: {

@@ -22,10 +22,10 @@ import {
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import Review from "../component/Review";
-import Accordion from "react-native-collapsible/Accordion";
 import {connect} from "react-redux";
 import {mapReduxStateToProps} from "../helpers/reduxHelpers";
 import { SafeAreaView } from "react-navigation"
+import DealButton from '../component/DealButton';
 
 function RestaurantBanner(props) {
     const {title, tags, location, operatingHours, contact, cost, halal, no_of_stalls} = props
@@ -108,7 +108,6 @@ function RestaurantPage(props) {
     const [reviews, setReviews] = useState([]);
     const [refreshingReviews, setRefreshingReviews] = useState(false);
     const [refreshingDishes, setRefreshingDishes] = useState(false);
-    const [activeSections, setSections] = useState([]);
     const {restaurant_id} = route.params;
     const {isLoggedIn} = user;
 
@@ -149,100 +148,6 @@ function RestaurantPage(props) {
             .then(() => setRefreshingDishes(false));
     }
 
-    const SECTIONS = [
-        {
-            title: "Reviews (" + reviews.length.toString() + ")",
-            id: 1
-        },
-        {
-            title: "Dishes (" + dishes.length.toString() + ")",
-            id: 2
-        },
-        {
-            title: "Deals",
-            id: 3
-        },
-    ]
-
-    const _renderHeader = (section, index, isActive, sections) => {
-        return (
-            <View style = {styles.header}>
-                <Text style = {styles.title}>{section.title}</Text>
-                {
-                    isActive
-                        ? <Image style = {styles.plusMinus} source={require('../assets/minusbutton.png')}/>
-                        : <Image style = {styles.plusMinus} source={require('../assets/plusbutton.png')}/>
-                }
-            </View>
-        )
-    }
-
-    const _renderContent = section => {
-        return (
-            section.id == 1 ?
-                <View style = {{height: Dimensions.get('window').height * 0.43, width: Dimensions.get('window').width,
-                    alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
-                    { isLoggedIn &&
-                    <TouchableOpacity style = {styles.addReview} onPress = {() => navigation.navigate('Add Review', {restaurant_id})}>
-                        <Image style = {styles.addButton} source={require('../assets/plusbutton.png')}/>
-                        <Text style = {{color: '#ff6961', fontFamily: 'Ubuntu'}}>Add a review</Text>
-                    </TouchableOpacity>
-                    }
-                    <FlatList
-                        style={{width: '100%'}}
-                        data={reviews}
-                        renderItem={({item}) =>
-                            <Review
-                                user_id={item.relationships.user.data.id}
-                                date={item.attributes.created_at}
-                                title={item.attributes.title}
-                                rating={item.attributes.rating}
-                                content={item.attributes.content}
-                            />}
-                        ListEmptyComponent={<Text style = {styles.footer}>No Reviews Yet!</Text>}
-                        onRefresh={onReviewRefresh}
-                        refreshing={refreshingReviews}
-                    />
-                </View>
-                : section.id == 2 ?
-                <View style = {{height: Dimensions.get('window').height * 0.34, width: Dimensions.get('window').width,
-                    alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
-                    <FlatList
-                        style={{width: '100%'}}
-                        data={dishes}
-                        renderItem={({item}) =>
-                            <DishButton
-                                title={item.attributes.title}
-                                description={item.attributes.description}
-                                price={item.attributes.price}
-                            />}
-                        keyExtractor={item => item.id}
-                        ListEmptyComponent={<Text style = {styles.footer}>No Dishes Yet!</Text>}
-                        onRefresh={onDishRefresh}
-                        refreshing={refreshingDishes}
-                    />
-                </View>
-                :
-                <ScrollView style = {{height: Dimensions.get('window').height * 0.25, width: Dimensions.get('window').width}}>
-                    <View style = {styles.deals}>
-                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
-                    </View>
-                    <View style = {styles.deals}>
-                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
-                    </View>
-                    <View style = {styles.deals}>
-                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
-                    </View>
-                    <View style = {styles.deals}>
-                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
-                    </View>
-                    <View style = {styles.deals}>
-                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
-                    </View>
-                </ScrollView>
-        )
-    }
-
     const _updateSections = activeSections => {
         setSections(activeSections);
     }
@@ -251,11 +156,10 @@ function RestaurantPage(props) {
         isLoading
             ? <Loading/>
             : <SafeAreaView style = {styles.container} forceInset={{ bottom: 'never'}}>
-                <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
-                <ScrollView style={{ width: "100%", height:"100%"}} contentContainerStyle={{flexGrow:1}}>
+                <ScrollView style={{ width: "100%", flex: 1}} >
                     <ImageBackground style={styles.picture}
                         source={{uri: restaurantData.attributes.image_link}}>
-                        <BackButton white={true} style = {{margin: '5%'}} onPress = {() => navigation.goBack()} />
+                        <BackButton white={true} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
                     </ImageBackground>
                     <RestaurantBanner
                         title={restaurantData.attributes.title}
@@ -268,30 +172,15 @@ function RestaurantPage(props) {
                         no_of_stalls={restaurantData.attributes.no_of_stalls}
                     />
 
-                    <View>
-                        {/*
-                            DISHES Section
-                        */}
-                        <View styles={styles.section}>
-                            <View style={styles.sectionTitle}>
-                                <Text style={styles.sectionText}>Dishes</Text>
-                                <Tag name="View all" />
-                            </View>
-                            <DishButton 
-                                title="Chicken Rice de Brulé"
-                                description="Souffle Chicken w/ Stuffed Egg"
-                                price="4.50"
-                            />
-                        </View>
-                        <View style={{height:"10%"}} />
+                    <View style={{flexGrow: 1}}>
                         {/*
                             Reviews Section
                         */}
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Reviews</Text>
-                                <Tag name="+" />
-                                <Tag name="View all" />
+                                {isLoggedIn && <Tag name="+" onPress={() => navigation.navigate('Add Review', {restaurant_id})}/>}
+                                <Tag name="View all" onPress={() => navigation.navigate('Restaurant Reviews', {restaurant_id})} />
                             </View>
                             <Review 
                                 user_id={1}
@@ -301,6 +190,43 @@ function RestaurantPage(props) {
                                 content={"This is not too good"}
                             />
                         </View>
+                        <View style={{height:"10%"}} />
+                        {/*
+                            DISHES Section
+                        */}
+                        <View styles={styles.section}>
+                            <View style={styles.sectionTitle}>
+                                <Text style={styles.sectionText}>Dishes</Text>
+                                <Tag name="View all" onPress={() => navigation.navigate('Restaurant Dishes', {restaurant_id})} />
+                            </View>
+                            <DishButton 
+                                title="Chicken Rice de Brulé"
+                                description="Souffle Chicken w/ Stuffed Egg"
+                                price="4.50"
+                            />
+                        </View>
+                        <View style={{height:"10%"}} />
+                        {/*
+                            DEALS Section
+                        */}
+                        <View styles={styles.section}>
+                            <View style={styles.sectionTitle}>
+                                <Text style={styles.sectionText}>Deals</Text>
+                                <Tag name="View all" />
+                            </View>
+                            <DealButton 
+                                title="0% off!!"
+                                description="T&Cs apply"
+                                duration="22 Jun - 28 Jun"
+                            />
+                            <DealButton 
+                                title="Buy 1 get 0 Free!"
+                                description="T&Cs apply"
+                                duration="22 Jun - 28 Jun"
+                            />
+                        </View>
+                        <View style={{height:"10%"}} />
+
                     </View>
                 </ScrollView>
             </SafeAreaView>
@@ -323,7 +249,7 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').width * 728/1668
     },
     container: {
-        flex: 1,
+        flexGrow: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
     },
@@ -352,6 +278,9 @@ const styles = StyleSheet.create({
         fontFamily: 'Ubuntu-Bold',
         marginBottom: '2%',
         color: '#404040'
+    },
+    section: {
+        flex: 1,
     },
     sectionTitle: {
         flexDirection: 'row',
