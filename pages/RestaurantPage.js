@@ -265,9 +265,9 @@ function RestaurantPage(props) {
                     cost={restaurantData.attributes.price}
                     no_of_stalls={restaurantData.attributes.no_of_stalls}
                 />
-                    <View>
-                        <Text>Reviews</Text>
-                    </View>
+                <View>
+                    <Text>Reviews</Text>
+                </View>
                 </ScrollView>
             </SafeAreaView>
     );
