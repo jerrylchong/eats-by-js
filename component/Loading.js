@@ -7,6 +7,7 @@ class Loading extends React.Component {
         this.state = {
             spinValue: new Animated.Value(0)
         }
+        this.style = props.style
     }
 
     componentDidMount() {
@@ -25,7 +26,7 @@ class Loading extends React.Component {
             outputRange: ['0deg', '360deg']
         })
         return (
-            <View style = {styles.container}>
+            <View style = {[styles.container, this.style]}>
                 <Animated.Image
                     style={{transform: [{rotate: spin}], height: 50, width: 50}}
                     source={require('../assets/loading.png')} />

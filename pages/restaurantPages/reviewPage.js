@@ -82,11 +82,12 @@ function ReviewPage(props) {
                         extraData={data}
                         renderItem={({ item }) =>
                             <Review 
-                                user_id={1}
-                                date={"27 April 2019"}
-                                title={"Best Restaurant to Dine"}
-                                rating={5}
-                                content={"This is not too good"}
+                                key={item.id}
+                                user_id={item.relationships.user.data.id}
+                                date={new Date(item.attributes.created_at).toLocaleDateString()}
+                                title={item.attributes.title}
+                                rating={item.attributes.rating}
+                                content={item.attributes.content}
                             />}
                         keyExtractor={review => review.id}
                         ListFooterComponent={renderFooter}

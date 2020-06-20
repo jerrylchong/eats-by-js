@@ -75,6 +75,16 @@ export function getDishesFromApi(restaurant_id) {
         .then(json => json.data)
 }
 
+export function getPaginatedDishesFromApi(restaurant_id, page, per_page=8) {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    return fetch(`${HOST}/restaurants/${restaurant_id}/dishes?per_page=${per_page}&page=${page}`, requestOptions)
+        .then(res => res.json())
+        .then(json => json.data)
+}
+
 export function getRestaurantTagsFromApi(restaurant_id) {
     var requestOptions = {
         method: 'GET',
@@ -155,6 +165,22 @@ export function getReviewsForRestaurant(restaurant_id) {
     };
 
     return fetch(`${HOST}/restaurants/${restaurant_id}/reviews`, requestOptions)
+        .then(response => response.json())
+        .then(response => response.data)
+}
+
+export function getPaginatedReviewsForRestaurant(restaurant_id, page, per_page=8) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/restaurants/${restaurant_id}/reviews?per_page=${per_page}&page=${page}`, requestOptions)
         .then(response => response.json())
         .then(response => response.data)
 }

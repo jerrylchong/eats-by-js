@@ -38,11 +38,10 @@ const Review = (props) => {
             </View>
             <View style={styles.rightColumn}>
                 <View style = {styles.titleRating}>
-                    <Text style = {styles.title}>{title}</Text>
+                    <Text style = {styles.title}>{content}</Text>
                     <Text style = {styles.rating}>{rating}/5</Text>
                 </View>
-                <Text style = {styles.user}>{date} . {user}</Text>
-                <Text style = {styles.content}>{content}</Text>
+                <Text style = {styles.content}>{user}</Text>
             </View>
         </View>
     )

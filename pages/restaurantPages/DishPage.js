@@ -78,13 +78,13 @@ function DishPage(props) {
                         extraData={data}
                         renderItem={({ item }) =>
                             <DishButton 
-                                title="Chicken Rice de Brulé"
-                                description="Souffle Chicken w/ Stuffed Egg"
-                                price="4.50"
+                                title={item.attributes.title}
+                                description={item.attributes.description}
+                                price={item.attributes.price}
                             />}
                         keyExtractor={dish => dish.id}
                         ListFooterComponent={renderFooter}
-                        ListEmptyComponent={() => <Text>No Dishes Found</Text>}
+                        ListEmptyComponent={() => <Text style={styles.footer}>No Dishes Found</Text>}
                         onRefresh={onDishRefresh}
                         refreshing={refreshingDishes}
                     />
