@@ -35,8 +35,9 @@ function RestaurantBanner(props) {
             <Text numberOfLines={1} style={stylesBanner.title}>{title}</Text>
             <View style={stylesBanner.tagRow}> 
                 <View style={stylesBanner.tags}>
-                    { tags.map((tag,index) => <Tag key={index} name={tag.name}/>) }
-                    {halal && <Tag name={'halal'}/>}
+                    { tags.map((tag,index) => <Tag disabled key={index} name={tag.name}/>) }
+                    {halal && <Tag disabled name={'halal'}/>}
+                    <Tag name='+' onPress={()=> alert("suggest tag")}/>
                 </View>
                 <View style = {stylesBanner.cost}>
                     {parseFloat(cost) > 0 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
@@ -200,6 +201,7 @@ function RestaurantPage(props) {
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Dishes</Text>
                                 {isLoggedIn && <Tag name="refresh" onPress={onDishRefresh}/>}
+                                <Tag name='+' onPress={()=> alert("suggest tag")}/>
                                 <Tag name="View all" onPress={() => navigation.navigate('Restaurant Dishes', {restaurant_id})} />
                             </View>
                             { refreshingDishes ?  <Loading style={{paddingTop:30}}/> :

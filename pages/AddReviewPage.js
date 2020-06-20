@@ -14,12 +14,13 @@ import {
 import {postReview} from '../helpers/apiHelpers';
 import { connect } from 'react-redux';
 import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHelpers";
+import { AirbnbRating } from 'react-native-ratings';
 
 export function AddReviewPage(props) {
     const {route, navigation, token, user} = props;
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [rating, setRating] = useState('');
+    const [rating, setRating] = useState('3');
     const [date, setDate] = useState('');
     const [errors, setErrors] = useState({});
     const submit = () => {
@@ -41,36 +42,33 @@ export function AddReviewPage(props) {
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
             <Text style = {styles.header}>Add a Review</Text>
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Title"
-                    onChangeText={(text) => {setTitle(text)}}
-                    value={title}/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Rating (out of 5)"
-                    onChangeText={(text) => {setRating(text)}}
-                    value={rating}/>
+
                 <TextInput
                     style={styles.input}
                     placeholder="Content"
                     onChangeText={(text) => {setContent(text)}}
                     value={content}/>
+                <AirbnbRating
+                    count={5}
+                    reviews={["Can i SU this meal", "army standard", "im alive", "OK", "michilin ✨"]}
+                    defaultRating={3}
+                    onFinishRating={(rating) => {setRating(rating)}}
+                />
                 { Object.entries(errors).map(x => x[0] + " " + x[1][0]).map((x,i) => 
                 <Text 
                     key={`${i}-error`}
                     style={styles.error}>{x}</Text>
                 )}
             </KeyboardAvoidingView>
-            <View style = {{width: '100%', height: '15%', justifyContent: 'space-between', alignItems: 'center'}}>
-                <View style = {styles.buttonShadow}>
-                    <TouchableOpacity style = {styles.button} onPress = {submit}>
-                        <Text style = {styles.buttonText}>Submit</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style = {{width: '100%', height: '15%', flexDirection:"row", justifyContent: 'space-evenly', alignItems: 'center'}}>
                 <View style = {styles.buttonShadow}>
                     <TouchableOpacity style = {styles.button} onPress = {backHandler}>
                         <Text style = {styles.buttonText}>Back</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style = {styles.buttonShadow}>
+                    <TouchableOpacity style = {styles.button} onPress = {submit}>
+                        <Text style = {styles.buttonText}>Submit</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -109,11 +107,11 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start'
     },
     input: {
-        borderBottomWidth: 1,
-        borderColor: '#404040',
+        borderWidth: 0.25,
+        borderColor: '#B3B3B3',
         fontSize: 12,
         width: '100%',
-        height: '8%',
+        height: '70%',
         paddingHorizontal: 5,
         marginBottom: '8%',
         fontFamily: 'Ubuntu'
