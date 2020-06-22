@@ -26,6 +26,7 @@ import {connect} from "react-redux";
 import {mapReduxStateToProps} from "../helpers/reduxHelpers";
 import { SafeAreaView } from "react-navigation"
 import DealButton from '../component/DealButton';
+import { useSafeArea } from "react-native-safe-area-context";
 
 function RestaurantBanner(props) {
     const {title, tags, location, operatingHours, contact, cost, halal, no_of_stalls} = props
@@ -33,7 +34,7 @@ function RestaurantBanner(props) {
     return (
         <View style={stylesBanner.container}>
             <Text numberOfLines={1} style={stylesBanner.title}>{title}</Text>
-            <View style={stylesBanner.tagRow}> 
+            <View style={stylesBanner.tagRow}>
                 <View style={stylesBanner.tags}>
                     { tags.map((tag,index) => <Tag key={index} name={tag.name}/>) }
                     {halal && <Tag name={'halal'}/>}
@@ -44,12 +45,16 @@ function RestaurantBanner(props) {
                     {parseFloat(cost) > 7.5 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
                 </View>
             </View>
-            <View style={{width:'100%'}}>
+            <View style={{width:'100%', marginTop: Dimensions.get('window').height * 0.02}}>
                 <Text style={stylesBanner.description}>Location: {location}</Text>
                 <Text style={stylesBanner.description}>Opening Hours:{'\n'}{operatingHours}</Text>
                 <Text style={stylesBanner.description}>Contact No: {contact}</Text>
                 {no_of_stalls > 0 && <Text style={stylesBanner.description}>No. of Stalls : {no_of_stalls}</Text>}
             </View>
+            <View style={{
+                width: Dimensions.get('window').width, borderBottomWidth: 0.5, borderColor: '#B3B3B3',
+                alignSelf: 'center', marginTop: Dimensions.get('window').height * 0.02
+            }}/>
         </View>
 
     );
@@ -62,26 +67,23 @@ const stylesBanner = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: '1%'
+        marginTop: Dimensions.get('window').height * 0.02
     },
     container: {
-        width: "100%",
-        height: Dimensions.get('window').height * 0.2,
-        flexDirection: 'column',
-        backgroundColor: '#fff',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        paddingTop: '3%',
-        paddingHorizontal: '3%',
-        marginBottom: '1%'
+        flex: 1,
+        width: '96%',
+        alignSelf: 'center',
+        justifyContent: 'flex-start',
+        marginBottom: '2%'
     },
     title: {
         fontFamily: 'Ubuntu-Bold',
         fontSize: 28,
+        marginTop: Dimensions.get('window').height * 0.02
     },
     tags: {
         flexDirection:"row",
-        width:'70%'
+        width:'70%',
     },
     cost: {
         width: '20%',
@@ -110,6 +112,7 @@ function RestaurantPage(props) {
     const [refreshingDishes, setRefreshingDishes] = useState(false);
     const {restaurant_id} = route.params;
     const {isLoggedIn} = user;
+    const insets = useSafeArea();
 
     useEffect(() => {
         Promise.all([
@@ -155,7 +158,7 @@ function RestaurantPage(props) {
     return (
         isLoading
             ? <Loading/>
-            : <SafeAreaView style = {styles.container} forceInset={{ bottom: 'never'}}>
+            : <View style = {[styles.container, {paddingTop: insets.top}]}>
                 <ScrollView style={{ width: "100%", flex: 1}} >
                     <ImageBackground style={styles.picture}
                         source={{uri: restaurantData.attributes.image_link}}>
@@ -171,7 +174,7 @@ function RestaurantPage(props) {
                         cost={restaurantData.attributes.price}
                         no_of_stalls={restaurantData.attributes.no_of_stalls}
                     />
-
+                    <View style={{height:"5%"}} />
                     <View style={{flexGrow: 1}}>
                         {/*
                             Reviews Section
@@ -190,7 +193,7 @@ function RestaurantPage(props) {
                                 content={"This is not too good"}
                             />
                         </View>
-                        <View style={{height:"10%"}} />
+                        <View style={{height:"7%"}} />
                         {/*
                             DISHES Section
                         */}
@@ -205,7 +208,7 @@ function RestaurantPage(props) {
                                 price="4.50"
                             />
                         </View>
-                        <View style={{height:"10%"}} />
+                        <View style={{height:"7%"}} />
                         {/*
                             DEALS Section
                         */}
@@ -225,11 +228,11 @@ function RestaurantPage(props) {
                                 duration="22 Jun - 28 Jun"
                             />
                         </View>
-                        <View style={{height:"10%"}} />
+                        <View style={{height:"7%"}} />
 
                     </View>
                 </ScrollView>
-            </SafeAreaView>
+            </View>
     );
 }
 
@@ -239,8 +242,6 @@ const styles = StyleSheet.create({
     picture: {
         height: Dimensions.get('window').height * 0.25,
         width:"100%",
-        justifyContent:"flex-start",
-        alignItems:"flex-start",
     },
     background: {
         position:'absolute',
@@ -252,25 +253,6 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-    },
-    header: {
-        alignSelf: 'center',
-        flexDirection: 'row',
-        alignItems:'center',
-        justifyContent: 'space-between',
-        width: Dimensions.get('window').width * 0.95,
-        height: Dimensions.get('window').height * 0.08,
-        backgroundColor: 'white',
-        marginBottom: '2%',
-        borderRadius: 1,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
     },
     title: {
         fontSize: 22,
@@ -295,12 +277,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         marginRight: 'auto'
-    },
-    plusMinus: {
-        height: Dimensions.get('window').height * 0.02,
-        width: Dimensions.get('window').height * 0.02,
-        marginRight: '3%',
-        marginBottom: '1%'
     },
     desc: {
         fontSize: 14,

@@ -10,6 +10,7 @@ import reducer from './reducer'
 import {AsyncStorage, StatusBar} from 'react-native'
 import * as Font from "expo-font";
 import { AppLoading } from 'expo';
+import {SafeAreaProvider} from "react-native-safe-area-context";
 
 const Stack = createStackNavigator();
 const store = createStore(reducer);
@@ -42,40 +43,42 @@ const App = () => {
     } else {
         return (
             <Provider store={store}>
-                <NavigationContainer>
-                    <StatusBar
-                        backgroundColor='white'
-                        barStyle="dark-content"
-                    />
-                    <Stack.Navigator
-                        initialRouteName = 'Welcome'
-                        screenOptions = {{
-                            headerShown: false,
-                            gestureEnabled: false
-                        }}>
-                        <Stack.Screen
-                            name = 'Welcome'
-                            component = {WelcomePage}
-                            options={{
-                                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-                            }}
+                <SafeAreaProvider>
+                    <NavigationContainer>
+                        <StatusBar
+                            backgroundColor='white'
+                            barStyle="dark-content"
                         />
-                        <Stack.Screen
-                            name = 'Registration'
-                            component = {RegistrationPage}
-                            options={{
-                                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-                            }}
-                        />
-                        <Stack.Screen
-                            name = 'App'
-                            component = {MyDrawer}
-                            options={{
-                                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-                            }}
-                        />
-                    </Stack.Navigator>
-                </NavigationContainer>
+                        <Stack.Navigator
+                            initialRouteName = 'Welcome'
+                            screenOptions = {{
+                                headerShown: false,
+                                gestureEnabled: false
+                            }}>
+                            <Stack.Screen
+                                name = 'Welcome'
+                                component = {WelcomePage}
+                                options={{
+                                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                                }}
+                            />
+                            <Stack.Screen
+                                name = 'Registration'
+                                component = {RegistrationPage}
+                                options={{
+                                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                                }}
+                            />
+                            <Stack.Screen
+                                name = 'App'
+                                component = {MyDrawer}
+                                options={{
+                                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                                }}
+                            />
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </SafeAreaProvider>
             </Provider>
         )
     }
