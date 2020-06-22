@@ -53,7 +53,6 @@ const RestaurantButton = (props) => {
                         <Text numberOfLines={1} style = {styles.description}>
                             {opening_hours}
                         </Text>
-
                     </View>
                 </View>
                 <View style = {ratingContainerStyle}>
@@ -127,20 +126,18 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '70%',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         alignItems:'center'
     },
     picture: {
         height: Dimensions.get('window').height * 0.15,
         width: Dimensions.get('window').height * 0.15,
         borderRadius: 4,
-        marginLeft: '2%'
     },
     rightInfo: {
         width: '61%',
         height: '96%',
         alignItems: 'center',
-        marginLeft: '2%',
         justifyContent: 'flex-start'
     },
     tags: {
