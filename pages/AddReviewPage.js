@@ -53,11 +53,14 @@ export function AddReviewPage(props) {
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
 
                 <TextInput
+                    multiline={true}
                     style={styles.input}
                     placeholder="Content"
                     onChangeText={(text) => {setContent(text)}}
                     value={content}
                     placeholderTextColor='#404040'
+                    textAlignVertical={'top'}
+                    placeholderStyle={{margin: '2%'}}
                 />
                 <AirbnbRating
                     count={5}
@@ -117,11 +120,11 @@ const styles = StyleSheet.create({
         fontSize: 12,
         width: '100%',
         height: '70%',
-        paddingHorizontal: 5,
+        padding: '3%',
         marginBottom: '8%',
         fontFamily: 'Ubuntu',
         backgroundColor: '#d9d9d9',
-        color: '#404040'
+        color: '#404040',
     },
     buttonShadow: {
         width: '25%',
