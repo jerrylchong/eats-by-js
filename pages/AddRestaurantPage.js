@@ -18,6 +18,7 @@ import {
     getRestaurantTagsFromApi,
     getReviewsForRestaurant
 } from "../helpers/apiHelpers";
+import {useSafeArea} from "react-native-safe-area-context";
 
 function AddRestaurantPage({ navigation }) {
     const [title, setTitle] = useState('');
@@ -46,8 +47,14 @@ function AddRestaurantPage({ navigation }) {
             navigation.goBack()
         )
     }
+
+    const insets = useSafeArea();
+
     return (
-        <SafeAreaView style = {styles.container}>
+        <View style = {[
+            styles.container,
+            {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+        ]}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
             <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
             <Text style = {styles.header}>Add a Restaurant</Text>
@@ -94,7 +101,7 @@ function AddRestaurantPage({ navigation }) {
                     <Text style = {styles.buttonText}>Submit</Text>
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </View>
     )
 }
 
@@ -118,8 +125,8 @@ const styles = StyleSheet.create({
     },
     back: {
         position: 'absolute',
-        top: Platform.OS == "ios" ? '8%' :'5%',
-        left: '7%'
+        top: Platform.OS == "ios" ? '5%' :'2%',
+        left: '2%'
     },
     header: {
         position: 'relative',

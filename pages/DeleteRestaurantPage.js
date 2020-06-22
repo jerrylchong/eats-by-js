@@ -8,6 +8,8 @@ import Loading from "../component/Loading";
 import _ from "lodash"
 import SearchBarForMenu from "../container/SearchBarForMenu";
 import BackButton from "../component/BackButton";
+import {useSafeArea} from "react-native-safe-area-context";
+import Tag from "../component/Tag";
 
 // currently my db only got title, description, rating
 // TODO: cost, tags
@@ -96,21 +98,25 @@ function DeleteRestaurantPage({ navigation }) {
         setSearchTerm("");
     }
 
+    const insets = useSafeArea();
+
     return (
         isLoading
             ? <Loading />
-            : <SafeAreaView style = {styles.container}>
-                <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
+            : <View style = {[
+                styles.container,
+                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+            ]}>
                 <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
                 <Text style = {styles.header}>Delete a Restaurant</Text>
                 <SearchBarForMenu
-                    style={styles.navBar}
-                    searchTerm = {searchTerm}
-                    handleSearchTerm = {searchTerm => {
-                        setSearchTerm(searchTerm);
-                        debouncedSearchFetchRequest(searchTerm);
-                    }}
-                    clearSearch = {clearSearch}
+                        style={styles.navBar}
+                        searchTerm = {searchTerm}
+                        handleSearchTerm = {searchTerm => {
+                            setSearchTerm(searchTerm);
+                            debouncedSearchFetchRequest(searchTerm);
+                        }}
+                        clearSearch = {clearSearch}
                 />
                 <FlatList
                     style = {styles.scroll}
@@ -118,26 +124,29 @@ function DeleteRestaurantPage({ navigation }) {
                     data={data}
                     extraData={data}
                     renderItem={({ item }) =>
-                        <TouchableOpacity
-                            style = {styles.restaurant}
-                            onPress={() =>
-                                Alert.alert("Delete Restaurant",
-                                    "Are you sure you want to delete " + item.attributes.title + "?",
-                                    [
-                                        { text: "Cancel",
-                                        onPress: () => null,
-                                        style: "cancel" },
-                                        { text: "YES", onPress: () => {
-                                            AsyncStorage.getItem("token")
-                                                .then(token => deleteRestaurant(item.id, token))
-                                                .then(() => Alert.alert("Success",
-                                                    "Restaurant " + item.attributes.title + " deleted."))
-                                            } }
-                                    ]
-                                )
-                            }>
+                        <View style = {styles.restaurant}>
                             <Text numberOfLines={1} style = {styles.text}>{item.attributes.title}</Text>
-                        </TouchableOpacity>}
+                            <Tag
+                                style={{marginRight: '3%'}}
+                                name="Delete"
+                                onPress={() =>
+                                    Alert.alert("Delete Restaurant",
+                                        "Are you sure you want to delete " + item.attributes.title + "?",
+                                        [
+                                            { text: "Cancel",
+                                                onPress: () => null,
+                                                style: "cancel" },
+                                            { text: "YES", onPress: () => {
+                                                    AsyncStorage.getItem("token")
+                                                        .then(token => deleteRestaurant(item.id, token))
+                                                        .then(() => Alert.alert("Success",
+                                                            "Restaurant " + item.attributes.title + " deleted."))
+                                                } }
+                                        ]
+                                    )
+                                }
+                            />
+                        </View>}
                     keyExtractor={restaurant => restaurant.id}
                     ListFooterComponent={renderFooter}
                     ListEmptyComponent={() => <Text style = {styles.footer}>No Restaurants Found</Text>}
@@ -146,7 +155,7 @@ function DeleteRestaurantPage({ navigation }) {
                     onRefresh={handleRefresh}
                     refreshing={refreshing}
                 />
-            </SafeAreaView>
+            </View>
     )
 }
 
@@ -169,25 +178,17 @@ const styles = StyleSheet.create({
         top: '10%',
         width: '100%',
         height: Dimensions.get('window').height * 0.1,
+        borderTopWidth: 0.5,
+        borderColor: '#b3b3b3'
     },
     restaurant: {
-        alignSelf: 'center',
         flexDirection: 'row',
         alignItems:'center',
         justifyContent: 'space-between',
-        width: Dimensions.get('window').width * 0.9,
+        width: Dimensions.get('window').width,
         height: Dimensions.get('window').height * 0.08,
-        backgroundColor: 'white',
-        marginTop: '2%',
-        borderRadius: 1,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+        borderBottomWidth: 0.5,
+        borderColor: '#b3b3b3'
     },
     background: {
         position:'absolute',
@@ -198,13 +199,12 @@ const styles = StyleSheet.create({
     text:{
         fontFamily: 'Ubuntu',
         marginLeft: '3%',
-        marginBottom: '2%',
         color: '#ff6961'
     },
     back: {
         position: 'absolute',
-        top: Platform.OS == "ios" ? '8%' :'5%',
-        left: '7%'
+        top: Platform.OS == "ios" ? '5%' :'2%',
+        left: '2%'
     },
     header: {
         position: 'relative',

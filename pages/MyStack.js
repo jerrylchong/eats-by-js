@@ -4,7 +4,7 @@ import RestaurantPage from './RestaurantPage';
 import RestaurantList from './RestaurantList';
 import AddReviewPage from "./AddReviewPage";
 import DishPage from "./restaurantPages/DishPage";
-import ReviewPage from "./restaurantPages/ReviewPage";
+import ReviewPage from "./restaurantPages/reviewPage";
 
 
 const Stack = createStackNavigator();

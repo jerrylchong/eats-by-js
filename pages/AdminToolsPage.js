@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import PageButton from "../component/PageButton";
 import BackButton from "../component/BackButton";
+import {useSafeArea} from "react-native-safe-area-context";
 
 function AdminToolsPage({ navigation, route }) {
 
@@ -28,8 +29,13 @@ function AdminToolsPage({ navigation, route }) {
         return () => backHandler.remove();
     }, []);
 
+    const insets = useSafeArea();
+
     return (
-        <SafeAreaView style = {styles.container}>
+        <View style = {[
+            styles.container,
+            {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+        ]}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
             <Text style = {styles.header}>Admin Tools</Text>
             <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
@@ -38,7 +44,7 @@ function AdminToolsPage({ navigation, route }) {
                 <PageButton text = "Edit a Restaurant" onPress = {() => navigation.navigate('Edit')}/>
                 <PageButton text = "Delete a Restaurant" onPress = {() => navigation.navigate('Delete')}/>
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -59,8 +65,8 @@ const styles = StyleSheet.create({
     },
     back: {
         position: 'absolute',
-        top: Platform.OS == "ios" ? '8%' :'5%',
-        left: '7%'
+        top: Platform.OS == "ios" ? '5%' :'2%',
+        left: '2%'
     },
     header: {
         position: 'relative',

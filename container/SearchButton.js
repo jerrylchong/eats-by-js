@@ -78,7 +78,7 @@ class SearchButton extends React.Component {
                         : <Image style={{width: windowWidth * 0.12, height: windowWidth * 0.12}} source={require('../assets/templogonameless.png')}/>}
                 </Animated.View>
                 {!pressed &&
-                <TouchableOpacity style={styles.bigImage} onPress={this.pressSearch}>
+                <TouchableOpacity style={styles.bigImageButton} onPress={this.pressSearch}>
                     <Image style={styles.bigImage} source={require('../assets/magnifying_glass.png')}/>
                 </TouchableOpacity>
                 }
@@ -126,5 +126,11 @@ const styles = StyleSheet.create({
     bigImage: {
         height: 20,
         width: 24
+    },
+    bigImageButton: {
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+        height: windowWidth * 0.1,
+        width: windowWidth * 0.1
     }
 })

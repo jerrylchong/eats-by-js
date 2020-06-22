@@ -7,9 +7,7 @@ import {
     ImageBackground,
     BackHandler,
     Image,
-    TouchableOpacity,
     Dimensions,
-    FlatList
 } from "react-native";
 import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
@@ -24,7 +22,6 @@ import Loading from "../component/Loading";
 import Review from "../component/Review";
 import {connect} from "react-redux";
 import {mapReduxStateToProps} from "../helpers/reduxHelpers";
-import { SafeAreaView } from "react-navigation"
 import DealButton from '../component/DealButton';
 import { useSafeArea } from "react-native-safe-area-context";
 
@@ -157,7 +154,10 @@ function RestaurantPage(props) {
     return (
         isLoading
             ? <Loading/>
-            : <View style = {[styles.container, {paddingTop: insets.top}]}>
+            : <View style = {[
+                styles.container,
+                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+                ]}>
                 <ScrollView style={{ width: "100%"}}>
                     <ImageBackground style={styles.picture}
                         source={{uri: restaurantData.attributes.image_link}}>

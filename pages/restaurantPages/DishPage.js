@@ -16,7 +16,7 @@ import {
 import Loading from "../../component/Loading";
 import {connect} from "react-redux";
 import {mapReduxStateToProps} from "../../helpers/reduxHelpers";
-import { SafeAreaView } from "react-navigation"
+import {useSafeArea} from "react-native-safe-area-context";
 
 function DishPage(props) {
     const { navigation, route, } = props;
@@ -62,10 +62,15 @@ function DishPage(props) {
         )
     }
 
+    const insets = useSafeArea();
+
     return (
         isLoading
             ? <Loading/>
-            : <SafeAreaView style = {styles.container} forceInset={{ bottom: 'never'}}>
+            : <View style = {[
+                styles.container,
+                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+                ]}>
                 <View style={{ width: "100%", flex: 1}} >
                     <View style={styles.header}>
                         <BackButton white={false} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
@@ -89,7 +94,7 @@ function DishPage(props) {
                         refreshing={refreshingDishes}
                     />
                 </View>
-            </SafeAreaView>
+            </View>
     );
 }
 

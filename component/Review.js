@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
         borderColor: '#b3b3b3',
         paddingHorizontal: '3%',
         flexDirection: 'row',
-
     },
     rightColumn: {
         width:"80%",

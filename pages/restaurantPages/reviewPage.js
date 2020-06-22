@@ -15,9 +15,9 @@ import {
 import Loading from "../../component/Loading";
 import {connect} from "react-redux";
 import {mapReduxStateToProps} from "../../helpers/reduxHelpers";
-import { SafeAreaView } from "react-navigation"
 import Review from "../../component/Review";
 import Tag from "../../component/Tag"
+import {useSafeArea} from "react-native-safe-area-context";
 
 function ReviewPage(props) {
     const { navigation, route, user } = props;
@@ -65,10 +65,15 @@ function ReviewPage(props) {
         )
     }
 
+    const insets = useSafeArea();
+
     return (
         isLoading
             ? <Loading/>
-            : <SafeAreaView style = {styles.container} forceInset={{ bottom: 'never'}}>
+            : <View style = {[
+                styles.container,
+                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+                ]}>
                 <View style={{ width: "100%", flex: 1}} >
                     <View style={styles.header}>
                         <BackButton white={false} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
@@ -96,7 +101,7 @@ function ReviewPage(props) {
                         refreshing={refreshingReviews}
                     />
                 </View>
-            </SafeAreaView>
+            </View>
     );
 }
 

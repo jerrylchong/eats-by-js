@@ -12,6 +12,7 @@ import {
     Dimensions, BackHandler
 } from "react-native";
 import BackButton from "../component/BackButton";
+import {useSafeArea} from "react-native-safe-area-context";
 
 function RequestRestaurantPage({ navigation }) {
     const [title, setTitle] = useState('');
@@ -41,8 +42,14 @@ function RequestRestaurantPage({ navigation }) {
             navigation.goBack()
         )
     }
+
+    const insets = useSafeArea();
+
     return (
-        <SafeAreaView style = {styles.container}>
+        <View style = {[
+            styles.container,
+            {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+        ]}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
             <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
             <Text style = {styles.header}>Request a Restaurant</Text>
@@ -83,7 +90,7 @@ function RequestRestaurantPage({ navigation }) {
                     <Text style = {styles.buttonText}>Request</Text>
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </View>
     )
 }
 
@@ -107,8 +114,8 @@ const styles = StyleSheet.create({
     },
     back: {
         position: 'absolute',
-        top: Platform.OS == "ios" ? '8%' :'5%',
-        left: '7%'
+        top: Platform.OS == "ios" ? '5%' :'2%',
+        left: '2%'
     },
     header: {
         position: 'relative',

@@ -11,6 +11,7 @@ import {
     Dimensions, ImageBackground, Image, Keyboard, TouchableWithoutFeedback
 } from "react-native";
 import {postSignUp} from '../helpers/apiHelpers'
+import {useSafeArea} from "react-native-safe-area-context";
 
 function RegistrationPage({ navigation }) {
     const [username, setUsername] = useState('');
@@ -63,9 +64,15 @@ function RegistrationPage({ navigation }) {
       },
     }
     */
+
+    const insets = useSafeArea();
+
     return (
         <TouchableWithoutFeedback style = {styles.container} onPress={() => Keyboard.dismiss()}>
-        <SafeAreaView style = {styles.container}>
+        <View style = {[
+            styles.container,
+            {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+        ]}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
             <Text style = {styles.header}>Create an Account</Text>
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
@@ -106,7 +113,7 @@ function RegistrationPage({ navigation }) {
                     <Text style = {{color:'#ff8041', margin: '5%', fontFamily: 'Ubuntu-Medium'}}>Sign In</Text>
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </View>
         </TouchableWithoutFeedback>
     )
 }

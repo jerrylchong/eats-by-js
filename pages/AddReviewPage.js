@@ -15,6 +15,8 @@ import {postReview} from '../helpers/apiHelpers';
 import { connect } from 'react-redux';
 import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHelpers";
 import { AirbnbRating } from 'react-native-ratings';
+import BackButton from "../component/BackButton";
+import {useSafeArea} from "react-native-safe-area-context";
 
 export function AddReviewPage(props) {
     const {route, navigation, token, user} = props;
@@ -37,9 +39,16 @@ export function AddReviewPage(props) {
         });
     }
     const backHandler = () => navigation.goBack();
+
+    const insets = useSafeArea();
+
     return (
-        <SafeAreaView style = {styles.container}>
+        <View style = {[
+            styles.container,
+            {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+        ]}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
+            <BackButton white={false} style = {{alignSelf: 'flex-start', margin: '2%'}} onPress = {() => navigation.goBack()} />
             <Text style = {styles.header}>Add a Review</Text>
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
 
@@ -47,7 +56,9 @@ export function AddReviewPage(props) {
                     style={styles.input}
                     placeholder="Content"
                     onChangeText={(text) => {setContent(text)}}
-                    value={content}/>
+                    value={content}
+                    placeholderTextColor='#404040'
+                />
                 <AirbnbRating
                     count={5}
                     reviews={["Can i SU this meal", "army standard", "im alive", "OK", "michilin ✨"]}
@@ -62,17 +73,12 @@ export function AddReviewPage(props) {
             </KeyboardAvoidingView>
             <View style = {{width: '100%', height: '15%', flexDirection:"row", justifyContent: 'space-evenly', alignItems: 'center'}}>
                 <View style = {styles.buttonShadow}>
-                    <TouchableOpacity style = {styles.button} onPress = {backHandler}>
-                        <Text style = {styles.buttonText}>Back</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style = {styles.buttonShadow}>
                     <TouchableOpacity style = {styles.button} onPress = {submit}>
                         <Text style = {styles.buttonText}>Submit</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-        </SafeAreaView>
+        </View>
     )
 }
 
@@ -93,8 +99,8 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 20,
-        marginTop: '10%',
-        fontFamily: 'Ubuntu-Medium'
+        fontFamily: 'Ubuntu-Medium',
+        alignSelf: 'center'
     },
     list: {
         width: '80%',
@@ -107,14 +113,15 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start'
     },
     input: {
-        borderWidth: 0.25,
-        borderColor: '#B3B3B3',
+        borderRadius: 10,
         fontSize: 12,
         width: '100%',
         height: '70%',
         paddingHorizontal: 5,
         marginBottom: '8%',
-        fontFamily: 'Ubuntu'
+        fontFamily: 'Ubuntu',
+        backgroundColor: '#d9d9d9',
+        color: '#404040'
     },
     buttonShadow: {
         width: '25%',
@@ -148,5 +155,9 @@ const styles = StyleSheet.create({
         color: '#fc8a1d',
         marginTop: '5%',
         fontFamily: 'Ubuntu'
+    },
+    top: {
+        flexDirection: 'row',
+        width: '100%',
     }
 })

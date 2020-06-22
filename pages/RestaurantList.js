@@ -5,6 +5,7 @@ import RestaurantButton from "../component/RestaurantButton";
 import {getRestaurantsFromApi, getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import _ from "lodash"
+import {useSafeArea} from "react-native-safe-area-context";
 
 // currently my db only got title, description, rating
 // TODO: cost, tags
@@ -102,10 +103,15 @@ function RestaurantList({ navigation }) {
         setSearchTerm("");
     }
 
+    const insets = useSafeArea();
+
     return (
         isLoading
             ? <Loading />
-            : <SafeAreaView style = {styles.container}>
+            : <View style = {[
+                styles.container,
+                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+            ]}>
                 <View style = {styles.navBar}>
                     <SearchButton 
                     navigation = {navigation}
@@ -144,7 +150,7 @@ function RestaurantList({ navigation }) {
                     onRefresh={handleRefresh}
                     refreshing={refreshing}
                 />
-            </SafeAreaView>
+            </View>
     )
 }
 
