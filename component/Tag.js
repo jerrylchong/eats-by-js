@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const Tag = (props) => {
     return (
-        <TouchableOpacity style={props.style} onPress = {props.onPress}>
+        <TouchableOpacity disabled={props.disabled} style={props.style} onPress = {props.onPress}>
             <View style = {styles.container}>
                 <Text style = {styles.text}>
                     {props.name}

@@ -15,10 +15,10 @@ import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
 import BackButton from "../component/BackButton";
 import {
-    getDishesFromApi,
+    getPaginatedDishesFromApi,
     getRestaurantFromApi,
     getRestaurantTagsFromApi,
-    getReviewsForRestaurant,
+    getPaginatedReviewsForRestaurant,
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import Review from "../component/Review";
@@ -36,8 +36,9 @@ function RestaurantBanner(props) {
             <Text numberOfLines={1} style={stylesBanner.title}>{title}</Text>
             <View style={stylesBanner.tagRow}>
                 <View style={stylesBanner.tags}>
-                    { tags.map((tag,index) => <Tag key={index} name={tag.name}/>) }
-                    {halal && <Tag name={'halal'}/>}
+                    { tags.map((tag,index) => <Tag disabled key={index} name={tag.name}/>) }
+                    {halal && <Tag disabled name={'halal'}/>}
+                    <Tag name='+' onPress={()=> alert("suggest tag")}/>
                 </View>
                 <View style = {stylesBanner.cost}>
                     {parseFloat(cost) > 0 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
@@ -121,8 +122,8 @@ function RestaurantPage(props) {
         Promise.all([
             getRestaurantFromApi(restaurant_id).then(data => setRestaurantData(data)),
             getRestaurantTagsFromApi(restaurant_id).then(data => setRestaurantTags(data)),
-            getDishesFromApi(restaurant_id).then(data => setDishes(data)),
-            getReviewsForRestaurant(restaurant_id).then(data => setReviews(data)),
+            getPaginatedDishesFromApi(restaurant_id, 1, 2).then(data => setDishes(data)),
+            getPaginatedReviewsForRestaurant(restaurant_id, 1, 2).then(data => setReviews(data)),
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -142,22 +143,17 @@ function RestaurantPage(props) {
 
     const onReviewRefresh = () => {
         setRefreshingReviews(true);
-        getReviewsForRestaurant(restaurant_id)
+        getPaginatedReviewsForRestaurant(restaurant_id, 1, 2)
             .then(data => setReviews(data))
             .then(() => setRefreshingReviews(false));
     }
 
     const onDishRefresh = () => {
         setRefreshingDishes(true);
-        getDishesFromApi(restaurant_id)
+        getPaginatedDishesFromApi(restaurant_id, 1, 2)
             .then(data => setDishes(data))
             .then(() => setRefreshingDishes(false));
     }
-
-    const _updateSections = activeSections => {
-        setSections(activeSections);
-    }
-
     return (
         isLoading
             ? <Loading/>
@@ -181,40 +177,53 @@ function RestaurantPage(props) {
                     <View style={{flexGrow: 1}}>
                         {/*
                             Reviews Section
-                        */}
+                            */}
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Reviews</Text>
+                                {isLoggedIn && <Tag name="refresh" onPress={onReviewRefresh}/>}
                                 {isLoggedIn && <Tag name="+" onPress={() => navigation.navigate('Add Review', {restaurant_id})}/>}
                                 <Tag name="View all" onPress={() => navigation.navigate('Restaurant Reviews', {restaurant_id})} />
                             </View>
-                            <Review 
-                                user_id={1}
-                                date={"27 April 2019"}
-                                title={"Best Restaurant to Dine"}
-                                rating={5}
-                                content={"This is not too good"}
-                            />
+                            { refreshingReviews ?  <Loading style={{paddingTop:30}}/> :
+                                    reviews.map(item => 
+                                    <Review 
+                                        key={item.id}
+                                        user_id={item.relationships.user.data.id}
+                                        date={new Date(item.attributes.created_at).toLocaleDateString()}
+                                        title={item.attributes.title}
+                                        rating={item.attributes.rating}
+                                        content={item.attributes.content}
+                                    />)
+                            }
+                            { refreshingReviews || reviews.length != 0 || <Text style={styles.footer}>No Reviews yet</Text>}
                         </View>
                         <View style={{height: windowHeight * 0.07}} />
                         {/*
                             DISHES Section
-                        */}
+                            */}
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Dishes</Text>
+                                {isLoggedIn && <Tag name="refresh" onPress={onDishRefresh}/>}
+                                <Tag name='+' onPress={()=> alert("suggest tag")}/>
                                 <Tag name="View all" onPress={() => navigation.navigate('Restaurant Dishes', {restaurant_id})} />
                             </View>
-                            <DishButton 
-                                title="Chicken Rice de Brulé"
-                                description="Souffle Chicken w/ Stuffed Egg"
-                                price="4.50"
-                            />
+                            { refreshingDishes ?  <Loading style={{paddingTop:30}}/> :
+                                    dishes.map(item => 
+                                    <DishButton 
+                                        key={item.id}
+                                        title={item.attributes.title}
+                                        description={item.attributes.description}
+                                        price={item.attributes.price}
+                                    />)
+                            }
+                            { refreshingDishes || dishes.length != 0 || <Text style={styles.footer}>No Dishes yet</Text>}
                         </View>
                         <View style={{height: windowHeight * 0.07}} />
                         {/*
                             DEALS Section
-                        */}
+                            */}
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Deals</Text>
