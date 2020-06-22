@@ -60,6 +60,9 @@ function RestaurantBanner(props) {
     );
 }
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const stylesBanner = StyleSheet.create({
     tagRow: {
         height: '15%',
@@ -79,7 +82,7 @@ const stylesBanner = StyleSheet.create({
     title: {
         fontFamily: 'Ubuntu-Bold',
         fontSize: 28,
-        marginTop: Dimensions.get('window').height * 0.02
+        marginTop: windowHeight * 0.02
     },
     tags: {
         flexDirection:"row",
@@ -91,8 +94,8 @@ const stylesBanner = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     coin: {
-        height: Dimensions.get('window').width * 0.06,
-        width: Dimensions.get('window').width * 0.06,
+        height: windowWidth * 0.06,
+        width: windowWidth * 0.06,
         marginRight: '2%'
     },
     description: {
@@ -159,7 +162,7 @@ function RestaurantPage(props) {
         isLoading
             ? <Loading/>
             : <View style = {[styles.container, {paddingTop: insets.top}]}>
-                <ScrollView style={{ width: "100%", flex: 1}} >
+                <ScrollView style={{ width: "100%"}}>
                     <ImageBackground style={styles.picture}
                         source={{uri: restaurantData.attributes.image_link}}>
                         <BackButton white={true} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
@@ -174,7 +177,7 @@ function RestaurantPage(props) {
                         cost={restaurantData.attributes.price}
                         no_of_stalls={restaurantData.attributes.no_of_stalls}
                     />
-                    <View style={{height:"5%"}} />
+                    <View style={{height: windowHeight  * 0.05}} />
                     <View style={{flexGrow: 1}}>
                         {/*
                             Reviews Section
@@ -193,7 +196,7 @@ function RestaurantPage(props) {
                                 content={"This is not too good"}
                             />
                         </View>
-                        <View style={{height:"7%"}} />
+                        <View style={{height: windowHeight * 0.07}} />
                         {/*
                             DISHES Section
                         */}
@@ -208,7 +211,7 @@ function RestaurantPage(props) {
                                 price="4.50"
                             />
                         </View>
-                        <View style={{height:"7%"}} />
+                        <View style={{height: windowHeight * 0.07}} />
                         {/*
                             DEALS Section
                         */}
@@ -228,8 +231,7 @@ function RestaurantPage(props) {
                                 duration="22 Jun - 28 Jun"
                             />
                         </View>
-                        <View style={{height:"7%"}} />
-
+                        <View style={{height: windowHeight * 0.07}} />
                     </View>
                 </ScrollView>
             </View>
@@ -250,7 +252,7 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').width * 728/1668
     },
     container: {
-        flexGrow: 1,
+        flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
     },
@@ -262,7 +264,7 @@ const styles = StyleSheet.create({
         color: '#404040'
     },
     section: {
-        flex: 1,
+        justifyContent: 'flex-start'
     },
     sectionTitle: {
         flexDirection: 'row',

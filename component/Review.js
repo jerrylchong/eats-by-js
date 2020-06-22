@@ -14,8 +14,8 @@ const Review = (props) => {
                     ? '#ffbf00'
                     : '#66b58c',
         flexDirection: 'row',
-        height: Dimensions.get('window').width * 0.16,
-        width: Dimensions.get('window').width * 0.16,
+        height: Dimensions.get('window').width * 0.15,
+        width: Dimensions.get('window').width * 0.15,
         borderRadius: 36,
         justifyContent: 'space-evenly',
         alignItems: 'center'
@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
         borderColor: '#b3b3b3',
         paddingHorizontal: '3%',
         flexDirection: 'row',
-        backgroundColor: 'white',
 
     },
     rightColumn: {
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Ubuntu'
     },
     face: {
-        height: 52,
-        width: 52,
+        height: Dimensions.get('window').width * 0.15 - 8,
+        width: Dimensions.get('window').width * 0.15 - 8,
     },
 })
