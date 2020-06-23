@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, TextInput, View, Image, TouchableOpacity, Animated, Dimensions } from 'react-native';
+import { StyleSheet, TextInput, View, Image, TouchableOpacity, Animated, Dimensions, Text } from 'react-native';
 import MenuButton from "../component/MenuButton";
+import RNPickerSelect from 'react-native-picker-select';
 
 class SearchButton extends React.Component {
 
@@ -58,33 +59,95 @@ class SearchButton extends React.Component {
         const {animatedWidth, animatedHeight, pressed} = this.state;
         const animatedStyle = { width: animatedWidth, height: animatedHeight }
         return (
-            <View style = {styles.container}>
-                <MenuButton onPress = {this.pressMenu}/>
-                <Animated.View style = {[styles.box, animatedStyle]}>
-                    {pressed
-                        ? <View style = {styles.searchBar}>
-                            <TextInput
-                                style = {styles.input}
-                                placeholder = "Search"
-                                placeholderTextColor = '#404040'
-                                onChangeText = {this.handleSearchTerm}
-                                value = {searchTerm} />
-                            <TouchableOpacity
-                                style = {{height: 40, width: 40, justifyContent: 'center', alignItems: 'center'}}
-                                onPress = {searchTerm.length == 0 ? this.resetBar : clearSearch}>
-                                <Image style = {styles.image} source ={require('../assets/X.png')} />
-                            </TouchableOpacity>
-                        </View>
-                        : <Image style={{width: windowWidth * 0.12, height: windowWidth * 0.12}} source={require('../assets/templogonameless.png')}/>}
-                </Animated.View>
-                {!pressed &&
-                <TouchableOpacity style={styles.bigImageButton} onPress={this.pressSearch}>
-                    <Image style={styles.bigImage} source={require('../assets/magnifying_glass.png')}/>
-                </TouchableOpacity>
+            <View style={styles.biggerContainer}>
+                <View style = {styles.container}>
+                    <MenuButton onPress = {this.pressMenu}/>
+                    <Animated.View style = {[styles.box, animatedStyle]}>
+                        {pressed
+                            ? <View style = {styles.searchBar}>
+                                <TextInput
+                                    style = {styles.input}
+                                    placeholder = "Search"
+                                    placeholderTextColor = '#404040'
+                                    onChangeText = {this.handleSearchTerm}
+                                    value = {searchTerm} />
+                                <TouchableOpacity
+                                    style = {{height: 40, width: 40, justifyContent: 'center', alignItems: 'center'}}
+                                    onPress = {searchTerm.length == 0 ? this.resetBar : clearSearch}>
+                                    <Image style = {styles.image} source ={require('../assets/X.png')} />
+                                </TouchableOpacity>
+                            </View>
+                            : <Image style={{width: windowWidth * 0.12, height: windowWidth * 0.12}} source={require('../assets/templogonameless.png')}/>}
+                    </Animated.View>
+                    {!pressed &&
+                    <TouchableOpacity style={styles.bigImageButton} onPress={this.pressSearch}>
+                        <Image style={styles.bigImage} source={require('../assets/magnifying_glass.png')}/>
+                    </TouchableOpacity>
+                    }
+                </View>
+                {pressed &&
+                <View style={styles.filterRow}>
+                    <SearchPicker 
+                        placeholderText="Select a Price"
+                        items={[
+                            { label: '1-5', value: '0' },
+                            { label: '5-10', value: '1' },
+                            { label: '10+', value: '2' },
+                        ]}
+                        onValueChange={(value) => console.log(value)}
+                    />
+                    <SearchPicker 
+                        placeholderText="Select a Price"
+                        items={[
+                            { label: '1-5', value: '0' },
+                            { label: '5-10', value: '1' },
+                            { label: '10+', value: '2' },
+                        ]}
+                        onValueChange={(value) => console.log(value)}
+                    />
+                    <SearchPicker 
+                        placeholderText="Select a Price"
+                        items={[
+                            { label: '1-5', value: '0' },
+                            { label: '5-10', value: '1' },
+                            { label: '10+', value: '2' },
+                        ]}
+                        onValueChange={(value) => console.log(value)}
+                    />
+                </View>
                 }
             </View>
         )
     }
+}
+
+const SearchPicker = (props) => {
+    const { items, onValueChange, placeholderText } = props;
+
+    return (
+        <RNPickerSelect
+            placeholder={
+                {
+                    label: placeholderText,
+                    value: null,
+                    color: '#9EA0A4',
+                }
+            }
+            onValueChange={onValueChange}
+            useNativeAndroidPickerStyle={false}
+            items={items}
+            style={{
+                ...pickerSelectStyles,
+                iconContainer: {
+                    top: 10,
+                    right: 12,
+                },
+            }}
+            Icon={() => {
+                return <Text style={{color:"#B3B3B3"}}>▼</Text>;
+            }}
+        />
+    )
 }
 
 export default SearchButton
@@ -92,6 +155,11 @@ export default SearchButton
 const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
+    biggerContainer: {
+        width: '100%',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
     container: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -103,6 +171,9 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.8,
         justifyContent: 'space-between',
         alignItems: 'center'
+    },
+    filterRow: {
+        flexDirection: "row",
     },
     box: {
         backgroundColor: '#ececec',
@@ -134,3 +205,24 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.1
     }
 })
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 0.25,
+    borderColor: '#B3B3B3',
+    borderRadius: 10,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});
