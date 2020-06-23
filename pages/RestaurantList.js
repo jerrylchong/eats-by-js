@@ -19,6 +19,7 @@ function RestaurantList({ navigation }) {
     const [refreshing, setRefreshing] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [isLastPage, setIsLastPage] = useState(false);
+    const [tagFilters, setTagFilters] = useState([]);
 
     useEffect(() => {
         Promise.all([
@@ -121,6 +122,10 @@ function RestaurantList({ navigation }) {
                         debouncedSearchFetchRequest(searchTerm);
                     }}
                     clearSearch = {clearSearch}
+                    tagAutoCompleteOptions={tags.map(x => x.name)}
+                    setTagFilters={setTagFilters}
+                    tagFilters={tagFilters || []}
+                    suggestions={["korean", "chinese", "noodles"]}
                     />
                 </View>
                 <FlatList
@@ -166,8 +171,6 @@ const styles = StyleSheet.create({
     },
     navBar: {
         flexDirection: 'row',
-        height: '10%',
-        width: '90%',
         alignItems: 'center',
         justifyContent: 'center',
     },
