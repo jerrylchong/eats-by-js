@@ -122,7 +122,7 @@ function RestaurantList({ navigation }) {
                         debouncedSearchFetchRequest(searchTerm);
                     }}
                     clearSearch = {clearSearch}
-                    tagAutoCompleteOptions={tags.map(x => x.name)}
+                    tagAutoCompleteOptions={tags}
                     setTagFilters={setTagFilters}
                     tagFilters={tagFilters || []}
                     suggestions={["korean", "chinese", "noodles"]}

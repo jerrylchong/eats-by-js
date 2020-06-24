@@ -3,13 +3,15 @@ import { StyleSheet, TextInput, View, Image, TouchableOpacity, Animated, Dimensi
 import MenuButton from "../component/MenuButton";
 import Tag, { SuggestTag } from "../component/Tag";
 import {Autocomplete} from "react-native-dropdown-autocomplete";
+import SearchableDropdown from 'react-native-searchable-dropdown';
 
 class SearchButton extends React.Component {
 
     state = {
         animatedWidth: new Animated.Value(windowWidth * 0.12),
         animatedHeight: new Animated.Value(windowWidth * 0.12),
-        pressed: false
+        pressed: false,
+        selectedItems: []
     }
 
     componentDidMount() {
@@ -99,32 +101,61 @@ class SearchButton extends React.Component {
                             <Tag style={{marginTop:5}} name={`x ${tag}`} onPress={() => setTagFilters(tagFilters.filter(x => x != tag))}/>
                         )
                     }
+                    <SearchableDropdown
+                        onItemSelect={(item) => {
+                            const items = tagFilters.filter(x => x != item.name)
+                            items.push(item.name)
+                            setTagFilters(items)
+                        }}
+                        containerStyle={{ padding: 5}}
+                        itemStyle={{
+                            paddingLeft: '8%',
+                            paddingVertical: '3%',
+                            marginTop: '1%',
+                            backgroundColor: '#ececec',
+                            borderRadius: 100,
+                            width: windowWidth * 0.3
+                        }}
+                        itemTextStyle={{ color: '#404040', fontFamily: 'Ubuntu', fontSize: 10 }}
+                        itemsContainerStyle={{ maxHeight: '40%' }}
+                        items={this.props.tagAutoCompleteOptions.filter(x => !tagFilters.includes(x)) || []}
+                        defaultIndex={0}
+                        resetValue={true}
+                        textInputProps={
+                            {
+                                placeholder: "+ Add tag",
+                                placeholderTextColor: '#404040',
+                                underlineColorAndroid: "transparent",
+                                style: {
+                                    paddingLeft: '4%',
+                                    backgroundColor: '#ececec',
+                                    borderRadius: windowWidth * 0.15,
+                                    width: windowWidth * 0.3,
+                                    height: windowWidth * 0.045,
+                                    fontSize: 10,
+                                    color: '#404040',
+                                    fontFamily: 'Ubuntu'
+                                }
+                            }
+                        }
+                        listProps={
+                            {
+                                nestedScrollEnabled: true,
+                            }
+                        }
+                    />
+                </View>
+                }
+                {pressed &&
+                <View style={styles.filterRow}>
+                    <Text style={{fontFamily: 'Ubuntu', fontSize: 12, color: "#404040", marginRight: '2%'}}>Suggested:</Text>
                     {
                         suggestions
                             .filter(x => !tagFilters.includes(x))
                             .map(tag =>
-                            <SuggestTag style={{marginTop:5}} name={`+ ${tag}`} onPress={() => setTagFilters([...tagFilters, tag])}/>
-                        )
+                                <SuggestTag style={{marginTop:5}} name={`+ ${tag}`} onPress={() => setTagFilters([...tagFilters, tag])}/>
+                            )
                     }
-                </View>
-                }
-                {pressed &&
-                <View style={styles.searchTagRow}>
-                    <Autocomplete
-                        placeholder={"Add Tag"}
-                        minimumCharactersCount={0}
-                        inputContainerStyle={styles.inputContainer}
-                        inputStyle={styles.tagSearch}
-                        pickerStyle={styles.dropdown}
-                        data={this.props.tagAutoCompleteOptions.filter(x => !tagFilters.includes(x)) || []}
-                        renderIcon={() => (
-                            <Text style={styles.plus}>+</Text>
-                        )}
-                        resetOnSelect
-                        valueExtractor={v => v}
-                        waitInterval={0}
-                        handleSelectItem={(value, index) => setTagFilters([...tagFilters, value])}
-                    />
                 </View>
                 }
             </View>
@@ -140,7 +171,7 @@ const styles = StyleSheet.create({
     plus: {
         position: "absolute",
         left: 15,
-        top: 12,
+        top: windowWidth * 0.015,
         zIndex:99,
     },
     autocompleteInput:{
@@ -152,6 +183,7 @@ const styles = StyleSheet.create({
         borderColor: "transparent",
         backgroundColor: '#ececec',
         borderRadius: 25,
+        width: windowWidth * 0.3,
     },
     dropdown: {
         width: "30%",
@@ -183,6 +215,7 @@ const styles = StyleSheet.create({
         width: '85%',
         marginTop:"5%",
         justifyContent: "flex-start",
+        alignItems: 'center',
         flexDirection: "row",
         flexWrap: "wrap",
     },
