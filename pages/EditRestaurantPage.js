@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSafeArea} from "react-native-safe-area-context";
 
 function EditRestaurantPage({navigation}) {

@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View, BackHandler, Alert, ImageBackground, Dimensions, FlatList, Text} from "react-native";
+import {StyleSheet, View, BackHandler, Alert, Dimensions, FlatList, Text} from "react-native";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
-import {getRestaurantsFromApi, getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
+import {getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import _ from "lodash"
 import {useSafeArea} from "react-native-safe-area-context";

@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
-    SafeAreaView, StyleSheet, View, Alert, Dimensions, FlatList, Text, TouchableOpacity,
-    ImageBackground, AsyncStorage, Platform, BackHandler
+    StyleSheet, View, Alert, Dimensions, FlatList, Text, AsyncStorage, Platform, BackHandler
 } from "react-native";
 import {getPaginatedRestaurantsFromApi, deleteRestaurant} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
