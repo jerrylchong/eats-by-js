@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, BackHandler, Alert, Dimensions, FlatList, Text} from "react-native";
+import {StyleSheet, View, BackHandler, Alert, Dimensions, FlatList, Text, Button} from "react-native";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
 import {getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
@@ -24,7 +24,7 @@ function RestaurantList(props) {
     const [isLastPage, setIsLastPage] = useState(false);
     const [errorMsg, setErrorMsg] = useState(null);
 
-    const { navigation } = props;
+    const { location, updateLocation, removeLocation, navigation } = props;
 
     useEffect(() => {
         Promise.all([
