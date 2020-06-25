@@ -36,12 +36,10 @@ export function getRestaurantsFromApi() {
 }
 
 export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=8, location) {
-    /*
-    locaion = {
-        lat : 12342,
-        lng : 24234
+    location = {
+        lat : 1.2987363, 
+        lng : 103.7748976
     }
-    */
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
