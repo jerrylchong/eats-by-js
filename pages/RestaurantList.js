@@ -6,11 +6,14 @@ import {getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelp
 import Loading from "../component/Loading";
 import _ from "lodash"
 import {useSafeArea} from "react-native-safe-area-context";
+import * as Location from 'expo-location';
+import {connect} from "react-redux";
+import {mapReduxDispatchToProps, mapReduxStateToProps} from "../helpers/reduxHelpers";
 
 // currently my db only got title, description, rating
 // TODO: cost, tags
 
-function RestaurantList({ navigation }) {
+function RestaurantList(props) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
@@ -19,6 +22,9 @@ function RestaurantList({ navigation }) {
     const [refreshing, setRefreshing] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [isLastPage, setIsLastPage] = useState(false);
+    const [errorMsg, setErrorMsg] = useState(null);
+
+    const { navigation } = props;
 
     useEffect(() => {
         Promise.all([
@@ -105,6 +111,16 @@ function RestaurantList({ navigation }) {
 
     const insets = useSafeArea();
 
+    async function getLocation() {
+        let { status } = await Location.requestPermissionsAsync();
+        if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied.')
+        }
+
+        let loc = await Location.getCurrentPositionAsync({});
+        updateLocation(loc);
+    }
+
     return (
         isLoading
             ? <Loading />
@@ -154,7 +170,7 @@ function RestaurantList({ navigation }) {
     )
 }
 
-export default RestaurantList
+export default connect(mapReduxStateToProps,mapReduxDispatchToProps)(RestaurantList)
 
 const styles = StyleSheet.create({
     container: {
