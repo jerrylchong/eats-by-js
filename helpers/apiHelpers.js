@@ -30,7 +30,7 @@ export function getRestaurantsFromApi() {
         method: 'GET',
         redirect: 'follow'
     };
-    return fetch(`${HOST}/restaurants`, requestOptions)
+    return fetch(`${HOST}/restaurants/?per_page=100`, requestOptions)
         .then(res => res.json())
         .then(json => json.data)
 }
@@ -44,7 +44,8 @@ export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=8, 
         method: 'GET',
         redirect: 'follow'
     };
-    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}&lat=${location["lat"]}&lng=${location["lng"]}`, requestOptions)
+    //&lat=${location["lat"]}&lng=${location["lng"]}
+    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}`, requestOptions)
         .then(res => res.json())
         .then(json => json.data)
 }
