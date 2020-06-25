@@ -1,14 +1,21 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, SafeAreaView} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import Loading from "../component/Loading";
+import {useSafeArea} from "react-native-safe-area-context";
 
 function SettingsPage({ navigation }) {
+
+    const insets = useSafeArea();
+
     return (
-        <SafeAreaView style = {styles.container}>
+        <View style = {[
+            styles.container,
+            {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+        ]}>
             <TouchableOpacity onPress = {() => {navigation.goBack()}}>
                 <Loading />
             </TouchableOpacity>
-        </SafeAreaView>
+        </View>
     )
 }
 

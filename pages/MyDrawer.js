@@ -110,7 +110,8 @@ const MyDrawer = (props) => {
             <Drawer.Screen name = 'Home' component = {MyStack} />
             <Drawer.Screen name = 'Settings' component = {SettingsPage} />
             {isLoggedIn && <Drawer.Screen name = 'Request a Restaurant' component = {RequestRestaurantPage} />}
-            {isLoggedIn && <Drawer.Screen name = 'Admin Tools' component = {AdminToolsStack} />}
+            {(isLoggedIn && user.user_data.attributes.is_admin) &&
+            <Drawer.Screen name = 'Admin Tools' component = {AdminToolsStack} />}
         </Drawer.Navigator>
     )
 }

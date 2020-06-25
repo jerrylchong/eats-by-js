@@ -35,12 +35,16 @@ export function getRestaurantsFromApi() {
         .then(json => json.data)
 }
 
-export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=8) {
+export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=8, location) {
+    location = {
+        lat : 1.2987363,
+        lng : 103.7748976
+    }
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
-    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}`, requestOptions)
+    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}&lat=${location["lat"]}&lng=${location["lng"]}`, requestOptions)
         .then(res => res.json())
         .then(json => json.data)
 }
@@ -71,6 +75,16 @@ export function getDishesFromApi(restaurant_id) {
         redirect: 'follow'
     };
     return fetch(`${HOST}/restaurants/${restaurant_id}/dishes`, requestOptions)
+        .then(res => res.json())
+        .then(json => json.data)
+}
+
+export function getPaginatedDishesFromApi(restaurant_id, page, per_page=8) {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    return fetch(`${HOST}/restaurants/${restaurant_id}/dishes?per_page=${per_page}&page=${page}`, requestOptions)
         .then(res => res.json())
         .then(json => json.data)
 }
@@ -159,6 +173,22 @@ export function getReviewsForRestaurant(restaurant_id) {
         .then(response => response.data)
 }
 
+export function getPaginatedReviewsForRestaurant(restaurant_id, page, per_page=8) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/restaurants/${restaurant_id}/reviews?per_page=${per_page}&page=${page}`, requestOptions)
+        .then(response => response.json())
+        .then(response => response.data)
+}
+
 export function postReview(review,restaurant_id,token) {
     /*
     {
@@ -204,7 +234,7 @@ export function getUsername(user_id) {
         redirect: 'follow'
     };
 
-    return fetch(`${HOST}/user/${user_id}`, requestOptions)
+    return fetch(`${HOST}/users/${user_id}`, requestOptions)
         .then(response => response.json())
 }
 

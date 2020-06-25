@@ -1,16 +1,23 @@
 import React from 'react';
-import {Dimensions, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useSafeArea} from "react-native-safe-area-context";
 
 function EditRestaurantPage({navigation}) {
+
+    const insets = useSafeArea();
+
     return (
-        <SafeAreaView style = {styles.container}>
+        <View style = {[
+            styles.container,
+            {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+        ]}>
             <Text>Placeholder Page</Text>
             <View style = {styles.buttonShadow}>
                 <TouchableOpacity style = {styles.button} onPress = {navigation.goBack}>
                     <Text style = {styles.buttonText}>Back</Text>
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </View>
     )
 }
 

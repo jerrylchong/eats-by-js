@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {
-    SafeAreaView,
     ScrollView,
     StyleSheet,
     View,
@@ -8,24 +7,23 @@ import {
     ImageBackground,
     BackHandler,
     Image,
-    TouchableOpacity,
     Dimensions,
-    FlatList
 } from "react-native";
 import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
 import BackButton from "../component/BackButton";
 import {
-    getDishesFromApi,
+    getPaginatedDishesFromApi,
     getRestaurantFromApi,
     getRestaurantTagsFromApi,
-    getReviewsForRestaurant,
+    getPaginatedReviewsForRestaurant,
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import Review from "../component/Review";
-import Accordion from "react-native-collapsible/Accordion";
 import {connect} from "react-redux";
 import {mapReduxStateToProps} from "../helpers/reduxHelpers";
+import DealButton from '../component/DealButton';
+import { useSafeArea } from "react-native-safe-area-context";
 
 function RestaurantBanner(props) {
     const {title, tags, location, operatingHours, contact, cost, halal, no_of_stalls} = props
@@ -33,15 +31,11 @@ function RestaurantBanner(props) {
     return (
         <View style={stylesBanner.container}>
             <Text numberOfLines={1} style={stylesBanner.title}>{title}</Text>
-            <View
-                style={{
-                    height: '15%', width:'100%',
-                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-                    marginBottom: '1%'
-                }}>
+            <View style={stylesBanner.tagRow}>
                 <View style={stylesBanner.tags}>
-                    { tags.map((tag,index) => <Tag key={index} name={tag.name}/>) }
-                    {halal && <Tag name={'halal'}/>}
+                    { tags.map((tag,index) => <Tag disabled key={index} name={tag.name}/>) }
+                    {halal && <Tag disabled name={'halal'}/>}
+                    <Tag name='+' onPress={()=> alert("suggest tag")}/>
                 </View>
                 <View style = {stylesBanner.cost}>
                     {parseFloat(cost) > 0 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
@@ -49,36 +43,48 @@ function RestaurantBanner(props) {
                     {parseFloat(cost) > 7.5 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
                 </View>
             </View>
-            <ScrollView style={{width:'100%'}}>
+            <View style={{width:'100%', marginTop: Dimensions.get('window').height * 0.02}}>
                 <Text style={stylesBanner.description}>Location: {location}</Text>
                 <Text style={stylesBanner.description}>Opening Hours:{'\n'}{operatingHours}</Text>
                 <Text style={stylesBanner.description}>Contact No: {contact}</Text>
                 {no_of_stalls > 0 && <Text style={stylesBanner.description}>No. of Stalls : {no_of_stalls}</Text>}
-            </ScrollView>
+            </View>
+            <View style={{
+                width: Dimensions.get('window').width, borderBottomWidth: 0.5, borderColor: '#B3B3B3',
+                alignSelf: 'center', marginTop: Dimensions.get('window').height * 0.02
+            }}/>
         </View>
 
     );
 }
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const stylesBanner = StyleSheet.create({
+    tagRow: {
+        height: '15%',
+        width:'100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: Dimensions.get('window').height * 0.02
+    },
     container: {
-        width: "95%",
-        height: Dimensions.get('window').height * 0.2,
-        flexDirection: 'column',
-        backgroundColor: '#fff',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        paddingTop: '1%',
-        paddingHorizontal: '1%',
-        marginBottom: '1%'
+        flex: 1,
+        width: '96%',
+        alignSelf: 'center',
+        justifyContent: 'flex-start',
+        marginBottom: '2%'
     },
     title: {
         fontFamily: 'Ubuntu-Bold',
         fontSize: 28,
+        marginTop: windowHeight * 0.02
     },
     tags: {
         flexDirection:"row",
-        width:'70%'
+        width:'70%',
     },
     cost: {
         width: '20%',
@@ -86,8 +92,8 @@ const stylesBanner = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     coin: {
-        height: Dimensions.get('window').width * 0.06,
-        width: Dimensions.get('window').width * 0.06,
+        height: windowWidth * 0.06,
+        width: windowWidth * 0.06,
         marginRight: '2%'
     },
     description: {
@@ -105,16 +111,16 @@ function RestaurantPage(props) {
     const [reviews, setReviews] = useState([]);
     const [refreshingReviews, setRefreshingReviews] = useState(false);
     const [refreshingDishes, setRefreshingDishes] = useState(false);
-    const [activeSections, setSections] = useState([]);
     const {restaurant_id} = route.params;
     const {isLoggedIn} = user;
+    const insets = useSafeArea();
 
     useEffect(() => {
         Promise.all([
             getRestaurantFromApi(restaurant_id).then(data => setRestaurantData(data)),
             getRestaurantTagsFromApi(restaurant_id).then(data => setRestaurantTags(data)),
-            getDishesFromApi(restaurant_id).then(data => setDishes(data)),
-            getReviewsForRestaurant(restaurant_id).then(data => setReviews(data)),
+            getPaginatedDishesFromApi(restaurant_id, 1, 2).then(data => setDishes(data)),
+            getPaginatedReviewsForRestaurant(restaurant_id, 1, 2).then(data => setReviews(data)),
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -134,145 +140,110 @@ function RestaurantPage(props) {
 
     const onReviewRefresh = () => {
         setRefreshingReviews(true);
-        getReviewsForRestaurant(restaurant_id)
+        getPaginatedReviewsForRestaurant(restaurant_id, 1, 2)
             .then(data => setReviews(data))
             .then(() => setRefreshingReviews(false));
     }
 
     const onDishRefresh = () => {
         setRefreshingDishes(true);
-        getDishesFromApi(restaurant_id)
+        getPaginatedDishesFromApi(restaurant_id, 1, 2)
             .then(data => setDishes(data))
             .then(() => setRefreshingDishes(false));
     }
-
-    const SECTIONS = [
-        {
-            title: "Reviews (" + reviews.length.toString() + ")",
-            id: 1
-        },
-        {
-            title: "Dishes (" + dishes.length.toString() + ")",
-            id: 2
-        },
-        {
-            title: "Deals",
-            id: 3
-        },
-    ]
-
-    const _renderHeader = (section, index, isActive, sections) => {
-        return (
-            <View style = {styles.header}>
-                <Text style = {styles.title}>{section.title}</Text>
-                {
-                    isActive
-                        ? <Image style = {styles.plusMinus} source={require('../assets/minusbutton.png')}/>
-                        : <Image style = {styles.plusMinus} source={require('../assets/plusbutton.png')}/>
-                }
-            </View>
-        )
-    }
-
-    const _renderContent = section => {
-        return (
-            section.id == 1 ?
-                <View style = {{height: Dimensions.get('window').height * 0.43, width: Dimensions.get('window').width,
-                    alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
-                    { isLoggedIn &&
-                    <TouchableOpacity style = {styles.addReview} onPress = {() => navigation.navigate('Add Review', {restaurant_id})}>
-                        <Image style = {styles.addButton} source={require('../assets/plusbutton.png')}/>
-                        <Text style = {{color: '#ff6961', fontFamily: 'Ubuntu'}}>Add a review</Text>
-                    </TouchableOpacity>
-                    }
-                    <FlatList
-                        style={{width: '100%'}}
-                        data={reviews}
-                        renderItem={({item}) =>
-                            <Review
-                                user_id={item.relationships.user.data.id}
-                                date={item.attributes.created_at}
-                                title={item.attributes.title}
-                                rating={item.attributes.rating}
-                                content={item.attributes.content}
-                            />}
-                        ListEmptyComponent={<Text style = {styles.footer}>No Reviews Yet!</Text>}
-                        onRefresh={onReviewRefresh}
-                        refreshing={refreshingReviews}
-                    />
-                </View>
-                : section.id == 2 ?
-                <View style = {{height: Dimensions.get('window').height * 0.34, width: Dimensions.get('window').width,
-                    alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
-                    <FlatList
-                        style={{width: '100%'}}
-                        data={dishes}
-                        renderItem={({item}) =>
-                            <DishButton
-                                title={item.attributes.title}
-                                description={item.attributes.description}
-                                price={item.attributes.price}
-                            />}
-                        keyExtractor={item => item.id}
-                        ListEmptyComponent={<Text style = {styles.footer}>No Dishes Yet!</Text>}
-                        onRefresh={onDishRefresh}
-                        refreshing={refreshingDishes}
-                    />
-                </View>
-                :
-                <ScrollView style = {{height: Dimensions.get('window').height * 0.25, width: Dimensions.get('window').width}}>
-                    <View style = {styles.deals}>
-                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
-                    </View>
-                    <View style = {styles.deals}>
-                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
-                    </View>
-                    <View style = {styles.deals}>
-                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
-                    </View>
-                    <View style = {styles.deals}>
-                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
-                    </View>
-                    <View style = {styles.deals}>
-                        <Text style = {{height: 20, fontFamily: 'Ubuntu'}}>Deals</Text>
-                    </View>
-                </ScrollView>
-        )
-    }
-
-    const _updateSections = activeSections => {
-        setSections(activeSections);
-    }
-
     return (
         isLoading
             ? <Loading/>
-            : <SafeAreaView style = {styles.container}>
-                <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
-                <ImageBackground style={styles.picture}
-                                 source={{uri: restaurantData.attributes.image_link}}>
-                    <BackButton white={true} style = {{margin: '5%'}} onPress = {() => navigation.goBack()} />
-                </ImageBackground>
-                <RestaurantBanner
-                    title={restaurantData.attributes.title}
-                    tags={restaurantTags.map(x => x.attributes)}
-                    location={restaurantData.attributes.location}
-                    operatingHours={restaurantData.attributes.operating_hours}
-                    contact={restaurantData.attributes.contact}
-                    halal={restaurantData.attributes.halal_certified}
-                    cost={restaurantData.attributes.price}
-                    no_of_stalls={restaurantData.attributes.no_of_stalls}
-                />
-                <Accordion
-                    sections={SECTIONS}
-                    activeSections={activeSections}
-                    renderHeader={_renderHeader}
-                    renderContent={_renderContent}
-                    onChange={_updateSections}
-                    underlayColor={"#f5f5f5"}
-                />
-
-            </SafeAreaView>
+            : <View style = {[
+                styles.container,
+                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+                ]}>
+                <ScrollView style={{ width: "100%"}}>
+                    <ImageBackground style={styles.picture}
+                        source={{uri: restaurantData.attributes.image_link}}>
+                        <BackButton white={true} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
+                    </ImageBackground>
+                    <RestaurantBanner
+                        title={restaurantData.attributes.title}
+                        tags={restaurantTags.map(x => x.attributes)}
+                        location={restaurantData.attributes.location}
+                        operatingHours={restaurantData.attributes.operating_hours}
+                        contact={restaurantData.attributes.contact}
+                        halal={restaurantData.attributes.halal_certified}
+                        cost={restaurantData.attributes.price}
+                        no_of_stalls={restaurantData.attributes.no_of_stalls}
+                    />
+                    <View style={{height: windowHeight  * 0.05}} />
+                    <View style={{flexGrow: 1}}>
+                        {/*
+                            Reviews Section
+                            */}
+                        <View styles={styles.section}>
+                            <View style={styles.sectionTitle}>
+                                <Text style={styles.sectionText}>Reviews</Text>
+                                {isLoggedIn && <Tag name="refresh" onPress={onReviewRefresh}/>}
+                                {isLoggedIn && <Tag name="+" onPress={() => navigation.navigate('Add Review', {restaurant_id})}/>}
+                                <Tag name="View all" onPress={() => navigation.navigate('Restaurant Reviews', {restaurant_id})} />
+                            </View>
+                            { refreshingReviews ?  <Loading style={{paddingTop:30}}/> :
+                                    reviews.map(item => 
+                                    <Review 
+                                        key={item.id}
+                                        user_id={item.relationships.user.data.id}
+                                        date={new Date(item.attributes.created_at).toLocaleDateString()}
+                                        title={item.attributes.title}
+                                        rating={item.attributes.rating}
+                                        content={item.attributes.content}
+                                    />)
+                            }
+                            { refreshingReviews || reviews.length != 0 || <Text style={styles.footer}>No Reviews yet</Text>}
+                        </View>
+                        <View style={{height: windowHeight * 0.07}} />
+                        {/*
+                            DISHES Section
+                            */}
+                        <View styles={styles.section}>
+                            <View style={styles.sectionTitle}>
+                                <Text style={styles.sectionText}>Dishes</Text>
+                                {isLoggedIn && <Tag name="refresh" onPress={onDishRefresh}/>}
+                                <Tag name='+' onPress={()=> alert("suggest tag")}/>
+                                <Tag name="View all" onPress={() => navigation.navigate('Restaurant Dishes', {restaurant_id})} />
+                            </View>
+                            { refreshingDishes ?  <Loading style={{paddingTop:30}}/> :
+                                    dishes.map(item => 
+                                    <DishButton 
+                                        key={item.id}
+                                        title={item.attributes.title}
+                                        description={item.attributes.description}
+                                        price={item.attributes.price}
+                                    />)
+                            }
+                            { refreshingDishes || dishes.length != 0 || <Text style={styles.footer}>No Dishes yet</Text>}
+                        </View>
+                        <View style={{height: windowHeight * 0.07}} />
+                        {/*
+                            DEALS Section
+                            */}
+                        <View styles={styles.section}>
+                            <View style={styles.sectionTitle}>
+                                <Text style={styles.sectionText}>Deals</Text>
+                                <Tag name="View all" />
+                            </View>
+                            <DealButton 
+                                title="0% off!!"
+                                description="T&Cs apply"
+                                duration="22 Jun - 28 Jun"
+                            />
+                            <DealButton 
+                                title="Buy 1 get 0 Free!"
+                                description="T&Cs apply"
+                                duration="22 Jun - 28 Jun"
+                            />
+                        </View>
+                        <View style={{height: windowHeight * 0.07}} />
+                    </View>
+                </ScrollView>
+            </View>
     );
 }
 
@@ -282,8 +253,6 @@ const styles = StyleSheet.create({
     picture: {
         height: Dimensions.get('window').height * 0.25,
         width:"100%",
-        justifyContent:"flex-start",
-        alignItems:"flex-start",
     },
     background: {
         position:'absolute',
@@ -296,25 +265,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
     },
-    header: {
-        alignSelf: 'center',
-        flexDirection: 'row',
-        alignItems:'center',
-        justifyContent: 'space-between',
-        width: Dimensions.get('window').width * 0.95,
-        height: Dimensions.get('window').height * 0.08,
-        backgroundColor: 'white',
-        marginBottom: '2%',
-        borderRadius: 1,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    },
     title: {
         fontSize: 22,
         marginLeft: '2%',
@@ -322,11 +272,22 @@ const styles = StyleSheet.create({
         marginBottom: '2%',
         color: '#404040'
     },
-    plusMinus: {
-        height: Dimensions.get('window').height * 0.02,
-        width: Dimensions.get('window').height * 0.02,
-        marginRight: '3%',
-        marginBottom: '1%'
+    section: {
+        justifyContent: 'flex-start'
+    },
+    sectionTitle: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        paddingBottom: "4%",
+        paddingHorizontal: "3%",
+        borderBottomWidth: 0.5,
+        borderBottomColor: "#B3B3B3",
+    },
+    sectionText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        marginRight: 'auto'
     },
     desc: {
         fontSize: 14,

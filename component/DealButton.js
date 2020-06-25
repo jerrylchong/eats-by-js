@@ -1,22 +1,22 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native';
 
-const DishButton = (props) => {
+const DealButton = (props) => {
 
-    const { title, description, price, onPress } = props;
+    const { title, description, duration, onPress } = props;
 
     return (
         <TouchableOpacity style = {styles.container} onPress = {onPress}>
             <View style={styles.text}>
                 <Text style={styles.name}>{title}</Text>
-                <Text style={styles.cost}>${price}</Text>
+                <Text style={styles.cost}>{duration}</Text>
             </View>
             <Text style = {styles.description}>{description}</Text>
         </TouchableOpacity>
     )
 }
 
-export default DishButton
+export default DealButton;
 
 const styles = StyleSheet.create({
     container: {

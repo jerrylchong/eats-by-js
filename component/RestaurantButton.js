@@ -7,6 +7,9 @@ const RestaurantButton = (props) => {
     const { name, cost, description, rating, tags, onPress, image_url, halal, location, opening_hours } = props;
 
     const ratingContainerStyle = {
+        position:'absolute',
+        bottom: 10,
+        right: 10,
         backgroundColor: parseFloat(rating) < 0
             ? '#b3b3b3'
             : parseFloat(rating) < 2.5
@@ -15,9 +18,8 @@ const RestaurantButton = (props) => {
                     ? '#ffbf00'
                     : '#66b58c',
         flexDirection: 'row',
-        width: '28%',
-        height: '20%',
-        alignSelf: 'flex-end',
+        height: Dimensions.get('window').width * 0.06,
+        width: Dimensions.get('window').width * 0.14,
         borderRadius: 20,
         justifyContent: 'space-evenly',
         alignItems: 'center'
@@ -26,19 +28,11 @@ const RestaurantButton = (props) => {
 
     return (
         <View style = {styles.shadow}>
-            <ImageBackground style = {styles.background} imageStyle = {{borderRadius: 5}} source={require('../assets/cardbackground.png')}/>
             <TouchableOpacity style = {styles.container} onPress = {onPress}>
-                <View style={styles.text}>
-                    <Text numberOfLines={1} style={styles.name}>{name}</Text>
-                    <View style = {styles.cost}>
-                        {parseFloat(cost) > 0 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
-                        {parseFloat(cost) > 5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
-                        {parseFloat(cost) > 7.5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
-                    </View>
-                </View>
                 <View style = {styles.info}>
                     <Image style={styles.picture} source={{uri: image_url}} />
                     <View style = {styles.rightInfo}>
+                        <Text numberOfLines={1} style={styles.name}>{name}</Text>
                         <View style = {styles.tags}>
                             { tags.map((elem, index) =>
                                 <Tag
@@ -47,27 +41,29 @@ const RestaurantButton = (props) => {
                                 />
                             ) }
                             {halal && <Tag name = {'halal'}/>}
+                            <View style = {styles.cost}>
+                                {parseFloat(cost) > 0 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
+                                {parseFloat(cost) > 5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
+                                {parseFloat(cost) > 7.5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
+                            </View>
                         </View>
-                        <Text numberOfLines={2} style = {styles.description}>
-                            {description}
-                        </Text>
                         <Text numberOfLines={1} style = {styles.description}>
                             Location: {location}
                         </Text>
                         <Text numberOfLines={1} style = {styles.description}>
                             {opening_hours}
                         </Text>
-                        <View style = {ratingContainerStyle}>
-                            {parseFloat(rating) < 0
-                                ? <Text style = {styles.rating}>NA</Text>
-                                : parseFloat(rating) < 2.5
-                                    ? <Image style = {styles.face} source={require('../assets/facebad.png')}/>
-                                    : parseFloat(rating) < 4
-                                        ? <Image style = {styles.face} source={require('../assets/facemeh.png')}/>
-                                        : <Image style = {styles.face} source={require('../assets/facegood.png')}/>}
-                            {parseFloat(rating) > 0 && <Text style = {styles.rating}>{parseFloat(rating).toFixed(1)}</Text>}
-                        </View>
                     </View>
+                </View>
+                <View style = {ratingContainerStyle}>
+                    {parseFloat(rating) < 0
+                        ? <Text style = {styles.rating}>NA</Text>
+                        : parseFloat(rating) < 2.5
+                            ? <Image style = {styles.face} source={require('../assets/facebad.png')}/>
+                            : parseFloat(rating) < 4
+                                ? <Image style = {styles.face} source={require('../assets/facemeh.png')}/>
+                                : <Image style = {styles.face} source={require('../assets/facegood.png')}/>}
+                    {parseFloat(rating) > 0 && <Text style = {styles.rating}>{parseFloat(rating).toFixed(1)}</Text>}
                 </View>
             </TouchableOpacity>
         </View>
@@ -78,24 +74,23 @@ export default RestaurantButton
 
 const styles = StyleSheet.create({
     shadow: {
-        width: '90%',
-        height: Dimensions.get('window').height * 0.23,
-        backgroundColor: 'white',
-        borderRadius: 5,
-        shadowColor: "#000",
+        width: '100%',
+        height: Dimensions.get('window').height * 0.22,
         shadowOffset: {
             width: 0,
             height: 0,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 4,
-        margin: 10
     },
     container: {
         height: '100%',
         width: '100%',
-        alignItems: 'center',
+        paddingHorizontal: '2%',
+        justifyContent:'center',
+        borderBottomWidth: 0.05,
+        borderBottomColor: '#B3B3B3',
+        borderTopWidth: 0.25,
+        borderTopColor: '#B3B3B3'
+        
     },
     background: {
         position: 'absolute',
@@ -116,39 +111,39 @@ const styles = StyleSheet.create({
     name: {
         color: '#404040',
         fontSize: 20,
-        width: '75%',
         height: Dimensions.get('window').width * 0.06,
         flexWrap: 'nowrap',
-        fontFamily: 'Ubuntu-Bold'
+        fontFamily: 'Ubuntu-Bold',
+        alignSelf:'flex-start'
     },
     cost: {
-        width: '20%',
+        flex:1,
         flexDirection: 'row',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        alignSelf:'flex-end'
     },
     info: {
-        width: '94%',
-        height: '65%',
+        width: '100%',
+        height: '70%',
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: '4%'
+        justifyContent: 'space-evenly',
+        alignItems:'center'
     },
     picture: {
         height: Dimensions.get('window').height * 0.15,
         width: Dimensions.get('window').height * 0.15,
         borderRadius: 4,
-        marginLeft: '2%'
     },
     rightInfo: {
         width: '61%',
         height: '96%',
         alignItems: 'center',
-        marginLeft: '2%',
-        justifyContent: 'space-between'
+        justifyContent: 'flex-start'
     },
     tags: {
+        paddingVertical:7,
         flexDirection: 'row',
-        alignSelf: 'flex-start',
+        alignItems:'center'
     },
     description: {
         color: '#a0a0a0',
@@ -170,6 +165,5 @@ const styles = StyleSheet.create({
     coin: {
         height: Dimensions.get('window').width * 0.06,
         width: Dimensions.get('window').width * 0.06,
-        marginRight: '2%'
-    }
+    },
 })

@@ -1,15 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StyleSheet, View, BackHandler, Alert,  FlatList, Text} from "react-native";
+
+import {StyleSheet, View, BackHandler, Alert, Dimensions, FlatList, Text, Button} from "react-native";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
-import { getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
+import {getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import _ from "lodash"
+import {useSafeArea} from "react-native-safe-area-context";
+import * as Location from 'expo-location';
+import {connect} from "react-redux";
+import {mapReduxDispatchToProps, mapReduxStateToProps} from "../helpers/reduxHelpers";
 
 // currently my db only got title, description, rating
 // TODO: cost, tags
 
-function RestaurantList({ navigation }) {
+function RestaurantList(props) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
@@ -18,6 +23,9 @@ function RestaurantList({ navigation }) {
     const [refreshing, setRefreshing] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [isLastPage, setIsLastPage] = useState(false);
+    const [errorMsg, setErrorMsg] = useState(null);
+
+    const { location, updateLocation, removeLocation, navigation } = props;
 
     useEffect(() => {
         Promise.all([
@@ -102,10 +110,25 @@ function RestaurantList({ navigation }) {
         setSearchTerm("");
     }
 
+    const insets = useSafeArea();
+
+    async function getLocation() {
+        let { status } = await Location.requestPermissionsAsync();
+        if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied.')
+        }
+
+        let loc = await Location.getCurrentPositionAsync({});
+        updateLocation(loc);
+    }
+
     return (
         isLoading
             ? <Loading />
-            : <SafeAreaView style = {styles.container}>
+            : <View style = {[
+                styles.container,
+                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+            ]}>
                 <View style = {styles.navBar}>
                     <SearchButton 
                     navigation = {navigation}
@@ -144,11 +167,11 @@ function RestaurantList({ navigation }) {
                     onRefresh={handleRefresh}
                     refreshing={refreshing}
                 />
-            </SafeAreaView>
+            </View>
     )
 }
 
-export default RestaurantList
+export default connect(mapReduxStateToProps,mapReduxDispatchToProps)(RestaurantList)
 
 const styles = StyleSheet.create({
     container: {

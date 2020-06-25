@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     container: {
         height: windowWidth * 0.1,
         width: windowWidth * 0.1,
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     image: {
         height: 13,

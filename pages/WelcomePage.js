@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions, ImageBackground, StatusBar,
+    StyleSheet, Text, View, TextInput, Image, Dimensions, ImageBackground,
     TouchableOpacity, AsyncStorage, Platform, KeyboardAvoidingView, Alert, TouchableWithoutFeedback, Keyboard
 } from "react-native";
 import {connect} from 'react-redux';
@@ -9,6 +9,7 @@ import {postLogin} from "../helpers/apiHelpers"
 import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHelpers";
 import {getProfileData} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
+import {SafeAreaConsumer} from "react-native-safe-area-context";
 
 // ignore the LoginButton name
 
@@ -78,6 +79,7 @@ class WelcomePage extends React.Component {
                                     this.setState({
                                         name:"",
                                         password:"",
+                                        error: false
                                     })
                                     this.props.navigation.navigate('App')})
                         }
@@ -86,52 +88,60 @@ class WelcomePage extends React.Component {
                 this.setState({error: true})
             }
         }
+
         return (
             isFetching
             ? <Loading />
             :
-            <TouchableWithoutFeedback style = {styles.container} onPress={() => Keyboard.dismiss()}>
-                <SafeAreaView style = {styles.container}>
-                    <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
-                    <TouchableOpacity style = {styles.logoShadow} onPress = {() => Alert.alert('About','Jay Chua and Jerryl Chong 2020')}>
-                        <Image style={styles.logo} source={require('../assets/templogonameless.png')}/>
-                    </TouchableOpacity>
-                    <Text style = {styles.header}>Sign In</Text>
-                    <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : 'height'} style = {styles.list}>
-                        <TextInput
-                            style={styles.usernameInput}
-                            placeholder="Username"
-                            onChangeText={this.handleName}
-                            value={name}
-                            autoCapitalize='none'
-                            placeholderTextColor='#404040'/>
-                        <TextInput
-                            style={styles.passwordInput}
-                            placeholder="Password"
-                            onChangeText={this.handlePassword}
-                            value={password}
-                            secureTextEntry={true}
-                            autoCapitalize='none'
-                            placeholderTextColor='#404040'/>
-                        {isLoading && <Loading/>}
-                    </KeyboardAvoidingView>
-                    <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
-                    <View style = {{position: 'relative', top: '25%', height: '20%', justifyContent: 'space-evenly'}}>
-                        <LoginButton text = 'Sign in' onPress = {login}/>
-                        <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
-                        <TouchableOpacity style = {{alignSelf: 'center'}}
-                                          onPress = {() => Alert.alert("Error 404: Brain Not Found", "You dumb")}>
-                            <Text style = {{color:'#c74a44', fontFamily: 'Ubuntu-Medium'}}>Forgot Password?</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style = {styles.buttons}>
-                        <Text style = {{color: '#404040', fontFamily: 'Ubuntu'}}>Don't have an account?</Text>
-                        <TouchableOpacity onPress = {() => this.props.navigation.navigate('Registration')}>
-                            <Text style = {{color:'#ff8041', fontFamily: 'Ubuntu-Medium'}}>Sign Up</Text>
-                        </TouchableOpacity>
-                    </View>
-                </SafeAreaView>
-            </TouchableWithoutFeedback>
+            <SafeAreaConsumer>
+                {insets =>
+                    <TouchableWithoutFeedback style = {styles.container} onPress={() => Keyboard.dismiss()}>
+                        <View style = {[
+                            styles.container,
+                            {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+                        ]}>
+                            <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
+                            <TouchableOpacity style = {styles.logoShadow} onPress = {() => Alert.alert('About','Jay Chua and Jerryl Chong 2020')}>
+                                <Image style={styles.logo} source={require('../assets/templogonameless.png')}/>
+                            </TouchableOpacity>
+                            <Text style = {styles.header}>Sign In</Text>
+                            <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : 'height'} style = {styles.list}>
+                                <TextInput
+                                    style={styles.usernameInput}
+                                    placeholder="Username"
+                                    onChangeText={this.handleName}
+                                    value={name}
+                                    autoCapitalize='none'
+                                    placeholderTextColor='#404040'/>
+                                <TextInput
+                                    style={styles.passwordInput}
+                                    placeholder="Password"
+                                    onChangeText={this.handlePassword}
+                                    value={password}
+                                    secureTextEntry={true}
+                                    autoCapitalize='none'
+                                    placeholderTextColor='#404040'/>
+                                {isLoading && <Loading/>}
+                            </KeyboardAvoidingView>
+                            <Text style = {styles.error}>{error ? 'Incorrect username or password' : null}</Text>
+                            <View style = {{position: 'relative', top: '25%', height: '20%', justifyContent: 'space-evenly'}}>
+                                <LoginButton text = 'Sign in' onPress = {login}/>
+                                <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
+                                <TouchableOpacity style = {{alignSelf: 'center'}}
+                                                  onPress = {() => Alert.alert("Error 404: Brain Not Found", "You dumb")}>
+                                    <Text style = {{color:'#c74a44', fontFamily: 'Ubuntu-Medium'}}>Forgot Password?</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style = {styles.buttons}>
+                                <Text style = {{color: '#404040', fontFamily: 'Ubuntu'}}>Don't have an account?</Text>
+                                <TouchableOpacity onPress = {() => this.props.navigation.navigate('Registration')}>
+                                    <Text style = {{color:'#ff8041', fontFamily: 'Ubuntu-Medium'}}>Sign Up</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </TouchableWithoutFeedback>
+                }
+            </SafeAreaConsumer>
         )
     }
 }
