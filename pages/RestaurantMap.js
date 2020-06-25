@@ -35,7 +35,8 @@ class RestaurantMap extends React.Component {
                 altitude: 200,
                 zoom: 18
             },
-            error: false
+            error: false,
+            locationOff: false,
         };
         this.props = props;
     }
@@ -54,9 +55,16 @@ class RestaurantMap extends React.Component {
             // permission for user location not enabled
             this.setState({error: true})
         } else {
-            this.setState({error: false})
-            let loc = await Location.getCurrentPositionAsync({});
-            this.props.updateLocation(loc);
+            await Location.hasServicesEnabledAsync()
+                .then(bool => this.locStatus = bool);
+            if (this.locStatus) {
+                this.setState({error: false, locationOff: false})
+                let loc = await Location.getCurrentPositionAsync({});
+                this.props.updateLocation(loc);
+            } else {
+                this.setState({locationOff: true})
+                Alert.alert("Location Services Turned Off", "Please turn on Location Services.")
+            }
         }
     }
 
@@ -76,7 +84,7 @@ class RestaurantMap extends React.Component {
                 ])
         } else {
             this.getLocation() // update location stored in Redux to latest location
-                .then(() => this.map.animateCamera( // moves camera to user location
+                .then(() => !this.state.locationOff && this.map.animateCamera( // moves camera to user location
                     {
                         center: {
                             latitude: this.props.location.coords.lat,
