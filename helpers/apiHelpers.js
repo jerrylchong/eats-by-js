@@ -44,7 +44,7 @@ export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=8, 
         method: 'GET',
         redirect: 'follow'
     };
-    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}&loc=${location}`, requestOptions)
+    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}&lat=${location["lat"]}&lng=${location["lng"]}`, requestOptions)
         .then(res => res.json())
         .then(json => json.data)
 }
