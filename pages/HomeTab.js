@@ -19,7 +19,7 @@ function HomeTab() {
                                 <View style = {styles.container}>
                                     <Image style = {styles.icon} source={require('../assets/listicon.png')}/>
                                     <Text style = {styles.text}>List</Text>
-                                </View>,
+                                </View>
 
                         }}
             />
@@ -41,7 +41,7 @@ export default HomeTab
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        justifyContent: 'center'
+        bottom: '25%'
     },
     icon: {
         height: Dimensions.get('window').width * 0.06,
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     },
     text: {
         width:'100%',
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: 'Ubuntu',
-        color: 'white'
+        color: 'white',
     }
 })

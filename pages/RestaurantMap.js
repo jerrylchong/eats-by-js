@@ -7,7 +7,7 @@ import {
 
 } from "react-native";
 import SearchButton from "../container/SearchButton";
-import {deleteRestaurant, getRestaurantsFromApi} from "../helpers/apiHelpers";
+import {getRestaurantsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import * as Location from "expo-location";
 import {connect} from "react-redux";
@@ -102,11 +102,19 @@ class RestaurantMap extends React.Component {
 
     componentDidMount() {
         Promise.all([
-            getRestaurantsFromApi().then(data => {
-                this.setState({data: data});
-            }),
             this.getLocation()
         ])
+            .then(() => {
+                if(this.props.location.hasLocation) {
+                    getPaginatedRestaurantsFromApi(this.state.searchTerm, 1, 100, this.props.location.coords).then(data => {
+                        this.setState({data: data});
+                    })
+                } else {
+                    getRestaurantsFromApi().then(data => {
+                        this.setState({data: data});
+                    })
+                }
+            })
             .catch((error) => console.error(error))
             .finally(() => this.setState({isLoading: false}));
 
@@ -132,7 +140,7 @@ class RestaurantMap extends React.Component {
                             pitch: this.state.camera.pitch,
                             altitude: this.state.camera.altitude,
                             heading: this.state.camera.heading,
-                            zoom: 19
+                            zoom: 18
                         },
                         350
                     );
@@ -258,12 +266,10 @@ class RestaurantMap extends React.Component {
                     </Animated.ScrollView>
                     }
                     <TouchableOpacity style={styles.toggle} onPress={this.toggleCards}>
-                        {/* image goes here */}
-                        <Text>Cards</Text>
+                        <Image style={styles.buttonImage} source={require('../assets/cardswhite.png')}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.locationButton} onPress={this.userLocation}>
-                        {/* image goes here */}
-                        <Text>Location</Text>
+                        <Image style={styles.locationImage} source={require('../assets/location.png')}/>
                     </TouchableOpacity>
                 </SafeAreaView>
         )
@@ -350,7 +356,7 @@ const styles = StyleSheet.create({
         borderRadius: 7.5,
         backgroundColor: "#ff6961",
         borderColor: '#404040',
-        borderWidth: 0.5
+        borderWidth: 1,
     },
     toggle: {
         position: 'absolute',
@@ -361,7 +367,12 @@ const styles = StyleSheet.create({
         borderRadius: width * 0.1,
         backgroundColor: '#ff6961',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: "#000",
+        shadowRadius: 5,
+        shadowOpacity: 0.3,
+        shadowOffset: { x: 2, y: -2 },
+        elevation: 2
     },
     locationButton: {
         position: 'absolute',
@@ -372,6 +383,19 @@ const styles = StyleSheet.create({
         borderRadius: width * 0.1,
         backgroundColor: '#ff6961',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: "#000",
+        shadowRadius: 5,
+        shadowOpacity: 0.3,
+        shadowOffset: { x: 2, y: -2 },
+        elevation: 2
+    },
+    buttonImage: {
+        height: Dimensions.get('window').width * 0.1,
+        width: Dimensions.get('window').width * 0.1,
+    },
+    locationImage: {
+        height: Dimensions.get('window').width * 0.07,
+        width: Dimensions.get('window').width * 0.07,
     }
 });

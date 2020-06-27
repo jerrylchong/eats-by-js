@@ -35,17 +35,15 @@ export function getRestaurantsFromApi() {
         .then(json => json.data)
 }
 
-export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=8, location) {
-    location = {
-        lat : 1.2987363,
-        lng : 103.7748976
-    }
+
+export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=8, location={lat: null, lng: null}) {
+
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
-    //&lat=${location["lat"]}&lng=${location["lng"]}
-    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}`, requestOptions)
+
+    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}&lat=${location["lat"]}&lng=${location["lng"]}`, requestOptions)
         .then(res => res.json())
         .then(json => json.data)
 }

@@ -33,7 +33,7 @@ function RestaurantList(props) {
                 setData(data);
                 updatePage();
             }),
-            getTagsFromApi().then(data => setTags(data.map(x => x.attributes)))
+            getTagsFromApi().then(data => setTags(data))
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -122,6 +122,15 @@ function RestaurantList(props) {
         updateLocation(loc);
     }
 
+    const findTag = (id) => {
+        for (let i = 0; i < tags.length; i ++) {
+            if (tags[i].id === id) {
+                return tags[i].attributes;
+            }
+        }
+        return {name: id}
+    }
+
     return (
         isLoading
             ? <Loading />
@@ -156,7 +165,7 @@ function RestaurantList(props) {
                             halal={item.attributes.halal_certified}
                             location={item.attributes.location}
                             opening_hours={item.attributes.operating_hours}
-                            tags={isLoading ? [] : item.relationships.tags.data.map(x => tags[x.id - 1])}
+                            tags={isLoading ? [] : item.relationships.tags.data.map(x => findTag(x.id))}
                             onPress={() => navigation.navigate('Restaurant', {restaurant_id: item.id}) }
                         />}
                     keyExtractor={restaurant => restaurant.id}
@@ -180,6 +189,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
+        minHeight: Math.round(Dimensions.get('window').height)
     },
     navBar: {
         flexDirection: 'row',

@@ -13,7 +13,7 @@ import Tag from "../component/Tag";
 // currently my db only got title, description, rating
 // TODO: cost, tags
 
-function DeleteRestaurantPage({ navigation }) {
+function EditRestaurantList({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
@@ -107,15 +107,15 @@ function DeleteRestaurantPage({ navigation }) {
                 {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
             ]}>
                 <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
-                <Text style = {styles.header}>Delete a Restaurant</Text>
+                <Text style = {styles.header}>Edit a Restaurant</Text>
                 <SearchBarForMenu
-                        style={styles.navBar}
-                        searchTerm = {searchTerm}
-                        handleSearchTerm = {searchTerm => {
-                            setSearchTerm(searchTerm);
-                            debouncedSearchFetchRequest(searchTerm);
-                        }}
-                        clearSearch = {clearSearch}
+                    style={styles.navBar}
+                    searchTerm = {searchTerm}
+                    handleSearchTerm = {searchTerm => {
+                        setSearchTerm(searchTerm);
+                        debouncedSearchFetchRequest(searchTerm);
+                    }}
+                    clearSearch = {clearSearch}
                 />
                 <FlatList
                     style = {styles.scroll}
@@ -127,22 +127,9 @@ function DeleteRestaurantPage({ navigation }) {
                             <Text numberOfLines={1} style = {styles.text}>{item.attributes.title}</Text>
                             <Tag
                                 style={{marginRight: '3%'}}
-                                name="Delete"
+                                name="Edit"
                                 onPress={() =>
-                                    Alert.alert("Delete Restaurant",
-                                        "Are you sure you want to delete " + item.attributes.title + "?",
-                                        [
-                                            { text: "Cancel",
-                                                onPress: () => null,
-                                                style: "cancel" },
-                                            { text: "YES", onPress: () => {
-                                                    AsyncStorage.getItem("token")
-                                                        .then(token => deleteRestaurant(item.id, token))
-                                                        .then(() => Alert.alert("Success",
-                                                            "Restaurant " + item.attributes.title + " deleted."))
-                                                } }
-                                        ]
-                                    )
+                                    navigation.navigate("Edit Store", {restaurant_id: item.id})
                                 }
                             />
                         </View>}
@@ -158,7 +145,7 @@ function DeleteRestaurantPage({ navigation }) {
     )
 }
 
-export default DeleteRestaurantPage
+export default EditRestaurantList
 
 const styles = StyleSheet.create({
     container: {
