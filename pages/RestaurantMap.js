@@ -256,7 +256,7 @@ class RestaurantMap extends React.Component {
                                         <View style={styles.textContent}>
                                             <Text numberOfLines={1} style={styles.cardTitle}>{marker.attributes.title}</Text>
                                             <Text numberOfLines={1} style={styles.cardDescription}>
-                                                {marker.attributes.description}
+                                                {marker.attributes.operating_hours}
                                             </Text>
                                         </View>
                                     </View>
@@ -340,11 +340,12 @@ const styles = StyleSheet.create({
     cardTitle: {
         fontSize: 12,
         marginTop: 5,
-        fontWeight: "bold",
+        fontFamily: 'Ubuntu-Medium',
     },
     cardDescription: {
         fontSize: 12,
         color: "#444",
+        fontFamily: 'Ubuntu'
     },
     markerWrap: {
         alignItems: "center",
