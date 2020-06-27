@@ -8,6 +8,7 @@ import {
     BackHandler,
     Image,
     Dimensions,
+    Alert
 } from "react-native";
 import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
@@ -35,7 +36,7 @@ function RestaurantBanner(props) {
                 <View style={stylesBanner.tags}>
                     { tags.map((tag,index) => <Tag disabled key={index} name={tag.name}/>) }
                     {halal && <Tag disabled name={'halal'}/>}
-                    <Tag name='+' onPress={()=> alert("suggest tag")}/>
+                    <Tag name='+' onPress={()=> Alert.alert("Suggest Tag", "Suggest Tag Form")}/>
                 </View>
                 <View style = {stylesBanner.cost}>
                     {parseFloat(cost) > 0 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
@@ -44,10 +45,24 @@ function RestaurantBanner(props) {
                 </View>
             </View>
             <View style={{width:'100%', marginTop: Dimensions.get('window').height * 0.02}}>
-                <Text style={stylesBanner.description}>Location: {location}</Text>
-                <Text style={stylesBanner.description}>Opening Hours:{'\n'}{operatingHours}</Text>
-                <Text style={stylesBanner.description}>Contact No: {contact}</Text>
-                {no_of_stalls > 0 && <Text style={stylesBanner.description}>No. of Stalls : {no_of_stalls}</Text>}
+                <View style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
+                    <Text style={stylesBanner.descriptionLabel}>Location: </Text>
+                    <Text style={stylesBanner.description}>{location}</Text>
+                </View>
+                <View>
+                    <Text style={stylesBanner.descriptionLabel}>Opening Hours: </Text>
+                    <Text style={stylesBanner.description}>{operatingHours}</Text>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
+                    <Text style={stylesBanner.descriptionLabel}>Contact: </Text>
+                    <Text style={stylesBanner.description}>{contact == null ? "N/A" : contact}</Text>
+                </View>
+                {no_of_stalls > 0 &&
+                <View style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
+                    <Text style={stylesBanner.descriptionLabel}>No. of Stalls: </Text>
+                    <Text style={stylesBanner.description}>{no_of_stalls}</Text>
+                </View>
+                }
             </View>
             <View style={{
                 width: Dimensions.get('window').width, borderBottomWidth: 0.5, borderColor: '#B3B3B3',
@@ -97,9 +112,13 @@ const stylesBanner = StyleSheet.create({
         marginRight: '2%'
     },
     description: {
-        color: "#7E7E7E",
+        color: "#b3b3b3",
         fontFamily: 'Ubuntu'
     },
+    descriptionLabel: {
+        color: '#b3b3b3',
+        fontFamily: 'Ubuntu-Bold'
+    }
 })
 
 function RestaurantPage(props) {
@@ -205,8 +224,8 @@ function RestaurantPage(props) {
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Dishes</Text>
-                                {isLoggedIn && <Tag name="refresh" onPress={onDishRefresh}/>}
-                                <Tag name='+' onPress={()=> alert("suggest tag")}/>
+                                <Tag name="refresh" onPress={onDishRefresh}/>
+                                {isLoggedIn && <Tag name='+' onPress={()=> Alert.alert("Suggest Dish", "Suggest Dish Form")}/>}
                                 <Tag name="View all" onPress={() => navigation.navigate('Restaurant Dishes', {restaurant_id})} />
                             </View>
                             { refreshingDishes ?  <Loading style={{paddingTop:30}}/> :
@@ -286,7 +305,7 @@ const styles = StyleSheet.create({
     },
     sectionText: {
         fontSize: 18,
-        fontWeight: "bold",
+        fontFamily: 'Ubuntu-Bold',
         marginRight: 'auto'
     },
     desc: {

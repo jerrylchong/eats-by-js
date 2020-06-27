@@ -8,7 +8,7 @@ const locationReducer = (state = {hasLocation : false, coords : {}}, action) => 
         case 'UNSET_LOCATION':
             return {
                 hasLocation : false,
-                coords : {}
+                coords : {lat: null, lng: null}
             }
 
         default:

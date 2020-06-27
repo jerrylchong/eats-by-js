@@ -159,7 +159,8 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.11,
         paddingHorizontal: '5%',
         fontFamily: 'Ubuntu',
-        color: '#404040'
+        color: '#404040',
+        fontWeight:'normal'
     },
     passwordInput: {
         position: 'relative',
@@ -171,7 +172,8 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.11,
         paddingHorizontal: '5%',
         fontFamily: 'Ubuntu',
-        color: '#404040'
+        color: '#404040',
+        fontWeight:'normal'
     },
     buttons: {
         position: 'relative',

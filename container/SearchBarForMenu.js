@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginLeft: '5%',
         fontFamily: 'Ubuntu-Light',
-        width: '80%'
+        width: '80%',
+        fontWeight:'normal'
     },
     image: {
         marginRight: '5%',

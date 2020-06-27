@@ -3,7 +3,7 @@ import {Text, TouchableOpacity, StyleSheet, View, Dimensions} from "react-native
 
 const LoginButton = (prop) => {
     return (
-        <View style = {styles.shadow}>
+        <View style = {[styles.shadow, prop.style]}>
             <TouchableOpacity style = {styles.button} onPress = {prop.onPress}>
                 <Text style = {{color: 'white', fontFamily: 'Ubuntu'}}>{prop.text}</Text>
             </TouchableOpacity>
