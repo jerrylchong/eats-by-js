@@ -51,7 +51,7 @@ function RequestRestaurantPage({ navigation }) {
         ]}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
             <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
-            <Text style = {styles.header}>Request a Restaurant</Text>
+            <Text style = {styles.header}>Request a Store</Text>
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                 <TextInput
                     style={styles.input}

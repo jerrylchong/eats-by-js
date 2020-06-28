@@ -88,7 +88,7 @@ function EditRestaurantList({ navigation }) {
         return (
             data.length > 0 &&
             (isLastPage
-                ? <Text style={styles.footer}>No More Restaurants</Text>
+                ? <Text style={styles.footer}>No More Stores</Text>
                 : isFetching && <Text style={styles.footer}>Loading...</Text>)
         )
     }
@@ -107,7 +107,7 @@ function EditRestaurantList({ navigation }) {
                 {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
             ]}>
                 <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
-                <Text style = {styles.header}>Edit a Restaurant</Text>
+                <Text style = {styles.header}>Edit a Store</Text>
                 <SearchBarForMenu
                     style={styles.navBar}
                     searchTerm = {searchTerm}
@@ -135,7 +135,7 @@ function EditRestaurantList({ navigation }) {
                         </View>}
                     keyExtractor={(item, index) => String(index)}
                     ListFooterComponent={renderFooter}
-                    ListEmptyComponent={() => <Text style = {styles.footer}>No Restaurants Found</Text>}
+                    ListEmptyComponent={() => <Text style = {styles.footer}>No Stores Found</Text>}
                     onEndReached={fetchMoreRestaurantData}
                     onEndReachedThreshold={0.1}
                     onRefresh={handleRefresh}

@@ -39,9 +39,9 @@ function AdminToolsPage({ navigation, route }) {
             <Text style = {styles.header}>Admin Tools</Text>
             <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
             <View style = {styles.buttons}>
-                <PageButton text = "Add a Restaurant" onPress = {() => navigation.navigate('Add')}/>
-                <PageButton text = "Edit a Restaurant" onPress = {() => navigation.navigate('Edit')}/>
-                <PageButton text = "Delete a Restaurant" onPress = {() => navigation.navigate('Delete')}/>
+                <PageButton text = "Add a Store" onPress = {() => navigation.navigate('Add')}/>
+                <PageButton text = "Edit a Store" onPress = {() => navigation.navigate('Edit')}/>
+                <PageButton text = "Delete a Store" onPress = {() => navigation.navigate('Delete')}/>
             </View>
         </View>
     );

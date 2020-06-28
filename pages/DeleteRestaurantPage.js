@@ -88,7 +88,7 @@ function DeleteRestaurantPage({ navigation }) {
         return (
             data.length > 0 &&
             (isLastPage
-                ? <Text style={styles.footer}>No More Restaurants</Text>
+                ? <Text style={styles.footer}>No More Stores</Text>
                 : isFetching && <Text style={styles.footer}>Loading...</Text>)
         )
     }
@@ -129,17 +129,17 @@ function DeleteRestaurantPage({ navigation }) {
                                 style={{marginRight: '3%'}}
                                 name="Delete"
                                 onPress={() =>
-                                    Alert.alert("Delete Restaurant",
+                                    Alert.alert("Delete Store",
                                         "Are you sure you want to delete " + item.attributes.title + "?",
                                         [
                                             { text: "Cancel",
                                                 onPress: () => null,
                                                 style: "cancel" },
-                                            { text: "YES", onPress: () => {
+                                            { text: "Yes", onPress: () => {
                                                     AsyncStorage.getItem("token")
                                                         .then(token => deleteRestaurant(item.id, token))
                                                         .then(() => Alert.alert("Success",
-                                                            "Restaurant " + item.attributes.title + " deleted."))
+                                                            "Store " + item.attributes.title + " deleted."))
                                                 } }
                                         ]
                                     )
@@ -148,7 +148,7 @@ function DeleteRestaurantPage({ navigation }) {
                         </View>}
                     keyExtractor={(item, index) => String(index)}
                     ListFooterComponent={renderFooter}
-                    ListEmptyComponent={() => <Text style = {styles.footer}>No Restaurants Found</Text>}
+                    ListEmptyComponent={() => <Text style = {styles.footer}>No Stores Found</Text>}
                     onEndReached={fetchMoreRestaurantData}
                     onEndReachedThreshold={0.1}
                     onRefresh={handleRefresh}

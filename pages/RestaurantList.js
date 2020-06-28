@@ -101,7 +101,7 @@ function RestaurantList(props) {
         return (
             data.length > 0 &&
             (isLastPage
-                ? <Text style={styles.footer}>No More Restaurants</Text>
+                ? <Text style={styles.footer}>No More Stores</Text>
                 : isFetching && <Text style={styles.footer}>Loading...</Text>)
         )
     }
@@ -170,7 +170,7 @@ function RestaurantList(props) {
                         />}
                     keyExtractor={restaurant => restaurant.id}
                     ListFooterComponent={renderFooter}
-                    ListEmptyComponent={() => <Text>No Restaurants Found</Text>}
+                    ListEmptyComponent={() => <Text>No Stores Found</Text>}
                     onEndReached={fetchMoreRestaurantData}
                     onEndReachedThreshold={0.1}
                     onRefresh={handleRefresh}
