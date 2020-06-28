@@ -47,7 +47,7 @@ function EditRestaurantBanner(props) {
             <View style={stylesBanner.tagRow}>
                 <View style={stylesBanner.tags}>
                     { tags.map((tag,index) => <Tag onPress={() => Alert.alert("Remove", "Remove Tag")} key={index} name={tag.name}/>) }
-                    {halal && <Tag onPress={Alert.alert("Remove", "Remove Tag")} name={'halal'}/>}
+                    {halal && <Tag onPress={() => Alert.alert("Remove", "Remove Tag")} name={'halal'}/>}
                     <Tag name='+' onPress={()=> Alert.alert("Add Tag", "Add Tag Form")}/>
                 </View>
                 <View style = {stylesBanner.cost}>
