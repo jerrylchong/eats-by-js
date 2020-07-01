@@ -12,6 +12,7 @@ import Loading from "../component/Loading";
 import * as Location from "expo-location";
 import {connect} from "react-redux";
 import {mapReduxDispatchToProps, mapReduxStateToProps} from "../helpers/reduxHelpers";
+import _ from "lodash";
 
 const {width, height} = Dimensions.get('window');
 const CARD_HEIGHT = height / 4;
@@ -33,7 +34,7 @@ class RestaurantMap extends React.Component {
                 pitch: 0,
                 heading: 1,
                 altitude: 200,
-                zoom: 18
+                zoom: 15.5
             },
             error: false,
             locationOff: false,
@@ -93,7 +94,7 @@ class RestaurantMap extends React.Component {
                         pitch: this.state.camera.pitch,
                         altitude: this.state.camera.altitude,
                         heading: this.state.camera.heading,
-                        zoom: 18
+                        zoom: 17.5
                     },
                 ))
         }
@@ -106,9 +107,10 @@ class RestaurantMap extends React.Component {
         ])
             .then(() => {
                 if(this.props.location.hasLocation) {
-                    getPaginatedRestaurantsFromApi(this.state.searchTerm, 1, 100, this.props.location.coords).then(data => {
-                        this.setState({data: data});
-                    })
+                    getPaginatedRestaurantsFromApi(this.state.searchTerm, 1, 100, this.props.location.coords)
+                        .then(data => {
+                            this.setState({data: data});
+                        })
                 } else {
                     getRestaurantsFromApi().then(data => {
                         this.setState({data: data});
@@ -149,6 +151,20 @@ class RestaurantMap extends React.Component {
         }, 10);
     }
 
+    searchRequest = (searchTerm) => {
+        getPaginatedRestaurantsFromApi(searchTerm, 1, 100, this.props.location.coords)
+            .then(data => {
+                this.setState({data: data});
+            })
+            .catch(console.error)
+    }
+
+    debouncedSearchFetchRequest = _.debounce(this.searchRequest,200)
+
+    clearSearch = () => {
+        this.setState({searchTerm: ''});
+    }
+
     render() {
         const {isLoading, searchTerm, data, toggled} = this.state;
         const {navigation} = this.props;
@@ -174,9 +190,12 @@ class RestaurantMap extends React.Component {
                     <View style = {styles.navBar}>
                         <SearchButton
                             navigation = {navigation}
-                            searchTerm = {searchTerm}
+                            searchTerm = {this.state.searchTerm}
                             handleSearchTerm = {searchTerm => {
+                                this.setState({searchTerm: searchTerm});
+                                this.debouncedSearchFetchRequest(searchTerm);
                             }}
+                            clearSearch = {this.clearSearch}
                         />
                     </View>
                     <MapView
@@ -284,6 +303,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: 'white',
         alignItems: 'center',
+        minHeight: Math.round(Dimensions.get('window').height) * 0.9
     },
     navBar: {
         flexDirection: 'row',
