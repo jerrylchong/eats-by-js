@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
-    SafeAreaView,
     TextInput,
     KeyboardAvoidingView,
     Text,
@@ -12,12 +11,6 @@ import {
     Dimensions, BackHandler
 } from "react-native";
 import BackButton from "../component/BackButton";
-import {
-    getDishesFromApi,
-    getRestaurantFromApi,
-    getRestaurantTagsFromApi,
-    getReviewsForRestaurant
-} from "../helpers/apiHelpers";
 import {useSafeArea} from "react-native-safe-area-context";
 
 function AddRestaurantPage({ navigation }) {
@@ -156,7 +149,8 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.11,
         paddingHorizontal: '5%',
         fontFamily: 'Ubuntu',
-        color: '#404040'
+        color: '#404040',
+        fontWeight:'normal'
     },
     buttonShadow: {
         position: 'relative',

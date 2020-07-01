@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
-    SafeAreaView,
     TextInput,
     KeyboardAvoidingView,
     Text,
@@ -52,38 +51,44 @@ function RequestRestaurantPage({ navigation }) {
         ]}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
             <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
-            <Text style = {styles.header}>Request a Restaurant</Text>
+            <Text style = {styles.header}>Request a Store</Text>
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                 <TextInput
                     style={styles.input}
                     placeholder="Name"
                     onChangeText={(text) => {setTitle(text)}}
-                    value={title}/>
+                    value={title}
+                    placeholderTextColor='#404040'/>
                 <TextInput
                     style={styles.input}
                     placeholder="Description"
                     onChangeText={(text) => {setDesc(text)}}
-                    value={desc}/>
+                    value={desc}
+                    placeholderTextColor='#404040'/>
                 <TextInput
                     style={styles.input}
                     placeholder="Location"
                     onChangeText={(text) => {setLocation(text)}}
-                    value={location}/>
+                    value={location}
+                    placeholderTextColor='#404040'/>
                 <TextInput
                     style={styles.input}
                     placeholder="Operating Hours"
                     onChangeText={(text) => {setOperatingHours(text)}}
-                    value={operatingHours}/>
+                    value={operatingHours}
+                    placeholderTextColor='#404040'/>
                 <TextInput
                     style={styles.input}
                     placeholder="Contact No."
                     onChangeText={(text) => {setContact(text)}}
-                    value={contact}/>
+                    value={contact}
+                    placeholderTextColor='#404040'/>
                 <TextInput
                     style={styles.input}
                     placeholder="Tags (each tag separated by a space)"
                     onChangeText={(text) => {setTags(text)}}
-                    value={tags}/>
+                    value={tags}
+                    placeholderTextColor='#404040'/>
             </KeyboardAvoidingView>
             <View style = {styles.buttonShadow}>
                 <TouchableOpacity style = {styles.button} onPress = {submit}>
@@ -145,7 +150,8 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.11,
         paddingHorizontal: '5%',
         fontFamily: 'Ubuntu',
-        color: '#404040'
+        color: '#404040',
+        fontWeight:'normal'
     },
     buttonShadow: {
         position: 'relative',

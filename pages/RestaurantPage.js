@@ -8,6 +8,7 @@ import {
     BackHandler,
     Image,
     Dimensions,
+    Alert
 } from "react-native";
 import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
@@ -16,7 +17,7 @@ import {
     getPaginatedDishesFromApi,
     getRestaurantFromApi,
     getRestaurantTagsFromApi,
-    getPaginatedReviewsForRestaurant,
+    getPaginatedReviewsForRestaurant, getNumberOfReviewsFromApi,
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import Review from "../component/Review";
@@ -35,7 +36,7 @@ function RestaurantBanner(props) {
                 <View style={stylesBanner.tags}>
                     { tags.map((tag,index) => <Tag disabled key={index} name={tag.name}/>) }
                     {halal && <Tag disabled name={'halal'}/>}
-                    <Tag name='+' onPress={()=> alert("suggest tag")}/>
+                    <Tag name='+' onPress={()=> Alert.alert("Suggest Tag", "Suggest Tag Form")}/>
                 </View>
                 <View style = {stylesBanner.cost}>
                     {parseFloat(cost) > 0 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
@@ -44,10 +45,27 @@ function RestaurantBanner(props) {
                 </View>
             </View>
             <View style={{width:'100%', marginTop: Dimensions.get('window').height * 0.02}}>
-                <Text style={stylesBanner.description}>Location: {location}</Text>
-                <Text style={stylesBanner.description}>Opening Hours:{'\n'}{operatingHours}</Text>
-                <Text style={stylesBanner.description}>Contact No: {contact}</Text>
-                {no_of_stalls > 0 && <Text style={stylesBanner.description}>No. of Stalls : {no_of_stalls}</Text>}
+                <View style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
+                    <Text style={stylesBanner.descriptionLabel}>Location: </Text>
+                    <Text style={stylesBanner.description}>{location}</Text>
+                </View>
+                <View style={{height: Dimensions.get('window').height * 0.005}}/>
+                <View>
+                    <Text style={stylesBanner.descriptionLabel}>Opening Hours: </Text>
+                    <Text style={stylesBanner.description}>{operatingHours}</Text>
+                </View>
+                <View style={{height: Dimensions.get('window').height * 0.005}}/>
+                <View style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
+                    <Text style={stylesBanner.descriptionLabel}>Contact: </Text>
+                    <Text style={stylesBanner.description}>{contact == null ? "N/A" : contact}</Text>
+                </View>
+                {no_of_stalls > 0 && <View style={{height: Dimensions.get('window').height * 0.005}}/>}
+                {no_of_stalls > 0 &&
+                <View style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
+                    <Text style={stylesBanner.descriptionLabel}>No. of Stalls: </Text>
+                    <Text style={stylesBanner.description}>{no_of_stalls}</Text>
+                </View>
+                }
             </View>
             <View style={{
                 width: Dimensions.get('window').width, borderBottomWidth: 0.5, borderColor: '#B3B3B3',
@@ -97,9 +115,13 @@ const stylesBanner = StyleSheet.create({
         marginRight: '2%'
     },
     description: {
-        color: "#7E7E7E",
+        color: "#b3b3b3",
         fontFamily: 'Ubuntu'
     },
+    descriptionLabel: {
+        color: '#b3b3b3',
+        fontFamily: 'Ubuntu'
+    }
 })
 
 function RestaurantPage(props) {
@@ -109,6 +131,7 @@ function RestaurantPage(props) {
     const [restaurantTags, setRestaurantTags] = useState([]);
     const [dishes, setDishes] = useState([]);
     const [reviews, setReviews] = useState([]);
+    const [reviewNum, setReviewNum] = useState(0);
     const [refreshingReviews, setRefreshingReviews] = useState(false);
     const [refreshingDishes, setRefreshingDishes] = useState(false);
     const {restaurant_id} = route.params;
@@ -120,10 +143,13 @@ function RestaurantPage(props) {
             getRestaurantFromApi(restaurant_id).then(data => setRestaurantData(data)),
             getRestaurantTagsFromApi(restaurant_id).then(data => setRestaurantTags(data)),
             getPaginatedDishesFromApi(restaurant_id, 1, 2).then(data => setDishes(data)),
-            getPaginatedReviewsForRestaurant(restaurant_id, 1, 2).then(data => setReviews(data)),
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+
+        const reloadReviews = navigation.addListener('focus', () => {
+            onReviewRefresh();
+        })
 
         const backAction = () => {
             navigation.goBack();
@@ -135,14 +161,20 @@ function RestaurantPage(props) {
             backAction
         );
 
-        return () => backHandler.remove();
+        return () => {
+            backHandler.remove();
+            reloadReviews;
+        }
     }, []);
 
     const onReviewRefresh = () => {
-        setRefreshingReviews(true);
-        getPaginatedReviewsForRestaurant(restaurant_id, 1, 2)
-            .then(data => setReviews(data))
-            .then(() => setRefreshingReviews(false));
+        getNumberOfReviewsFromApi(restaurant_id).then(num => {
+            setReviewNum(num);
+            setRefreshingReviews(true);
+            getPaginatedReviewsForRestaurant(restaurant_id, 1, 2)
+                .then(data => setReviews(data))
+                .then(() => setRefreshingReviews(false));
+        })
     }
 
     const onDishRefresh = () => {
@@ -180,7 +212,9 @@ function RestaurantPage(props) {
                             */}
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
-                                <Text style={styles.sectionText}>Reviews</Text>
+                                <Text style={styles.sectionText}>
+                                    Reviews ({reviewNum})
+                                </Text>
                                 {isLoggedIn && <Tag name="refresh" onPress={onReviewRefresh}/>}
                                 {isLoggedIn && <Tag name="+" onPress={() => navigation.navigate('Add Review', {restaurant_id})}/>}
                                 <Tag name="View all" onPress={() => navigation.navigate('Restaurant Reviews', {restaurant_id})} />
@@ -204,9 +238,11 @@ function RestaurantPage(props) {
                             */}
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
-                                <Text style={styles.sectionText}>Dishes</Text>
-                                {isLoggedIn && <Tag name="refresh" onPress={onDishRefresh}/>}
-                                <Tag name='+' onPress={()=> alert("suggest tag")}/>
+                                <Text style={styles.sectionText}>
+                                    Dishes ({restaurantData.relationships.dishes.data.length.toString()})
+                                </Text>
+                                <Tag name="refresh" onPress={onDishRefresh}/>
+                                {isLoggedIn && <Tag name='+' onPress={()=> Alert.alert("Suggest Dish", "Suggest Dish Form")}/>}
                                 <Tag name="View all" onPress={() => navigation.navigate('Restaurant Dishes', {restaurant_id})} />
                             </View>
                             { refreshingDishes ?  <Loading style={{paddingTop:30}}/> :
@@ -286,7 +322,7 @@ const styles = StyleSheet.create({
     },
     sectionText: {
         fontSize: 18,
-        fontWeight: "bold",
+        fontFamily: 'Ubuntu-Bold',
         marginRight: 'auto'
     },
     desc: {

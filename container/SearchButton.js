@@ -55,7 +55,7 @@ class SearchButton extends React.Component {
     }
 
     render() {
-        const {searchTerm, clearSearch} = this.props
+        const {searchTerm, clearSearch, sortByLocation} = this.props
         const {animatedWidth, animatedHeight, pressed} = this.state;
         const animatedStyle = { width: animatedWidth, height: animatedHeight }
         return (
@@ -88,13 +88,17 @@ class SearchButton extends React.Component {
                 {pressed &&
                 <View style={styles.filterRow}>
                     <SearchPicker 
-                        placeholderText="Select a Price"
+                        placeholderText="Sort By"
                         items={[
-                            { label: '1-5', value: '0' },
-                            { label: '5-10', value: '1' },
-                            { label: '10+', value: '2' },
+                            { label: 'Price', value: '0' },
+                            { label: 'Ratings', value: '1' },
+                            { label: 'Location', value: '2' },
                         ]}
-                        onValueChange={(value) => console.log(value)}
+                        onValueChange={(value) => {
+                            if (value == 2) {
+                                sortByLocation();
+                            }
+                        }}
                     />
                     <SearchPicker 
                         placeholderText="Select a Price"
@@ -144,7 +148,7 @@ const SearchPicker = (props) => {
                 },
             }}
             Icon={() => {
-                return <Text style={{color:"#B3B3B3"}}>▼</Text>;
+                return <Text style={{color:"#B3B3B3", fontSize: 11}}>▼</Text>;
             }}
         />
     )
@@ -157,14 +161,15 @@ const windowWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
     biggerContainer: {
         width: '100%',
-        flexDirection: 'column',
         alignItems: 'center',
+        marginTop: '5%',
+        marginBottom: '5%'
     },
     container: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: '95%',
+        width: '85%',
     },
     searchBar: {
         flexDirection: 'row',
@@ -173,7 +178,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     filterRow: {
+        width: '85%',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         flexDirection: "row",
+        marginTop: '5%',
+        marginHorizontal: '5%'
     },
     box: {
         backgroundColor: '#ececec',
@@ -187,7 +197,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginLeft: '5%',
         fontFamily: 'Ubuntu-Light',
-        width: '80%'
+        width: '80%',
+        fontWeight:'normal'
     },
     image: {
         marginRight: '5%',
@@ -206,23 +217,24 @@ const styles = StyleSheet.create({
     }
 })
 const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 0.25,
-    borderColor: '#B3B3B3',
-    borderRadius: 10,
-    color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
-  inputAndroid: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: 'purple',
-    borderRadius: 8,
-    color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
+    inputIOS: {
+        fontSize: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        borderWidth: 0.5,
+        borderColor: '#404040',
+        borderRadius: 100,
+        color: '#404040',
+        paddingRight: 25, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+        fontSize: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 2,
+        borderWidth: 0.5,
+        borderColor: '#404040',
+        borderRadius: 100,
+        color: '#404040',
+        paddingRight: 30, // to ensure the text is never behind the icon
+    },
 });

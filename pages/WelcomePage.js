@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    StyleSheet, Text, View, TextInput, Image, SafeAreaView, Dimensions, ImageBackground, StatusBar,
+    StyleSheet, Text, View, TextInput, Image, Dimensions, ImageBackground,
     TouchableOpacity, AsyncStorage, Platform, KeyboardAvoidingView, Alert, TouchableWithoutFeedback, Keyboard
 } from "react-native";
 import {connect} from 'react-redux';
@@ -79,6 +79,7 @@ class WelcomePage extends React.Component {
                                     this.setState({
                                         name:"",
                                         password:"",
+                                        error: false
                                     })
                                     this.props.navigation.navigate('App')})
                         }
@@ -209,7 +210,8 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.11,
         paddingHorizontal: '5%',
         fontFamily: 'Ubuntu',
-        color: '#404040'
+        color: '#404040',
+        fontWeight:'normal'
     },
     passwordInput: {
         position: 'relative',
@@ -221,7 +223,8 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.11,
         paddingHorizontal: '5%',
         fontFamily: 'Ubuntu',
-        color: '#404040'
+        color: '#404040',
+        fontWeight:'normal'
     },
     buttons: {
         position: 'relative',

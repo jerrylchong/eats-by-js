@@ -30,17 +30,20 @@ export function getRestaurantsFromApi() {
         method: 'GET',
         redirect: 'follow'
     };
-    return fetch(`${HOST}/restaurants`, requestOptions)
+    return fetch(`${HOST}/restaurants/?per_page=100`, requestOptions)
         .then(res => res.json())
         .then(json => json.data)
 }
 
-export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=8) {
+
+export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=8, location={lat: null, lng: null}) {
+
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
-    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}`, requestOptions)
+
+    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}&lat=${location["lat"]}&lng=${location["lng"]}`, requestOptions)
         .then(res => res.json())
         .then(json => json.data)
 }
@@ -183,6 +186,16 @@ export function getPaginatedReviewsForRestaurant(restaurant_id, page, per_page=8
     return fetch(`${HOST}/restaurants/${restaurant_id}/reviews?per_page=${per_page}&page=${page}`, requestOptions)
         .then(response => response.json())
         .then(response => response.data)
+}
+
+export function getNumberOfReviewsFromApi(restaurant_id) {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    return fetch(`${HOST}/restaurants/${restaurant_id}`, requestOptions)
+        .then(res => res.json())
+        .then(json => json.data.relationships.reviews.data.length.toString())
 }
 
 export function postReview(review,restaurant_id,token) {

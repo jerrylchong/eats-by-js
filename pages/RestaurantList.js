@@ -1,16 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View, BackHandler, Alert, ImageBackground, Dimensions, FlatList, Text} from "react-native";
+
+import {StyleSheet, View, BackHandler, Alert, Dimensions, FlatList, Text, Button} from "react-native";
 import SearchButton from "../container/SearchButton";
 import RestaurantButton from "../component/RestaurantButton";
-import {getRestaurantsFromApi, getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
+import {getTagsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import _ from "lodash"
 import {useSafeArea} from "react-native-safe-area-context";
+import * as Location from 'expo-location';
+import {connect} from "react-redux";
+import {mapReduxDispatchToProps, mapReduxStateToProps} from "../helpers/reduxHelpers";
 
 // currently my db only got title, description, rating
 // TODO: cost, tags
 
-function RestaurantList({ navigation }) {
+function RestaurantList(props) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
@@ -19,6 +23,10 @@ function RestaurantList({ navigation }) {
     const [refreshing, setRefreshing] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [isLastPage, setIsLastPage] = useState(false);
+    const [error, setError] = useState(false);
+    const [locationOff, setLocationOff] = useState(true);
+
+    const { location, updateLocation, removeLocation, navigation } = props;
 
     useEffect(() => {
         Promise.all([
@@ -26,7 +34,7 @@ function RestaurantList({ navigation }) {
                 setData(data);
                 updatePage();
             }),
-            getTagsFromApi().then(data => setTags(data.map(x => x.attributes)))
+            getTagsFromApi().then(data => setTags(data))
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -58,7 +66,7 @@ function RestaurantList({ navigation }) {
                 if (moredata.length === 0) {
                     setIsLastPage(true);
                 } else {
-                    setData([...data, ...moredata]);
+                    setData([...new Set([...data, ...moredata])]);
                     updatePage();
                 }
             }).then(() => setFetching(false))
@@ -94,16 +102,82 @@ function RestaurantList({ navigation }) {
         return (
             data.length > 0 &&
             (isLastPage
-                ? <Text style={styles.footer}>No More Restaurants</Text>
+                ? <Text style={styles.footer}>No More Stores</Text>
                 : isFetching && <Text style={styles.footer}>Loading...</Text>)
         )
     }
 
     const clearSearch = () => {
         setSearchTerm("");
+        getPaginatedRestaurantsFromApi("", 1).then(
+            data => {
+                setData(data);
+                setPage(2);
+            }
+
+        ).catch(console.error)
     }
 
     const insets = useSafeArea();
+
+    async function getLocation() {
+        let { status } = await Location.requestPermissionsAsync();
+        if (status !== 'granted') {
+            // permission for user location not enabled
+            setError(true);
+        } else {
+            let locStatus = false;
+            await Location.hasServicesEnabledAsync()
+                .then(bool => locStatus = bool);
+            if (locStatus) {
+                setError(false);
+                setLocationOff(false);
+                let loc = await Location.getCurrentPositionAsync({});
+                updateLocation(loc);
+            } else {
+                setLocationOff(true);
+                Alert.alert("Location Services Turned Off", "Please turn on Location Services.")
+            }
+        }
+    }
+
+    const sortByLocation = () => {
+        if (error) {
+            Alert.alert("Location Permission", "Please enable permissions for Location.\n" +
+                "For Android Users: Please go into App Settings to enable Location permissions if not prompted after pressing " +
+                "'Enable'.",
+                [
+                    { text: "Cancel",
+                        onPress: () => null,
+                        style: "cancel" },
+                    { text: "Enable", onPress: () => {
+                            getLocation() // prompts for location permission and stores location in Redux
+                        }
+                    }
+                ])
+        } else {
+            setRefreshing(true)
+            getLocation()
+                .then(() => {
+                    getPaginatedRestaurantsFromApi(searchTerm, 1, 8, location.coords).then(
+                        data => {
+                            setData(data);
+                            setPage(2);
+                        }
+                    ).catch(console.error)
+                })
+                .then(() => setRefreshing(false))
+        }
+    }
+
+    const findTag = (id) => {
+        for (let i = 0; i < tags.length; i ++) {
+            if (tags[i].id === id) {
+                return tags[i].attributes;
+            }
+        }
+        return {name: id}
+    }
 
     return (
         isLoading
@@ -121,6 +195,7 @@ function RestaurantList({ navigation }) {
                         debouncedSearchFetchRequest(searchTerm);
                     }}
                     clearSearch = {clearSearch}
+                    sortByLocation = {sortByLocation}
                     />
                 </View>
                 <FlatList
@@ -139,12 +214,12 @@ function RestaurantList({ navigation }) {
                             halal={item.attributes.halal_certified}
                             location={item.attributes.location}
                             opening_hours={item.attributes.operating_hours}
-                            tags={isLoading ? [] : item.relationships.tags.data.map(x => tags[x.id - 1])}
+                            tags={isLoading ? [] : item.relationships.tags.data.map(x => findTag(x.id))}
                             onPress={() => navigation.navigate('Restaurant', {restaurant_id: item.id}) }
                         />}
                     keyExtractor={restaurant => restaurant.id}
                     ListFooterComponent={renderFooter}
-                    ListEmptyComponent={() => <Text>No Restaurants Found</Text>}
+                    ListEmptyComponent={() => <Text>No Stores Found</Text>}
                     onEndReached={fetchMoreRestaurantData}
                     onEndReachedThreshold={0.1}
                     onRefresh={handleRefresh}
@@ -154,7 +229,7 @@ function RestaurantList({ navigation }) {
     )
 }
 
-export default RestaurantList
+export default connect(mapReduxStateToProps,mapReduxDispatchToProps)(RestaurantList)
 
 const styles = StyleSheet.create({
     container: {
@@ -163,11 +238,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
+        minHeight: Math.round(Dimensions.get('window').height)
     },
     navBar: {
         flexDirection: 'row',
-        height: '10%',
-        width: '90%',
         alignItems: 'center',
         justifyContent: 'center',
     },

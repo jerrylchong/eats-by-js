@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View, Text, ImageBackground, Button} from "react-native";
+import {ScrollView, StyleSheet, View, Text, ImageBackground, Button} from "react-native";
 import Loading from "../component/Loading";
 import {useSafeArea} from "react-native-safe-area-context";
 

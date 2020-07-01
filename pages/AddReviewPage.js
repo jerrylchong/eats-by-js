@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
-    SafeAreaView,
     TextInput,
     KeyboardAvoidingView,
     Text,
     View,
     Platform,
     ImageBackground,
-    Dimensions
+    Dimensions,
+    TouchableWithoutFeedback,
+    Keyboard
 } from "react-native";
 import {postReview} from '../helpers/apiHelpers';
 import { connect } from 'react-redux';
@@ -43,10 +44,14 @@ export function AddReviewPage(props) {
     const insets = useSafeArea();
 
     return (
-        <View style = {[
-            styles.container,
-            {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
-        ]}>
+        <TouchableWithoutFeedback
+            onPress={() => Keyboard.dismiss()}
+        >
+        <View 
+            style = {[
+                styles.container,
+                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+            ]}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
             <BackButton white={false} style = {{alignSelf: 'flex-start', margin: '2%'}} onPress = {() => navigation.goBack()} />
             <Text style = {styles.header}>Add a Review</Text>
@@ -82,6 +87,7 @@ export function AddReviewPage(props) {
                 </View>
             </View>
         </View>
+        </ TouchableWithoutFeedback>
     )
 }
 
@@ -92,13 +98,14 @@ const styles = StyleSheet.create({
         position:'absolute',
         bottom: 0,
         width: '100%',
-        height: Dimensions.get('window').width * 728/1668
+        height: Dimensions.get('window').width * 728/1668,
     },
     container: {
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center',
+        minHeight: Math.round(Dimensions.get('window').height)
     },
     header: {
         fontSize: 20,
@@ -125,6 +132,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Ubuntu',
         backgroundColor: '#d9d9d9',
         color: '#404040',
+        fontWeight:'normal'
     },
     buttonShadow: {
         width: '25%',

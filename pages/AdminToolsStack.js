@@ -4,6 +4,7 @@ import AdminToolsPage from "./AdminToolsPage";
 import DeleteRestaurantPage from "./DeleteRestaurantPage";
 import EditRestaurantPage from "./EditRestaurantPage"
 import AddRestaurantPage from "./AddRestaurantPage";
+import EditRestaurantList from "./EditRestaurantList";
 
 const Stack = createStackNavigator();
 
@@ -30,7 +31,7 @@ const AdminToolsStack = () => {
                 }}
             />
             <Stack.Screen
-                name = 'Edit'
+                name = 'Edit Store'
                 component = {EditRestaurantPage}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
@@ -39,6 +40,13 @@ const AdminToolsStack = () => {
             <Stack.Screen
                 name = 'Add'
                 component = {AddRestaurantPage}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+            />
+            <Stack.Screen
+                name = 'Edit'
+                component = {EditRestaurantList}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
                 }}
