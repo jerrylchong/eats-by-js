@@ -9,26 +9,33 @@ const Tab = createMaterialBottomTabNavigator();
 function HomeTab() {
     return (
         <Tab.Navigator
-            inactiveColor={'#ff3d33'}
             barStyle={{backgroundColor: '#ff6961'}}
             labeled={false}
+            shifting={true}
+            activeColor={"white"}
+            inactiveColor={"#b3b3b3"}
         >
             <Tab.Screen name="List" component={RestaurantList}
                         options={{
                             tabBarIcon: ({focused, color}) =>
                                 <View style = {styles.container}>
-                                    <Image style = {styles.icon} source={require('../assets/listicon.png')}/>
-                                    <Text style = {styles.text}>List</Text>
+                                    {color == "white"
+                                        ? <Image style={styles.icon} source={require('../assets/listicon.png')}/>
+                                        : <Image style={styles.icon} source={require('../assets/inactivelist.png')}/>
+                                    }
+                                    <Text style = {[styles.text, {color: color}]}>List</Text>
                                 </View>
-
                         }}
             />
             <Tab.Screen name="Map" component={RestaurantMap}
                         options={{
                             tabBarIcon: ({focused, color}) =>
                                 <View style = {styles.container}>
-                                    <Image style = {styles.icon} source={require('../assets/mapicon.png')}/>
-                                    <Text style = {styles.text}>Map</Text>
+                                    {color == "white"
+                                        ? <Image style={styles.icon} source={require('../assets/mapicon.png')}/>
+                                        : <Image style={styles.icon} source={require('../assets/inactivemap.png')}/>
+                                    }
+                                    <Text style = {[styles.text, {color: color}]}>Map</Text>
                                 </View>
                         }}
             />
@@ -51,6 +58,5 @@ const styles = StyleSheet.create({
         width:'100%',
         fontSize: 14,
         fontFamily: 'Ubuntu',
-        color: 'white',
     }
 })
