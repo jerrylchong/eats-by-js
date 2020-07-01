@@ -98,13 +98,14 @@ const styles = StyleSheet.create({
         position:'absolute',
         bottom: 0,
         width: '100%',
-        height: Dimensions.get('window').width * 728/1668
+        height: Dimensions.get('window').width * 728/1668,
     },
     container: {
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center',
+        minHeight: Math.round(Dimensions.get('window').height)
     },
     header: {
         fontSize: 20,

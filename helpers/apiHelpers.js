@@ -188,6 +188,16 @@ export function getPaginatedReviewsForRestaurant(restaurant_id, page, per_page=8
         .then(response => response.data)
 }
 
+export function getNumberOfReviewsFromApi(restaurant_id) {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    return fetch(`${HOST}/restaurants/${restaurant_id}`, requestOptions)
+        .then(res => res.json())
+        .then(json => json.data.relationships.reviews.data.length.toString())
+}
+
 export function postReview(review,restaurant_id,token) {
     /*
     {

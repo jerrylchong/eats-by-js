@@ -17,7 +17,7 @@ import {
     getPaginatedDishesFromApi,
     getRestaurantFromApi,
     getRestaurantTagsFromApi,
-    getPaginatedReviewsForRestaurant,
+    getPaginatedReviewsForRestaurant, getNumberOfReviewsFromApi,
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import Review from "../component/Review";
@@ -131,6 +131,7 @@ function RestaurantPage(props) {
     const [restaurantTags, setRestaurantTags] = useState([]);
     const [dishes, setDishes] = useState([]);
     const [reviews, setReviews] = useState([]);
+    const [reviewNum, setReviewNum] = useState(0);
     const [refreshingReviews, setRefreshingReviews] = useState(false);
     const [refreshingDishes, setRefreshingDishes] = useState(false);
     const {restaurant_id} = route.params;
@@ -142,10 +143,13 @@ function RestaurantPage(props) {
             getRestaurantFromApi(restaurant_id).then(data => setRestaurantData(data)),
             getRestaurantTagsFromApi(restaurant_id).then(data => setRestaurantTags(data)),
             getPaginatedDishesFromApi(restaurant_id, 1, 2).then(data => setDishes(data)),
-            getPaginatedReviewsForRestaurant(restaurant_id, 1, 2).then(data => setReviews(data)),
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+
+        const reloadReviews = navigation.addListener('focus', () => {
+            onReviewRefresh();
+        })
 
         const backAction = () => {
             navigation.goBack();
@@ -157,14 +161,20 @@ function RestaurantPage(props) {
             backAction
         );
 
-        return () => backHandler.remove();
+        return () => {
+            backHandler.remove();
+            reloadReviews;
+        }
     }, []);
 
     const onReviewRefresh = () => {
-        setRefreshingReviews(true);
-        getPaginatedReviewsForRestaurant(restaurant_id, 1, 2)
-            .then(data => setReviews(data))
-            .then(() => setRefreshingReviews(false));
+        getNumberOfReviewsFromApi(restaurant_id).then(num => {
+            setReviewNum(num);
+            setRefreshingReviews(true);
+            getPaginatedReviewsForRestaurant(restaurant_id, 1, 2)
+                .then(data => setReviews(data))
+                .then(() => setRefreshingReviews(false));
+        })
     }
 
     const onDishRefresh = () => {
@@ -202,7 +212,9 @@ function RestaurantPage(props) {
                             */}
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
-                                <Text style={styles.sectionText}>Reviews</Text>
+                                <Text style={styles.sectionText}>
+                                    Reviews ({reviewNum})
+                                </Text>
                                 {isLoggedIn && <Tag name="refresh" onPress={onReviewRefresh}/>}
                                 {isLoggedIn && <Tag name="+" onPress={() => navigation.navigate('Add Review', {restaurant_id})}/>}
                                 <Tag name="View all" onPress={() => navigation.navigate('Restaurant Reviews', {restaurant_id})} />
@@ -226,7 +238,9 @@ function RestaurantPage(props) {
                             */}
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
-                                <Text style={styles.sectionText}>Dishes</Text>
+                                <Text style={styles.sectionText}>
+                                    Dishes ({restaurantData.relationships.dishes.data.length.toString()})
+                                </Text>
                                 <Tag name="refresh" onPress={onDishRefresh}/>
                                 {isLoggedIn && <Tag name='+' onPress={()=> Alert.alert("Suggest Dish", "Suggest Dish Form")}/>}
                                 <Tag name="View all" onPress={() => navigation.navigate('Restaurant Dishes', {restaurant_id})} />
