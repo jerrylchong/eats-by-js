@@ -31,7 +31,7 @@ function HomeTab() {
                         options={{
                             tabBarIcon: ({focused, color}) =>
                                 <View style = {styles.container}>
-                                    {color == "white"
+                                    {focused
                                         ? <Image style={styles.icon} source={require('../assets/mapicon.png')}/>
                                         : <Image style={styles.icon} source={require('../assets/inactivemap.png')}/>
                                     }
