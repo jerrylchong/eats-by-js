@@ -65,7 +65,7 @@ function RestaurantList(props) {
                 if (moredata.length === 0) {
                     setIsLastPage(true);
                 } else {
-                    setData([...data, ...moredata]);
+                    setData([...new Set([...data, ...moredata])]);
                     updatePage();
                 }
             }).then(() => setFetching(false))
@@ -108,6 +108,13 @@ function RestaurantList(props) {
 
     const clearSearch = () => {
         setSearchTerm("");
+        getPaginatedRestaurantsFromApi("", 1).then(
+            data => {
+                setData(data);
+                setPage(2);
+            }
+
+        ).catch(console.error)
     }
 
     const insets = useSafeArea();

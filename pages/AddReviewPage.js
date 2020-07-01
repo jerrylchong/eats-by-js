@@ -8,7 +8,9 @@ import {
     View,
     Platform,
     ImageBackground,
-    Dimensions
+    Dimensions,
+    TouchableWithoutFeedback,
+    Keyboard
 } from "react-native";
 import {postReview} from '../helpers/apiHelpers';
 import { connect } from 'react-redux';
@@ -42,10 +44,14 @@ export function AddReviewPage(props) {
     const insets = useSafeArea();
 
     return (
-        <View style = {[
-            styles.container,
-            {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
-        ]}>
+        <TouchableWithoutFeedback
+            onPress={() => Keyboard.dismiss()}
+        >
+        <View 
+            style = {[
+                styles.container,
+                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+            ]}>
             <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
             <BackButton white={false} style = {{alignSelf: 'flex-start', margin: '2%'}} onPress = {() => navigation.goBack()} />
             <Text style = {styles.header}>Add a Review</Text>
@@ -81,6 +87,7 @@ export function AddReviewPage(props) {
                 </View>
             </View>
         </View>
+        </ TouchableWithoutFeedback>
     )
 }
 
