@@ -163,6 +163,11 @@ class RestaurantMap extends React.Component {
 
     clearSearch = () => {
         this.setState({searchTerm: ''});
+        getPaginatedRestaurantsFromApi('', 1, 100, this.props.location.coords)
+            .then(data => {
+                this.setState({data: data});
+            })
+            .catch(console.error)
     }
 
     render() {
