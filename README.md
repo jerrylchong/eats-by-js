@@ -8,3 +8,7 @@ Hello Welcome to eats-by-js repository
 - Install the Expo application on your phone
 - Start the application server through `expo start` on your PC
 - The previous step would bring up a QR code which you can scan using your phone to open up our application!
+
+
+**Please note that our api is currently hosted on heroku hence the first called to the api would require sometime to load up since we are using a free account**
+Link to our back end repo [here](https://github.com/nopenotj/eats-by-js-api)
