@@ -126,9 +126,10 @@ function RestaurantList(props) {
             // permission for user location not enabled
             setError(true);
         } else {
+            setError(false);
             let locStatus = false;
             await Location.hasServicesEnabledAsync()
-                .then(bool => locStatus = bool);
+                .then(bool => locStatus = boolgit);
             if (locStatus) {
                 setError(false);
                 setLocationOff(false);

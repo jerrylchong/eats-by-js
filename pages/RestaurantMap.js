@@ -56,6 +56,7 @@ class RestaurantMap extends React.Component {
             // permission for user location not enabled
             this.setState({error: true})
         } else {
+            this.setState({error: false})
             await Location.hasServicesEnabledAsync()
                 .then(bool => this.locStatus = bool);
             if (this.locStatus) {
