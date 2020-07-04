@@ -108,7 +108,6 @@ const MyDrawer = (props) => {
                                      </View>}}
             />}
             <Drawer.Screen name = 'Home' component = {MyStack} />
-            <Drawer.Screen name = 'Settings' component = {SettingsPage} />
             {isLoggedIn && <Drawer.Screen name = 'Request a Store' component = {RequestRestaurantPage} />}
             {(isLoggedIn && user.user_data.attributes.is_admin) &&
             <Drawer.Screen name = 'Admin Tools' component = {AdminToolsStack} />}
