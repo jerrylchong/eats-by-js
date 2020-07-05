@@ -3,7 +3,6 @@ import { StyleSheet, TextInput, View, Image, TouchableOpacity, Animated, Dimensi
 import MenuButton from "../component/MenuButton";
 import RNPickerSelect from 'react-native-picker-select';
 import Tag, { SuggestTag } from "../component/Tag";
-import {Autocomplete} from "react-native-dropdown-autocomplete";
 import SearchableDropdown from 'react-native-searchable-dropdown';
 
 class SearchButton extends React.Component {
@@ -12,7 +11,8 @@ class SearchButton extends React.Component {
         animatedWidth: new Animated.Value(windowWidth * 0.12),
         animatedHeight: new Animated.Value(windowWidth * 0.12),
         pressed: false,
-        selectedItems: []
+        selectedItems: [],
+        filterToggle: false,
     }
 
     componentDidMount() {
@@ -30,6 +30,7 @@ class SearchButton extends React.Component {
     resetBar = () => {
         this.setState({
             pressed: false,
+            filterToggle: false
         })
         Animated.timing(this.state.animatedWidth, {
             toValue: windowWidth * 0.12,
@@ -58,9 +59,14 @@ class SearchButton extends React.Component {
         this.setState({pressed: true})
     }
 
+    toggleFilter = () => {
+        const bool = this.state.filterToggle;
+        this.setState({filterToggle: !bool});
+    }
+
     render() {
         const {searchTerm, clearSearch, sortByLocation, tagFilters, setTagFilters, suggestions} = this.props
-        const {animatedWidth, animatedHeight, pressed} = this.state;
+        const {animatedWidth, animatedHeight, pressed, filterToggle} = this.state;
         const animatedStyle = { width: animatedWidth, height: animatedHeight }
         return (
             <View style={styles.biggerContainer}>
@@ -89,9 +95,14 @@ class SearchButton extends React.Component {
                     </TouchableOpacity>
                     }
                 </View>
-                {pressed &&
+                {(pressed && !filterToggle) &&
+                    <View style={styles.toggleButton}>
+                        <Tag disabled={false} name={'Filters'} onPress={this.toggleFilter}/>
+                    </View>
+                }
+                {filterToggle &&
                 <View style={styles.filterRow}>
-                    <SearchPicker 
+                    <SearchPicker
                         placeholderText="Sort By"
                         items={[
                             { label: 'Price', value: '0' },
@@ -104,7 +115,7 @@ class SearchButton extends React.Component {
                             }
                         }}
                     />
-                    <SearchPicker 
+                    <SearchPicker
                         placeholderText="Select a Price"
                         items={[
                             { label: '1-5', value: '0' },
@@ -113,7 +124,7 @@ class SearchButton extends React.Component {
                         ]}
                         onValueChange={(value) => console.log(value)}
                     />
-                    <SearchPicker 
+                    <SearchPicker
                         placeholderText="Select a Price"
                         items={[
                             { label: '1-5', value: '0' },
@@ -122,11 +133,17 @@ class SearchButton extends React.Component {
                         ]}
                         onValueChange={(value) => console.log(value)}
                     />
+                    <Tag disabled={false} name={'Done'} onPress={this.toggleFilter}/>
                 </View>
                 }
-                {pressed &&
+                {filterToggle &&
+                    <View style={{borderWidth: 0.2, width: '90%', borderColor: '#b3b3b3', marginTop: '2%'}}/>
+                }
+                {filterToggle &&
                 <View style={styles.tagRow}>
-                    <Text style={{fontFamily: 'Ubuntu', fontSize: 12, color: "#404040", marginRight: '2%'}}>Suggested:</Text>
+                    {suggestions.length > tagFilters.length &&
+                        <Text style={{fontFamily: 'Ubuntu', fontSize: 12, color: "#404040", marginRight: '2%'}}>Suggested:</Text>
+                    }
                     {
                         suggestions
                             .filter(x => !tagFilters.includes(x))
@@ -136,7 +153,7 @@ class SearchButton extends React.Component {
                     }
                 </View>
                 }
-                {pressed &&
+                {filterToggle &&
                 <View style={styles.tagRow}>
                     {
                          tagFilters.map( tag =>
@@ -160,7 +177,7 @@ class SearchButton extends React.Component {
                         }}
                         itemTextStyle={{ color: '#404040', fontFamily: 'Ubuntu', fontSize: 10 }}
                         itemsContainerStyle={{ maxHeight: '40%' }}
-                        items={this.props.tagAutoCompleteOptions.filter(x => !tagFilters.includes(x)) || []}
+                        items={this.props.tagAutoCompleteOptions}
                         defaultIndex={0}
                         resetValue={true}
                         textInputProps={
@@ -264,6 +281,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: '85%',
     },
+    toggleButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        marginTop: '3%',
+        width: '85%',
+    },
     searchBar: {
         flexDirection: 'row',
         width: windowWidth * 0.8,
@@ -275,7 +299,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: "row",
-        marginTop: '5%',
+        marginTop: '2%',
         marginHorizontal: '5%',
         marginBottom: '2%'
     },

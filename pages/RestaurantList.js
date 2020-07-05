@@ -129,7 +129,7 @@ function RestaurantList(props) {
             setError(false);
             let locStatus = false;
             await Location.hasServicesEnabledAsync()
-                .then(bool => locStatus = boolgit);
+                .then(bool => locStatus = bool);
             if (locStatus) {
                 setError(false);
                 setLocationOff(false);
@@ -160,12 +160,14 @@ function RestaurantList(props) {
             setRefreshing(true)
             getLocation()
                 .then(() => {
-                    getPaginatedRestaurantsFromApi(searchTerm, 1, 8, location.coords).then(
-                        data => {
-                            setData(data);
-                            setPage(2);
-                        }
-                    ).catch(console.error)
+                    if (!locationOff) {
+                        getPaginatedRestaurantsFromApi(searchTerm, 1, 8, location.coords).then(
+                            data => {
+                                setData(data);
+                                setPage(2);
+                            }
+                        ).catch(console.error)
+                    }
                 })
                 .then(() => setRefreshing(false))
         }
@@ -197,7 +199,7 @@ function RestaurantList(props) {
                     }}
                     clearSearch = {clearSearch}
                     sortByLocation = {sortByLocation}
-                    tagAutoCompleteOptions={tags}
+                    tagAutoCompleteOptions={tags.map(x => x.attributes)}
                     setTagFilters={setTagFilters}
                     tagFilters={tagFilters || []}
                     suggestions={["korean", "chinese", "noodles"]}

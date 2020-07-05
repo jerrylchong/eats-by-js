@@ -7,7 +7,7 @@ import {
 
 } from "react-native";
 import SearchButton from "../container/SearchButton";
-import {getRestaurantsFromApi, getPaginatedRestaurantsFromApi} from "../helpers/apiHelpers";
+import {getRestaurantsFromApi, getPaginatedRestaurantsFromApi, getTagsFromApi} from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import * as Location from "expo-location";
 import {connect} from "react-redux";
@@ -38,6 +38,8 @@ class RestaurantMap extends React.Component {
             },
             error: false,
             locationOff: false,
+            tags: [],
+            tagFilters: []
         };
         this.props = props;
     }
@@ -104,7 +106,8 @@ class RestaurantMap extends React.Component {
 
     componentDidMount() {
         Promise.all([
-            this.getLocation()
+            this.getLocation(),
+            getTagsFromApi().then(data => this.setState({tags: data})),
         ])
             .then(() => {
                 if(this.props.location.hasLocation) {
@@ -171,9 +174,35 @@ class RestaurantMap extends React.Component {
             .catch(console.error)
     }
 
+    sortByLocation = () => {
+        if (this.state.error) {
+            Alert.alert("Location Permission", "Please enable permissions for Location.\n" +
+                "For Android Users: Please go into App Settings to enable Location permissions if not prompted after pressing " +
+                "'Enable'.",
+                [
+                    { text: "Cancel",
+                        onPress: () => null,
+                        style: "cancel" },
+                    { text: "Enable", onPress: () => {
+                            this.getLocation() // prompts for location permission and stores location in Redux
+                        }
+                    }
+                ])
+        } else {
+            this.setState({isLoading: true})
+            this.getLocation()
+                .then(() => {
+                    getPaginatedRestaurantsFromApi(this.state.searchTerm, 1, 100, this.props.location.coords).then(
+                        data => this.setState({data: data})
+                    ).catch(console.error)
+                })
+                .then(() => this.setState({isLoading: false}))
+        }
+    }
+
     render() {
-        const {isLoading, searchTerm, data, toggled} = this.state;
-        const {navigation} = this.props;
+        const {isLoading, searchTerm, data, toggled, tags, tagFilters} = this.state;
+        const {navigation, location} = this.props;
         const interpolations = data.map((marker, index) => {
             const inputRange = [
                 (index - 1) * (CARD_WIDTH + 20) + 10,
@@ -202,6 +231,11 @@ class RestaurantMap extends React.Component {
                                 this.debouncedSearchFetchRequest(searchTerm);
                             }}
                             clearSearch = {this.clearSearch}
+                            tagAutoCompleteOptions={tags.map(x => x.attributes)}
+                            setTagFilters={tags => this.setState({tagFilters: tags})}
+                            tagFilters={tagFilters || []}
+                            suggestions={["korean", "chinese", "noodles"]}
+                            sortByLocation={this.sortByLocation}
                         />
                     </View>
                     <MapView

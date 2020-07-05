@@ -21,9 +21,12 @@ function HomeTab() {
                                 <View style = {styles.container}>
                                     {color == "white"
                                         ? <Image style={styles.icon} source={require('../assets/listicon.png')}/>
-                                        : <Image style={styles.icon} source={require('../assets/inactivelist.png')}/>
+                                        : <Image style={styles.fadedIcon} source={require('../assets/listicon.png')}/>
                                     }
-                                    <Text style = {[styles.text, {color: color}]}>List</Text>
+                                    {focused
+                                        ? <Text style = {styles.text}>List</Text>
+                                        : <Text style = {styles.fadedText}>List</Text>
+                                    }
                                 </View>
                         }}
             />
@@ -33,9 +36,12 @@ function HomeTab() {
                                 <View style = {styles.container}>
                                     {focused
                                         ? <Image style={styles.icon} source={require('../assets/mapicon.png')}/>
-                                        : <Image style={styles.icon} source={require('../assets/inactivemap.png')}/>
+                                        : <Image style={styles.fadedIcon} source={require('../assets/mapicon.png')}/>
                                     }
-                                    <Text style = {[styles.text, {color: color}]}>Map</Text>
+                                    {focused
+                                        ? <Text style = {styles.text}>Map</Text>
+                                        : <Text style = {styles.fadedText}>Map</Text>
+                                    }
                                 </View>
                         }}
             />
@@ -54,9 +60,22 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').width * 0.06,
         width: Dimensions.get('window').width * 0.06,
     },
+    fadedIcon: {
+        height: Dimensions.get('window').width * 0.06,
+        width: Dimensions.get('window').width * 0.06,
+        opacity: 0.7
+    },
     text: {
         width:'100%',
         fontSize: 14,
         fontFamily: 'Ubuntu',
+        color: 'white'
+    },
+    fadedText: {
+        width:'100%',
+        fontSize: 14,
+        fontFamily: 'Ubuntu',
+        color: 'white',
+        opacity: 0.7
     }
 })
