@@ -2,19 +2,23 @@ import React from 'react';
 import { StyleSheet, TextInput, View, Image, TouchableOpacity, Animated, Dimensions, Text } from 'react-native';
 import MenuButton from "../component/MenuButton";
 import RNPickerSelect from 'react-native-picker-select';
+import Tag, { SuggestTag } from "../component/Tag";
+import {Autocomplete} from "react-native-dropdown-autocomplete";
+import SearchableDropdown from 'react-native-searchable-dropdown';
 
 class SearchButton extends React.Component {
 
     state = {
         animatedWidth: new Animated.Value(windowWidth * 0.12),
         animatedHeight: new Animated.Value(windowWidth * 0.12),
-        pressed: false
+        pressed: false,
+        selectedItems: []
     }
 
     componentDidMount() {
         this.leave = this.props.navigation.addListener("blur", () => {
-                this.resetBar();
-            });
+            this.resetBar();
+        });
     }
 
     componentWillUnmount() {
@@ -55,7 +59,7 @@ class SearchButton extends React.Component {
     }
 
     render() {
-        const {searchTerm, clearSearch, sortByLocation} = this.props
+        const {searchTerm, clearSearch, sortByLocation, tagFilters, setTagFilters, suggestions} = this.props
         const {animatedWidth, animatedHeight, pressed} = this.state;
         const animatedStyle = { width: animatedWidth, height: animatedHeight }
         return (
@@ -120,6 +124,71 @@ class SearchButton extends React.Component {
                     />
                 </View>
                 }
+                {pressed &&
+                <View style={styles.tagRow}>
+                    <Text style={{fontFamily: 'Ubuntu', fontSize: 12, color: "#404040", marginRight: '2%'}}>Suggested:</Text>
+                    {
+                        suggestions
+                            .filter(x => !tagFilters.includes(x))
+                            .map(tag =>
+                                <SuggestTag style={{marginTop:5}} name={`+ ${tag}`} onPress={() => setTagFilters([...tagFilters, tag])}/>
+                            )
+                    }
+                </View>
+                }
+                {pressed &&
+                <View style={styles.tagRow}>
+                    {
+                         tagFilters.map( tag =>
+                            <Tag style={{marginTop:5}} name={`x ${tag}`} onPress={() => setTagFilters(tagFilters.filter(x => x != tag))}/>
+                        )
+                    }
+                    <SearchableDropdown
+                        onItemSelect={(item) => {
+                            const items = tagFilters.filter(x => x != item.name)
+                            items.push(item.name)
+                            setTagFilters(items)
+                        }}
+                        containerStyle={{ padding: 5}}
+                        itemStyle={{
+                            paddingLeft: '8%',
+                            paddingVertical: '3%',
+                            marginTop: '1%',
+                            backgroundColor: '#ececec',
+                            borderRadius: 100,
+                            width: windowWidth * 0.3
+                        }}
+                        itemTextStyle={{ color: '#404040', fontFamily: 'Ubuntu', fontSize: 10 }}
+                        itemsContainerStyle={{ maxHeight: '40%' }}
+                        items={this.props.tagAutoCompleteOptions.filter(x => !tagFilters.includes(x)) || []}
+                        defaultIndex={0}
+                        resetValue={true}
+                        textInputProps={
+                            {
+                                placeholder: "+ Add tag",
+                                placeholderTextColor: '#404040',
+                                underlineColorAndroid: "transparent",
+                                style: {
+                                    paddingLeft: '4%',
+                                    backgroundColor: '#ececec',
+                                    borderRadius: windowWidth * 0.15,
+                                    width: windowWidth * 0.3,
+                                    height: windowWidth * 0.045,
+                                    fontSize: 10,
+                                    color: '#404040',
+                                    fontFamily: 'Ubuntu'
+                                }
+                            }
+                        }
+                        listProps={
+                            {
+                                nestedScrollEnabled: true,
+                            }
+                        }
+                    />
+                </View>
+                }
+
             </View>
         )
     }
@@ -165,6 +234,30 @@ const styles = StyleSheet.create({
         marginTop: '5%',
         marginBottom: '5%'
     },
+    plus: {
+        position: "absolute",
+        left: 15,
+        top: windowWidth * 0.015,
+        zIndex:99,
+    },
+    autocompleteInput:{
+        maxHeight: 40,
+    },
+    tagSearch:{
+        color: '#404040',
+        fontFamily: 'Ubuntu-Light',
+        borderColor: "transparent",
+        backgroundColor: '#ececec',
+        borderRadius: 25,
+        width: windowWidth * 0.3,
+    },
+    dropdown: {
+        width: "30%",
+    },
+    inputContainer: {
+        flexDirection: "row",
+        width: "50%",
+    },
     container: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -183,7 +276,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: "row",
         marginTop: '5%',
-        marginHorizontal: '5%'
+        marginHorizontal: '5%',
+        marginBottom: '2%'
+    },
+    searchTagRow: {
+        width: '85%',
+        marginTop:"5%",
+        justifyContent: "center",
     },
     box: {
         backgroundColor: '#ececec',
@@ -214,8 +313,17 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         height: windowWidth * 0.1,
         width: windowWidth * 0.1
+    },
+    tagRow: {
+        width: '85%',
+        marginTop:"2%",
+        justifyContent: "flex-start",
+        alignItems: 'center',
+        flexDirection: "row",
+        flexWrap: "wrap",
     }
 })
+
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
         fontSize: 10,

@@ -25,7 +25,7 @@ function RestaurantList(props) {
     const [isLastPage, setIsLastPage] = useState(false);
     const [error, setError] = useState(false);
     const [locationOff, setLocationOff] = useState(true);
-
+    const [tagFilters, setTagFilters] = useState([]);
     const { location, updateLocation, removeLocation, navigation } = props;
 
     useEffect(() => {
@@ -197,6 +197,10 @@ function RestaurantList(props) {
                     }}
                     clearSearch = {clearSearch}
                     sortByLocation = {sortByLocation}
+                    tagAutoCompleteOptions={tags}
+                    setTagFilters={setTagFilters}
+                    tagFilters={tagFilters || []}
+                    suggestions={["korean", "chinese", "noodles"]}
                     />
                 </View>
                 <FlatList
