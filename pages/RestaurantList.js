@@ -26,6 +26,7 @@ function RestaurantList(props) {
     const [error, setError] = useState(false);
     const [locationOff, setLocationOff] = useState(true);
     const [tagFilters, setTagFilters] = useState([]);
+    const [sort, setSort] = useState(0);
     const { location, updateLocation, removeLocation, navigation } = props;
 
     useEffect(() => {
@@ -62,14 +63,47 @@ function RestaurantList(props) {
     const fetchMoreRestaurantData = () => {
         if(!isLastPage) {
             setFetching(true);
-            getPaginatedRestaurantsFromApi(searchTerm, tagFilters, page).then(moredata => {
-                if (moredata.length === 0) {
-                    setIsLastPage(true);
-                } else {
-                    setData([...new Set([...data, ...moredata])]);
-                    updatePage();
-                }
-            }).then(() => setFetching(false))
+            if (sort == 0) {
+                // default
+                getPaginatedRestaurantsFromApi(searchTerm, tagFilters, page).then(moredata => {
+                    if (moredata.length === 0) {
+                        setIsLastPage(true);
+                    } else {
+                        setData([...new Set([...data, ...moredata])]);
+                        updatePage();
+                    }
+                }).then(() => setFetching(false))
+            } else if (sort == 1) {
+                // price (not done)
+                getPaginatedRestaurantsFromApi(searchTerm, tagFilters, page).then(moredata => {
+                    if (moredata.length === 0) {
+                        setIsLastPage(true);
+                    } else {
+                        setData([...new Set([...data, ...moredata])]);
+                        updatePage();
+                    }
+                }).then(() => setFetching(false))
+            } else if (sort == 2) {
+                // rating (not done)
+                getPaginatedRestaurantsFromApi(searchTerm, tagFilters, page).then(moredata => {
+                    if (moredata.length === 0) {
+                        setIsLastPage(true);
+                    } else {
+                        setData([...new Set([...data, ...moredata])]);
+                        updatePage();
+                    }
+                }).then(() => setFetching(false))
+            } else if (sort == 3) {
+                // location
+                getPaginatedRestaurantsFromApi(searchTerm, tagFilters, page, 8, location.coords).then(moredata => {
+                    if (moredata.length === 0) {
+                        setIsLastPage(true);
+                    } else {
+                        setData([...new Set([...data, ...moredata])]);
+                        updatePage();
+                    }
+                }).then(() => setFetching(false))
+            }
         }
     }
 
@@ -142,6 +176,11 @@ function RestaurantList(props) {
         }
     }
 
+    const sortByDefault = () => {
+        setSort(0);
+        handleRefresh();
+    }
+
     const sortByLocation = () => {
         if (error) {
             Alert.alert("Location Permission", "Please enable permissions for Location.\n" +
@@ -161,12 +200,13 @@ function RestaurantList(props) {
             getLocation()
                 .then(() => {
                     if (!locationOff) {
-                        getPaginatedRestaurantsFromApi(searchTerm, 1, 8, location.coords).then(
-                            data => {
+                        getPaginatedRestaurantsFromApi(searchTerm, 1, 8, location.coords)
+                            .then(data => {
                                 setData(data);
                                 setPage(2);
-                            }
-                        ).catch(console.error)
+                            })
+                            .then(() => setSort(3))
+                        .catch(console.error)
                     }
                 })
                 .then(() => setRefreshing(false))
@@ -201,6 +241,7 @@ function RestaurantList(props) {
                     clearSearch = {clearSearch}
                     sortByLocation = {sortByLocation}
                     tagAutoCompleteOptions={tags.map(x => ({ ...x.attributes , id: x.id}))}
+                    sortByDefault = {sortByDefault}
                     setTagFilters={setTagFilters}
                     tagFilters={tagFilters || []}
                     suggestions={[
