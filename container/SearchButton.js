@@ -65,7 +65,7 @@ class SearchButton extends React.Component {
     }
 
     render() {
-        const {searchTerm, clearSearch, sortByLocation, tagFilters, setTagFilters, suggestions} = this.props
+        const {searchTerm, clearSearch, sortByLocation, sortByDefault, tagFilters, setTagFilters, suggestions} = this.props
         const {animatedWidth, animatedHeight, pressed, filterToggle} = this.state;
         const animatedStyle = { width: animatedWidth, height: animatedHeight }
         return (
@@ -108,10 +108,13 @@ class SearchButton extends React.Component {
                             { label: 'Price', value: '0' },
                             { label: 'Ratings', value: '1' },
                             { label: 'Location', value: '2' },
+                            { label: 'None', value: '3'}
                         ]}
                         onValueChange={(value) => {
                             if (value == 2) {
                                 sortByLocation();
+                            } else if (value == 3) {
+                                sortByDefault();
                             }
                         }}
                     />
