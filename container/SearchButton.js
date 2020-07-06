@@ -65,7 +65,7 @@ class SearchButton extends React.Component {
     }
 
     render() {
-        const {searchTerm, clearSearch, sortByLocation, tagFilters, setTagFilters, suggestions} = this.props
+        const {searchTerm, clearSearch, sortByLocation, tagFilters, setTagFilters, suggestions, refreshPage} = this.props
         const {animatedWidth, animatedHeight, pressed, filterToggle} = this.state;
         const animatedStyle = { width: animatedWidth, height: animatedHeight }
         return (
@@ -133,7 +133,11 @@ class SearchButton extends React.Component {
                         ]}
                         onValueChange={(value) => console.log(value)}
                     />
-                    <Tag disabled={false} name={'Done'} onPress={this.toggleFilter}/>
+                    <Tag disabled={false} name={'Done'} onPress={ () => {
+                        this.toggleFilter();
+                        refreshPage();
+                        }
+                    }/>
                 </View>
                 }
                 {filterToggle &&
@@ -146,9 +150,9 @@ class SearchButton extends React.Component {
                     }
                     {
                         suggestions
-                            .filter(x => !tagFilters.includes(x))
+                            .filter(x => !tagFilters.map(x => x.id).includes(x.id))
                             .map(tag =>
-                                <SuggestTag style={{marginTop:5}} name={`+ ${tag}`} onPress={() => setTagFilters([...tagFilters, tag])}/>
+                                <SuggestTag style={{marginTop:5}} name={`+ ${tag.name}`} onPress={() => setTagFilters([...tagFilters, tag])}/>
                             )
                     }
                 </View>
@@ -157,13 +161,13 @@ class SearchButton extends React.Component {
                 <View style={styles.tagRow}>
                     {
                          tagFilters.map( tag =>
-                            <Tag style={{marginTop:5}} name={`x ${tag}`} onPress={() => setTagFilters(tagFilters.filter(x => x != tag))}/>
+                            <Tag style={{marginTop:5}} name={`x ${tag.name}`} onPress={() => setTagFilters(tagFilters.filter(x => x.id != tag.id))}/>
                         )
                     }
                     <SearchableDropdown
                         onItemSelect={(item) => {
-                            const items = tagFilters.filter(x => x != item.name)
-                            items.push(item.name)
+                            const items = tagFilters.filter(x => x.id != item.id)
+                            items.push(item)
                             setTagFilters(items)
                         }}
                         containerStyle={{ padding: 5}}

@@ -36,12 +36,13 @@ export function getRestaurantsFromApi() {
 }
 
 
-export function getPaginatedRestaurantsFromApi(searchTerm="", page, per_page=8, location={lat: null, lng: null}, tag_ids) {
+export function getPaginatedRestaurantsFromApi(searchTerm="", tags=[], page, per_page=8, location={lat: null, lng: null}) {
 
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
+    var tag_ids = tags.map(x => x.id);
     tag_ids = JSON.stringify(tag_ids);
 
     return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}&lat=${location["lat"]}&lng=${location["lng"]}&tags_id=${tag_ids}`, requestOptions)

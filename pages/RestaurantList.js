@@ -30,7 +30,7 @@ function RestaurantList(props) {
 
     useEffect(() => {
         Promise.all([
-            getPaginatedRestaurantsFromApi(searchTerm, 1).then(data => {
+            getPaginatedRestaurantsFromApi(searchTerm, tagFilters, 1).then(data => {
                 setData(data);
                 updatePage();
             }),
@@ -62,7 +62,7 @@ function RestaurantList(props) {
     const fetchMoreRestaurantData = () => {
         if(!isLastPage) {
             setFetching(true);
-            getPaginatedRestaurantsFromApi(searchTerm, page).then(moredata => {
+            getPaginatedRestaurantsFromApi(searchTerm, tagFilters, page).then(moredata => {
                 if (moredata.length === 0) {
                     setIsLastPage(true);
                 } else {
@@ -75,7 +75,7 @@ function RestaurantList(props) {
 
     const searchRequest = (searchTerm) => {
         setIsLastPage(false);
-        getPaginatedRestaurantsFromApi(searchTerm, 1).then(
+        getPaginatedRestaurantsFromApi(searchTerm, tagFilters, 1).then(
             data => {
                 setData(data);
                 setPage(2);
@@ -88,7 +88,7 @@ function RestaurantList(props) {
     const handleRefresh = () => {
         setRefreshing(true);
         setIsLastPage(false);
-        getPaginatedRestaurantsFromApi(searchTerm,1).then(data => {
+        getPaginatedRestaurantsFromApi(searchTerm, tagFilters, 1).then(data => {
             setData(data);
             setPage(2);
         }).then(() => setRefreshing(false))
@@ -109,7 +109,7 @@ function RestaurantList(props) {
 
     const clearSearch = () => {
         setSearchTerm("");
-        getPaginatedRestaurantsFromApi("", 1).then(
+        getPaginatedRestaurantsFromApi("", tagFilters, 1).then(
             data => {
                 setData(data);
                 setPage(2);
@@ -191,6 +191,7 @@ function RestaurantList(props) {
             ]}>
                 <View style = {styles.navBar}>
                     <SearchButton 
+                    refreshPage={handleRefresh}
                     navigation = {navigation}
                     searchTerm = {searchTerm}
                     handleSearchTerm = {searchTerm => {
@@ -199,10 +200,23 @@ function RestaurantList(props) {
                     }}
                     clearSearch = {clearSearch}
                     sortByLocation = {sortByLocation}
-                    tagAutoCompleteOptions={tags.map(x => x.attributes)}
+                    tagAutoCompleteOptions={tags.map(x => ({ ...x.attributes , id: x.id}))}
                     setTagFilters={setTagFilters}
                     tagFilters={tagFilters || []}
-                    suggestions={["korean", "chinese", "noodles"]}
+                    suggestions={[
+                        {
+                            "id": "1",
+                                "name": "chinese",
+                        },
+                        {
+                            "id": "34",
+                            "name": "utown",
+                        },
+                        {
+                            "id": "35",
+                            "name": "science",
+                        },
+                    ]}
                     />
                 </View>
                 <FlatList
