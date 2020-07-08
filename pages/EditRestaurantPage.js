@@ -27,7 +27,7 @@ import DealButton from '../component/DealButton';
 import { useSafeArea } from "react-native-safe-area-context";
 import LoginButton from "../component/LoginButton";
 
-function EditRestaurantBanner(props) {
+export function EditRestaurantBanner(props) {
     const {
         title, tags, location, operatingHours, contact, cost, halal, no_of_stalls, newTitle, setTitle, newLocation,
         setLocation, newHours, setHours, newContact, setContact, newStallNum, setStallNum, newTags, setTags

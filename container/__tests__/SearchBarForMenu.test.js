@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, TextInput } from "react-native";
 import renderer from 'react-test-renderer';
 import SearchBarForMenu from "../SearchBarForMenu";
 import Enzyme, {shallow} from "enzyme";
@@ -23,4 +23,12 @@ test('test clearSearch functionality', () => {
     />);
     wrapper.find(TouchableOpacity).props().onPress(); // press clear search button
     expect(onPressEvent.mock.calls.length).toBe(1); // expect 1 mock function call
+})
+
+test('test component rendering', () => {
+    const wrapper = shallow(<SearchBarForMenu
+        searchTerm={''} // pass mock function as clearSearch prop
+    />);
+    expect(wrapper.find(TextInput)).toBeTruthy(); // checks if textinput is rendered
+    expect(wrapper.find(TouchableOpacity)).toBeTruthy(); // checks if touchableopacity is rendered
 })

@@ -218,7 +218,7 @@ class SearchButton extends React.Component {
     }
 }
 
-const SearchPicker = (props) => {
+export const SearchPicker = (props) => {
     const { items, onValueChange, placeholderText } = props;
 
     return (
