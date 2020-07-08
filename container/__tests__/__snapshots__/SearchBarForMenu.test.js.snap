@@ -38,6 +38,7 @@ exports[`renders correctly 1`] = `
           "color": "#404040",
           "fontFamily": "Ubuntu-Light",
           "fontSize": 16,
+          "fontWeight": "normal",
           "marginLeft": "5%",
           "width": "80%",
         }

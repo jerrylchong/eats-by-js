@@ -3,21 +3,24 @@
 exports[`renders correctly 1`] = `
 <View
   style={
-    Object {
-      "backgroundColor": "#ff6961",
-      "borderRadius": 25,
-      "elevation": 5,
-      "height": 66.7,
-      "margin": 10,
-      "shadowColor": "#000",
-      "shadowOffset": Object {
-        "height": 2,
-        "width": 0,
+    Array [
+      Object {
+        "backgroundColor": "#ff6961",
+        "borderRadius": 25,
+        "elevation": 5,
+        "height": 66.7,
+        "margin": 10,
+        "shadowColor": "#000",
+        "shadowOffset": Object {
+          "height": 2,
+          "width": 0,
+        },
+        "shadowOpacity": 0.25,
+        "shadowRadius": 3.84,
+        "width": 333.5,
       },
-      "shadowOpacity": 0.25,
-      "shadowRadius": 3.84,
-      "width": 333.5,
-    }
+      undefined,
+    ]
   }
 >
   <View

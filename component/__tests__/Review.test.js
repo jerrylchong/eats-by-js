@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import Review from "../Review";
 import Enzyme, {shallow} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import {Text, TouchableOpacity, View} from "react-native";
+import {Text, Image} from "react-native";
 
 // snapshot test
 test('renders correctly', () => {
@@ -21,10 +21,9 @@ test('test component rendering', () => {
             date={'date'}
             content={'content'}
         />);
-    expect(wrapper.find(View).first()).toBeTruthy(); // checks if view(container) is rendered
-    expect(wrapper.find(View).at(1)).toBeTruthy(); // checks if view(titlerating) is rendered
-    expect(wrapper.find(Text).at(0).dive().text()).toEqual('title'); // checks if title text is rendered
-    expect(wrapper.find(Text).at(1).dive().text()).toEqual('5/5'); // checks if rating text is rendered
-    expect(wrapper.find(Text).at(2)).toBeTruthy(); // checks if userdate text is rendered
-    expect(wrapper.find(Text).at(3).dive().text()).toEqual('content'); // checks if content text is rendered
+
+    expect(wrapper.childAt(0).childAt(0).find(Image)).toBeTruthy(); // checks if title text is rendered
+    expect(wrapper.childAt(1).childAt(0).find(Text).at(0).dive().text()).toEqual('content'); // checks if rating text is rendered
+    expect(wrapper.childAt(1).childAt(0).find(Text).at(1).dive().text()).toEqual('5/5'); // checks if rating text is rendered
+    expect(wrapper.childAt(1).find(Text).at(2)).toBeTruthy(); // checks if rating text is rendered
 })

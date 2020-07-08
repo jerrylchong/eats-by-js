@@ -35,6 +35,6 @@ test('test clearSearch', () => {
         clearSearch={onPressEvent} // pass mock function as clearSearch prop
     />)
     wrapper.setState({pressed: true});
-    wrapper.childAt(1).find(TouchableOpacity).props().onPress(); // press clear search button
+    wrapper.childAt(0).childAt(1).find(TouchableOpacity).props().onPress(); // press clear search button
     expect(onPressEvent.mock.calls.length).toBe(1); // expect to have 1 mock function call
 })

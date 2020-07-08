@@ -15,9 +15,9 @@ exports[`renders correctly 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "alignItems": "flex-start",
+        "alignItems": "center",
         "height": 75,
-        "justifyContent": "flex-start",
+        "justifyContent": "center",
         "opacity": 1,
         "width": 75,
       }

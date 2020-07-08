@@ -60,12 +60,6 @@ function AddRestaurantPage({ navigation }) {
                     placeholderTextColor='#404040'/>
                 <TextInput
                     style={styles.input}
-                    placeholder="Description"
-                    onChangeText={(text) => {setDesc(text)}}
-                    value={desc}
-                    placeholderTextColor='#404040'/>
-                <TextInput
-                    style={styles.input}
                     placeholder="Location"
                     onChangeText={(text) => {setLocation(text)}}
                     value={location}

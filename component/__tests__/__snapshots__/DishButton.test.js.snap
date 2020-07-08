@@ -15,11 +15,14 @@ exports[`renders correctly 1`] = `
   style={
     Object {
       "alignSelf": "center",
+      "backgroundColor": "white",
+      "borderBottomWidth": 0.5,
       "borderColor": "#b3b3b3",
-      "borderTopWidth": 1,
-      "height": 106.72,
+      "height": 133.4,
+      "justifyContent": "center",
       "opacity": 1,
-      "width": "90%",
+      "paddingHorizontal": "3%",
+      "width": "100%",
     }
   }
 >

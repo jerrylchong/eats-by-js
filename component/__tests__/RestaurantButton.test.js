@@ -65,30 +65,20 @@ test('test component rendering', () => {
         location = {'location'}
         opening_hours = {'time'}
     />);
-    expect(wrapper.find(ImageBackground)).toBeTruthy(); // checks if image background is rendered
     expect(wrapper.find(TouchableOpacity)).toBeTruthy(); // checks if touchable opacity is rendered
-    expect(wrapper.childAt(1).find(View).at(0)).toBeTruthy(); // checks if view(text) is rendered
-    expect(wrapper.childAt(1).find(View).at(1)).toBeTruthy(); // checks if view(info) opacity is rendered
-    expect(wrapper.childAt(1).childAt(0).find(Text).dive().text()).toEqual('name'); // checks if name text is rendered
-    expect(wrapper.childAt(1).childAt(0).find(View)).toBeTruthy(); // checks if view(coin) is rendered
-    expect(wrapper.childAt(1).childAt(0).childAt(0).find(Image)).toBeTruthy(); // checks if coin image is rendered
-    expect(wrapper.childAt(1).childAt(1).find(Image)).toBeTruthy(); // checks if restaurant image is rendered
-    expect(wrapper.childAt(1).childAt(1).find(View)).toBeTruthy(); // checks if view(rightinfo) is rendered
-    expect(wrapper.childAt(1).childAt(1).childAt(1).find(View).first())
-        .toBeTruthy(); // checks if view(tags) is rendered
-    expect(wrapper.childAt(1).childAt(1).childAt(1).find(Text).at(0).dive().text())
-        .toEqual('desc'); // checks if description text is rendered
-    expect(wrapper.childAt(1).childAt(1).childAt(1).find(Text).at(1).dive().text())
-        .toEqual('Location: location'); // checks if location text is rendered
-    expect(wrapper.childAt(1).childAt(1).childAt(1).find(Text).at(2).dive().text())
-        .toEqual('time'); // checks if operating hours text is rendered
-    expect(wrapper.childAt(1).childAt(1).childAt(1).find(View).at(1)).toBeTruthy(); // checks if view(ratings) is rendered
-    expect(wrapper.childAt(1).childAt(1).childAt(1).childAt(4).find(Image))
-        .toBeTruthy(); // checks if rating image is rendered
-    expect(wrapper.childAt(1).childAt(1).childAt(1).childAt(4).find(Text).dive().text())
+    expect(wrapper.childAt(0).childAt(0).find(View)).toBeTruthy(); // checks if view(rightinfo) is rendered
+    expect(wrapper.childAt(0).childAt(0).childAt(1).find(Text).at(0).dive().text()).toEqual('name'); // checks if name text is rendered
+    expect(wrapper.childAt(0).childAt(0).childAt(1).find(Text).at(1).dive().text()).toEqual('Location: location'); // checks if name text is rendered
+    expect(wrapper.childAt(0).childAt(0).childAt(1).find(Text).at(2).dive().text()).toEqual('time'); // checks if name text is rendered
+    expect(wrapper.childAt(0).childAt(0).childAt(1).find(View)).toBeTruthy(); // checks if view(tags) is rendered
+    expect(wrapper.childAt(0).childAt(0).childAt(1).childAt(1).find(Image)).toBeTruthy(); // checks if coin image is rendered
+    expect(wrapper.childAt(0).childAt(0).find(Image)).toBeTruthy(); // checks if restaurant image is rendered
+
+    expect(wrapper.childAt(0).childAt(1).find(Image)).toBeTruthy(); // checks if rating image is rendered
+    expect(wrapper.childAt(0).childAt(1).find(Text).dive().text())
         .toEqual('1.0'); // checks if rating text is rendered
     wrapper.setProps({rating: -1});
-    expect(wrapper.childAt(1).childAt(1).childAt(1).childAt(4).find(Text).dive().text())
+    expect(wrapper.childAt(0).childAt(1).find(Text).dive().text())
         .toEqual('NA'); // check is NA text is rendered
 })
 

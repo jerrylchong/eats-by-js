@@ -1,304 +1,303 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<RCTSafeAreaView
-  emulateUnlessSupported={true}
+<RNCSafeAreaView
+  onInsetsChange={[Function]}
   style={
     Object {
-      "alignItems": "center",
-      "backgroundColor": "#fff",
       "flex": 1,
-      "flexDirection": "column",
-      "minHeight": 1334,
     }
   }
 >
   <View
-    accessibilityIgnoresInvertColors={true}
     style={
-      Object {
-        "bottom": 0,
-        "height": 327.33812949640287,
-        "position": "absolute",
-        "width": "100%",
-      }
-    }
-  >
-    <Image
-      source={1}
-      style={
-        Array [
-          Object {
-            "bottom": 0,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          },
-          Object {
-            "height": 327.33812949640287,
-            "width": "100%",
-          },
-          undefined,
-        ]
-      }
-    />
-  </View>
-  <View
-    style={
-      Object {
-        "left": "7%",
-        "position": "absolute",
-        "top": "8%",
-      }
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#fff",
+          "flex": 1,
+          "flexDirection": "column",
+          "minHeight": 1334,
+        },
+        Object {
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+        },
+      ]
     }
   >
     <View
-      accessible={true}
-      focusable={false}
-      isTVSelectable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
+      accessibilityIgnoresInvertColors={true}
       style={
         Object {
-          "alignItems": "flex-start",
-          "height": 75,
-          "justifyContent": "flex-start",
-          "opacity": 1,
-          "width": 75,
+          "bottom": 0,
+          "height": 327.33812949640287,
+          "position": "absolute",
+          "width": "100%",
         }
       }
     >
       <Image
         source={1}
         style={
-          Object {
-            "height": 13,
-            "width": 15,
-          }
+          Array [
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            Object {
+              "height": 327.33812949640287,
+              "width": "100%",
+            },
+            undefined,
+          ]
         }
       />
     </View>
-  </View>
-  <Text
-    style={
-      Object {
-        "fontFamily": "Ubuntu-Medium",
-        "fontSize": 20,
-        "marginTop": "5%",
-        "position": "relative",
-        "top": "5%",
-      }
-    }
-  >
-    Add a Restaurant
-  </Text>
-  <View
-    onLayout={[Function]}
-    style={
-      Array [
-        Object {
-          "alignItems": "center",
-          "height": "50%",
-          "justifyContent": "space-between",
-          "marginTop": "5%",
-          "position": "relative",
-          "top": "6%",
-          "width": "80%",
-        },
-        Object {
-          "paddingBottom": 0,
-        },
-      ]
-    }
-  >
-    <TextInput
-      allowFontScaling={true}
-      onChangeText={[Function]}
-      placeholder="Name"
-      placeholderTextColor="#404040"
-      rejectResponderTermination={true}
-      style={
-        Object {
-          "backgroundColor": "#d9d9d9",
-          "borderRadius": 262.5,
-          "color": "#404040",
-          "fontFamily": "Ubuntu",
-          "fontSize": 12,
-          "height": 82.5,
-          "paddingHorizontal": "5%",
-          "width": 600,
-        }
-      }
-      underlineColorAndroid="transparent"
-      value=""
-    />
-    <TextInput
-      allowFontScaling={true}
-      onChangeText={[Function]}
-      placeholder="Description"
-      placeholderTextColor="#404040"
-      rejectResponderTermination={true}
-      style={
-        Object {
-          "backgroundColor": "#d9d9d9",
-          "borderRadius": 262.5,
-          "color": "#404040",
-          "fontFamily": "Ubuntu",
-          "fontSize": 12,
-          "height": 82.5,
-          "paddingHorizontal": "5%",
-          "width": 600,
-        }
-      }
-      underlineColorAndroid="transparent"
-      value=""
-    />
-    <TextInput
-      allowFontScaling={true}
-      onChangeText={[Function]}
-      placeholder="Location"
-      placeholderTextColor="#404040"
-      rejectResponderTermination={true}
-      style={
-        Object {
-          "backgroundColor": "#d9d9d9",
-          "borderRadius": 262.5,
-          "color": "#404040",
-          "fontFamily": "Ubuntu",
-          "fontSize": 12,
-          "height": 82.5,
-          "paddingHorizontal": "5%",
-          "width": 600,
-        }
-      }
-      underlineColorAndroid="transparent"
-      value=""
-    />
-    <TextInput
-      allowFontScaling={true}
-      onChangeText={[Function]}
-      placeholder="Operating Hours"
-      placeholderTextColor="#404040"
-      rejectResponderTermination={true}
-      style={
-        Object {
-          "backgroundColor": "#d9d9d9",
-          "borderRadius": 262.5,
-          "color": "#404040",
-          "fontFamily": "Ubuntu",
-          "fontSize": 12,
-          "height": 82.5,
-          "paddingHorizontal": "5%",
-          "width": 600,
-        }
-      }
-      underlineColorAndroid="transparent"
-      value=""
-    />
-    <TextInput
-      allowFontScaling={true}
-      onChangeText={[Function]}
-      placeholder="Contact No."
-      placeholderTextColor="#404040"
-      rejectResponderTermination={true}
-      style={
-        Object {
-          "backgroundColor": "#d9d9d9",
-          "borderRadius": 262.5,
-          "color": "#404040",
-          "fontFamily": "Ubuntu",
-          "fontSize": 12,
-          "height": 82.5,
-          "paddingHorizontal": "5%",
-          "width": 600,
-        }
-      }
-      underlineColorAndroid="transparent"
-      value=""
-    />
-    <TextInput
-      allowFontScaling={true}
-      onChangeText={[Function]}
-      placeholder="Tags (each tag separated by a space)"
-      placeholderTextColor="#404040"
-      rejectResponderTermination={true}
-      style={
-        Object {
-          "backgroundColor": "#d9d9d9",
-          "borderRadius": 262.5,
-          "color": "#404040",
-          "fontFamily": "Ubuntu",
-          "fontSize": 12,
-          "height": 82.5,
-          "paddingHorizontal": "5%",
-          "width": 600,
-        }
-      }
-      underlineColorAndroid="transparent"
-      value=""
-    />
-  </View>
-  <View
-    style={
-      Object {
-        "backgroundColor": "#ff6961",
-        "borderRadius": 20,
-        "elevation": 5,
-        "height": 60,
-        "position": "relative",
-        "shadowColor": "#000",
-        "shadowOffset": Object {
-          "height": 2,
-          "width": 0,
-        },
-        "shadowOpacity": 0.25,
-        "shadowRadius": 3.84,
-        "top": "20%",
-        "width": 187.5,
-      }
-    }
-  >
     <View
-      accessible={true}
-      focusable={true}
-      isTVSelectable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "alignItems": "center",
-          "height": "100%",
-          "justifyContent": "center",
-          "opacity": 1,
-          "paddingHorizontal": 20,
-          "paddingVertical": 3,
-          "width": "100%",
+          "left": "2%",
+          "position": "absolute",
+          "top": "5%",
         }
       }
     >
-      <Text
+      <View
+        accessible={true}
+        focusable={false}
+        isTVSelectable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "color": "white",
-            "fontFamily": "Ubuntu",
-            "fontSize": 12,
+            "alignItems": "center",
+            "height": 75,
+            "justifyContent": "center",
+            "opacity": 1,
+            "width": 75,
           }
         }
       >
-        Submit
-      </Text>
+        <Image
+          source={1}
+          style={
+            Object {
+              "height": 13,
+              "width": 15,
+            }
+          }
+        />
+      </View>
+    </View>
+    <Text
+      style={
+        Object {
+          "fontFamily": "Ubuntu-Medium",
+          "fontSize": 20,
+          "marginTop": "5%",
+          "position": "relative",
+          "top": "5%",
+        }
+      }
+    >
+      Add a Restaurant
+    </Text>
+    <View
+      onLayout={[Function]}
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "height": "50%",
+            "justifyContent": "space-between",
+            "marginTop": "5%",
+            "position": "relative",
+            "top": "6%",
+            "width": "80%",
+          },
+          Object {
+            "paddingBottom": 0,
+          },
+        ]
+      }
+    >
+      <TextInput
+        allowFontScaling={true}
+        onChangeText={[Function]}
+        placeholder="Name"
+        placeholderTextColor="#404040"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "backgroundColor": "#d9d9d9",
+            "borderRadius": 262.5,
+            "color": "#404040",
+            "fontFamily": "Ubuntu",
+            "fontSize": 12,
+            "fontWeight": "normal",
+            "height": 82.5,
+            "paddingHorizontal": "5%",
+            "width": 600,
+          }
+        }
+        underlineColorAndroid="transparent"
+        value=""
+      />
+      <TextInput
+        allowFontScaling={true}
+        onChangeText={[Function]}
+        placeholder="Location"
+        placeholderTextColor="#404040"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "backgroundColor": "#d9d9d9",
+            "borderRadius": 262.5,
+            "color": "#404040",
+            "fontFamily": "Ubuntu",
+            "fontSize": 12,
+            "fontWeight": "normal",
+            "height": 82.5,
+            "paddingHorizontal": "5%",
+            "width": 600,
+          }
+        }
+        underlineColorAndroid="transparent"
+        value=""
+      />
+      <TextInput
+        allowFontScaling={true}
+        onChangeText={[Function]}
+        placeholder="Operating Hours"
+        placeholderTextColor="#404040"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "backgroundColor": "#d9d9d9",
+            "borderRadius": 262.5,
+            "color": "#404040",
+            "fontFamily": "Ubuntu",
+            "fontSize": 12,
+            "fontWeight": "normal",
+            "height": 82.5,
+            "paddingHorizontal": "5%",
+            "width": 600,
+          }
+        }
+        underlineColorAndroid="transparent"
+        value=""
+      />
+      <TextInput
+        allowFontScaling={true}
+        onChangeText={[Function]}
+        placeholder="Contact No."
+        placeholderTextColor="#404040"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "backgroundColor": "#d9d9d9",
+            "borderRadius": 262.5,
+            "color": "#404040",
+            "fontFamily": "Ubuntu",
+            "fontSize": 12,
+            "fontWeight": "normal",
+            "height": 82.5,
+            "paddingHorizontal": "5%",
+            "width": 600,
+          }
+        }
+        underlineColorAndroid="transparent"
+        value=""
+      />
+      <TextInput
+        allowFontScaling={true}
+        onChangeText={[Function]}
+        placeholder="Tags (each tag separated by a space)"
+        placeholderTextColor="#404040"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "backgroundColor": "#d9d9d9",
+            "borderRadius": 262.5,
+            "color": "#404040",
+            "fontFamily": "Ubuntu",
+            "fontSize": 12,
+            "fontWeight": "normal",
+            "height": 82.5,
+            "paddingHorizontal": "5%",
+            "width": 600,
+          }
+        }
+        underlineColorAndroid="transparent"
+        value=""
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "#ff6961",
+          "borderRadius": 20,
+          "elevation": 5,
+          "height": 60,
+          "position": "relative",
+          "shadowColor": "#000",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.25,
+          "shadowRadius": 3.84,
+          "top": "20%",
+          "width": 187.5,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        isTVSelectable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": "100%",
+            "justifyContent": "center",
+            "opacity": 1,
+            "paddingHorizontal": 20,
+            "paddingVertical": 3,
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "white",
+              "fontFamily": "Ubuntu",
+              "fontSize": 12,
+            }
+          }
+        >
+          Submit
+        </Text>
+      </View>
     </View>
   </View>
-</RCTSafeAreaView>
+</RNCSafeAreaView>
 `;

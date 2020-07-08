@@ -4,69 +4,103 @@ exports[`renders correctly 1`] = `
 <View
   style={
     Object {
-      "alignSelf": "center",
+      "borderBottomWidth": 0.5,
       "borderColor": "#b3b3b3",
-      "borderTopWidth": 1,
+      "flexDirection": "row",
       "height": 133.4,
-      "justifyContent": "space-evenly",
-      "marginBottom": "3%",
+      "justifyContent": "flex-start",
       "paddingHorizontal": "3%",
-      "width": "90%",
+      "width": "100%",
     }
   }
 >
   <View
     style={
       Object {
-        "flexDirection": "row",
-        "height": "30%",
-        "justifyContent": "space-between",
-        "width": "100%",
+        "height": "100%",
+        "justifyContent": "center",
       }
     }
   >
-    <Text
+    <View
       style={
         Object {
-          "color": "#404040",
-          "fontFamily": "Ubuntu-Bold",
-          "fontSize": 16,
-        }
-      }
-    />
-    <Text
-      style={
-        Object {
-          "color": "#404040",
-          "fontFamily": "Ubuntu-Bold",
-          "fontSize": 14,
+          "alignItems": "center",
+          "backgroundColor": "#66b58c",
+          "borderRadius": 36,
+          "flexDirection": "row",
+          "height": 112.5,
+          "justifyContent": "space-evenly",
+          "width": 112.5,
         }
       }
     >
-      /5
-    </Text>
+      <Image
+        source={1}
+        style={
+          Object {
+            "height": 104.5,
+            "width": 104.5,
+          }
+        }
+      />
+    </View>
   </View>
-  <Text
+  <View
     style={
       Object {
-        "color": "#b3b3b3",
-        "fontFamily": "Ubuntu-Medium",
-        "fontSize": 12,
+        "flexDirection": "column",
+        "height": "100%",
+        "justifyContent": "center",
+        "marginLeft": "5%",
+        "width": "80%",
       }
     }
   >
-    
-     . 
-  </Text>
-  <Text
-    style={
-      Object {
-        "color": "#b3b3b3",
-        "flexWrap": "wrap",
-        "fontFamily": "Ubuntu",
-        "fontSize": 12,
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "height": "30%",
+          "justifyContent": "space-between",
+        }
       }
-    }
-  />
+    >
+      <Text
+        style={
+          Object {
+            "color": "#404040",
+            "flex": 10,
+            "fontFamily": "Ubuntu-Bold",
+            "fontSize": 16,
+          }
+        }
+      />
+      <Text
+        style={
+          Object {
+            "color": "#404040",
+            "flex": 1,
+            "fontFamily": "Ubuntu-Bold",
+            "fontSize": 14,
+          }
+        }
+      >
+        /5
+      </Text>
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#b3b3b3",
+          "flexWrap": "wrap",
+          "fontFamily": "Ubuntu",
+          "fontSize": 12,
+        }
+      }
+    >
+      
+    </Text>
+  </View>
 </View>
 `;
