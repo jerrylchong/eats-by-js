@@ -90,6 +90,9 @@ function RequestRestaurantPage(props) {
                 } else if (locationOff) {
                     Alert.alert("Location Services Turned Off", "Please turn on Location Services.")
                 } else {
+                    let lat = location.coords.lat;
+                    let lng = location.coords.lng;
+                    setLocation(`${lat}, ${lng}`)
                     setLocationInput(2);
                 }
             })
@@ -144,8 +147,8 @@ function RequestRestaurantPage(props) {
                                 </TouchableOpacity>
                             </View>
                             :
-                            <View style={[styles.locationView, {justifyContent: 'center'}]}>
-                                <Text style={styles.locationFont}>Using Current Location</Text>
+                            <View style={styles.locationView}>
+                                <Text style={styles.locationFont}>Using Current Location: {newLocation}</Text>
                                 <TouchableOpacity style={styles.locBack} onPress={resetLoc}>
                                     <Image style={styles.icon} source={require('../assets/backbutton.png')}/>
                                 </TouchableOpacity>
