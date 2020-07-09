@@ -26,6 +26,7 @@ export function AddReviewPage(props) {
     const [rating, setRating] = useState('3');
     const [date, setDate] = useState('');
     const [errors, setErrors] = useState({});
+
     const submit = () => {
         const review = { title,content,rating }
         const restaurant_id = route.params.restaurant_id;
@@ -39,6 +40,7 @@ export function AddReviewPage(props) {
             }
         });
     }
+
     const backHandler = () => navigation.goBack();
 
     const insets = useSafeArea();
@@ -56,7 +58,6 @@ export function AddReviewPage(props) {
             <BackButton white={false} style = {{alignSelf: 'flex-start', margin: '2%'}} onPress = {() => navigation.goBack()} />
             <Text style = {styles.header}>Add a Review</Text>
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
-
                 <TextInput
                     multiline={true}
                     style={styles.input}

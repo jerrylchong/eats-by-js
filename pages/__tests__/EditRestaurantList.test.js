@@ -21,17 +21,3 @@ test('renders correctly', () => {
 })
 
 Enzyme.configure({ adapter: new Adapter() });
-
-test('test component rendering', () => {
-    const wrapper = shallow(
-        <SafeAreaProvider initialSafeAreaInsets={{ top: 0, left: 0, right: 0, bottom: 0 }}>
-            <EditRestaurantList
-                navigation={{navigate: jest.fn()}} // pass mock function as goBack navigation prop
-            />
-        </SafeAreaProvider>
-    )
-    expect(wrapper.find(BackButton)).toBeTruthy(); // checks if backbutton is rendered
-    expect(wrapper.find(Text)).toBeTruthy(); // checks if header text is rendered
-    expect(wrapper.find(SearchBarForMenu)).toBeTruthy(); // checks if searchbarformenu is rendered
-    expect(wrapper.find(FlatList)).toBeTruthy(); // checks if flatlist is rendered
-})

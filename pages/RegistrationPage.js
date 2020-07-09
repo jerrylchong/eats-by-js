@@ -15,9 +15,7 @@ import {useSafeArea} from "react-native-safe-area-context";
 function RegistrationPage({ navigation }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
     const [isLoading, setLoading] = useState(false);
-
     const [errors, setErrors] = useState({})
 
     const hasErrors = (errors) => {
@@ -29,6 +27,7 @@ function RegistrationPage({ navigation }) {
             navigation.goBack()
         )
     }
+
     const submitHandler = () => {
         setLoading(true);
         postSignUp(username,password)

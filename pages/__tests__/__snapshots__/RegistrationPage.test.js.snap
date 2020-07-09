@@ -1,0 +1,261 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<RNCSafeAreaView
+  onInsetsChange={[Function]}
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessible={true}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#fff",
+          "flex": 1,
+          "flexDirection": "column",
+        },
+        Object {
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+        },
+      ]
+    }
+  >
+    <View
+      accessibilityIgnoresInvertColors={true}
+      style={
+        Object {
+          "bottom": 0,
+          "height": 327.33812949640287,
+          "position": "absolute",
+          "width": "100%",
+        }
+      }
+    >
+      <Image
+        source={1}
+        style={
+          Array [
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            Object {
+              "height": 327.33812949640287,
+              "width": "100%",
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+    <Text
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "color": "#404040",
+          "fontFamily": "Ubuntu-Bold",
+          "fontSize": 26,
+          "marginLeft": 112.5,
+          "position": "relative",
+          "top": "20%",
+        }
+      }
+    >
+      Create an Account
+    </Text>
+    <View
+      onLayout={[Function]}
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "height": "15%",
+            "position": "relative",
+            "top": "30%",
+            "width": "100%",
+          },
+          Object {
+            "paddingBottom": 0,
+          },
+        ]
+      }
+    >
+      <TextInput
+        allowFontScaling={true}
+        autoCapitalize="none"
+        onChangeText={[Function]}
+        placeholder="Username"
+        placeholderTextColor="#404040"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "backgroundColor": "#d9d9d9",
+            "borderRadius": 262.5,
+            "color": "#404040",
+            "fontFamily": "Ubuntu",
+            "fontSize": 12,
+            "fontWeight": "normal",
+            "height": 82.5,
+            "paddingHorizontal": "5%",
+            "position": "relative",
+            "width": 562.5,
+          }
+        }
+        textContentType="username"
+        underlineColorAndroid="transparent"
+        value=""
+      />
+      <TextInput
+        allowFontScaling={true}
+        autoCapitalize="none"
+        onChangeText={[Function]}
+        placeholder="Password"
+        placeholderTextColor="#404040"
+        rejectResponderTermination={true}
+        secureTextEntry={true}
+        style={
+          Object {
+            "backgroundColor": "#d9d9d9",
+            "borderRadius": 262.5,
+            "color": "#404040",
+            "fontFamily": "Ubuntu",
+            "fontSize": 12,
+            "fontWeight": "normal",
+            "height": 82.5,
+            "paddingHorizontal": "5%",
+            "position": "relative",
+            "top": "15%",
+            "width": 562.5,
+          }
+        }
+        textContentType="newPassword"
+        underlineColorAndroid="transparent"
+        value=""
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "#ff6961",
+          "borderRadius": 20,
+          "elevation": 5,
+          "height": 66.7,
+          "margin": 10,
+          "position": "relative",
+          "shadowColor": "#000",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.25,
+          "shadowRadius": 3.84,
+          "top": "40%",
+          "width": 333.5,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        isTVSelectable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": "100%",
+            "justifyContent": "center",
+            "opacity": 1,
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "white",
+              "fontFamily": "Ubuntu",
+            }
+          }
+        >
+          Create Account
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "height": "20%",
+          "position": "relative",
+          "top": "50%",
+          "width": "100%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#404040",
+            "fontFamily": "Ubuntu",
+          }
+        }
+      >
+        Already have an account?
+      </Text>
+      <View
+        accessible={true}
+        focusable={true}
+        isTVSelectable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#ff8041",
+              "fontFamily": "Ubuntu-Medium",
+              "margin": "5%",
+            }
+          }
+        >
+          Sign In
+        </Text>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaView>
+`;
