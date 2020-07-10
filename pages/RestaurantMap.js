@@ -23,7 +23,7 @@ class RestaurantMap extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            searchTerm: '',
+            searchTerm: "",
             data: [],
             isLoading: true,
             camera: {
@@ -39,7 +39,8 @@ class RestaurantMap extends React.Component {
             error: false,
             locationOff: false,
             tags: [],
-            tagFilters: []
+            tagFilters: [],
+            sortValue: 0
         };
         this.props = props;
     }
@@ -111,7 +112,7 @@ class RestaurantMap extends React.Component {
         ])
             .then(() => {
                 if(this.props.location.hasLocation) {
-                    getPaginatedRestaurantsFromApi(this.state.searchTerm, 1, this.state.tagFilters, this.props.location.coords, 100)
+                    getPaginatedRestaurantsFromApi("", 1, this.state.tagFilters, this.props.location.coords, 100)
                         .then(data => {
                             this.setState({data: data});
                         })
@@ -166,15 +167,11 @@ class RestaurantMap extends React.Component {
     debouncedSearchFetchRequest = _.debounce(this.searchRequest,200)
 
     clearSearch = () => {
-        this.setState({searchTerm: ''});
-        getPaginatedRestaurantsFromApi('', 1, this.state.tagFilters, this.props.location.coords, 100)
-            .then(data => {
-                this.setState({data: data});
-            })
-            .catch(console.error)
+        this.setState({searchTerm: ""});
+        this.updateData("");
     }
 
-    sortByLocation = () => {
+    sortByLocation = (searchTerm) => {
         if (this.state.error) {
             Alert.alert("Location Permission", "Please enable permissions for Location.\n" +
                 "For Android Users: Please go into App Settings to enable Location permissions if not prompted after pressing " +
@@ -192,14 +189,52 @@ class RestaurantMap extends React.Component {
             this.setState({isLoading: true})
             this.getLocation()
                 .then(() => {
-                    getPaginatedRestaurantsFromApi(this.state.searchTerm, 1, this.state.tagFilters, this.props.location.coords, 100)
-                        .then(
-                            data => this.setState({data: data})
-                        )
-                        .catch(console.error)
+                    if (!this.state.locationOff) {
+                        getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, this.props.location.coords, 100)
+                            .then(
+                                data => this.setState({data: data})
+                            )
+                            .catch(console.error)
+                    }
                 })
                 .then(() => this.setState({isLoading: false}))
         }
+    }
+
+    updateData(searchTerm) {
+        if (this.state.sortValue == 0) {
+            // default
+            getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, {lat: null, lng: null}, 100)
+                .then(data => {
+                    this.setState({data: data});
+                })
+                .catch(console.error)
+                .then(() => this.setState({isLoading: false}));
+        } else if (this.state.sortValue == 1) {
+            // price (not done)
+            getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, {lat: null, lng: null}, 100)
+                .then(data => {
+                    this.setState({data: data});
+                })
+                .catch(console.error)
+                .then(() => this.setState({isLoading: false}));
+        } else if (this.state.sortValue == 2) {
+            // rating (not done)
+            getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, {lat: null, lng: null}, 100)
+                .then(data => {
+                    this.setState({data: data});
+                })
+                .catch(console.error)
+                .then(() => this.setState({isLoading: false}));
+        } else if (this.state.sortValue == 3) {
+            // location
+            this.sortByLocation(searchTerm);
+        }
+    }
+
+    refreshPage() {
+        this.setState({isLoading: true});
+        this.updateData(this.state.searchTerm);
     }
 
     render() {
@@ -236,8 +271,22 @@ class RestaurantMap extends React.Component {
                             tagAutoCompleteOptions={tags.map(x => x.attributes)}
                             setTagFilters={tags => this.setState({tagFilters: tags})}
                             tagFilters={tagFilters || []}
-                            suggestions={["korean", "chinese", "noodles"]}
-                            sortByLocation={this.sortByLocation}
+                            suggestions={[
+                                {
+                                    "id": "1",
+                                    "name": "chinese",
+                                },
+                                {
+                                    "id": "34",
+                                    "name": "utown",
+                                },
+                                {
+                                    "id": "35",
+                                    "name": "science",
+                                },
+                            ]}
+                            setSort={(value) => this.setState({sortValue: value})}
+                            refreshPage={this.refreshPage.bind(this)}
                         />
                     </View>
                     <MapView
