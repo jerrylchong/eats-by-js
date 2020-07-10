@@ -10,9 +10,6 @@ import BackButton from "../component/BackButton";
 import {useSafeArea} from "react-native-safe-area-context";
 import Tag from "../component/Tag";
 
-// currently my db only got title, description, rating
-// TODO: cost, tags
-
 function EditRestaurantList({ navigation }) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -24,7 +21,7 @@ function EditRestaurantList({ navigation }) {
 
     useEffect(() => {
         Promise.all([
-            getPaginatedRestaurantsFromApi(searchTerm, 1, ).then(data => {
+            getPaginatedRestaurantsFromApi(searchTerm, 1).then(data => {
                 setData(data);
                 updatePage();
             })
@@ -74,7 +71,7 @@ function EditRestaurantList({ navigation }) {
     const handleRefresh = () => {
         setRefreshing(true);
         setIsLastPage(false);
-        getPaginatedRestaurantsFromApi(searchTerm,1).then(data => {
+        getPaginatedRestaurantsFromApi(searchTerm, 1).then(data => {
             setData(data);
             setPage(2);
         }).then(() => setRefreshing(false))

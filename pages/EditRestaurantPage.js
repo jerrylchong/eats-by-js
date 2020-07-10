@@ -18,21 +18,42 @@ import {
     getDishesFromApi,
     getRestaurantFromApi,
     getRestaurantTagsFromApi,
-    getPaginatedReviewsForRestaurant
+    getTagsFromApi
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
-import {connect} from "react-redux";
-import {mapReduxStateToProps} from "../helpers/reduxHelpers";
 import DealButton from '../component/DealButton';
 import { useSafeArea } from "react-native-safe-area-context";
 import LoginButton from "../component/LoginButton";
+import SearchableDropdown from 'react-native-searchable-dropdown';
+import { Overlay } from "react-native-elements";
 
 export function EditRestaurantBanner(props) {
     const {
-        title, tags, location, operatingHours, contact, cost, halal, no_of_stalls, newTitle, setTitle, newLocation,
-        setLocation, newHours, setHours, newContact, setContact, newStallNum, setStallNum, newTags, setTags
+        title, location, operatingHours, contact, cost, halal, no_of_stalls, newTitle, setTitle, newLocation,
+        setLocation, newHours, setHours, newContact, setContact, newStallNum, setStallNum, tags, setTags, allTags
     } = props
 
+    const [newTags, setNewTags] = useState([]);
+    const [autoTags, setAutoTags] = useState(allTags.map(x => ({ id: x.id, name: x.attributes.name })));
+    const [isVisible, setVisible] = useState(false);
+
+    const removeTag = (id) => {
+        setTags(tags.filter(x => x.id != id))
+    }
+
+    const toggleVisible = () => {
+        const bool = isVisible;
+        setVisible(!bool);
+    }
+
+    const union = (arr1, arr2) => {
+        let result = arr1;
+        for (let i = 0; i < arr2.length; i++) {
+            result = result.filter(x => x.id != arr2[i].id);
+            result.push(arr2[i]);
+        }
+        return result;
+    }
 
     return (
         <View style={stylesBanner.container}>
@@ -46,9 +67,69 @@ export function EditRestaurantBanner(props) {
             />
             <View style={stylesBanner.tagRow}>
                 <View style={stylesBanner.tags}>
-                    { tags.map((tag,index) => <Tag onPress={() => Alert.alert("Remove", "Remove Tag")} key={index} name={tag.name}/>) }
-                    {halal && <Tag onPress={() => Alert.alert("Remove", "Remove Tag")} name={'halal'}/>}
-                    <Tag name='+' onPress={()=> Alert.alert("Add Tag", "Add Tag Form")}/>
+                    { tags.map((tag,index) => <Tag onPress={() => removeTag(tag.id)} key={index} name={tag.name}/>) }
+                    {halal && <Tag onPress={() => removeTag(0)} name={'halal'}/>}
+                    <Tag name='+' onPress={toggleVisible}/>
+                    <Overlay isVisible={isVisible}>
+                        <Text style={stylesBanner.overlayHeader}>Add Tags</Text>
+                        <Text style={stylesBanner.overlayText}>Choose tags from dropdown to add:</Text>
+                        <SearchableDropdown
+                            onItemSelect={(item) => {
+                                const items = newTags.filter(x => x.id != item.id);
+                                items.push(item);
+                                setNewTags(items);
+                                setAutoTags(autoTags.filter(x => x.id != item.id));
+                            }}
+                            containerStyle={{ marginBottom: '5%' }}
+                            itemStyle={{
+                                paddingLeft: '8%',
+                                paddingVertical: '3%',
+                                marginTop: '1%',
+                                backgroundColor: '#ececec',
+                                borderRadius: 100,
+                                width: windowWidth * 0.3,
+                            }}
+                            itemTextStyle={{ color: '#404040', fontFamily: 'Ubuntu', fontSize: 10 }}
+                            itemsContainerStyle={{ maxHeight: windowHeight * 0.1 }}
+                            items={autoTags}
+                            defaultIndex={0}
+                            resetValue={true}
+                            textInputProps={
+                                {
+                                    placeholder: "Add tag",
+                                    placeholderTextColor: '#404040',
+                                    underlineColorAndroid: "transparent",
+                                    style: {
+                                        paddingLeft: '4%',
+                                        backgroundColor: '#ececec',
+                                        borderRadius: windowWidth * 0.15,
+                                        width: windowWidth * 0.3,
+                                        height: windowWidth * 0.06,
+                                        fontSize: 10,
+                                        color: '#404040',
+                                        fontFamily: 'Ubuntu'
+                                    }
+                                }
+                            }
+                            listProps={
+                                {
+                                    nestedScrollEnabled: true,
+                                }
+                            }
+                        />
+                        <Text style={stylesBanner.overlayText}>Tags to be added:</Text>
+                        <View style={stylesBanner.overlayTags}>
+                            { newTags.map((tag,index) => <Tag onPress={() => setNewTags(newTags.filter(x => x.id != tag.id))} key={index} name={tag.name}/>) }
+                        </View>
+                        <View style={{alignItems: 'center'}}>
+                            <Tag disabled={false} name={'Done'} onPress={() => {
+                                setVisible(false);
+                                setTags(union(tags, newTags));
+                                setNewTags([]);
+                                setAutoTags(allTags.map(x => ({ id: x.id, name: x.attributes.name })));
+                            }}/>
+                        </View>
+                    </Overlay>
                 </View>
                 <View style = {stylesBanner.cost}>
                     {parseFloat(cost) > 0 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
@@ -131,6 +212,7 @@ const stylesBanner = StyleSheet.create({
         marginBottom: '2%'
     },
     title: {
+        color: "#404040",
         fontFamily: 'Ubuntu-Bold',
         fontSize: 28,
         marginTop: windowHeight * 0.02,
@@ -139,6 +221,7 @@ const stylesBanner = StyleSheet.create({
     tags: {
         flexDirection:"row",
         width:'70%',
+        alignItems: 'center'
     },
     cost: {
         width: '20%',
@@ -157,8 +240,27 @@ const stylesBanner = StyleSheet.create({
         fontWeight:'normal'
     },
     inputHeader: {
+        color: "#404040",
         fontFamily: 'Ubuntu',
         marginRight: '1%'
+    },
+    overlayHeader: {
+        fontFamily: 'Ubuntu-Bold',
+        fontSize: 18,
+        color: '#404040',
+        marginBottom: '5%',
+        alignSelf: 'center'
+    },
+    overlayText: {
+        fontFamily: 'Ubuntu',
+        fontSize: 14,
+        color: '#404040',
+        marginBottom: '2%'
+    },
+    overlayTags: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginBottom: '5%'
     }
 })
 
@@ -166,7 +268,6 @@ function EditRestaurantPage(props) {
     const { navigation, route } = props;
     const [isLoading, setLoading] = useState(true);
     const [restaurantData, setRestaurantData] = useState([]);
-    const [restaurantTags, setRestaurantTags] = useState([]);
     const [dishes, setDishes] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [refreshingReviews, setRefreshingReviews] = useState(false);
@@ -177,6 +278,7 @@ function EditRestaurantPage(props) {
     const [newContact, setContact] = useState("");
     const [newStallNum, setStallNum] = useState("");
     const [newTags, setTags] = useState([]);
+    const [allTags, setAllTags] = useState([]);
     const [newDishes, setNewDishes] = useState([]);
     const [newDeals, setNewDeals] = useState([]);
     const [newImageLink, setImageLink] = useState("");
@@ -186,8 +288,11 @@ function EditRestaurantPage(props) {
     useEffect(() => {
         Promise.all([
             getRestaurantFromApi(restaurant_id).then(data => setRestaurantData(data)),
-            getRestaurantTagsFromApi(restaurant_id).then(data => setRestaurantTags(data)),
+            getRestaurantTagsFromApi(restaurant_id).then(data => {
+                setTags(data.map(x => ({id: x.id, name: x.attributes.name})));
+            }),
             getDishesFromApi(restaurant_id).then(data => setDishes(data)),
+            getTagsFromApi().then(data => setAllTags(data))
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -205,19 +310,6 @@ function EditRestaurantPage(props) {
         return () => backHandler.remove();
     }, []);
 
-    const onReviewRefresh = () => {
-        setRefreshingReviews(true);
-        getPaginatedReviewsForRestaurant(restaurant_id, 1, 2)
-            .then(data => setReviews(data))
-            .then(() => setRefreshingReviews(false));
-    }
-
-    const onDishRefresh = () => {
-        setRefreshingDishes(true);
-        getPaginatedDishesFromApi(restaurant_id, 1, 2)
-            .then(data => setDishes(data))
-            .then(() => setRefreshingDishes(false));
-    }
     return (
         isLoading
             ? <Loading/>
@@ -225,7 +317,7 @@ function EditRestaurantPage(props) {
                 styles.container,
                 {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
             ]}>
-                <ScrollView style={{ width: "100%"}}>
+                <ScrollView style={{ width: "100%"}} keyboardShouldPersistTaps="handled">
                     <ImageBackground style={styles.picture}
                                      source={{uri: restaurantData.attributes.image_link}}>
                         <BackButton white={true} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
@@ -242,7 +334,6 @@ function EditRestaurantPage(props) {
                     </View>
                     <EditRestaurantBanner
                         title={restaurantData.attributes.title}
-                        tags={restaurantTags.map(x => x.attributes)}
                         location={restaurantData.attributes.location}
                         operatingHours={restaurantData.attributes.operating_hours}
                         contact={restaurantData.attributes.contact}
@@ -259,8 +350,9 @@ function EditRestaurantPage(props) {
                         setContact={setContact}
                         newStallNum={newStallNum}
                         setStallNum={setStallNum}
-                        newTags={newTags}
+                        tags={newTags}
                         setTags={setTags}
+                        allTags={allTags}
                     />
                     <View style={{height: windowHeight  * 0.05}} />
                     <View style={{flexGrow: 1}}>
@@ -270,7 +362,6 @@ function EditRestaurantPage(props) {
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Dishes</Text>
-                                <Tag name="refresh" onPress={onDishRefresh}/>
                                 <Tag name='+' onPress={()=> Alert.alert("Add Dish","Add Dish Form")}/>
                             </View>
                             { refreshingDishes ?  <Loading style={{paddingTop:30}}/> :

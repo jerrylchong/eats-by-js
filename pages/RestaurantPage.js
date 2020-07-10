@@ -177,12 +177,6 @@ function RestaurantPage(props) {
         })
     }
 
-    const onDishRefresh = () => {
-        setRefreshingDishes(true);
-        getPaginatedDishesFromApi(restaurant_id, 1, 2)
-            .then(data => setDishes(data))
-            .then(() => setRefreshingDishes(false));
-    }
     return (
         isLoading
             ? <Loading/>
@@ -215,7 +209,6 @@ function RestaurantPage(props) {
                                 <Text style={styles.sectionText}>
                                     Reviews ({reviewNum})
                                 </Text>
-                                {isLoggedIn && <Tag name="refresh" onPress={onReviewRefresh}/>}
                                 {isLoggedIn && <Tag name="+" onPress={() => navigation.navigate('Add Review', {restaurant_id})}/>}
                                 <Tag name="View all" onPress={() => navigation.navigate('Restaurant Reviews', {restaurant_id})} />
                             </View>
@@ -241,7 +234,6 @@ function RestaurantPage(props) {
                                 <Text style={styles.sectionText}>
                                     Dishes ({restaurantData.relationships.dishes.data.length.toString()})
                                 </Text>
-                                <Tag name="refresh" onPress={onDishRefresh}/>
                                 {isLoggedIn && <Tag name='+' onPress={()=> Alert.alert("Suggest Dish", "Suggest Dish Form")}/>}
                                 <Tag name="View all" onPress={() => navigation.navigate('Restaurant Dishes', {restaurant_id})} />
                             </View>

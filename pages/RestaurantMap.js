@@ -111,7 +111,7 @@ class RestaurantMap extends React.Component {
         ])
             .then(() => {
                 if(this.props.location.hasLocation) {
-                    getPaginatedRestaurantsFromApi(this.state.searchTerm, 1, 100, this.props.location.coords)
+                    getPaginatedRestaurantsFromApi(this.state.searchTerm, 1, this.state.tagFilters, this.props.location.coords, 100)
                         .then(data => {
                             this.setState({data: data});
                         })
@@ -156,7 +156,7 @@ class RestaurantMap extends React.Component {
     }
 
     searchRequest = (searchTerm) => {
-        getPaginatedRestaurantsFromApi(searchTerm, 1, 100, this.props.location.coords)
+        getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, this.props.location.coords, 100)
             .then(data => {
                 this.setState({data: data});
             })
@@ -167,7 +167,7 @@ class RestaurantMap extends React.Component {
 
     clearSearch = () => {
         this.setState({searchTerm: ''});
-        getPaginatedRestaurantsFromApi('', 1, 100, this.props.location.coords)
+        getPaginatedRestaurantsFromApi('', 1, this.state.tagFilters, this.props.location.coords, 100)
             .then(data => {
                 this.setState({data: data});
             })
@@ -192,9 +192,11 @@ class RestaurantMap extends React.Component {
             this.setState({isLoading: true})
             this.getLocation()
                 .then(() => {
-                    getPaginatedRestaurantsFromApi(this.state.searchTerm, 1, 100, this.props.location.coords).then(
-                        data => this.setState({data: data})
-                    ).catch(console.error)
+                    getPaginatedRestaurantsFromApi(this.state.searchTerm, 1, this.state.tagFilters, this.props.location.coords, 100)
+                        .then(
+                            data => this.setState({data: data})
+                        )
+                        .catch(console.error)
                 })
                 .then(() => this.setState({isLoading: false}))
         }

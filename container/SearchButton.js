@@ -11,8 +11,8 @@ class SearchButton extends React.Component {
         animatedWidth: new Animated.Value(windowWidth * 0.12),
         animatedHeight: new Animated.Value(windowWidth * 0.12),
         pressed: false,
-        selectedItems: [],
         filterToggle: false,
+        autoTags: this.props.tagAutoCompleteOptions
     }
 
     componentDidMount() {
@@ -65,7 +65,10 @@ class SearchButton extends React.Component {
     }
 
     render() {
-        const {searchTerm, clearSearch, sortByLocation, sortByDefault, tagFilters, setTagFilters, suggestions, refreshPage} = this.props
+        const {
+            searchTerm, clearSearch, setSort, tagFilters, setTagFilters, suggestions, refreshPage,
+            tagAutoCompleteOptions
+        } = this.props
         const {animatedWidth, animatedHeight, pressed, filterToggle} = this.state;
         const animatedStyle = { width: animatedWidth, height: animatedHeight }
         return (
@@ -105,17 +108,13 @@ class SearchButton extends React.Component {
                     <SearchPicker
                         placeholderText="Sort By"
                         items={[
-                            { label: 'Price', value: '0' },
-                            { label: 'Ratings', value: '1' },
-                            { label: 'Location', value: '2' },
-                            { label: 'None', value: '3'}
+                            { label: 'Price', value: 1 },
+                            { label: 'Ratings', value: 2 },
+                            { label: 'Location', value: 3 },
+                            { label: 'None', value: 0 }
                         ]}
                         onValueChange={(value) => {
-                            if (value == 2) {
-                                sortByLocation();
-                            } else if (value == 3) {
-                                sortByDefault();
-                            }
+                            setSort(value);
                         }}
                     />
                     <SearchPicker
@@ -164,14 +163,21 @@ class SearchButton extends React.Component {
                 <View style={styles.tagRow}>
                     {
                          tagFilters.map( tag =>
-                            <Tag style={{marginTop:5}} name={`x ${tag.name}`} onPress={() => setTagFilters(tagFilters.filter(x => x.id != tag.id))}/>
+                            <Tag style={{marginTop:5}} name={`x ${tag.name}`}
+                                 onPress={() => {
+                                     setTagFilters(tagFilters.filter(x => x.id != tag.id));
+                                     const newAutoTags = this.state.autoTags.push(tag);
+                                     this.setState({autoTags: newAutoTags});
+                                 }}/>
                         )
                     }
                     <SearchableDropdown
                         onItemSelect={(item) => {
-                            const items = tagFilters.filter(x => x.id != item.id)
-                            items.push(item)
-                            setTagFilters(items)
+                            const items = tagFilters.filter(x => x.id != item.id);
+                            items.push(item);
+                            setTagFilters(items);
+                            const newAutoTags = this.state.autoTags.filter(x => x.id != item.id);
+                            this.setState({autoTags: newAutoTags});
                         }}
                         containerStyle={{ padding: 5}}
                         itemStyle={{
@@ -184,7 +190,7 @@ class SearchButton extends React.Component {
                         }}
                         itemTextStyle={{ color: '#404040', fontFamily: 'Ubuntu', fontSize: 10 }}
                         itemsContainerStyle={{ maxHeight: '40%' }}
-                        items={this.props.tagAutoCompleteOptions}
+                        items={this.state.autoTags}
                         defaultIndex={0}
                         resetValue={true}
                         textInputProps={

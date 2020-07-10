@@ -24,7 +24,7 @@ function DeleteRestaurantPage({ navigation }) {
 
     useEffect(() => {
         Promise.all([
-            getPaginatedRestaurantsFromApi(searchTerm, 1, ).then(data => {
+            getPaginatedRestaurantsFromApi(searchTerm,1).then(data => {
                 setData(data);
                 updatePage();
             })
@@ -74,7 +74,7 @@ function DeleteRestaurantPage({ navigation }) {
     const handleRefresh = () => {
         setRefreshing(true);
         setIsLastPage(false);
-        getPaginatedRestaurantsFromApi(searchTerm,1).then(data => {
+        getPaginatedRestaurantsFromApi(searchTerm, 1).then(data => {
             setData(data);
             setPage(2);
         }).then(() => setRefreshing(false))
