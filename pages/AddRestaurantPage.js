@@ -10,7 +10,8 @@ import {
     ImageBackground,
     Dimensions,
     BackHandler,
-    Image, Alert
+    Image, Alert,
+    AsyncStorage
 } from "react-native";
 import BackButton from "../component/BackButton";
 import {useSafeArea} from "react-native-safe-area-context";
@@ -18,9 +19,11 @@ import Tag from "../component/Tag";
 import * as Location from "expo-location";
 import {connect} from "react-redux";
 import {mapReduxDispatchToProps, mapReduxStateToProps} from "../helpers/reduxHelpers";
+import {createRestaurant} from '../helpers/apiHelpers'
 
 function AddRestaurantPage(props) {
     const [title, setTitle] = useState('');
+    const [price, setPrice] = useState('');
     const [imgLink, setImgLink] = useState('');
     const [address, setAddress] = useState('');
     const [newLocation, setLocation] = useState('');
@@ -28,6 +31,8 @@ function AddRestaurantPage(props) {
     const [contact, setContact] = useState('');
     const [tags, setTags] = useState('');
     const [locationInput, setLocationInput] = useState(0);
+    const [lat, setLat] = useState(0);
+    const [lng, setLng] = useState(0);
     const [error, setError] = useState(false);
     const [locationOff, setLocationOff] = useState(true);
     const { location, updateLocation, removeLocation, navigation } = props;
@@ -47,9 +52,26 @@ function AddRestaurantPage(props) {
     }, []);
 
     const submit = () => {
-        return (
-            navigation.goBack()
-        )
+        const res_data = {
+            title: title,
+            price: price,
+            image_link: imgLink,
+            location: address,
+            operating_hours: operatingHours,
+            contact: contact,
+            lat: lat,
+            lng: lng
+        }
+        AsyncStorage.getItem("token")
+            .then(token => createRestaurant(res_data, token))
+            .then(() => Alert.alert("Success",
+                "Store " + title + " Added."))
+            .catch(err =>{
+                // need display this error somehow
+                setError(true);
+                alert("Errors");
+                console.log(err);
+            })
     }
 
     async function getLocation() {
@@ -93,7 +115,9 @@ function AddRestaurantPage(props) {
                     Alert.alert("Location Services Turned Off", "Please turn on Location Services.")
                 } else {
                     let lat = location.coords.lat;
+                    setLat(lat)
                     let lng = location.coords.lng;
+                    setLng(lng)
                     setLocation(`${lat}, ${lng}`)
                     setLocationInput(2);
                 }
@@ -121,6 +145,12 @@ function AddRestaurantPage(props) {
                     placeholder="Name"
                     onChangeText={(text) => {setTitle(text)}}
                     value={title}
+                    placeholderTextColor='#404040'/>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Price"
+                    onChangeText={(text) => {setPrice(text)}}
+                    value={price}
                     placeholderTextColor='#404040'/>
                 <TextInput
                     style={styles.input}

@@ -236,10 +236,14 @@ export function postReview(review,restaurant_id,token) {
     myHeaders.append("Authorization", `Bearer ${token}`);
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({"data":{"title":"testing"}});
+    var raw = JSON.stringify({
+        data: {
+            attributes: review
+        }
+    });
 
     var requestOptions = {
-        method: 'PUT',
+        method: 'POST',
         headers: myHeaders,
         body: raw,
         redirect: 'follow'
@@ -304,6 +308,30 @@ export function updateRestaurant(restaurant_id, token, data) {
     };
 
     return fetch(`${HOST}/restaurants/${restaurant_id}`, requestOptions)
+        .then(response => response.json()).then(data => {
+            if ("errors" in data) throw data;
+        })
+}
+
+export function createRestaurant(restaurant, token) {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+        data: {
+            attributes: restaurant
+        }
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/restaurants`, requestOptions)
         .then(response => response.json()).then(data => {
             if ("errors" in data) throw data;
         })
