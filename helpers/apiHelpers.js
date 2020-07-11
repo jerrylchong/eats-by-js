@@ -54,7 +54,7 @@ export function getPaginatedRestaurantsFromApi(searchTerm="", page, tags=[], sor
             sort_query = ""
             break;
         case 1: // Price
-            sort_query = "price ASC"
+            sort_query = "price::integer ASC"
             break;
         case 2: // Rating
             sort_query = "rating ASC"
