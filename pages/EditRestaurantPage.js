@@ -18,7 +18,8 @@ import {
     getDishesFromApi,
     getRestaurantFromApi,
     getRestaurantTagsFromApi,
-    getTagsFromApi
+    getTagsFromApi,
+    updateRestaurant
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import DealButton from '../component/DealButton';
@@ -310,6 +311,27 @@ function EditRestaurantPage(props) {
         return () => backHandler.remove();
     }, []);
 
+    const submitHandler = () => {
+        const data = {
+            title: newTitle ? newTitle : restaurantData.attributes.title,
+            image_link: newImageLink ? newImageLink : restaurantData.attributes.image_link,
+            location: newLocation ? newLocation : restaurantData.attributes.location,
+            operating_hours: newHours ? newHours : restaurantData.attributes.operating_hours,
+            no_of_stalls: newStallNum ? newStallNum : restaurantData.attributes.no_of_stalls,
+            contact: newContact ? newContact : restaurantData.attributes.contact,
+            tags_id: newTags.map(x => x.id)
+        }
+        AsyncStorage.getItem("token")
+            .then(token => updateRestaurant(restaurant_id, token, data))
+            .then(() => Alert.alert("Success",
+                "Store " + newTitle + " updated."))
+            .catch(err =>{
+                // need display this error somehow
+                alert("Errors");
+                console.log(err);
+            })
+
+    }
     return (
         isLoading
             ? <Loading/>
@@ -410,7 +432,7 @@ function EditRestaurantPage(props) {
                     <LoginButton
                         style={{alignSelf: 'center'}}
                         text={"Submit"}
-                        onPress={() => Alert.alert("Placeholder", "Post Request to update")}/>
+                        onPress={submitHandler}/>
                     <View style={{height: windowHeight * 0.07}} />
                 </ScrollView>
             </View>
