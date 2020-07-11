@@ -62,7 +62,6 @@ export function getPaginatedRestaurantsFromApi(searchTerm="", page, tags=[], sor
         default:
             sort_query = ""
     }
-    console.log("search query", sort_query)
     
 
     return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}&lat=${lat}&lng=${lng}&tags_id=${tag_ids}&sort_by=${sort_query}`, requestOptions)
