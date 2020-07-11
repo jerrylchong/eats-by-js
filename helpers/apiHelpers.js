@@ -36,7 +36,7 @@ export function getRestaurantsFromApi() {
 }
 
 
-export function getPaginatedRestaurantsFromApi(searchTerm="", page, tags=[], location={lat: null, lng: null}, per_page=8) {
+export function getPaginatedRestaurantsFromApi(searchTerm="", page, tags=[], sort_by=0, location={lat: null, lng: null}, per_page=8) {
 
     var requestOptions = {
         method: 'GET',
@@ -44,8 +44,28 @@ export function getPaginatedRestaurantsFromApi(searchTerm="", page, tags=[], loc
     };
     var tag_ids = tags.map(x => x.id);
     tag_ids = JSON.stringify(tag_ids);
+    const lat = location["lat"] ? location["lat"] : ""
+    const lng = location["lng"] ? location["lng"] : ""
 
-    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}&lat=${location["lat"]}&lng=${location["lng"]}&tags_id=${tag_ids}`, requestOptions)
+    var sort_query = ""
+
+    switch(sort_by) {
+        case 0: // No have
+            sort_query = ""
+            break;
+        case 1: // Price
+            sort_query = "price ASC"
+            break;
+        case 2: // Rating
+            sort_query = "rating ASC"
+            break;
+        default:
+            sort_query = ""
+    }
+    console.log("search query", sort_query)
+    
+
+    return fetch(`${HOST}/restaurants/?page=${page}&per_page=${per_page}&q=${searchTerm}&lat=${lat}&lng=${lng}&tags_id=${tag_ids}&sort_by=${sort_query}`, requestOptions)
         .then(res => res.json())
         .then(json => json.data)
 }
