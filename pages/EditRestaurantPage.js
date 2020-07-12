@@ -120,7 +120,10 @@ export function EditRestaurantBanner(props) {
                         />
                         <Text style={stylesBanner.overlayText}>Tags to be added:</Text>
                         <View style={stylesBanner.overlayTags}>
-                            { newTags.map((tag,index) => <Tag onPress={() => setNewTags(newTags.filter(x => x.id != tag.id))} key={index} name={tag.name}/>) }
+                            { newTags.map((tag,index) => <Tag onPress={() => {
+                                setNewTags(newTags.filter(x => x.id != tag.id));
+                                autoTags.push(tag);
+                            }} key={index} name={tag.name}/>) }
                         </View>
                         <View style={{alignItems: 'center'}}>
                             <Tag disabled={false} name={'Done'} onPress={() => {

@@ -36,7 +36,7 @@ export function getRestaurantsFromApi() {
 }
 
 
-export function getPaginatedRestaurantsFromApi(searchTerm="", page, tags=[], sort_by=0, location={lat: null, lng: null}, per_page=8) {
+export function getPaginatedRestaurantsFromApi(searchTerm="", page, tags=[], sort_by=0, location={lat: 1.296643, lng: 103.776398}, per_page=8) {
 
     var requestOptions = {
         method: 'GET',

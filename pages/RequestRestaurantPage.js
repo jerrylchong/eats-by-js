@@ -16,21 +16,34 @@ import * as Location from "expo-location";
 import {connect} from "react-redux";
 import {mapReduxDispatchToProps, mapReduxStateToProps} from "../helpers/reduxHelpers";
 import Tag from "../component/Tag";
+import {Overlay} from "react-native-elements";
+import SearchableDropdown from "react-native-searchable-dropdown";
+import {getTagsFromApi} from "../helpers/apiHelpers";
 
 function RequestRestaurantPage(props) {
     const [title, setTitle] = useState('');
     const [address, setAddress] = useState('');
-    const [newLocation, setLocation] = useState('');
+    const [lat, setLat] = useState('');
+    const [lng, setLng] = useState('');
     const [operatingHours, setOperatingHours] = useState('');
     const [contact, setContact] = useState('');
     const [rating, setRating] = useState('');
-    const [tags, setTags] = useState('');
+    const [tags, setTags] = useState([]);
+    const [autoTags, setAutoTags] = useState([]);
     const [locationInput, setLocationInput] = useState(0);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [locationOff, setLocationOff] = useState(true);
+    const [isVisible, setVisible] = useState(false);
     const { location, updateLocation, removeLocation, navigation } = props;
 
     useEffect(() => {
+        Promise.all([
+            getTagsFromApi().then(data => setAutoTags(data.map(x => ({ id: x.id, name: x.attributes.name }))))
+        ])
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+
         const backAction = () => {
             navigation.goBack();
             return true;
@@ -90,16 +103,18 @@ function RequestRestaurantPage(props) {
                 } else if (locationOff) {
                     Alert.alert("Location Services Turned Off", "Please turn on Location Services.")
                 } else {
-                    let lat = location.coords.lat;
-                    let lng = location.coords.lng;
-                    setLocation(`${lat}, ${lng}`)
+                    let lat = location.coords.lat.toString();
+                    let lng = location.coords.lng.toString();
+                    setLat(lat);
+                    setLng(lng);
                     setLocationInput(2);
                 }
             })
     }
 
     const resetLoc = () => {
-        setLocation('');
+        setLat('');
+        setLng('');
         setLocationInput(0);
     }
 
@@ -135,12 +150,18 @@ function RequestRestaurantPage(props) {
                         </View>
                         :
                         locationInput == 1 ?
-                            <View style={{flexDirection: 'row'}}>
+                            <View style={[styles.locationView, {justifyContent: 'flex-start'}]}>
                                 <TextInput
-                                    style={styles.input}
-                                    placeholder="Please key in location (latitude, longitude)"
-                                    onChangeText={(text) => {setLocation(text)}}
-                                    value={newLocation}
+                                    style={styles.locInput}
+                                    placeholder="Latitude"
+                                    onChangeText={(text) => {setLat(text)}}
+                                    value={lat}
+                                    placeholderTextColor='#404040'/>
+                                <TextInput
+                                    style={styles.locInput}
+                                    placeholder="Longitude:"
+                                    onChangeText={(text) => {setLng(text)}}
+                                    value={lng}
                                     placeholderTextColor='#404040'/>
                                 <TouchableOpacity style={styles.locBack} onPress={resetLoc}>
                                     <Image style={styles.icon} source={require('../assets/backbutton.png')}/>
@@ -148,7 +169,7 @@ function RequestRestaurantPage(props) {
                             </View>
                             :
                             <View style={styles.locationView}>
-                                <Text style={styles.locationFont}>Using Current Location: {newLocation}</Text>
+                                <Text style={styles.locationFont}>Using Current Location: {lat}, {lng}</Text>
                                 <TouchableOpacity style={styles.locBack} onPress={resetLoc}>
                                     <Image style={styles.icon} source={require('../assets/backbutton.png')}/>
                                 </TouchableOpacity>
@@ -166,12 +187,74 @@ function RequestRestaurantPage(props) {
                     onChangeText={(text) => {setContact(text)}}
                     value={contact}
                     placeholderTextColor='#404040'/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Tags (each tag separated by a space)"
-                    onChangeText={(text) => {setTags(text)}}
-                    value={tags}
-                    placeholderTextColor='#404040'/>
+                <View style={[styles.locationView, {justifyContent: 'flex-start'}]}>
+                    <Text style={[styles.locationFont, {marginRight: '2%'}]}>Tags:</Text>
+                    {tags.map(x => <Tag name={x.name} onPress={() => {
+                        setTags(tags.filter(y => y.id != x.id));
+                        autoTags.push(x);
+                    }}/>)}
+                    <Tag disabled={false} name={'+'} onPress={() => setVisible(true)}/>
+                </View>
+                <Overlay isVisible={isVisible}>
+                    <Text style={styles.overlayHeader}>Add Tags</Text>
+                    <Text style={styles.overlayText}>Choose tags from dropdown to add:</Text>
+                    <SearchableDropdown
+                        onItemSelect={(item) => {
+                            const items = tags.filter(x => x.id != item.id);
+                            items.push(item);
+                            setTags(items);
+                            setAutoTags(autoTags.filter(x => x.id != item.id));
+                        }}
+                        containerStyle={{ marginBottom: '5%' }}
+                        itemStyle={{
+                            paddingLeft: '8%',
+                            paddingVertical: '3%',
+                            marginTop: '1%',
+                            backgroundColor: '#ececec',
+                            borderRadius: 100,
+                            width: windowWidth * 0.3,
+                        }}
+                        itemTextStyle={{ color: '#404040', fontFamily: 'Ubuntu', fontSize: 10 }}
+                        itemsContainerStyle={{ maxHeight: windowHeight * 0.1 }}
+                        items={autoTags}
+                        defaultIndex={0}
+                        resetValue={true}
+                        textInputProps={
+                            {
+                                placeholder: "Add tag",
+                                placeholderTextColor: '#404040',
+                                underlineColorAndroid: "transparent",
+                                style: {
+                                    paddingLeft: '4%',
+                                    backgroundColor: '#ececec',
+                                    borderRadius: windowWidth * 0.15,
+                                    width: windowWidth * 0.3,
+                                    height: windowWidth * 0.06,
+                                    fontSize: 10,
+                                    color: '#404040',
+                                    fontFamily: 'Ubuntu'
+                                }
+                            }
+                        }
+                        listProps={
+                            {
+                                nestedScrollEnabled: true,
+                            }
+                        }
+                    />
+                    <Text style={styles.overlayText}>Tags to be added:</Text>
+                    <View style={styles.overlayTags}>
+                        { tags.map((tag,index) => <Tag onPress={() => {
+                            setTags(tags.filter(x => x.id != tag.id));
+                            autoTags.push(tag);
+                        }} key={index} name={tag.name}/>) }
+                    </View>
+                    <View style={{alignItems: 'center'}}>
+                        <Tag disabled={false} name={'Done'} onPress={() => {
+                            setVisible(false);
+                        }}/>
+                    </View>
+                </Overlay>
             </KeyboardAvoidingView>
             <View style = {styles.buttonShadow}>
                 <TouchableOpacity style = {styles.button} onPress = {submit}>
@@ -184,6 +267,7 @@ function RequestRestaurantPage(props) {
 
 export default connect(mapReduxStateToProps,mapReduxDispatchToProps)(RequestRestaurantPage)
 
+const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
@@ -291,5 +375,31 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'white',
         fontFamily: 'Ubuntu'
-    }
+    },
+    overlayHeader: {
+        fontFamily: 'Ubuntu-Bold',
+        fontSize: 18,
+        color: '#404040',
+        marginBottom: '5%',
+        alignSelf: 'center'
+    },
+    overlayText: {
+        fontFamily: 'Ubuntu',
+        fontSize: 14,
+        color: '#404040',
+        marginBottom: '2%'
+    },
+    overlayTags: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginBottom: '5%'
+    },
+    locInput: {
+        fontSize: 12,
+        width: windowWidth * 0.3,
+        height: windowWidth * 0.11,
+        fontFamily: 'Ubuntu',
+        color: '#404040',
+        marginRight: '2%'
+    },
 })

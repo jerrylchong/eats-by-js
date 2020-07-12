@@ -112,7 +112,7 @@ class RestaurantMap extends React.Component {
         ])
             .then(() => {
                 if(this.props.location.hasLocation) {
-                    getPaginatedRestaurantsFromApi("", 1, this.state.tagFilters, this.props.location.coords, 100)
+                    getPaginatedRestaurantsFromApi("", 1, this.state.tagFilters, this.state.sortValue, this.props.location.coords, 100)
                         .then(data => {
                             this.setState({data: data});
                         })
@@ -157,7 +157,7 @@ class RestaurantMap extends React.Component {
     }
 
     searchRequest = (searchTerm) => {
-        getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, this.props.location.coords, 100)
+        getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, this.state.sortValue, this.props.location.coords, 100)
             .then(data => {
                 this.setState({data: data});
             })
@@ -190,7 +190,7 @@ class RestaurantMap extends React.Component {
             this.getLocation()
                 .then(() => {
                     if (!this.state.locationOff) {
-                        getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, this.props.location.coords, 100)
+                        getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, this.state.sortValue, this.props.location.coords, 100)
                             .then(
                                 data => this.setState({data: data})
                             )
@@ -202,33 +202,16 @@ class RestaurantMap extends React.Component {
     }
 
     updateData(searchTerm) {
-        if (this.state.sortValue == 0) {
+        if (this.state.sortValue == 3) {
             // default
-            getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, {lat: null, lng: null}, 100)
-                .then(data => {
-                    this.setState({data: data});
-                })
-                .catch(console.error)
-                .then(() => this.setState({isLoading: false}));
-        } else if (this.state.sortValue == 1) {
-            // price (not done)
-            getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, {lat: null, lng: null}, 100)
-                .then(data => {
-                    this.setState({data: data});
-                })
-                .catch(console.error)
-                .then(() => this.setState({isLoading: false}));
-        } else if (this.state.sortValue == 2) {
-            // rating (not done)
-            getPaginatedRestaurantsFromApi(searchTerm, 1, this.state.tagFilters, {lat: null, lng: null}, 100)
-                .then(data => {
-                    this.setState({data: data});
-                })
-                .catch(console.error)
-                .then(() => this.setState({isLoading: false}));
-        } else if (this.state.sortValue == 3) {
-            // location
             this.sortByLocation(searchTerm);
+        } else {
+            getPaginatedRestaurantsFromApi(searchTerm,1, this.state.tagFilters, this.state.sortValue, {lat: 1.296643, lng: 103.776398}, 100)
+                .then(data => {
+                    this.setState({data: data});
+                })
+                .catch(console.error)
+                .then(() => this.setState({isLoading: false}));
         }
     }
 

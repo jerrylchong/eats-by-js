@@ -262,7 +262,7 @@ function RestaurantList(props) {
                         />}
                     keyExtractor={restaurant => restaurant.id}
                     ListFooterComponent={renderFooter}
-                    ListEmptyComponent={() => <Text>No Stores Found</Text>}
+                    ListEmptyComponent={() => <Text style={styles.footer}>No Stores Found</Text>}
                     onEndReached={fetchMoreRestaurantData}
                     onEndReachedThreshold={0.1}
                     onRefresh={handleRefresh}
