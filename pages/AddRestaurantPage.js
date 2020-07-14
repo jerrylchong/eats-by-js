@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         top: '6%',
         width: '80%',
-        height: '50%',
+        height: '60%',
         alignItems: 'center',
         marginTop: '5%',
         justifyContent: 'space-between'
@@ -386,7 +386,7 @@ const styles = StyleSheet.create({
     },
     buttonShadow: {
         position: 'relative',
-        top: '20%',
+        top: '10%',
         width: Dimensions.get('window').width * 0.25,
         height: Dimensions.get('window').width * 0.08,
         backgroundColor: '#ff6961',

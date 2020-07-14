@@ -8,7 +8,8 @@ import {
     BackHandler,
     Image,
     Dimensions,
-    Alert
+    Alert,
+    TextInput
 } from "react-native";
 import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
@@ -25,9 +26,15 @@ import {connect} from "react-redux";
 import {mapReduxStateToProps} from "../helpers/reduxHelpers";
 import DealButton from '../component/DealButton';
 import { useSafeArea } from "react-native-safe-area-context";
+import {Overlay} from "react-native-elements";
 
 function RestaurantBanner(props) {
     const {title, tags, location, operatingHours, contact, cost, halal, no_of_stalls} = props
+    const [isVisible, setVisible] = useState(false);
+    const [content, setContent] = useState("");
+    const submitFeedback = () => {
+        setVisible(false);
+    }
 
     return (
         <View style={stylesBanner.container}>
@@ -66,7 +73,30 @@ function RestaurantBanner(props) {
                     <Text style={stylesBanner.description}>{no_of_stalls}</Text>
                 </View>
                 }
+                <View style={{height: Dimensions.get('window').height * 0.02}}/>
+                <View style={{alignItems: 'flex-start'}}>
+                    <Tag disabled={false} name={'Leave Feedback'} onPress={() => setVisible(true)}/>
+                </View>
             </View>
+            <Overlay isVisible={isVisible}>
+                <Text style={stylesBanner.overlayHeader}>Submit Feedback</Text>
+                <TextInput
+                    multiline={true}
+                    style={stylesBanner.input}
+                    placeholder={"(e.g. location is incorrect, correct location is (1.2, 103.2))"}
+                    onChangeText={(text) => {setContent(text)}}
+                    value={content}
+                    placeholderTextColor='#404040'
+                    textAlignVertical={'top'}
+                    placeholderStyle={{margin: '2%'}}
+                />
+                <View style={{alignItems: 'center', marginBottom: '4%'}}>
+                    <Tag disabled={false} name={'Submit'} onPress={submitFeedback}/>
+                </View>
+                <View style={{alignItems: 'center', marginBottom: '2%'}}>
+                    <Tag disabled={false} name={'Cancel'} onPress={() => setVisible(false)}/>
+                </View>
+            </Overlay>
             <View style={{
                 width: Dimensions.get('window').width, borderBottomWidth: 0.5, borderColor: '#B3B3B3',
                 alignSelf: 'center', marginTop: Dimensions.get('window').height * 0.02
@@ -121,7 +151,27 @@ const stylesBanner = StyleSheet.create({
     descriptionLabel: {
         color: '#b3b3b3',
         fontFamily: 'Ubuntu'
-    }
+    },
+    input: {
+        borderRadius: 10,
+        fontSize: 12,
+        width: windowWidth * 0.5,
+        height: windowHeight * 0.2,
+        padding: '3%',
+        marginBottom: '5%',
+        marginHorizontal: '2%',
+        fontFamily: 'Ubuntu',
+        backgroundColor: '#d9d9d9',
+        color: '#404040',
+    },
+    overlayHeader: {
+        fontFamily: 'Ubuntu-Bold',
+        fontSize: 18,
+        color: '#404040',
+        marginBottom: '5%',
+        marginTop: '2%',
+        alignSelf: 'center'
+    },
 })
 
 function RestaurantPage(props) {
@@ -270,6 +320,7 @@ function RestaurantPage(props) {
                         </View>
                         <View style={{height: windowHeight * 0.07}} />
                     </View>
+                    <View style={{height: windowHeight * 0.07}} />
                 </ScrollView>
             </View>
     );

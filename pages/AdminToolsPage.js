@@ -42,6 +42,7 @@ function AdminToolsPage({ navigation, route }) {
                 <PageButton text = "Add a Store" onPress = {() => navigation.navigate('Add')}/>
                 <PageButton text = "Edit a Store" onPress = {() => navigation.navigate('Edit')}/>
                 <PageButton text = "Delete a Store" onPress = {() => navigation.navigate('Delete')}/>
+                <PageButton text = "View Requested Stores" onPress = {() => navigation.navigate('Requested')}/>
             </View>
         </View>
     );
@@ -77,6 +78,6 @@ const styles = StyleSheet.create({
     },
     buttons: {
         position: 'relative',
-        top: '27%',
+        top: '22%',
     }
 })

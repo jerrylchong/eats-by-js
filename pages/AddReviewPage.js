@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Ubuntu',
         backgroundColor: '#d9d9d9',
         color: '#404040',
-        fontWeight:'normal'
     },
     buttonShadow: {
         width: '25%',

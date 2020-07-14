@@ -5,6 +5,7 @@ import DeleteRestaurantPage from "./DeleteRestaurantPage";
 import EditRestaurantPage from "./EditRestaurantPage"
 import AddRestaurantPage from "./AddRestaurantPage";
 import EditRestaurantList from "./EditRestaurantList";
+import RequestedList from "./RequestedList";
 
 const Stack = createStackNavigator();
 
@@ -47,6 +48,13 @@ const AdminToolsStack = () => {
             <Stack.Screen
                 name = 'Edit'
                 component = {EditRestaurantList}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+            />
+            <Stack.Screen
+                name = 'Requested'
+                component = {RequestedList}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
                 }}
