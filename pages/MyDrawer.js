@@ -1,13 +1,12 @@
 import React from 'react';
 import {Dimensions, SafeAreaView, StatusBar, View, Image, Text, Alert, AsyncStorage} from "react-native";
-import SettingsPage from "./SettingsPage";
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from "@react-navigation/drawer";
 import MyStack from "./MyStack";
 import RequestRestaurantPage from "./RequestRestaurantPage";
 import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHelpers";
 import {connect} from 'react-redux';
-import ProfilePage from "./ProfilePage";
 import AdminToolsStack from "./AdminToolsStack";
+import FeedbackPage from "./FeedbackPage";
 
 const Drawer = createDrawerNavigator();
 
@@ -29,8 +28,20 @@ function CustomDrawerContent(props) {
     return (
         <DrawerContentScrollView {...props}>
             <SafeAreaView style = {{marginTop: StatusBar.currentHeight}}>
-                {!isLoggedIn &&
-                <DrawerItem
+                {isLoggedIn
+                    ? <DrawerItem
+                        label={({focused, color}) =>
+                            <View>
+                                <Image style={profileStyle} source={require('../assets/facemeh.png')}/>
+                                <Text style = {{color: '#b3b3b3',marginLeft: '6%', fontFamily: 'Ubuntu'}}>
+                                    Logged in as {user.attributes.username}
+                                </Text>
+                            </View>
+                        }
+                        onPress={() => Alert.alert('You','This your face.')}
+                        activeTintColor='#ff6961'
+                        inactiveTintColor='black' />
+                    : <DrawerItem
                     label={({focused, color}) =>
                         <View>
                             <Image style={profileStyle} source={require('../assets/facemeh.png')}/>
@@ -95,22 +106,11 @@ const MyDrawer = (props) => {
                 user={user_data}
             />}
              >
-            {isLoggedIn &&
-            <Drawer.Screen name = 'Profile' component = {ProfilePage}
-                                 options ={{drawerLabel: ({focused, color}) =>
-                                     <View>
-                                     <Image style={profileStyle} source={require('../assets/facemeh.png')}/>
-                                     <Text style = {{
-                                         color: '#b3b3b3',
-                                         marginLeft: '6%',
-                                         fontFamily: 'Ubuntu'
-                                     }}>Logged in as {user.user_data.attributes.username}</Text>
-                                     </View>}}
-            />}
             <Drawer.Screen name = 'Home' component = {MyStack} />
             {isLoggedIn && <Drawer.Screen name = 'Request a Store' component = {RequestRestaurantPage} />}
             {(isLoggedIn && user.user_data.attributes.is_admin) &&
             <Drawer.Screen name = 'Admin Tools' component = {AdminToolsStack} />}
+            <Drawer.Screen name = 'Leave Feedback' component = {FeedbackPage} />
         </Drawer.Navigator>
     )
 }

@@ -128,7 +128,7 @@ class WelcomePage extends React.Component {
                                 <LoginButton text = 'Sign in' onPress = {login}/>
                                 <LoginButton text = 'Use as Guest' onPress = {() => {this.props.navigation.navigate('App')}}/>
                                 <TouchableOpacity style = {{alignSelf: 'center'}}
-                                                  onPress = {() => Alert.alert("Error 404: Brain Not Found", "You dumb")}>
+                                                  onPress = {() => Alert.alert("Work In Progress", "Feature not completed.")}>
                                     <Text style = {{color:'#c74a44', fontFamily: 'Ubuntu-Medium'}}>Forgot Password?</Text>
                                 </TouchableOpacity>
                             </View>
