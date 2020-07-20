@@ -7,6 +7,7 @@ import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHel
 import {connect} from 'react-redux';
 import AdminToolsStack from "./AdminToolsStack";
 import FeedbackPage from "./FeedbackPage";
+import StoreAdminStack from "./StoreAdminStack";
 
 const Drawer = createDrawerNavigator();
 
@@ -111,6 +112,14 @@ const MyDrawer = (props) => {
             {(isLoggedIn && user.user_data.attributes.is_admin) &&
             <Drawer.Screen name = 'Admin Tools' component = {AdminToolsStack} />}
             <Drawer.Screen name = 'Leave Feedback' component = {FeedbackPage} />
+            {/**
+             isStoreAdmin && // boolean to check if store admin
+                <Drawer.Screen
+                    name='Store Admin'
+                    component={StoreAdminStack}
+                    initialParams={{restaurant_id:}} // pass in store id here
+                />
+            **/}
         </Drawer.Navigator>
     )
 }
