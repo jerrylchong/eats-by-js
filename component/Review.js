@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
     rightColumn: {
         width:"80%",
         marginLeft:"5%",
-        flexDirection: 'column',
         justifyContent: 'center',
         height: "100%",
     },
@@ -71,18 +70,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     titleRating: {
-        height: '30%',
+        height: '70%',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        paddingTop: '3%'
     },
     title: {
-        flex:10,
+        width: '90%',
+        flexWrap: 'wrap',
         color: '#404040',
         fontSize: 16,
         fontFamily: 'Ubuntu-Bold'
     },
     rating: {
-        flex:1,
         color: '#404040',
         fontSize: 14,
         fontFamily: 'Ubuntu-Bold'
@@ -96,7 +96,8 @@ const styles = StyleSheet.create({
         color: '#b3b3b3',
         fontSize: 12,
         flexWrap: 'wrap',
-        fontFamily: 'Ubuntu'
+        fontFamily: 'Ubuntu',
+        marginBottom: '2%'
     },
     face: {
         height: Dimensions.get('window').width * 0.15 - 8,

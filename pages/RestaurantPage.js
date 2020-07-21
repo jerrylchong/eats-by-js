@@ -145,12 +145,12 @@ const stylesBanner = StyleSheet.create({
         marginRight: '2%'
     },
     description: {
-        color: "#b3b3b3",
+        color: "#808080",
         fontFamily: 'Ubuntu'
     },
     descriptionLabel: {
-        color: '#b3b3b3',
-        fontFamily: 'Ubuntu'
+        color: '#808080',
+        fontFamily: 'Ubuntu-Medium'
     },
     input: {
         borderRadius: 10,

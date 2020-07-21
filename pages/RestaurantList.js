@@ -61,11 +61,11 @@ function RestaurantList(props) {
     }, []);
 
     const fetchMoreRestaurantData = () => {
-        if(!isLastPage) {
+        if (!isLastPage) {
             setFetching(true);
-            if(sort == 3)
+            if (sort == 3) {
                 // location
-                getPaginatedRestaurantsFromApi(searchTerm, page, tagFilters, NO_SORT_APPLIED, location.coords).then(moredata => {
+                getPaginatedRestaurantsFromApi(searchTerm, page, tagFilters, 0, location.coords).then(moredata => {
                     if (moredata.length === 0) {
                         setIsLastPage(true);
                     } else {
@@ -73,16 +73,17 @@ function RestaurantList(props) {
                         updatePage();
                     }
                 }).then(() => setFetching(false))
-        } else {
-            getPaginatedRestaurantsFromApi(searchTerm, page, tagFilters, sort).then(moredata => {
-                if (moredata.length === 0) {
-                    setIsLastPage(true);
-                } else {
-                    setData([...new Set([...data, ...moredata])]);
-                    updatePage();
-                }
-            }).then(() => setFetching(false))
-        } 
+            } else {
+                getPaginatedRestaurantsFromApi(searchTerm, page, tagFilters, sort).then(moredata => {
+                    if (moredata.length === 0) {
+                        setIsLastPage(true);
+                    } else {
+                        setData([...new Set([...data, ...moredata])]);
+                        updatePage();
+                    }
+                }).then(() => setFetching(false))
+            }
+        }
     }
 
     const searchRequest = (searchTerm) => {
@@ -91,6 +92,9 @@ function RestaurantList(props) {
             data => {
                 setData(data);
                 setPage(2);
+                if (data.length < 9) {
+                    setIsLastPage(true);
+                }
             }
 
         ).catch(console.error)
@@ -243,7 +247,7 @@ function RestaurantList(props) {
                 </View>
                 <FlatList
                     style = {styles.scroll}
-                    contentContainerStyle = {{alignItems: 'center'}}
+                    contentContainerStyle = {{alignItems: 'center', paddingBottom: '25%'}}
                     data={data}
                     extraData={data}
                     renderItem={({ item }) =>
@@ -279,7 +283,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         backgroundColor: 'white',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         minHeight: Math.round(Dimensions.get('window').height)
     },

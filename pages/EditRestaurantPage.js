@@ -142,14 +142,16 @@ export function EditRestaurantBanner(props) {
                 </View>
             </View>
             <View style={{width:'100%', marginTop: Dimensions.get('window').height * 0.02}}>
-                <View>
+                <View style={{flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
                     <Text style={stylesBanner.inputHeader}>Location: </Text>
                     <TextInput
                         style={stylesBanner.description}
                         placeholder={location}
                         onChangeText={(text) => {setLocation(text)}}
                         value={newLocation}
+                        multiline={true}
                         placeholderTextColor='#b3b3b3'
+                        textAlignVertical={'top'}
                     />
                 </View>
                 <View>
@@ -241,7 +243,8 @@ const stylesBanner = StyleSheet.create({
         color: "#404040",
         fontFamily: 'Ubuntu',
         flex: 1,
-        fontWeight:'normal'
+        fontWeight:'normal',
+        flexWrap: 'wrap',
     },
     inputHeader: {
         color: "#404040",
@@ -273,8 +276,6 @@ function EditRestaurantPage(props) {
     const [isLoading, setLoading] = useState(true);
     const [restaurantData, setRestaurantData] = useState([]);
     const [dishes, setDishes] = useState([]);
-    const [reviews, setReviews] = useState([]);
-    const [refreshingReviews, setRefreshingReviews] = useState(false);
     const [refreshingDishes, setRefreshingDishes] = useState(false);
     const [newTitle, setTitle] = useState("");
     const [newLocation, setLocation] = useState("");
@@ -291,7 +292,12 @@ function EditRestaurantPage(props) {
 
     useEffect(() => {
         Promise.all([
-            getRestaurantFromApi(restaurant_id).then(data => setRestaurantData(data)),
+            getRestaurantFromApi(restaurant_id)
+                .then(data => {
+                        setRestaurantData(data);
+                        setTitle(data.attributes.title)
+                    }
+                ),
             getRestaurantTagsFromApi(restaurant_id).then(data => {
                 setTags(data.map(x => ({id: x.id, name: x.attributes.name})));
             }),
@@ -328,12 +334,12 @@ function EditRestaurantPage(props) {
             .then(token => updateRestaurant(restaurant_id, token, data))
             .then(() => Alert.alert("Success",
                 "Store " + newTitle + " updated."))
+            .then(() => navigation.goBack())
             .catch(err =>{
                 // need display this error somehow
                 alert("Errors");
                 console.log(err);
             })
-
     }
     return (
         isLoading

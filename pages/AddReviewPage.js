@@ -61,12 +61,13 @@ export function AddReviewPage(props) {
                 <TextInput
                     multiline={true}
                     style={styles.input}
-                    placeholder="Content"
+                    placeholder="Content (up to 100 characters)"
                     onChangeText={(text) => {setContent(text)}}
                     value={content}
                     placeholderTextColor='#404040'
                     textAlignVertical={'top'}
                     placeholderStyle={{margin: '2%'}}
+                    maxLength={100}
                 />
                 <AirbnbRating
                     count={5}
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
         width: '80%',
         height: '60%',
         alignItems: 'center',
-        marginTop: '10%'
+        marginTop: '20%'
     },
     inputHeader: {
         flexDirection: 'row',
@@ -125,10 +126,11 @@ const styles = StyleSheet.create({
     },
     input: {
         borderRadius: 10,
-        fontSize: 12,
+        fontSize: 16,
         width: '100%',
-        height: '70%',
-        padding: '3%',
+        height: '30%',
+        padding: '5%',
+        paddingTop: '5%',
         marginBottom: '8%',
         fontFamily: 'Ubuntu',
         backgroundColor: '#d9d9d9',

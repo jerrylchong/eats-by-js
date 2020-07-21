@@ -140,6 +140,7 @@ function DeleteRestaurantPage({ navigation }) {
                                                         .then(token => deleteRestaurant(item.id, token))
                                                         .then(() => Alert.alert("Success",
                                                             "Store " + item.attributes.title + " deleted."))
+                                                        .catch(console.err)
                                                 } }
                                         ]
                                     )

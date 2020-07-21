@@ -166,8 +166,6 @@ class SearchButton extends React.Component {
                             <Tag style={{marginTop:5}} name={`x ${tag.name}`}
                                  onPress={() => {
                                      setTagFilters(tagFilters.filter(x => x.id != tag.id));
-                                     const newAutoTags = this.state.autoTags.push(tag);
-                                     this.setState({autoTags: newAutoTags});
                                  }}/>
                         )
                     }
@@ -176,8 +174,6 @@ class SearchButton extends React.Component {
                             const items = tagFilters.filter(x => x.id != item.id);
                             items.push(item);
                             setTagFilters(items);
-                            const newAutoTags = this.state.autoTags.filter(x => x.id != item.id);
-                            this.setState({autoTags: newAutoTags});
                         }}
                         containerStyle={{ padding: 5}}
                         itemStyle={{
