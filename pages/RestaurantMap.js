@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import MapView, {PROVIDER_GOOGLE, Marker, UrlTile} from "react-native-maps";
+import MapView, {PROVIDER_GOOGLE, Marker, UrlTile, Callout} from "react-native-maps";
 import {
-    SafeAreaView, StyleSheet, View, Image, Alert, BackHandler, Dimensions, Animated, Text, TouchableOpacity,
-    Platform, AsyncStorage
-
+    SafeAreaView, StyleSheet, View, Image, Alert, Dimensions, Animated, Text, TouchableOpacity,
 } from "react-native";
 import SearchButton from "../container/SearchButton";
 import {getRestaurantsFromApi, getPaginatedRestaurantsFromApi, getTagsFromApi} from "../helpers/apiHelpers";
@@ -299,13 +297,21 @@ class RestaurantMap extends React.Component {
                                             latitude: restaurant.attributes.latitude == null ? 1.296643 : parseFloat(restaurant.attributes.latitude),
                                             longitude: restaurant.attributes.longitude == null ? 103.776398 : parseFloat(restaurant.attributes.longitude)
                                         }}
-                                        onPress={() => {navigation.navigate('Restaurant',
-                                            {restaurant_id: restaurant.id})
-                                        }}
                                     >
                                         <Animated.View style={[styles.markerWrap, (toggled && opacityStyle)]}>
                                             <View style={styles.markerNew}/>
                                         </Animated.View>
+                                        {!toggled &&
+                                        <Callout onPress={
+                                            () => {navigation.navigate('Restaurant', {restaurant_id: restaurant.id})}
+                                        }
+                                        >
+                                            <View style={styles.callout}>
+                                                <Text style={styles.calloutTitle}>{restaurant.attributes.title}</Text>
+                                                <Text style={styles.calloutText}>{restaurant.attributes.operating_hours}</Text>
+                                            </View>
+                                        </Callout>
+                                        }
                                     </Marker>
                                 )
                             })
@@ -490,5 +496,19 @@ const styles = StyleSheet.create({
     locationImage: {
         height: Dimensions.get('window').width * 0.07,
         width: Dimensions.get('window').width * 0.07,
+    },
+    callout: {
+        width: Dimensions.get('window').width * 0.4,
+        alignItems: 'flex-start'
+    },
+    calloutTitle: {
+        fontSize: 12,
+        fontFamily: 'Ubuntu-Medium',
+        color: '#404040'
+    },
+    calloutText: {
+        fontSize: 12,
+        fontFamily: 'Ubuntu',
+        color: '#404040'
     }
 });
