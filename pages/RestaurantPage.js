@@ -43,7 +43,6 @@ function RestaurantBanner(props) {
                 <View style={stylesBanner.tags}>
                     { tags.map((tag,index) => <Tag disabled key={index} name={tag.name}/>) }
                     {halal && <Tag disabled name={'halal'}/>}
-                    <Tag name='+' onPress={()=> Alert.alert("Suggest Tag", "Suggest Tag Form")}/>
                 </View>
                 <View style = {stylesBanner.cost}>
                     {parseFloat(cost) > 0 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}
