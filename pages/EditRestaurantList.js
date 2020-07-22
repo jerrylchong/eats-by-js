@@ -101,7 +101,7 @@ function EditRestaurantList({ navigation }) {
             ? <Loading />
             : <View style = {[
                 styles.container,
-                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right, paddingBottom: insets.bottom}
             ]}>
                 <BackButton white={false} style={styles.back} onPress={navigation.goBack}/>
                 <Text style = {styles.header}>Edit a Store</Text>

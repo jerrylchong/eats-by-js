@@ -72,7 +72,7 @@ function ReviewPage(props) {
             ? <Loading/>
             : <View style = {[
                 styles.container,
-                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
+                {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right, paddingBottom: insets.bottom}
                 ]}>
                 <View style={{ width: "100%", flex: 1}} >
                     <View style={styles.header}>
