@@ -336,3 +336,68 @@ export function createRestaurant(restaurant, token) {
             if ("errors" in data) throw data;
         })
 }
+// --------------------------
+//
+// Restaurant Request APIs
+//
+// --------------------------
+
+export function createRestaurantRequest(request, token) {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+        data: {
+            attributes: request
+        }
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/restaurant_requests`, requestOptions)
+        .then(response => response.json()).then(data => {
+            if ("errors" in data) throw data;
+        })
+}
+export function getPaginatedRestaurantRequestsFromApi( page, per_page=25 ) {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    
+
+    return fetch(`${HOST}/restaurant_requests/?page=${page}&per_page=${per_page}`, requestOptions)
+        .then(res => res.json())
+        .then(json => json.data)
+}
+export function updateRestaurantRequest(request_id, token, data) {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = {
+        data: {
+            id: request_id,
+            type: "restaurant",
+            attributes: data
+        }
+    }
+
+    var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: JSON.stringify(raw),
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/restaurant_requests/${request_id}`, requestOptions)
+        .then(response => response.json()).then(data => {
+            if ("errors" in data) throw data;
+        })
+}
