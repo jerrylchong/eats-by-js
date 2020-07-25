@@ -112,14 +112,14 @@ const MyDrawer = (props) => {
             {(isLoggedIn && user.user_data.attributes.is_admin) &&
             <Drawer.Screen name = 'Admin Tools' component = {AdminToolsStack} />}
             <Drawer.Screen name = 'Leave Feedback' component = {FeedbackPage} />
-            {/**
-             isStoreAdmin && // boolean to check if store admin
+            {
+             (isLoggedIn && user_data.attributes.role == "1") && // boolean to check if store admin
                 <Drawer.Screen
-                    name='Store Admin'
+                    name='Store Admin Tools'
                     component={StoreAdminStack}
-                    initialParams={{restaurant_id:}} // pass in store id here
+                    initialParams={{restaurant_id: 1}} // pass in store id here
                 />
-            **/}
+            }
         </Drawer.Navigator>
     )
 }

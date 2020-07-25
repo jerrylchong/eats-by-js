@@ -109,6 +109,6 @@ const styles = StyleSheet.create({
     },
     buttons: {
         position: 'relative',
-        top: '25%',
+        top: '26%',
     }
 })
