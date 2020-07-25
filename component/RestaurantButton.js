@@ -39,6 +39,7 @@ const RestaurantButton = (props) => {
                             >
                                 { tags.map((elem, index) =>
                                     <Tag
+                                        disabled={true}
                                         key={`tag-${index}`}
                                         name={elem.name}
                                         style={{paddingVertical: '1%'}}
