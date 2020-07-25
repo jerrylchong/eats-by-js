@@ -8,7 +8,7 @@ import {
     View,
     Platform,
     ImageBackground,
-    Dimensions, BackHandler, Alert, Image
+    Dimensions, BackHandler, Alert, Image, AsyncStorage
 } from "react-native";
 import BackButton from "../component/BackButton";
 import {useSafeArea} from "react-native-safe-area-context";
@@ -18,7 +18,8 @@ import {mapReduxDispatchToProps, mapReduxStateToProps} from "../helpers/reduxHel
 import Tag from "../component/Tag";
 import {Overlay} from "react-native-elements";
 import SearchableDropdown from "react-native-searchable-dropdown";
-import {getTagsFromApi} from "../helpers/apiHelpers";
+import {createRestaurantRequest} from "../helpers/apiHelpers";
+import Loading from "../component/Loading";
 
 function RequestRestaurantPage(props) {
     const [title, setTitle] = useState('');
@@ -27,22 +28,19 @@ function RequestRestaurantPage(props) {
     const [lng, setLng] = useState('');
     const [operatingHours, setOperatingHours] = useState('');
     const [contact, setContact] = useState('');
-    const [rating, setRating] = useState('');
-    const [tags, setTags] = useState([]);
-    const [autoTags, setAutoTags] = useState([]);
+    const [newTags, setTags] = useState([]);
+    const [autoTags, setAutoTags] = useState();
     const [locationInput, setLocationInput] = useState(0);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [locationOff, setLocationOff] = useState(true);
     const [isVisible, setVisible] = useState(false);
-    const { location, updateLocation, removeLocation, navigation } = props;
+    const { location, updateLocation, navigation, tags } = props;
 
     useEffect(() => {
-        Promise.all([
-            getTagsFromApi().then(data => setAutoTags(data.map(x => ({ id: x.id, name: x.attributes.name }))))
-        ])
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
+        setAutoTags(tags.tagData.map(x => {
+            return ({id: x.id, name: x.attributes.name});
+        }));
 
         const backAction = () => {
             navigation.goBack();
@@ -58,9 +56,25 @@ function RequestRestaurantPage(props) {
     }, []);
 
     const submit = () => {
-        return (
-            navigation.goBack()
-        )
+        const res_data = {
+            title: title,
+            location: address,
+            operating_hours: operatingHours,
+            contact: contact,
+            lat: parseFloat(lat),
+            lng: parseFloat(lng),
+            tags_id: newTags.map(x => x.id)
+        }
+        AsyncStorage.getItem("token")
+            .then(token => createRestaurantRequest(res_data, token))
+            .then(() => Alert.alert("Success",
+                "Store " + title + " Added."))
+            .catch(err =>{
+                // need display this error somehow
+                setError(true);
+                alert("Errors");
+                console.log(err);
+            })
     }
 
     async function getLocation() {
@@ -121,6 +135,7 @@ function RequestRestaurantPage(props) {
     const insets = useSafeArea();
 
     return (
+        loading ? <Loading/> :
         <View style = {[
             styles.container,
             {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
@@ -189,8 +204,8 @@ function RequestRestaurantPage(props) {
                     placeholderTextColor='#404040'/>
                 <View style={[styles.locationView, {justifyContent: 'flex-start'}]}>
                     <Text style={[styles.locationFont, {marginRight: '2%'}]}>Tags:</Text>
-                    {tags.map(x => <Tag name={x.name} onPress={() => {
-                        setTags(tags.filter(y => y.id != x.id));
+                    {newTags.map(x => <Tag name={x.name} onPress={() => {
+                        setTags(newTags.filter(y => y.id != x.id));
                         autoTags.push(x);
                     }}/>)}
                     <Tag disabled={false} name={'+'} onPress={() => setVisible(true)}/>
@@ -200,7 +215,7 @@ function RequestRestaurantPage(props) {
                     <Text style={styles.overlayText}>Choose tags from dropdown to add:</Text>
                     <SearchableDropdown
                         onItemSelect={(item) => {
-                            const items = tags.filter(x => x.id != item.id);
+                            const items = newTags.filter(x => x.id != item.id);
                             items.push(item);
                             setTags(items);
                             setAutoTags(autoTags.filter(x => x.id != item.id));
@@ -244,8 +259,8 @@ function RequestRestaurantPage(props) {
                     />
                     <Text style={styles.overlayText}>Tags to be added:</Text>
                     <View style={styles.overlayTags}>
-                        { tags.map((tag,index) => <Tag onPress={() => {
-                            setTags(tags.filter(x => x.id != tag.id));
+                        { newTags.map((tag,index) => <Tag onPress={() => {
+                            setTags(newTags.filter(x => x.id != tag.id));
                             autoTags.push(tag);
                         }} key={index} name={tag.name}/>) }
                     </View>

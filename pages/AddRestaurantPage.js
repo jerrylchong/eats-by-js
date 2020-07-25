@@ -74,7 +74,8 @@ function AddRestaurantPage(props) {
             operating_hours: operatingHours,
             contact: contact,
             lat: parseFloat(lat),
-            lng: parseFloat(lng)
+            lng: parseFloat(lng),
+            tags_id: tags.map(x => x.id)
         }
         AsyncStorage.getItem("token")
             .then(token => createRestaurant(res_data, token))

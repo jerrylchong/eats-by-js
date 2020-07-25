@@ -117,7 +117,7 @@ const MyDrawer = (props) => {
                 <Drawer.Screen
                     name='Store Admin Tools'
                     component={StoreAdminStack}
-                    initialParams={{restaurant_id: 1}} // pass in store id here
+                    initialParams={{restaurant_id: user_data.attributes.restaurant_id == null ? 1 : user_data.attributes.restaurant_id}} // pass in store id here
                 />
             }
         </Drawer.Navigator>
