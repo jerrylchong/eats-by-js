@@ -117,6 +117,7 @@ class SearchButton extends React.Component {
                             setSort(value);
                         }}
                     />
+                    {/**
                     <SearchPicker
                         placeholderText="Select a Price"
                         items={[
@@ -135,6 +136,7 @@ class SearchButton extends React.Component {
                         ]}
                         onValueChange={(value) => console.log(value)}
                     />
+                     **/}
                     <Tag disabled={false} name={'Done'} onPress={ () => {
                         this.toggleFilter();
                         refreshPage();

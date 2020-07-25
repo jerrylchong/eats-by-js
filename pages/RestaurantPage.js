@@ -27,6 +27,7 @@ import {mapReduxStateToProps} from "../helpers/reduxHelpers";
 import DealButton from '../component/DealButton';
 import { useSafeArea } from "react-native-safe-area-context";
 import {Overlay} from "react-native-elements";
+import {SearchPicker} from "../container/SearchButton";
 
 function RestaurantBanner(props) {
     const {title, tags, location, operatingHours, contact, cost, halal, no_of_stalls} = props
@@ -79,10 +80,23 @@ function RestaurantBanner(props) {
             </View>
             <Overlay isVisible={isVisible}>
                 <Text style={stylesBanner.overlayHeader}>Submit Feedback</Text>
+                <View style={{paddingHorizontal: '2%', marginBottom: '4%'}}>
+                    <SearchPicker
+                        placeholderText="Select a Subject"
+                        items={[
+                            { label: 'Store information is incorrect', value: '0' },
+                            { label: 'Deal is fake', value: '1' },
+                            { label: 'Deal is missing', value: '2' },
+                            { label: 'Dish is fake/dish information is wrong', value: '3' },
+                            { label: 'Dish is missing', value: '4' },
+                        ]}
+                        onValueChange={(value) => console.log(value)}
+                    />
+                </View>
                 <TextInput
                     multiline={true}
                     style={stylesBanner.input}
-                    placeholder={"(e.g. location is incorrect, correct location is (1.2, 103.2))"}
+                    placeholder={"Type here"}
                     onChangeText={(text) => {setContent(text)}}
                     value={content}
                     placeholderTextColor='#404040'

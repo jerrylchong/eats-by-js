@@ -18,7 +18,6 @@ function RestaurantList(props) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
-    const [tags, setTags] = useState([]);
     const [isFetching, setFetching] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -27,18 +26,29 @@ function RestaurantList(props) {
     const [locationOff, setLocationOff] = useState(true);
     const [tagFilters, setTagFilters] = useState([]);
     const [sort, setSort] = useState(0);
-    const { location, updateLocation, removeLocation, navigation } = props;
+    const { location, updateLocation, tags, updateTags, navigation } = props;
 
     useEffect(() => {
-        Promise.all([
-            getPaginatedRestaurantsFromApi(searchTerm, 1, tagFilters, sort).then(data => {
-                setData(data);
-                updatePage();
-            }),
-            getTagsFromApi().then(data => setTags(data))
-        ])
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
+        if (tags.isEmpty) {
+            Promise.all([
+                getPaginatedRestaurantsFromApi(searchTerm, 1, tagFilters, sort).then(data => {
+                    setData(data);
+                    updatePage();
+                }),
+                getTagsFromApi().then(data => updateTags(data))
+            ])
+                .catch((error) => console.error(error))
+                .finally(() => setLoading(false));
+        } else {
+            Promise.all([
+                getPaginatedRestaurantsFromApi(searchTerm, 1, tagFilters, sort).then(data => {
+                    setData(data);
+                    updatePage();
+                })
+            ])
+                .catch((error) => console.error(error))
+                .finally(() => setLoading(false));
+        }
 
         const backAction = () => {
             Alert.alert("Exit App", "Are you sure you want to exit the App?", [
@@ -200,9 +210,10 @@ function RestaurantList(props) {
     }
 
     const findTag = (id) => {
-        for (let i = 0; i < tags.length; i ++) {
-            if (tags[i].id === id) {
-                return tags[i].attributes;
+        const data = tags.tagData;
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].id === id) {
+                return data[i].attributes;
             }
         }
         return {name: id}
@@ -226,7 +237,7 @@ function RestaurantList(props) {
                     }}
                     clearSearch = {clearSearch}
                     setSort = {setSort}
-                    tagAutoCompleteOptions={tags.map(x => ({ ...x.attributes , id: x.id}))}
+                    tagAutoCompleteOptions={tags.tagData.map(x => ({ ...x.attributes , id: x.id}))}
                     setTagFilters={setTagFilters}
                     tagFilters={tagFilters || []}
                     suggestions={[
