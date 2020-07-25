@@ -297,7 +297,9 @@ function RestaurantPage(props) {
                                 <Text style={styles.sectionText}>
                                     Dishes ({restaurantData.relationships.dishes.data.length.toString()})
                                 </Text>
-                                {isLoggedIn && <Tag name='+' onPress={()=> Alert.alert("Suggest Dish", "Suggest Dish Form")}/>}
+                                {
+                                    // isLoggedIn && <Tag name='+' onPress={()=> Alert.alert("Suggest Dish", "Suggest Dish Form")}/>
+                                }
                                 <Tag name="View all" onPress={() => navigation.navigate('Restaurant Dishes', {restaurant_id})} />
                             </View>
                             { refreshingDishes ?  <Loading style={{paddingTop:30}}/> :
@@ -318,7 +320,6 @@ function RestaurantPage(props) {
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Deals</Text>
-                                <Tag name="View all" />
                             </View>
                             <DealButton 
                                 title="0% off!!"
