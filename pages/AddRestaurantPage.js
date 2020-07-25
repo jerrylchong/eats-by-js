@@ -34,7 +34,7 @@ function AddRestaurantPage(props) {
     const [address, setAddress] = useState('');
     const [operatingHours, setOperatingHours] = useState('');
     const [contact, setContact] = useState('');
-    const [tags, setTags] = useState([]);
+    const [newTags, setTags] = useState([]);
     const [autoTags, setAutoTags] = useState([]);
     const [locationInput, setLocationInput] = useState(0);
     const [lat, setLat] = useState('');
@@ -43,14 +43,10 @@ function AddRestaurantPage(props) {
     const [locationOff, setLocationOff] = useState(true);
     const [loading, setLoading] = useState(false);
     const [isVisible, setVisible] = useState(false);
-    const { location, updateLocation, removeLocation, navigation } = props;
+    const { location, updateLocation, removeLocation, navigation, tags } = props;
 
     useEffect(() => {
-        Promise.all([
-            getTagsFromApi().then(data => setAutoTags(data.map(x => ({ id: x.id, name: x.attributes.name }))))
-        ])
-            .catch((error) => console.error(error))
-            .finally(() => setLoading(false));
+        setAutoTags(tags.tagData.map(x => ({ id: x.id, name: x.attributes.name })));
 
         const backAction = () => {
             navigation.goBack();
@@ -75,7 +71,6 @@ function AddRestaurantPage(props) {
             contact: contact,
             lat: parseFloat(lat),
             lng: parseFloat(lng),
-            tags_id: tags.map(x => x.id)
         }
         AsyncStorage.getItem("token")
             .then(token => createRestaurant(res_data, token))
@@ -226,74 +221,77 @@ function AddRestaurantPage(props) {
                     onChangeText={(text) => {setContact(text)}}
                     value={contact}
                     placeholderTextColor='#404040'/>
-                <View style={[styles.locationView, {justifyContent: 'flex-start'}]}>
-                    <Text style={[styles.locationFont, {marginRight: '2%'}]}>Tags:</Text>
-                    {tags.map(x => <Tag name={x.name} onPress={() => {
-                        setTags(tags.filter(y => y.id != x.id));
-                        autoTags.push(x);
-                    }}/>)}
-                    <Tag disabled={false} name={'+'} onPress={() => setVisible(true)}/>
-                </View>
-                <Overlay isVisible={isVisible}>
+                {/**
+                    <View style={[styles.locationView, {justifyContent: 'flex-start'}]}>
+                        <Text style={[styles.locationFont, {marginRight: '2%'}]}>Tags:</Text>
+                        {newTags.map(x => <Tag name={x.name} onPress={() => {
+                            setTags(newTags.filter(y => y.id != x.id));
+                            autoTags.push(x);
+                        }}/>)}
+                        <Tag disabled={false} name={'+'} onPress={() => setVisible(true)}/>
+                    </View>
+                }
+                    <Overlay isVisible={isVisible}>
                     <Text style={styles.overlayHeader}>Add Tags</Text>
                     <Text style={styles.overlayText}>Choose tags from dropdown to add:</Text>
                     <SearchableDropdown
-                        onItemSelect={(item) => {
-                            const items = tags.filter(x => x.id != item.id);
-                            items.push(item);
-                            setTags(items);
-                            setAutoTags(autoTags.filter(x => x.id != item.id));
-                        }}
-                        containerStyle={{ marginBottom: '5%' }}
-                        itemStyle={{
-                            paddingLeft: '8%',
-                            paddingVertical: '3%',
-                            marginTop: '1%',
+                    onItemSelect={(item) => {
+                    const items = newTags.filter(x => x.id != item.id);
+                    items.push(item);
+                    setTags(items);
+                    setAutoTags(autoTags.filter(x => x.id != item.id));
+                }}
+                    containerStyle={{marginBottom: '5%'}}
+                    itemStyle={{
+                    paddingLeft: '8%',
+                    paddingVertical: '3%',
+                    marginTop: '1%',
+                    backgroundColor: '#ececec',
+                    borderRadius: 100,
+                    width: windowWidth * 0.3,
+                }}
+                    itemTextStyle={{color: '#404040', fontFamily: 'Ubuntu', fontSize: 10}}
+                    itemsContainerStyle={{maxHeight: windowHeight * 0.1}}
+                    items={autoTags}
+                    defaultIndex={0}
+                    resetValue={true}
+                    textInputProps={
+                    {
+                        placeholder: "Add tag",
+                        placeholderTextColor: '#404040',
+                        underlineColorAndroid: "transparent",
+                        style: {
+                            paddingLeft: '4%',
                             backgroundColor: '#ececec',
-                            borderRadius: 100,
+                            borderRadius: windowWidth * 0.15,
                             width: windowWidth * 0.3,
-                        }}
-                        itemTextStyle={{ color: '#404040', fontFamily: 'Ubuntu', fontSize: 10 }}
-                        itemsContainerStyle={{ maxHeight: windowHeight * 0.1 }}
-                        items={autoTags}
-                        defaultIndex={0}
-                        resetValue={true}
-                        textInputProps={
-                            {
-                                placeholder: "Add tag",
-                                placeholderTextColor: '#404040',
-                                underlineColorAndroid: "transparent",
-                                style: {
-                                    paddingLeft: '4%',
-                                    backgroundColor: '#ececec',
-                                    borderRadius: windowWidth * 0.15,
-                                    width: windowWidth * 0.3,
-                                    height: windowWidth * 0.06,
-                                    fontSize: 10,
-                                    color: '#404040',
-                                    fontFamily: 'Ubuntu'
-                                }
-                            }
+                            height: windowWidth * 0.06,
+                            fontSize: 10,
+                            color: '#404040',
+                            fontFamily: 'Ubuntu'
                         }
-                        listProps={
-                            {
-                                nestedScrollEnabled: true,
-                            }
-                        }
+                    }
+                }
+                    listProps={
+                    {
+                        nestedScrollEnabled: true,
+                    }
+                }
                     />
                     <Text style={styles.overlayText}>Tags to be added:</Text>
                     <View style={styles.overlayTags}>
-                        { tags.map((tag,index) => <Tag onPress={() => {
-                            setTags(tags.filter(x => x.id != tag.id));
-                            autoTags.push(tag);
-                        }} key={index} name={tag.name}/>) }
+                    {newTags.map((tag, index) => <Tag onPress={() => {
+                        setTags(newTags.filter(x => x.id != tag.id));
+                        autoTags.push(tag);
+                    }} key={index} name={tag.name}/>)}
                     </View>
                     <View style={{alignItems: 'center'}}>
-                        <Tag disabled={false} name={'Done'} onPress={() => {
-                            setVisible(false);
-                        }}/>
+                    <Tag disabled={false} name={'Done'} onPress={() => {
+                    setVisible(false);
+                }}/>
                     </View>
-                </Overlay>
+                    </Overlay>
+                **/}
             </KeyboardAvoidingView>
             <View style = {styles.buttonShadow}>
                 <TouchableOpacity style = {styles.button} onPress = {submit}>
@@ -439,5 +437,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Ubuntu',
         color: '#404040',
         marginRight: '2%'
+    },
+    halalBack: {
+        width: windowWidth * 0.05,
+        height: windowWidth * 0.05,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 })

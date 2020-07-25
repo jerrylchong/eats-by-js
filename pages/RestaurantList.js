@@ -269,7 +269,6 @@ function RestaurantList(props) {
                             cost={item.attributes.price}
                             description={item.attributes.description}
                             rating={item.attributes.rating}
-                            halal={item.attributes.halal_certified}
                             location={item.attributes.location}
                             opening_hours={item.attributes.operating_hours}
                             tags={isLoading ? [] : item.relationships.tags.data.map(x => findTag(x.id))}

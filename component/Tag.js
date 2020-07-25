@@ -2,9 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const Tag = (props) => {
+    const tagColor = props.name == "halal" ? "#66b58c" : "#ff6961"
     return (
         <TouchableOpacity disabled={props.disabled} style={props.style} onPress = {props.onPress}>
-            <View style = {styles.container}>
+            <View style = {[styles.container, {backgroundColor: tagColor}]}>
                 <Text style = {styles.text}>
                     {props.name}
                 </Text>

@@ -58,12 +58,12 @@ function RequestRestaurantPage(props) {
     const submit = () => {
         const res_data = {
             title: title,
+            price: 1,
             location: address,
             operating_hours: operatingHours,
             contact: contact,
             lat: parseFloat(lat),
             lng: parseFloat(lng),
-            tags_id: newTags.map(x => x.id)
         }
         AsyncStorage.getItem("token")
             .then(token => createRestaurantRequest(res_data, token))
@@ -202,7 +202,8 @@ function RequestRestaurantPage(props) {
                     onChangeText={(text) => {setContact(text)}}
                     value={contact}
                     placeholderTextColor='#404040'/>
-                <View style={[styles.locationView, {justifyContent: 'flex-start'}]}>
+                {/**
+                 <View style={[styles.locationView, {justifyContent: 'flex-start'}]}>
                     <Text style={[styles.locationFont, {marginRight: '2%'}]}>Tags:</Text>
                     {newTags.map(x => <Tag name={x.name} onPress={() => {
                         setTags(newTags.filter(y => y.id != x.id));
@@ -210,66 +211,67 @@ function RequestRestaurantPage(props) {
                     }}/>)}
                     <Tag disabled={false} name={'+'} onPress={() => setVisible(true)}/>
                 </View>
-                <Overlay isVisible={isVisible}>
+                    <Overlay isVisible={isVisible}>
                     <Text style={styles.overlayHeader}>Add Tags</Text>
                     <Text style={styles.overlayText}>Choose tags from dropdown to add:</Text>
                     <SearchableDropdown
-                        onItemSelect={(item) => {
-                            const items = newTags.filter(x => x.id != item.id);
-                            items.push(item);
-                            setTags(items);
-                            setAutoTags(autoTags.filter(x => x.id != item.id));
-                        }}
-                        containerStyle={{ marginBottom: '5%' }}
-                        itemStyle={{
-                            paddingLeft: '8%',
-                            paddingVertical: '3%',
-                            marginTop: '1%',
+                    onItemSelect={(item) => {
+                    const items = newTags.filter(x => x.id != item.id);
+                    items.push(item);
+                    setTags(items);
+                    setAutoTags(autoTags.filter(x => x.id != item.id));
+                }}
+                    containerStyle={{marginBottom: '5%'}}
+                    itemStyle={{
+                    paddingLeft: '8%',
+                    paddingVertical: '3%',
+                    marginTop: '1%',
+                    backgroundColor: '#ececec',
+                    borderRadius: 100,
+                    width: windowWidth * 0.3,
+                }}
+                    itemTextStyle={{color: '#404040', fontFamily: 'Ubuntu', fontSize: 10}}
+                    itemsContainerStyle={{maxHeight: windowHeight * 0.1}}
+                    items={autoTags}
+                    defaultIndex={0}
+                    resetValue={true}
+                    textInputProps={
+                    {
+                        placeholder: "Add tag",
+                        placeholderTextColor: '#404040',
+                        underlineColorAndroid: "transparent",
+                        style: {
+                            paddingLeft: '4%',
                             backgroundColor: '#ececec',
-                            borderRadius: 100,
+                            borderRadius: windowWidth * 0.15,
                             width: windowWidth * 0.3,
-                        }}
-                        itemTextStyle={{ color: '#404040', fontFamily: 'Ubuntu', fontSize: 10 }}
-                        itemsContainerStyle={{ maxHeight: windowHeight * 0.1 }}
-                        items={autoTags}
-                        defaultIndex={0}
-                        resetValue={true}
-                        textInputProps={
-                            {
-                                placeholder: "Add tag",
-                                placeholderTextColor: '#404040',
-                                underlineColorAndroid: "transparent",
-                                style: {
-                                    paddingLeft: '4%',
-                                    backgroundColor: '#ececec',
-                                    borderRadius: windowWidth * 0.15,
-                                    width: windowWidth * 0.3,
-                                    height: windowWidth * 0.06,
-                                    fontSize: 10,
-                                    color: '#404040',
-                                    fontFamily: 'Ubuntu'
-                                }
-                            }
+                            height: windowWidth * 0.06,
+                            fontSize: 10,
+                            color: '#404040',
+                            fontFamily: 'Ubuntu'
                         }
-                        listProps={
-                            {
-                                nestedScrollEnabled: true,
-                            }
-                        }
+                    }
+                }
+                    listProps={
+                    {
+                        nestedScrollEnabled: true,
+                    }
+                }
                     />
                     <Text style={styles.overlayText}>Tags to be added:</Text>
                     <View style={styles.overlayTags}>
-                        { newTags.map((tag,index) => <Tag onPress={() => {
-                            setTags(newTags.filter(x => x.id != tag.id));
-                            autoTags.push(tag);
-                        }} key={index} name={tag.name}/>) }
+                    {newTags.map((tag, index) => <Tag onPress={() => {
+                        setTags(newTags.filter(x => x.id != tag.id));
+                        autoTags.push(tag);
+                    }} key={index} name={tag.name}/>)}
                     </View>
                     <View style={{alignItems: 'center'}}>
-                        <Tag disabled={false} name={'Done'} onPress={() => {
-                            setVisible(false);
-                        }}/>
+                    <Tag disabled={false} name={'Done'} onPress={() => {
+                    setVisible(false);
+                }}/>
                     </View>
-                </Overlay>
+                    </Overlay>
+                 **/}
             </KeyboardAvoidingView>
             <View style = {styles.buttonShadow}>
                 <TouchableOpacity style = {styles.button} onPress = {submit}>

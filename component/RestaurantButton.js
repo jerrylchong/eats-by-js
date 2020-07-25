@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, ImageBackground} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, ImageBackground, ScrollView} from 'react-native';
 import Tag from './Tag'
 
 const RestaurantButton = (props) => {
@@ -34,13 +34,17 @@ const RestaurantButton = (props) => {
                     <View style = {styles.rightInfo}>
                         <Text numberOfLines={1} style={styles.name}>{name}</Text>
                         <View style = {styles.tags}>
-                            { tags.map((elem, index) =>
-                                <Tag
-                                    key={`tag-${index}`}
-                                    name={elem.name}
-                                />
-                            ) }
-                            {halal && <Tag name = {'halal'}/>}
+                            <View
+                                style={{flexDirection: 'row', flex: 3, flexWrap: 'wrap'}}
+                            >
+                                { tags.map((elem, index) =>
+                                    <Tag
+                                        key={`tag-${index}`}
+                                        name={elem.name}
+                                        style={{paddingVertical: '1%'}}
+                                    />
+                                ) }
+                            </View>
                             <View style = {styles.cost}>
                                 {parseFloat(cost) > 0 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
                                 {parseFloat(cost) > 5 && <Image style = {styles.coin} source={require('../assets/coin.png')}/>}
@@ -143,7 +147,7 @@ const styles = StyleSheet.create({
     tags: {
         paddingVertical:7,
         flexDirection: 'row',
-        alignItems:'center'
+        alignItems:'center',
     },
     description: {
         color: '#a0a0a0',

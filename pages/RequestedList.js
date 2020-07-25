@@ -95,13 +95,11 @@ function RequestedList(props) {
                 renderItem={({ item }) =>
                     <RequestedRestaurantButton
                         name={item.attributes.title}
-                        halal={item.attributes.halal_certified}
                         location={item.attributes.location}
                         opening_hours={item.attributes.operating_hours}
-                        tags={isLoading ? [] : item.relationships.tags.data.map(x => findTag(x.id))}
-                        lat={item.attributes.lat}
-                        lng={item.attributes.lng}
-                        onPress={() => navigation.navigate('Restaurant', {restaurant_id: item.id}) }
+                        lat={item.attributes.latitude}
+                        lng={item.attributes.longitude}
+                        onPress={() => {}}
                     />}
                 keyExtractor={restaurant => restaurant.id}
                 ListFooterComponent={renderFooter}

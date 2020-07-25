@@ -43,7 +43,6 @@ function RestaurantBanner(props) {
             <View style={stylesBanner.tagRow}>
                 <View style={stylesBanner.tags}>
                     { tags.map((tag,index) => <Tag disabled key={index} name={tag.name}/>) }
-                    {halal && <Tag disabled name={'halal'}/>}
                 </View>
                 <View style = {stylesBanner.cost}>
                     {parseFloat(cost) > 0 && <Image style = {stylesBanner.coin} source={require('../assets/coin.png')}/>}

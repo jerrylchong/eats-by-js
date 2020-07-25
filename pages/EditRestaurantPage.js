@@ -284,6 +284,7 @@ function EditRestaurantPage(props) {
     const [newStallNum, setStallNum] = useState("");
     const [newTags, setTags] = useState([]);
     const [allTags, setAllTags] = useState([]);
+    const [newHalal, setHalal] = useState(false);
     const [newDishes, setNewDishes] = useState([]);
     const [newDeals, setNewDeals] = useState([]);
     const [newImageLink, setImageLink] = useState("");
@@ -295,7 +296,8 @@ function EditRestaurantPage(props) {
             getRestaurantFromApi(restaurant_id)
                 .then(data => {
                         setRestaurantData(data);
-                        setTitle(data.attributes.title)
+                        setTitle(data.attributes.title);
+                        setHalal(data.attributes.halal_certified);
                     }
                 ),
             getRestaurantTagsFromApi(restaurant_id).then(data => {
@@ -328,6 +330,7 @@ function EditRestaurantPage(props) {
             operating_hours: newHours ? newHours : restaurantData.attributes.operating_hours,
             no_of_stalls: newStallNum ? newStallNum : restaurantData.attributes.no_of_stalls,
             contact: newContact ? newContact : restaurantData.attributes.contact,
+            halal_certified: newHalal,
             tags_id: newTags.map(x => x.id)
         }
         AsyncStorage.getItem("token")

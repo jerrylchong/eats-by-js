@@ -1,36 +1,23 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native';
-import Tag from './Tag'
 
 const RequestedRestaurantButton = (props) => {
 
-    const { name, tags, onPress, halal, location, opening_hours, lat, lng } = props;
+    const { name, onPress, location, opening_hours, lat, lng } = props;
 
     return (
         <View style = {styles.shadow}>
             <TouchableOpacity style = {styles.container} onPress = {onPress}>
                 <View style = {styles.container}>
                     <Text numberOfLines={1} style={styles.name}>{name}</Text>
-                    <View style = {styles.tags}>
-                        { tags.map((elem, index) =>
-                            <Tag
-                                key={`tag-${index}`}
-                                name={elem.name}
-                            />
-                        ) }
-                        {halal && <Tag name = {'halal'}/>}
-                    </View>
                     <Text numberOfLines={1} style = {styles.description}>
                         Location: {location}
                     </Text>
                     <Text numberOfLines={1} style = {styles.description}>
-                        Latitude: {lat}
+                        Latitude: {lat}, Longitude {lng}
                     </Text>
                     <Text numberOfLines={1} style = {styles.description}>
-                         Longitude: {lng}
-                    </Text>
-                    <Text numberOfLines={1} style = {styles.description}>
-                        {opening_hours}
+                        Hours: {opening_hours}
                     </Text>
                 </View>
             </TouchableOpacity>
@@ -42,8 +29,8 @@ export default RequestedRestaurantButton
 
 const styles = StyleSheet.create({
     shadow: {
-        width: '100%',
-        height: Dimensions.get('window').height * 0.22,
+        width: Dimensions.get('window').width * 0.9,
+        height: Dimensions.get('window').height * 0.17,
         shadowOffset: {
             width: 0,
             height: 0,
