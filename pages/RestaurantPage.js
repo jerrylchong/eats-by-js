@@ -247,10 +247,17 @@ function RestaurantPage(props) {
                 {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
                 ]}>
                 <ScrollView style={{ width: "100%"}}>
-                    <ImageBackground style={styles.picture}
-                        source={{uri: restaurantData.attributes.image_link}}>
-                        <BackButton white={true} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
-                    </ImageBackground>
+                    {
+                        restaurantData.attributes.image_link
+                            ? <ImageBackground style={styles.picture} source={{uri: restaurantData.attributes.image_link}}>
+                                <BackButton white={true} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
+                            </ImageBackground>
+                            : <ImageBackground style={styles.picture} source={require('../assets/grey.png')}>
+                                <BackButton white={true} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
+                                <Text style={styles.noImageText}>No Store Image</Text>
+                            </ImageBackground>
+                    }
+
                     <RestaurantBanner
                         title={restaurantData.attributes.title}
                         tags={restaurantTags.map(x => x.attributes)}
@@ -428,4 +435,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Ubuntu-Bold',
         alignSelf: 'center'
     },
+    noImageText: {
+        color: 'white',
+        fontFamily: 'Ubuntu-Medium',
+        fontSize: 18,
+        alignSelf: 'center',
+        top: '15%'
+    }
 })

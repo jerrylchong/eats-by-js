@@ -401,3 +401,17 @@ export function updateRestaurantRequest(request_id, token, data) {
             if ("errors" in data) throw data;
         })
 }
+
+export function deleteRestaurantRequest(request_id, token) {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/restaurant_requests/${request_id}`, requestOptions)
+        .then(response => response.json())
+}

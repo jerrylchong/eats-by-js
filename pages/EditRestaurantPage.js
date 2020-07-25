@@ -176,18 +176,16 @@ export function EditRestaurantBanner(props) {
                         placeholderTextColor='#b3b3b3'
                     />
                 </View>
-                {no_of_stalls > 0 &&
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Text style={stylesBanner.inputHeader}>No. of Stalls: </Text>
                     <TextInput
                         style={stylesBanner.description}
-                        placeholder={no_of_stalls.toString()}
+                        placeholder={no_of_stalls == null ? "0": no_of_stalls.toString()}
                         onChangeText={(text) => {setStallNum(text)}}
                         value={newStallNum}
                         placeholderTextColor='#b3b3b3'
                     />
                 </View>
-                }
             </View>
             <View style={{
                 width: Dimensions.get('window').width, borderBottomWidth: 0.5, borderColor: '#B3B3B3',
@@ -285,7 +283,7 @@ function EditRestaurantPage(props) {
     const [newTags, setTags] = useState([]);
     const [allTags, setAllTags] = useState([]);
     const [newHalal, setHalal] = useState(false);
-    const [newDishes, setNewDishes] = useState([]);
+    const [addDish, setAddDish] = useState(false);
     const [newDeals, setNewDeals] = useState([]);
     const [newImageLink, setImageLink] = useState("");
     const {restaurant_id} = route.params;
@@ -328,7 +326,11 @@ function EditRestaurantPage(props) {
             image_link: newImageLink ? newImageLink : restaurantData.attributes.image_link,
             location: newLocation ? newLocation : restaurantData.attributes.location,
             operating_hours: newHours ? newHours : restaurantData.attributes.operating_hours,
-            no_of_stalls: newStallNum ? newStallNum : restaurantData.attributes.no_of_stalls,
+            no_of_stalls: newStallNum
+                ? newStallNum
+                : restaurantData.attributes.no_of_stalls == null
+                    ? 0
+                    : restaurantData.attributes.no_of_stalls,
             contact: newContact ? newContact : restaurantData.attributes.contact,
             halal_certified: newHalal,
             tags_id: newTags.map(x => x.id)
@@ -352,10 +354,16 @@ function EditRestaurantPage(props) {
                 {paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right}
             ]}>
                 <ScrollView style={{ width: "100%"}} keyboardShouldPersistTaps="handled">
-                    <ImageBackground style={styles.picture}
-                                     source={{uri: restaurantData.attributes.image_link}}>
-                        <BackButton white={true} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
-                    </ImageBackground>
+                    {
+                        restaurantData.attributes.image_link
+                            ? <ImageBackground style={styles.picture} source={{uri: restaurantData.attributes.image_link}}>
+                                <BackButton white={true} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
+                            </ImageBackground>
+                            : <ImageBackground style={styles.picture} source={require('../assets/grey.png')}>
+                                <BackButton white={true} style = {{margin: '2%'}} onPress = {() => navigation.goBack()} />
+                                <Text style={styles.noImageText}>No Store Image</Text>
+                            </ImageBackground>
+                    }
                     <View style={styles.imageInput}>
                         <Text style={stylesBanner.inputHeader}>Image Link: </Text>
                         <TextInput
@@ -396,7 +404,7 @@ function EditRestaurantPage(props) {
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Dishes</Text>
-                                <Tag name='+' onPress={()=> Alert.alert("Add Dish","Add Dish Form")}/>
+                                <Tag name='+' onPress={() => navigation.navigate("Dish", {restaurant_id: restaurantData.id})}/>
                             </View>
                             { refreshingDishes ?  <Loading style={{paddingTop:30}}/> :
                                 dishes.map(item =>
@@ -416,7 +424,7 @@ function EditRestaurantPage(props) {
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Deals</Text>
-                                <Tag name="+" onPress={() => Alert.alert("Add Deal", "Add Deal Form")}/>
+                                <Tag name="+" onPress={() => navigation.navigate("Deal", {restaurant_id: restaurantData.id})}/>
                             </View>
                             <DealButton
                                 title="0% off!!"
@@ -535,7 +543,7 @@ const styles = StyleSheet.create({
         marginRight: '2%'
     },
     footer: {
-        color: '#ff6961',
+        color: '#c74a44',
         fontSize: 16,
         marginTop: '2%',
         fontFamily: 'Ubuntu-Bold',
@@ -554,4 +562,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: '2%',
         paddingVertical: 5
     },
+    noImageText: {
+        color: 'white',
+        fontFamily: 'Ubuntu-Medium',
+        fontSize: 18,
+        alignSelf: 'center',
+        top: '15%'
+    }
 })

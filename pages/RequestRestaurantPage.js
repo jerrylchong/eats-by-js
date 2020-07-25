@@ -35,6 +35,7 @@ function RequestRestaurantPage(props) {
     const [error, setError] = useState(false);
     const [locationOff, setLocationOff] = useState(true);
     const [isVisible, setVisible] = useState(false);
+    const [noOfStalls, setNoOfStalls] = useState('');
     const { location, updateLocation, navigation, tags } = props;
 
     useEffect(() => {
@@ -64,6 +65,7 @@ function RequestRestaurantPage(props) {
             contact: contact,
             lat: parseFloat(lat),
             lng: parseFloat(lng),
+            no_of_stall: parseInt(noOfStalls)
         }
         AsyncStorage.getItem("token")
             .then(token => createRestaurantRequest(res_data, token))
@@ -201,6 +203,12 @@ function RequestRestaurantPage(props) {
                     placeholder="Contact No."
                     onChangeText={(text) => {setContact(text)}}
                     value={contact}
+                    placeholderTextColor='#404040'/>
+                <TextInput
+                    style={styles.input}
+                    placeholder="No. of Stalls (put 0 if not food court)"
+                    onChangeText={(text) => {setNoOfStalls(text)}}
+                    value={noOfStalls}
                     placeholderTextColor='#404040'/>
                 {/**
                  <View style={[styles.locationView, {justifyContent: 'flex-start'}]}>

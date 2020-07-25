@@ -34,6 +34,7 @@ function AddRestaurantPage(props) {
     const [address, setAddress] = useState('');
     const [operatingHours, setOperatingHours] = useState('');
     const [contact, setContact] = useState('');
+    const [noOfStalls, setNoOfStalls] = useState('');
     const [newTags, setTags] = useState([]);
     const [autoTags, setAutoTags] = useState([]);
     const [locationInput, setLocationInput] = useState(0);
@@ -71,6 +72,7 @@ function AddRestaurantPage(props) {
             contact: contact,
             lat: parseFloat(lat),
             lng: parseFloat(lng),
+            no_of_stalls: parseInt(noOfStalls)
         }
         AsyncStorage.getItem("token")
             .then(token => createRestaurant(res_data, token))
@@ -221,6 +223,12 @@ function AddRestaurantPage(props) {
                     onChangeText={(text) => {setContact(text)}}
                     value={contact}
                     placeholderTextColor='#404040'/>
+                <TextInput
+                    style={styles.input}
+                    placeholder="No. of Stalls (put 0 if not food court)"
+                    onChangeText={(text) => {setNoOfStalls(text)}}
+                    value={noOfStalls}
+                    placeholderTextColor='#404040'/>
                 {/**
                     <View style={[styles.locationView, {justifyContent: 'flex-start'}]}>
                         <Text style={[styles.locationFont, {marginRight: '2%'}]}>Tags:</Text>
@@ -319,7 +327,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center',
-        minHeight: Math.round(Dimensions.get('window').height)
+        minHeight: Math.round(Dimensions.get('window').height) * 0.55
     },
     back: {
         position: 'absolute',

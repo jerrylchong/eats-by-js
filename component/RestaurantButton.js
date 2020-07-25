@@ -30,7 +30,10 @@ const RestaurantButton = (props) => {
         <View style = {styles.shadow}>
             <TouchableOpacity style = {styles.container} onPress = {onPress}>
                 <View style = {styles.info}>
-                    <Image style={styles.picture} source={{uri: image_url}} />
+                    {
+                        image_url ? <Image style={styles.picture} source={{uri: image_url}} />
+                        : <Image style={styles.picture} source={require('../assets/grey.png')} />
+                    }
                     <View style = {styles.rightInfo}>
                         <Text numberOfLines={1} style={styles.name}>{name}</Text>
                         <View style = {styles.tags}>

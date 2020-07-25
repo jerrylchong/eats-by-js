@@ -102,9 +102,6 @@ function RestaurantList(props) {
             data => {
                 setData(data);
                 setPage(2);
-                if (data.length < 9) {
-                    setIsLastPage(true);
-                }
             }
 
         ).catch(console.error)
@@ -149,8 +146,9 @@ function RestaurantList(props) {
                 setData(data);
                 setPage(2);
             }
-
-        ).catch(console.error)
+        )
+            .then(() => setIsLastPage(false))
+            .catch(console.error)
     }
 
     const insets = useSafeArea();
@@ -306,7 +304,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     footer: {
-        color: '#ff6961',
+        color: '#c74a44',
         fontSize: 16,
         marginTop: '2%',
         fontFamily: 'Ubuntu-Bold'

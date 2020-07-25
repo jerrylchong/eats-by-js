@@ -94,14 +94,15 @@ function RequestedList(props) {
                 extraData={data}
                 renderItem={({ item }) =>
                     <RequestedRestaurantButton
+                        request_id={item.id}
                         name={item.attributes.title}
                         location={item.attributes.location}
                         opening_hours={item.attributes.operating_hours}
                         lat={item.attributes.latitude}
                         lng={item.attributes.longitude}
-                        onPress={() => {}}
+                        contact={item.attributes.contact}
                     />}
-                keyExtractor={restaurant => restaurant.id}
+                keyExtractor={request => request.id}
                 ListFooterComponent={renderFooter}
                 ListEmptyComponent={() => <Text style={styles.footer}>No Stores Found</Text>}
                 onEndReached={fetchMoreRestaurantData}
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     footer: {
-        color: '#ff6961',
+        color: '#c74a44',
         fontSize: 16,
         marginTop: '2%',
         fontFamily: 'Ubuntu-Bold'

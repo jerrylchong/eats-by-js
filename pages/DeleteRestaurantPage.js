@@ -119,7 +119,7 @@ function DeleteRestaurantPage({ navigation }) {
                 />
                 <FlatList
                     style = {styles.scroll}
-                    contentContainerStyle = {{alignItems: 'center', paddingBottom: '25%'}}
+                    contentContainerStyle = {{alignItems: 'center', paddingBottom: '35%'}}
                     data={data}
                     extraData={data}
                     renderItem={({ item }) =>
