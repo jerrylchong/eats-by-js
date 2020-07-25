@@ -10,10 +10,12 @@ import {
     ImageBackground,
     Dimensions,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    AsyncStorage
 } from "react-native";
 import { connect } from 'react-redux';
 import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHelpers";
+import {createDish} from "../helpers/DishAPI";
 import BackButton from "../component/BackButton";
 import {useSafeArea} from "react-native-safe-area-context";
 
@@ -23,9 +25,18 @@ export function AddDishPage(props) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
+    const {restaurant_id} = route.params;
 
     const submit = () => {
-        navigation.goBack();
+        const attr = { title, description, price, restaurant_id };
+        AsyncStorage.getItem('token').then(token => {
+            createDish(attr, token).then(() => {
+                navigation.goBack();
+            }).catch(err => {
+                alert(err);
+                console.log(err)
+            })
+        })
     }
 
     const backHandler = () => navigation.goBack();

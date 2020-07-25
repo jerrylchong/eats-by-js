@@ -10,23 +10,35 @@ import {
     ImageBackground,
     Dimensions,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    AsyncStorage,
 } from "react-native";
 import { connect } from 'react-redux';
 import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHelpers";
 import BackButton from "../component/BackButton";
 import {useSafeArea} from "react-native-safe-area-context";
+import DatePicker from 'react-native-datepicker'
+import {createDeal} from "../helpers/DealAPI";
 
 export function AddDealPage(props) {
     const {route, navigation} = props;
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [start, setStart] = useState('');
-    const [end, setEnd] = useState('');
+    const [start, setStart] = useState(new Date());
+    const [end, setEnd] = useState(new Date());
     const [errors, setErrors] = useState({});
+    const {restaurant_id} = route.params;
 
     const submit = () => {
-        navigation.goBack();
+        const attr = { title, description, start_time: start, end_time:end, restaurant_id };
+        AsyncStorage.getItem('token').then(token => {
+            createDeal(attr, token).then(() => {
+                navigation.goBack();
+            }).catch(err => {
+                alert(err);
+                console.log(err)
+            })
+        })
     }
 
     const backHandler = () => navigation.goBack();
@@ -58,18 +70,44 @@ export function AddDealPage(props) {
                         onChangeText={(text) => {setDescription(text)}}
                         value={description}
                         placeholderTextColor='#404040'/>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Start Date"
-                        onChangeText={(text) => {setStart(text)}}
-                        value={start}
-                        placeholderTextColor='#404040'/>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="End Date"
-                        onChangeText={(text) => {setEnd(text)}}
-                        value={end}
-                        placeholderTextColor='#404040'/>
+                    <View style={{flexDirection:'row'}}>
+                        <Text>Start Date</Text>
+                        <DatePicker
+                            showIcon={false}
+                            style={{width: 200}}
+                            date={start}
+                            mode="date"
+                            placeholder="Select Start Date"
+                            format="YYYY-MM-DD"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+                                dateInput: {
+                                    marginLeft: 36,
+                                }
+                            }}
+                            onDateChange={setStart}
+                        />
+                    </View>
+                    <View style={{flexDirection:'row'}}>
+                        <Text>End Date</Text>
+                        <DatePicker
+                            showIcon={false}
+                            style={{width: 200}}
+                            date={end}
+                            mode="date"
+                            placeholder="Select End Date"
+                            format="YYYY-MM-DD"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+                                dateInput: {
+                                    marginLeft: 36,
+                                }
+                            }}
+                            onDateChange={setEnd}
+                        />
+                    </View>
                     { Object.entries(errors).map(x => x[0] + " " + x[1][0]).map((x,i) =>
                         <Text
                             key={`${i}-error`}
