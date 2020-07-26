@@ -327,16 +327,6 @@ function RestaurantPage(props) {
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Deals</Text>
                             </View>
-                            <DealButton 
-                                title="0% off!!"
-                                description="T&Cs apply"
-                                duration="22 Jun - 28 Jun"
-                            />
-                            <DealButton 
-                                title="Buy 1 get 0 Free!"
-                                description="T&Cs apply"
-                                duration="22 Jun - 28 Jun"
-                            />
                         </View>
                         <View style={{height: windowHeight * 0.07}} />
                     </View>
@@ -386,11 +376,12 @@ const styles = StyleSheet.create({
     sectionText: {
         fontSize: 18,
         fontFamily: 'Ubuntu-Bold',
-        marginRight: 'auto'
+        marginRight: 'auto',
+        color: '#404040'
     },
     desc: {
         fontSize: 14,
-        color: 'grey',
+        color: '#b3b3b3',
         marginLeft: 5
     },
     tags: {

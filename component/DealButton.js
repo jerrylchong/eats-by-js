@@ -3,13 +3,13 @@ import {StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native
 
 const DealButton = (props) => {
 
-    const { title, description, duration, onPress } = props;
+    const { title, description, start, end, onPress } = props;
 
     return (
         <TouchableOpacity style = {styles.container} onPress = {onPress}>
             <View style={styles.text}>
                 <Text style={styles.name}>{title}</Text>
-                <Text style={styles.cost}>{duration}</Text>
+                <Text style={styles.duration}>{start.substring(0,10)} - {end.substring(0,10)}</Text>
             </View>
             <Text style = {styles.description}>{description}</Text>
         </TouchableOpacity>
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: Dimensions.get('window').height * 0.10,
         alignSelf: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
         borderBottomWidth: 0.5,
         borderColor: '#b3b3b3',
         backgroundColor: 'white'
@@ -34,21 +34,20 @@ const styles = StyleSheet.create({
         height: '30%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: '5%',
-        marginTop: '2%'
+        alignItems: 'center'
     },
     nameReview: {
         flexDirection: 'row',
         alignItems: 'center',
     },
     name: {
-        color: 'black',
+        color: '#404040',
         fontSize: 20,
         fontFamily: 'Ubuntu-Bold'
     },
-    cost: {
-        color: 'black',
-        fontSize: 20,
+    duration: {
+        color: '#404040',
+        fontSize: 14,
         fontFamily: 'Ubuntu'
     },
     description: {

@@ -336,6 +336,22 @@ export function createRestaurant(restaurant, token) {
             if ("errors" in data) throw data;
         })
 }
+
+export function getDealsForRestaurant(restaurant_id) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch(`${HOST}/restaurants/${restaurant_id}/deals`, requestOptions)
+        .then(response => response.json())
+        .then(response => response.data)
+}
 // --------------------------
 //
 // Restaurant Request APIs

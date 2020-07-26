@@ -15,6 +15,7 @@ import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
 import BackButton from "../component/BackButton";
 import {
+    getDealsForRestaurant,
     getDishesFromApi,
     getRestaurantFromApi,
     getRestaurantTagsFromApi,
@@ -274,7 +275,7 @@ function EditRestaurantPage(props) {
     const [isLoading, setLoading] = useState(true);
     const [restaurantData, setRestaurantData] = useState([]);
     const [dishes, setDishes] = useState([]);
-    const [refreshingDishes, setRefreshingDishes] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     const [newTitle, setTitle] = useState("");
     const [newLocation, setLocation] = useState("");
     const [newHours, setHours] = useState("");
@@ -283,8 +284,7 @@ function EditRestaurantPage(props) {
     const [newTags, setTags] = useState([]);
     const [allTags, setAllTags] = useState([]);
     const [newHalal, setHalal] = useState(false);
-    const [addDish, setAddDish] = useState(false);
-    const [newDeals, setNewDeals] = useState([]);
+    const [deals, setDeals] = useState([]);
     const [newImageLink, setImageLink] = useState("");
     const {restaurant_id} = route.params;
     const insets = useSafeArea();
@@ -302,10 +302,15 @@ function EditRestaurantPage(props) {
                 setTags(data.map(x => ({id: x.id, name: x.attributes.name})));
             }),
             getDishesFromApi(restaurant_id).then(data => setDishes(data)),
-            getTagsFromApi().then(data => setAllTags(data))
+            getTagsFromApi().then(data => setAllTags(data)),
+            getDealsForRestaurant(restaurant_id).then(data => setDeals(data))
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
+
+        const reloadDishes = navigation.addListener('focus', () => {
+            dishDealRefresh();
+        })
 
         const backAction = () => {
             navigation.goBack();
@@ -346,6 +351,17 @@ function EditRestaurantPage(props) {
                 console.log(err);
             })
     }
+
+    const dishDealRefresh = () => {
+        setRefreshing(true);
+        Promise.all([
+            getDishesFromApi(restaurant_id).then(data => setDishes(data)),
+            getDealsForRestaurant(restaurant_id).then(data => setDeals(data))
+        ])
+            .catch((error) => console.error(error))
+            .finally(() => setRefreshing(false));
+    }
+
     return (
         isLoading
             ? <Loading/>
@@ -403,10 +419,10 @@ function EditRestaurantPage(props) {
                             */}
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
-                                <Text style={styles.sectionText}>Dishes</Text>
+                                <Text style={styles.sectionText}>Dishes ({dishes.length})</Text>
                                 <Tag name='+' onPress={() => navigation.navigate("Dish", {restaurant_id: restaurantData.id})}/>
                             </View>
-                            { refreshingDishes ?  <Loading style={{paddingTop:30}}/> :
+                            { refreshing ?  <Loading style={{paddingTop:30}}/> :
                                 dishes.map(item =>
                                     <DishButton
                                         key={item.id}
@@ -415,7 +431,7 @@ function EditRestaurantPage(props) {
                                         price={item.attributes.price}
                                     />)
                             }
-                            { refreshingDishes || dishes.length != 0 || <Text style={styles.footer}>No Dishes yet</Text>}
+                            { refreshing || dishes.length != 0 || <Text style={styles.footer}>No Dishes yet</Text>}
                         </View>
                         <View style={{height: windowHeight * 0.07}} />
                         {/*
@@ -426,26 +442,17 @@ function EditRestaurantPage(props) {
                                 <Text style={styles.sectionText}>Deals</Text>
                                 <Tag name="+" onPress={() => navigation.navigate("Deal", {restaurant_id: restaurantData.id})}/>
                             </View>
-                            <DealButton
-                                title="0% off!!"
-                                description="T&Cs apply"
-                                duration="22 Jun - 28 Jun"
-                                onPress={() => Alert.alert("Remove Deal", "Are you sure you want to delete this deal?",
-                                    [
-                                        { text: "Cancel",
-                                        onPress: () => null,
-                                        style: "cancel" },
-                                        { text: "YES", onPress: () => {
-                                            Alert.alert("Placeholder", "Remove Deal Function")
-                                        }}
-                                    ]
-                                )}
-                            />
-                            <DealButton
-                                title="Buy 1 get 0 Free!"
-                                description="T&Cs apply"
-                                duration="22 Jun - 28 Jun"
-                            />
+                            { refreshing ?  <Loading style={{paddingTop:30}}/> :
+                                deals.map(item =>
+                                    <DealButton
+                                        key={item.id}
+                                        title={item.attributes.title}
+                                        description={item.attributes.description}
+                                        start={item.attributes.start_time}
+                                        end={item.attributes.end_time}
+                                    />)
+                            }
+                            { refreshing || deals.length != 0 || <Text style={styles.footer}>No Deals yet</Text>}
                         </View>
                         <View style={{height: windowHeight * 0.07}} />
                     </View>
@@ -500,11 +507,12 @@ const styles = StyleSheet.create({
     sectionText: {
         fontSize: 18,
         fontFamily: 'Ubuntu-Bold',
-        marginRight: 'auto'
+        marginRight: 'auto',
+        color: '#404040'
     },
     desc: {
         fontSize: 14,
-        color: 'grey',
+        color: '#b3b3b3',
         marginLeft: 5
     },
     tags: {
