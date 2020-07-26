@@ -88,6 +88,7 @@ function RestaurantBanner(props) {
                             { label: 'Deal is missing', value: '2' },
                             { label: 'Dish is fake/dish information is wrong', value: '3' },
                             { label: 'Dish is missing', value: '4' },
+                            { label: 'Others', value: '5' },
                         ]}
                         onValueChange={(value) => console.log(value)}
                     />

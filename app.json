@@ -7,11 +7,11 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/templogonameless.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/templogonameless.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,7 +22,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.jjtjp.eatsbyjs",
+      "buildNumber": "1.0.1"
+    },
+    "android": {
+      "package": "com.jjtjp.eatsbyjs",
+      "versionCode": 2,
+      "config": { "googleMaps": { "apiKey": "AIzaSyBSpX5yBePWD4j7IqsQa9E3sgOFT0RHtMk" } }
     }
   }
 }
