@@ -44,8 +44,8 @@ export function getPaginatedRestaurantsFromApi(searchTerm="", page, tags=[], sor
     };
     var tag_ids = tags.map(x => x.id);
     tag_ids = JSON.stringify(tag_ids);
-    const lat = location["lat"] ? location["lat"] : ""
-    const lng = location["lng"] ? location["lng"] : ""
+    const lat = location["lat"] && sort_by == 0 ? location["lat"] : ""
+    const lng = location["lng"] && sort_by == 0 ? location["lng"] : ""
 
     var sort_query = ""
 
