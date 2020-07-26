@@ -12,7 +12,7 @@ import {
 import BackButton from "../component/BackButton";
 import {useSafeArea} from "react-native-safe-area-context";
 
-function FeedbackPage({ navigation, route }) {
+function FeedbackPage({ navigation }) {
 
     const [content, setContent] = useState('');
 

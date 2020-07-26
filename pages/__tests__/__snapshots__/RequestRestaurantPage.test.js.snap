@@ -223,11 +223,16 @@ exports[`renders correctly 1`] = `
         >
           <View
             style={
-              Object {
-                "backgroundColor": "#ff6961",
-                "borderRadius": 10,
-                "marginRight": 5,
-              }
+              Array [
+                Object {
+                  "backgroundColor": "#ff6961",
+                  "borderRadius": 10,
+                  "marginRight": 5,
+                },
+                Object {
+                  "backgroundColor": "#ff6961",
+                },
+              ]
             }
           >
             <Text
@@ -264,11 +269,16 @@ exports[`renders correctly 1`] = `
         >
           <View
             style={
-              Object {
-                "backgroundColor": "#ff6961",
-                "borderRadius": 10,
-                "marginRight": 5,
-              }
+              Array [
+                Object {
+                  "backgroundColor": "#ff6961",
+                  "borderRadius": 10,
+                  "marginRight": 5,
+                },
+                Object {
+                  "backgroundColor": "#ff6961",
+                },
+              ]
             }
           >
             <Text
@@ -334,7 +344,7 @@ exports[`renders correctly 1`] = `
       <TextInput
         allowFontScaling={true}
         onChangeText={[Function]}
-        placeholder="Tags (each tag separated by a space)"
+        placeholder="No. of Stalls (put 0 if not food court)"
         placeholderTextColor="#404040"
         rejectResponderTermination={true}
         style={

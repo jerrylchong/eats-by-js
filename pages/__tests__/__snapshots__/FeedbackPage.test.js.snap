@@ -1,0 +1,204 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<RNCSafeAreaView
+  onInsetsChange={[Function]}
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "#fff",
+          "flex": 1,
+          "flexDirection": "column",
+        },
+        Object {
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+        },
+      ]
+    }
+  >
+    <View
+      accessibilityIgnoresInvertColors={true}
+      style={
+        Object {
+          "bottom": 0,
+          "height": 327.33812949640287,
+          "position": "absolute",
+          "width": "100%",
+        }
+      }
+    >
+      <Image
+        source={1}
+        style={
+          Array [
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            Object {
+              "height": 327.33812949640287,
+              "width": "100%",
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "#404040",
+          "fontFamily": "Ubuntu-Medium",
+          "fontSize": 20,
+          "marginTop": "5%",
+          "position": "relative",
+          "top": "5%",
+        }
+      }
+    >
+      Leave your Feedback
+    </Text>
+    <View
+      style={
+        Object {
+          "left": "2%",
+          "position": "absolute",
+          "top": "5%",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={false}
+        isTVSelectable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": 75,
+            "justifyContent": "center",
+            "opacity": 1,
+            "width": 75,
+          }
+        }
+      >
+        <Image
+          source={1}
+          style={
+            Object {
+              "height": 13,
+              "width": 15,
+            }
+          }
+        />
+      </View>
+    </View>
+    <TextInput
+      allowFontScaling={true}
+      multiline={true}
+      onChangeText={[Function]}
+      placeholder="Enter feedback here"
+      placeholderStyle={
+        Object {
+          "margin": "2%",
+        }
+      }
+      placeholderTextColor="#404040"
+      rejectResponderTermination={true}
+      style={
+        Object {
+          "backgroundColor": "#d9d9d9",
+          "borderRadius": 10,
+          "color": "#404040",
+          "fontFamily": "Ubuntu",
+          "fontSize": 12,
+          "height": "45%",
+          "marginBottom": "8%",
+          "padding": "3%",
+          "position": "relative",
+          "top": "15%",
+          "width": "80%",
+        }
+      }
+      textAlignVertical="top"
+      underlineColorAndroid="transparent"
+      value=""
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "#ff6961",
+          "borderRadius": 20,
+          "elevation": 5,
+          "height": "5%",
+          "position": "relative",
+          "shadowColor": "#000",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.25,
+          "shadowRadius": 3.84,
+          "top": "20%",
+          "width": "25%",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        isTVSelectable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "height": "100%",
+            "justifyContent": "center",
+            "opacity": 1,
+            "paddingHorizontal": 20,
+            "paddingVertical": 3,
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "white",
+              "fontFamily": "Ubuntu",
+              "fontSize": 12,
+            }
+          }
+        >
+          Submit
+        </Text>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaView>
+`;

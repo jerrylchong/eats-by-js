@@ -50,11 +50,7 @@ exports[`renders correctly (1 coin, 1 rating) 1`] = `
       }
     >
       <Image
-        source={
-          Object {
-            "uri": undefined,
-          }
-        }
+        source={1}
         style={
           Object {
             "borderRadius": 4,
@@ -97,6 +93,15 @@ exports[`renders correctly (1 coin, 1 rating) 1`] = `
             }
           }
         >
+          <View
+            style={
+              Object {
+                "flex": 3,
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+              }
+            }
+          />
           <View
             style={
               Object {
@@ -241,11 +246,7 @@ exports[`renders correctly 2 (2 coins, 3 rating) 1`] = `
       }
     >
       <Image
-        source={
-          Object {
-            "uri": undefined,
-          }
-        }
+        source={1}
         style={
           Object {
             "borderRadius": 4,
@@ -288,6 +289,15 @@ exports[`renders correctly 2 (2 coins, 3 rating) 1`] = `
             }
           }
         >
+          <View
+            style={
+              Object {
+                "flex": 3,
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+              }
+            }
+          />
           <View
             style={
               Object {
@@ -441,11 +451,7 @@ exports[`renders correctly 3 (3 coins, 5 rating) 1`] = `
       }
     >
       <Image
-        source={
-          Object {
-            "uri": undefined,
-          }
-        }
+        source={1}
         style={
           Object {
             "borderRadius": 4,
@@ -488,6 +494,15 @@ exports[`renders correctly 3 (3 coins, 5 rating) 1`] = `
             }
           }
         >
+          <View
+            style={
+              Object {
+                "flex": 3,
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+              }
+            }
+          />
           <View
             style={
               Object {

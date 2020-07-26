@@ -45,17 +45,21 @@ exports[`renders correctly 1`] = `
           "fontSize": 20,
         }
       }
-    />
+    >
+      Title
+    </Text>
     <Text
       style={
         Object {
           "color": "#404040",
           "fontFamily": "Ubuntu",
-          "fontSize": 20,
+          "fontSize": 14,
         }
       }
     >
-      $
+      1234567890
+       - 
+      0987654321
     </Text>
   </View>
   <Text
@@ -67,6 +71,8 @@ exports[`renders correctly 1`] = `
         "fontSize": 11,
       }
     }
-  />
+  >
+    Desc
+  </Text>
 </View>
 `;

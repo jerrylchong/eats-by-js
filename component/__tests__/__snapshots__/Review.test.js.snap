@@ -49,7 +49,6 @@ exports[`renders correctly 1`] = `
   <View
     style={
       Object {
-        "flexDirection": "column",
         "height": "100%",
         "justifyContent": "center",
         "marginLeft": "5%",
@@ -61,8 +60,9 @@ exports[`renders correctly 1`] = `
       style={
         Object {
           "flexDirection": "row",
-          "height": "30%",
+          "height": "70%",
           "justifyContent": "space-between",
+          "paddingTop": "3%",
         }
       }
     >
@@ -70,9 +70,10 @@ exports[`renders correctly 1`] = `
         style={
           Object {
             "color": "#404040",
-            "flex": 10,
+            "flexWrap": "wrap",
             "fontFamily": "Ubuntu-Bold",
             "fontSize": 16,
+            "width": "90%",
           }
         }
       />
@@ -80,7 +81,6 @@ exports[`renders correctly 1`] = `
         style={
           Object {
             "color": "#404040",
-            "flex": 1,
             "fontFamily": "Ubuntu-Bold",
             "fontSize": 14,
           }
@@ -96,6 +96,7 @@ exports[`renders correctly 1`] = `
           "flexWrap": "wrap",
           "fontFamily": "Ubuntu",
           "fontSize": 12,
+          "marginBottom": "2%",
         }
       }
     >

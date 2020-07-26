@@ -6,7 +6,7 @@ const DishButton = (props) => {
     const { title, description, price, onPress } = props;
 
     return (
-        <TouchableOpacity style = {styles.container} onPress = {onPress}>
+        <TouchableOpacity disabled={true} style = {styles.container} onPress = {onPress}>
             <View style={styles.text}>
                 <Text style={styles.name}>{title}</Text>
                 <Text style={styles.cost}>${price}</Text>

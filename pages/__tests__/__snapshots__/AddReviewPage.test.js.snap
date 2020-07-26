@@ -125,7 +125,7 @@ exports[`renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "height": "60%",
-            "marginTop": "10%",
+            "marginTop": "20%",
             "width": "80%",
           },
           Object {
@@ -136,9 +136,10 @@ exports[`renders correctly 1`] = `
     >
       <TextInput
         allowFontScaling={true}
+        maxLength={100}
         multiline={true}
         onChangeText={[Function]}
-        placeholder="Content"
+        placeholder="Content (up to 100 characters)"
         placeholderStyle={
           Object {
             "margin": "2%",
@@ -152,11 +153,11 @@ exports[`renders correctly 1`] = `
             "borderRadius": 10,
             "color": "#404040",
             "fontFamily": "Ubuntu",
-            "fontSize": 12,
-            "fontWeight": "normal",
-            "height": "70%",
+            "fontSize": 16,
+            "height": "30%",
             "marginBottom": "8%",
-            "padding": "3%",
+            "padding": "5%",
+            "paddingTop": "5%",
             "width": "100%",
           }
         }

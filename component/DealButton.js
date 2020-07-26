@@ -6,7 +6,7 @@ const DealButton = (props) => {
     const { title, description, start, end, onPress } = props;
 
     return (
-        <TouchableOpacity style = {styles.container} onPress = {onPress}>
+        <TouchableOpacity disabled={true} style = {styles.container} onPress = {onPress}>
             <View style={styles.text}>
                 <Text style={styles.name}>{title}</Text>
                 <Text style={styles.duration}>{start.substring(0,10)} - {end.substring(0,10)}</Text>

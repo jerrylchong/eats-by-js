@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<RNCSafeAreaView
+  onInsetsChange={[Function]}
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <reviewPage
+    navigation={
+      Object {
+        "navigate": [MockFunction],
+      }
+    }
+    route={
+      Object {
+        "params": Object {},
+      }
+    }
+  />
+</RNCSafeAreaView>
+`;

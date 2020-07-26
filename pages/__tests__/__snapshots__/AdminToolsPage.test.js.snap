@@ -116,7 +116,7 @@ exports[`renders correctly 1`] = `
       style={
         Object {
           "position": "relative",
-          "top": "27%",
+          "top": "22%",
         }
       }
     >
@@ -273,6 +273,58 @@ exports[`renders correctly 1`] = `
             }
           >
             Delete a Store
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#ff6961",
+            "borderRadius": 300,
+            "elevation": 5,
+            "height": 112.5,
+            "margin": 10,
+            "shadowColor": "#000",
+            "shadowOffset": Object {
+              "height": 2,
+              "width": 0,
+            },
+            "shadowOpacity": 0.25,
+            "shadowRadius": 3.84,
+            "width": 600,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          isTVSelectable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "height": "100%",
+              "justifyContent": "center",
+              "opacity": 1,
+              "width": "100%",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "white",
+                "fontFamily": "Ubuntu",
+              }
+            }
+          >
+            View Requested Stores
           </Text>
         </View>
       </View>
