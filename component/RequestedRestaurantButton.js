@@ -5,7 +5,7 @@ import {createRestaurant, deleteRestaurant, deleteRestaurantRequest} from "../he
 
 const RequestedRestaurantButton = (props) => {
 
-    const { request_id, name, location, opening_hours, contact, lat, lng, no_of_stalls } = props;
+    const { request_id, name, location, opening_hours, contact, lat, lng, no_of_stalls, refresh } = props;
     const [error, setError] = useState(false);
 
     const addStore = () => {
@@ -44,6 +44,7 @@ const RequestedRestaurantButton = (props) => {
                             .then(token => deleteRestaurantRequest(request_id, token))
                             .then(() => Alert.alert("Success",
                                 "Requested Store " + name + " deleted."))
+                            .then(() => refresh())
                             .catch(console.err)
                     } }
             ]

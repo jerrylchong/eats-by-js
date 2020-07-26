@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     },
     back: {
         position: 'absolute',
-        top: Platform.OS == "ios" ? '5%' :'2%',
+        top: '5%',
         left: '2%'
     },
     header: {

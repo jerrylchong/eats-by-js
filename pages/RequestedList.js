@@ -101,6 +101,8 @@ function RequestedList(props) {
                         lat={item.attributes.latitude}
                         lng={item.attributes.longitude}
                         contact={item.attributes.contact}
+                        no_of_stalls={item.attributes.no_of_stalls}
+                        refresh={handleRefresh}
                     />}
                 keyExtractor={request => request.id}
                 ListFooterComponent={renderFooter}
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
     },
     back: {
         position: 'absolute',
-        top: Platform.OS == "ios" ? '5%' :'2%',
+        top: '5%',
         left: '2%'
     },
     scroll: {

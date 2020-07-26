@@ -65,12 +65,12 @@ function RequestRestaurantPage(props) {
             contact: contact,
             lat: parseFloat(lat),
             lng: parseFloat(lng),
-            no_of_stall: parseInt(noOfStalls)
+            no_of_stalls: parseInt(noOfStalls)
         }
         AsyncStorage.getItem("token")
             .then(token => createRestaurantRequest(res_data, token))
             .then(() => Alert.alert("Success",
-                "Store " + title + " Added."))
+                "Store " + title + " requested."))
             .catch(err =>{
                 // need display this error somehow
                 setError(true);
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     },
     back: {
         position: 'absolute',
-        top: Platform.OS == "ios" ? '5%' :'2%',
+        top: '5%',
         left: '2%'
     },
     header: {

@@ -352,7 +352,7 @@ exports[`renders correctly 1`] = `
                           }
                         >
                           <RCTDatePicker
-                            date={1595752106714}
+                            date={1595752910363}
                             mode="date"
                             onChange={[Function]}
                             onResponderTerminationRequest={[Function]}
@@ -637,7 +637,7 @@ exports[`renders correctly 1`] = `
                           }
                         >
                           <RCTDatePicker
-                            date={1595752106714}
+                            date={1595752910363}
                             mode="date"
                             onChange={[Function]}
                             onResponderTerminationRequest={[Function]}
