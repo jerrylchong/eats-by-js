@@ -61,7 +61,7 @@ exports[`renders correctly 1`] = `
     <View
       style={
         Object {
-          "left": "2%",
+          "left": "3%",
           "position": "absolute",
           "top": "5%",
         }

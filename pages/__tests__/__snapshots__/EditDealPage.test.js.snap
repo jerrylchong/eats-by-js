@@ -116,7 +116,9 @@ exports[`renders correctly 1`] = `
         }
       }
     >
-      Add a Dish
+      Edit 
+      Title
+       deal
     </Text>
     <View
       onLayout={[Function]}
