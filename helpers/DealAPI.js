@@ -65,5 +65,4 @@ export function deleteDeal(id, token) {
     };
 
     return fetch(`${HOST}/deals/${id}`, requestOptions)
-        .then(response => response.json())
 }

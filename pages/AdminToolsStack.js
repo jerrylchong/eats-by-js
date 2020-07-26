@@ -8,6 +8,9 @@ import EditRestaurantList from "./EditRestaurantList";
 import RequestedList from "./RequestedList";
 import {AddDishPage} from "./AddDishPage";
 import {AddDealPage} from "./AddDealPage";
+import EditDishPage from "./EditDishPage";
+import {EditDealPage} from "./EditDealPage";
+import {EditDishForm} from "./EditDishForm";
 
 const Stack = createStackNavigator();
 
@@ -71,6 +74,27 @@ const AdminToolsStack = () => {
             <Stack.Screen
                 name = 'Deal'
                 component = {AddDealPage}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+            />
+            <Stack.Screen
+                name = 'All Dishes'
+                component = {EditDishPage}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+            />
+            <Stack.Screen
+                name = 'Edit Deal'
+                component = {EditDealPage}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+            />
+            <Stack.Screen
+                name = 'Edit Dish'
+                component = {EditDishForm}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
                 }}

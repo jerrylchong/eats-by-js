@@ -11,7 +11,6 @@ import {
     TextInput,
     Alert, AsyncStorage
 } from "react-native";
-import DishButton from "../component/DishButton";
 import Tag from "../component/Tag";
 import BackButton from "../component/BackButton";
 import {
@@ -23,11 +22,12 @@ import {
     updateRestaurant
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
-import DealButton from '../component/DealButton';
+import EditDealButton from "../component/EditDealButton";
 import { useSafeArea } from "react-native-safe-area-context";
 import LoginButton from "../component/LoginButton";
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import { Overlay } from "react-native-elements";
+import PageButton from "../component/PageButton";
 
 export function EditRestaurantBanner(props) {
     const {
@@ -420,18 +420,13 @@ function EditRestaurantPage(props) {
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Dishes ({dishes.length})</Text>
-                                <Tag name='+' onPress={() => navigation.navigate("Dish", {restaurant_id: restaurantData.id})}/>
                             </View>
-                            { refreshing ?  <Loading style={{paddingTop:30}}/> :
-                                dishes.map(item =>
-                                    <DishButton
-                                        key={item.id}
-                                        title={item.attributes.title}
-                                        description={item.attributes.description}
-                                        price={item.attributes.price}
-                                    />)
-                            }
-                            { refreshing || dishes.length != 0 || <Text style={styles.footer}>No Dishes yet</Text>}
+                            <View style={{width: '100%', alignItems: 'center'}}>
+                                <PageButton
+                                    onPress={() => navigation.navigate('All Dishes', {restaurant_id: restaurant_id})}
+                                    text={"Edit Dishes"}
+                                />
+                            </View>
                         </View>
                         <View style={{height: windowHeight * 0.07}} />
                         {/*
@@ -439,20 +434,24 @@ function EditRestaurantPage(props) {
                             */}
                         <View styles={styles.section}>
                             <View style={styles.sectionTitle}>
-                                <Text style={styles.sectionText}>Deals</Text>
-                                <Tag name="+" onPress={() => navigation.navigate("Deal", {restaurant_id: restaurantData.id})}/>
+                                <Text style={styles.sectionText}>Deals ({deals.length})</Text>
+                                <Tag name="+" onPress={() => navigation.navigate("Deal", {restaurant_id: restaurant_id})}/>
                             </View>
                             { refreshing ?  <Loading style={{paddingTop:30}}/> :
                                 deals.map(item =>
-                                    <DealButton
+                                    <EditDealButton
                                         key={item.id}
+                                        id={item.id}
                                         title={item.attributes.title}
                                         description={item.attributes.description}
                                         start={item.attributes.start_time}
                                         end={item.attributes.end_time}
+                                        navigation={navigation}
+                                        restaurant_id={restaurant_id}
+                                        refresh={dishDealRefresh}
                                     />)
                             }
-                            { refreshing || deals.length != 0 || <Text style={styles.footer}>No Deals yet</Text>}
+                            { refreshing || deals.length != 0 || <Text style={styles.footer}>No deals yet</Text>}
                         </View>
                         <View style={{height: windowHeight * 0.07}} />
                     </View>

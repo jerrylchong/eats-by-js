@@ -50,7 +50,7 @@ export function updateDish(id, token, data) {
     };
 
     return fetch(`${HOST}/dishes/${id}`, requestOptions)
-        .then(response => response.json()).then(data => {
+        .then(data => {
             if ("errors" in data) throw data;
         })
 }
@@ -65,5 +65,4 @@ export function deleteDish(id, token) {
     };
 
     return fetch(`${HOST}/dishes/${id}`, requestOptions)
-        .then(response => response.json())
 }

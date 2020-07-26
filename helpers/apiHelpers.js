@@ -279,7 +279,6 @@ export function deleteRestaurant(restaurant_id, token) {
     };
 
     return fetch(`${HOST}/restaurants/${restaurant_id}`, requestOptions)
-        .then(response => response.json())
 }
 
 export function updateRestaurant(restaurant_id, token, data) {
@@ -429,5 +428,4 @@ export function deleteRestaurantRequest(request_id, token) {
     };
 
     return fetch(`${HOST}/restaurant_requests/${request_id}`, requestOptions)
-        .then(response => response.json())
 }

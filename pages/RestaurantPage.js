@@ -18,7 +18,7 @@ import {
     getPaginatedDishesFromApi,
     getRestaurantFromApi,
     getRestaurantTagsFromApi,
-    getPaginatedReviewsForRestaurant, getNumberOfReviewsFromApi,
+    getPaginatedReviewsForRestaurant, getNumberOfReviewsFromApi, getDealsForRestaurant,
 } from "../helpers/apiHelpers";
 import Loading from "../component/Loading";
 import Review from "../component/Review";
@@ -192,6 +192,7 @@ function RestaurantPage(props) {
     const [restaurantData, setRestaurantData] = useState([]);
     const [restaurantTags, setRestaurantTags] = useState([]);
     const [dishes, setDishes] = useState([]);
+    const [deals, setDeals] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [reviewNum, setReviewNum] = useState(0);
     const [refreshingReviews, setRefreshingReviews] = useState(false);
@@ -205,6 +206,7 @@ function RestaurantPage(props) {
             getRestaurantFromApi(restaurant_id).then(data => setRestaurantData(data)),
             getRestaurantTagsFromApi(restaurant_id).then(data => setRestaurantTags(data)),
             getPaginatedDishesFromApi(restaurant_id, 1, 2).then(data => setDishes(data)),
+            getDealsForRestaurant(restaurant_id).then(data => setDeals(data))
         ])
             .catch((error) => console.error(error))
             .finally(() => setLoading(false));
@@ -327,6 +329,16 @@ function RestaurantPage(props) {
                             <View style={styles.sectionTitle}>
                                 <Text style={styles.sectionText}>Deals</Text>
                             </View>
+                            {
+                                deals.map(item =>
+                                    <DealButton
+                                        key={item.id}
+                                        title={item.attributes.title}
+                                        description={item.attributes.description}
+                                        start={item.attributes.start_time}
+                                        end={item.attributes.end_time}
+                                    />)
+                            }
                         </View>
                         <View style={{height: windowHeight * 0.07}} />
                     </View>

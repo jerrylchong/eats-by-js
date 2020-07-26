@@ -4,6 +4,9 @@ import StoreAdminPage from "./StoreAdminPage";
 import EditRestaurantPage from "./EditRestaurantPage"
 import {AddDishPage} from "./AddDishPage";
 import {AddDealPage} from "./AddDealPage";
+import EditDishPage from "./EditDishPage";
+import {EditDealPage} from "./EditDealPage";
+import {EditDishForm} from "./EditDishForm";
 
 const Stack = createStackNavigator();
 
@@ -43,6 +46,30 @@ const StoreAdminStack = ({route}) => {
             <Stack.Screen
                 name = 'Deal'
                 component = {AddDealPage}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+                initialParams={{restaurant_id: restaurant_id}}
+            />
+            <Stack.Screen
+                name = 'All Dishes'
+                component = {EditDishPage}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+                initialParams={{restaurant_id: restaurant_id}}
+            />
+            <Stack.Screen
+                name = 'Edit Deal'
+                component = {EditDealPage}
+                options={{
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                }}
+                initialParams={{restaurant_id: restaurant_id}}
+            />
+            <Stack.Screen
+                name = 'Edit Dish'
+                component = {EditDishForm}
                 options={{
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
                 }}

@@ -18,21 +18,26 @@ import {mapReduxStateToProps, mapReduxDispatchToProps} from "../helpers/reduxHel
 import BackButton from "../component/BackButton";
 import {useSafeArea} from "react-native-safe-area-context";
 import DatePicker from 'react-native-datepicker'
-import {createDeal} from "../helpers/DealAPI";
+import {updateDeal} from "../helpers/DealAPI";
 
-export function AddDealPage(props) {
+export function EditDealPage(props) {
     const {route, navigation} = props;
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [start, setStart] = useState(new Date());
-    const [end, setEnd] = useState(new Date());
+    const [newTitle, setTitle] = useState('');
+    const [newDescription, setDescription] = useState('');
+    const [newStart, setStart] = useState(new Date());
+    const [newEnd, setEnd] = useState(new Date());
     const [errors, setErrors] = useState({});
-    const {restaurant_id} = route.params;
+    const {id, title, desc, start, end} = route.params;
 
     const submit = () => {
-        const attr = { title, description, start_time: start, end_time:end, restaurant_id };
+        const attr = {
+            title: newTitle ? newTitle : title,
+            description: newDescription ? newDescription : desc,
+            start_time: newStart ? newStart : start,
+            end_time: newEnd ? newEnd : end
+        };
         AsyncStorage.getItem('token').then(token => {
-            createDeal(attr, token).then(() => {
+            updateDeal(id, token, attr).then(() => {
                 navigation.goBack();
             }).catch(err => {
                 alert(err);
@@ -60,24 +65,24 @@ export function AddDealPage(props) {
                 <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Title"
+                        placeholder={title}
                         onChangeText={(text) => {setTitle(text)}}
-                        value={title}
+                        value={newTitle}
                         placeholderTextColor='#404040'/>
                     <TextInput
                         style={styles.input}
-                        placeholder="Description"
+                        placeholder={desc}
                         onChangeText={(text) => {setDescription(text)}}
-                        value={description}
+                        value={newDescription}
                         placeholderTextColor='#404040'/>
-                    <View style={{flexDirection:'row', alignItems: 'center'}}>
-                        <Text style={styles.dateText}>Start Date</Text>
+                    <View style={{flexDirection:'row'}}>
+                        <Text>Start Date</Text>
                         <DatePicker
                             showIcon={false}
                             style={{width: 200}}
                             date={start}
                             mode="date"
-                            placeholder="Select Start Date"
+                            placeholder={start.substring(0,10)}
                             format="YYYY-MM-DD"
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
@@ -89,14 +94,14 @@ export function AddDealPage(props) {
                             onDateChange={setStart}
                         />
                     </View>
-                    <View style={{flexDirection:'row', alignItems: 'center'}}>
-                        <Text style={styles.dateText}>End Date</Text>
+                    <View style={{flexDirection:'row'}}>
+                        <Text>End Date</Text>
                         <DatePicker
                             showIcon={false}
                             style={{width: 200}}
                             date={end}
                             mode="date"
-                            placeholder="Select End Date"
+                            placeholder={end.substring(0,10)}
                             format="YYYY-MM-DD"
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
@@ -126,7 +131,7 @@ export function AddDealPage(props) {
     )
 }
 
-export default connect(mapReduxStateToProps,mapReduxDispatchToProps)(AddDealPage)
+export default connect(mapReduxStateToProps,mapReduxDispatchToProps)(EditDealPage)
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -208,10 +213,5 @@ const styles = StyleSheet.create({
     top: {
         flexDirection: 'row',
         width: '100%',
-    },
-    dateText: {
-        fontFamily: 'Ubuntu',
-        color: '#404040',
-        fontSize: 12,
     }
 })
