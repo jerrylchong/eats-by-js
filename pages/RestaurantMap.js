@@ -348,7 +348,11 @@ class RestaurantMap extends React.Component {
                                 >
                                     <View style={styles.card}>
                                         <Image
-                                            source={{uri: marker.attributes.image_link}}
+                                            source={
+                                                marker.attributes.image_link
+                                                    ? {uri: marker.attributes.image_link}
+                                                    : require('../assets/grey.png')
+                                            }
                                             style={styles.cardImage}
                                             resizeMode='cover'
                                         />
