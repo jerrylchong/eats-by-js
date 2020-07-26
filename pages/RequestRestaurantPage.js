@@ -71,6 +71,7 @@ function RequestRestaurantPage(props) {
             .then(token => createRestaurantRequest(res_data, token))
             .then(() => Alert.alert("Success",
                 "Store " + title + " requested."))
+            .then(() => navigation.goBack())
             .catch(err =>{
                 // need display this error somehow
                 setError(true);
@@ -311,8 +312,8 @@ const styles = StyleSheet.create({
     },
     back: {
         position: 'absolute',
-        top: '5%',
-        left: '2%'
+        top: Platform.OS == "ios" ? '5%' :'2%',
+        left: '3%'
     },
     header: {
         position: 'relative',

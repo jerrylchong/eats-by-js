@@ -59,7 +59,7 @@ export function EditDishForm(props) {
                 ]}>
                 <ImageBackground style = {styles.background} source={require('../assets/background.png')}/>
                 <BackButton white={false} style = {{alignSelf: 'flex-start', margin: '2%'}} onPress = {() => navigation.goBack()} />
-                <Text style = {styles.header}>Add a Dish</Text>
+                <Text style = {styles.header}>Edit {title} dish</Text>
                 <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style = {styles.list}>
                     <TextInput
                         style={styles.input}
