@@ -37,7 +37,7 @@ export function updateDeal(id, token, data) {
     const raw = {
         data: {
             id: id,
-            type: "restaurant",
+            type: "deal",
             attributes: data
         }
     }
@@ -49,7 +49,7 @@ export function updateDeal(id, token, data) {
         redirect: 'follow'
     };
 
-    return fetch(`${HOST}/restaurant_requests/${id}`, requestOptions)
+    return fetch(`${HOST}/deals/${id}`, requestOptions)
         .then(response => response.json()).then(data => {
             if ("errors" in data) throw data;
         })
