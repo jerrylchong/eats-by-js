@@ -107,19 +107,8 @@ class RestaurantMap extends React.Component {
         Promise.all([
             this.getLocation(),
             getTagsFromApi().then(data => this.setState({tags: data})),
+            getRestaurantsFromApi().then(data => {this.setState({data: data});})
         ])
-            .then(() => {
-                if(this.props.location.hasLocation) {
-                    getPaginatedRestaurantsFromApi("", 1, this.state.tagFilters, this.state.sortValue, this.props.location.coords, 100)
-                        .then(data => {
-                            this.setState({data: data});
-                        })
-                } else {
-                    getRestaurantsFromApi().then(data => {
-                        this.setState({data: data});
-                    })
-                }
-            })
             .catch((error) => console.error(error))
             .finally(() => this.setState({isLoading: false}));
 
@@ -201,7 +190,6 @@ class RestaurantMap extends React.Component {
 
     updateData(searchTerm) {
         if (this.state.sortValue == 3) {
-            // default
             this.sortByLocation(searchTerm);
         } else {
             getPaginatedRestaurantsFromApi(searchTerm,1, this.state.tagFilters, this.state.sortValue, {lat: 1.296643, lng: 103.776398}, 100)
