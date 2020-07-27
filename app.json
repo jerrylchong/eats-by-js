@@ -29,7 +29,6 @@
     "android": {
       "package": "com.jjtjp.eatsbyjs",
       "versionCode": 2,
-      "config": { "googleMaps": { "apiKey": "AIzaSyBSpX5yBePWD4j7IqsQa9E3sgOFT0RHtMk" } }
     }
   }
 }
