@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import MapView, {PROVIDER_GOOGLE, Marker, UrlTile, Callout} from "react-native-maps";
 import {
-    SafeAreaView, StyleSheet, View, Image, Alert, Dimensions, Animated, Text, TouchableOpacity,
+    SafeAreaView, StyleSheet, View, Image, Alert, Dimensions, Animated, Text, TouchableOpacity, Platform,
 } from "react-native";
 import SearchButton from "../container/SearchButton";
 import {getRestaurantsFromApi, getPaginatedRestaurantsFromApi, getTagsFromApi} from "../helpers/apiHelpers";
@@ -356,9 +356,12 @@ class RestaurantMap extends React.Component {
                         )}
                     </Animated.ScrollView>
                     }
-                    <TouchableOpacity style={styles.toggle} onPress={this.toggleCards}>
-                        <Image style={styles.buttonImage} source={require('../assets/cardswhite.png')}/>
-                    </TouchableOpacity>
+                    {
+                        Platform.OS == "ios" &&
+                        <TouchableOpacity style={styles.toggle} onPress={this.toggleCards}>
+                            <Image style={styles.buttonImage} source={require('../assets/cardswhite.png')}/>
+                        </TouchableOpacity>
+                    }
                     <TouchableOpacity style={styles.locationButton} onPress={this.userLocation}>
                         <Image style={styles.locationImage} source={require('../assets/location.png')}/>
                     </TouchableOpacity>
